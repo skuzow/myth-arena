@@ -1,8 +1,17 @@
 package mytharena;
 
+/**
+ * MythArena class
+ */
 public class MythArena {
 
+    /**
+     * Main project entry
+     * @param args String[] args
+     */
     public static void main(String[] args) {
-	    // write your code here
+        Arena arena = new Arena();
+        arena.start();
     }
+
 }
