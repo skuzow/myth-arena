@@ -4,10 +4,12 @@ import mytharena.Arena;
 import mytharena.Command;
 import mytharena.Data;
 
+import java.io.Serializable;
+
 /**
- * Combat class extends Command
+ * Combat class extends Command implements Serializable
  */
-public class Combat extends Command {
+public class Combat extends Command implements Serializable {
 
     /**
      * Combat abstract class builder
