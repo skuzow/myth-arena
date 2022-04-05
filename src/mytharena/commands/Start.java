@@ -2,15 +2,17 @@ package mytharena.commands;
 
 import mytharena.Arena;
 import mytharena.Command;
+import mytharena.Data;
 
 public class Start extends Command {
 
     /**
-     * Start command class builder
+     * Command abstract class builder
      * @param arena Arena arena
+     * @param data Data data
      */
-    public Start(Arena arena) {
-        super(arena);
+    public Start(Arena arena, Data data) {
+        super(arena, data);
     }
 
     /**

@@ -11,11 +11,18 @@ public abstract class Command {
     private final Arena arena;
 
     /**
+     * Data data
+     */
+    private final Data data;
+
+    /**
      * Command abstract class builder
      * @param arena Arena arena
+     * @param data Data data
      */
-    public Command(Arena arena) {
+    public Command(Arena arena, Data data) {
         this.arena = arena;
+        this.data = data;
     }
 
     /**
@@ -28,7 +35,15 @@ public abstract class Command {
      * @return Arena arena
      */
     public Arena getArena() {
-        return arena;
+        return this.arena;
+    }
+
+    /**
+     * Gets Data data
+     * @return Data data
+     */
+    public Data getData() {
+        return this.data;
     }
 
 }

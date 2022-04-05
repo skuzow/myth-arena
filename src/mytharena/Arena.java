@@ -4,9 +4,8 @@ import mytharena.commands.AdminMenu;
 import mytharena.commands.Combat;
 import mytharena.commands.Start;
 import mytharena.commands.UserMenu;
-import mytharena.data.User;
 
-import java.util.ArrayList;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -15,33 +14,55 @@ import java.util.HashMap;
 public class Arena {
 
     /**
+     * Data data
+     */
+    private Data data;
+
+    /**
+     * String serializablePath
+     */
+    private final String serializablePath = "./src/resources/serializable/data.bin";
+
+    /**
      * HashMap String Command commandMap
      */
     private final HashMap<String, Command> commandMap = new HashMap<>();
 
     /**
-     * ArrayList User userArrayList
-     */
-    private final ArrayList<User> userArrayList = new ArrayList<>();
-
-    /**
-     * ArrayLis Combat combatArrayList
-     */
-    private final ArrayList<Combat> combatArrayList = new ArrayList<>();
-
-    /**
      * Starts all, and have main loop of the application
      */
     public void start() {
-        // create commands and insert them into commandMap with respective key
-        this.commandMap.put("AdminMenu", new AdminMenu(this));
-        this.commandMap.put("Combat", new Combat(this));
-        this.commandMap.put("Start", new Start(this));
-        this.commandMap.put("UserMenu", new UserMenu(this));
-        // main loop
-        while(true) {
-            this.commandMap.get("Start").execute();
+        try {
+            File file = new File(this.serializablePath);
+            if (file.exists()) {
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.serializablePath));
+                this.data = (Data) in.readObject();
+            } else {
+                this.data = new Data();
+                this.serializeData();
+            }
+            // create commands and insert them into commandMap with respective key
+            this.commandMap.put("AdminMenu", new AdminMenu(this, this.data));
+            this.commandMap.put("Combat", new Combat(this, this.data));
+            this.commandMap.put("Start", new Start(this, this.data));
+            this.commandMap.put("UserMenu", new UserMenu(this, this.data));
+            // main loop
+            while (true) {
+                this.commandMap.get("Start").execute();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    /**
+     * Serializes Data
+     */
+    private void serializeData() throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.serializablePath));
+        out.writeObject(this.data);
+        out.flush();
+        out.close();
     }
 
     /**
@@ -51,22 +72,6 @@ public class Arena {
      */
     public Command getCommand(String key) {
         return this.commandMap.get(key);
-    }
-
-    /**
-     * Gets ArrayList User userArrayList
-     * @return ArrayList User userArrayList
-     */
-    public ArrayList<User> getUserArrayList() {
-        return this.userArrayList;
-    }
-
-    /**
-     * Gets ArrayList Combat combatArrayList
-     * @return ArrayList Combat combatArrayList
-     */
-    public ArrayList<Combat> getCombatArrayList() {
-        return this.combatArrayList;
     }
 
 }
