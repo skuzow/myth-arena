@@ -4,10 +4,13 @@ import mytharena.Arena;
 import mytharena.Command;
 import mytharena.Data;
 
+/**
+ * Combat class extends Command
+ */
 public class Combat extends Command {
 
     /**
-     * Command abstract class builder
+     * Combat abstract class builder
      * @param arena Arena arena
      * @param data Data data
      */

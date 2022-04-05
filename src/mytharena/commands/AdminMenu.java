@@ -4,10 +4,13 @@ import mytharena.Arena;
 import mytharena.Command;
 import mytharena.Data;
 
+/**
+ * AdminMenu class extends Command
+ */
 public class AdminMenu extends Command {
 
     /**
-     * Command abstract class builder
+     * AdminMenu abstract class builder
      * @param arena Arena arena
      * @param data Data data
      */

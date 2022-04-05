@@ -6,6 +6,9 @@ import mytharena.data.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Data class implements Serializable
+ */
 public class Data implements Serializable {
 
     /**
