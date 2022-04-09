@@ -1,9 +1,10 @@
 package mytharena;
 
-import mytharena.commands.AdminMenu;
-import mytharena.commands.Combat;
-import mytharena.commands.Start;
-import mytharena.commands.UserMenu;
+import mytharena.command.Command;
+import mytharena.command.AdminMenu;
+import mytharena.command.Start;
+import mytharena.command.PlayerMenu;
+import mytharena.data.Data;
 
 import java.io.*;
 import java.util.HashMap;
@@ -43,9 +44,8 @@ public class Arena {
             }
             // create commands and insert them into commandMap with respective key
             this.commandMap.put("AdminMenu", new AdminMenu(this, this.data));
-            this.commandMap.put("Combat", new Combat(this, this.data));
             this.commandMap.put("Start", new Start(this, this.data));
-            this.commandMap.put("UserMenu", new UserMenu(this, this.data));
+            this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data));
             // main loop
             while (true) {
                 this.commandMap.get("Start").execute();
