@@ -18,6 +18,11 @@ public class Data implements Serializable {
     private final ArrayList<User> userArrayList = new ArrayList<>();
 
     /**
+     * ArrayList User bannedPlayerArrayList
+     */
+    private final ArrayList<User> bannedPlayerArrayList = new ArrayList<>();
+
+    /**
      * ArrayList Combat combatArrayList
      */
     private final ArrayList<Combat> combatArrayList = new ArrayList<>();
@@ -33,6 +38,14 @@ public class Data implements Serializable {
      */
     public ArrayList<User> getUserArrayList() {
         return this.userArrayList;
+    }
+
+    /**
+     * Gets ArrayList User bannedPlayerArrayList
+     * @return ArrayList User bannedPlayerArrayList
+     */
+    public ArrayList<User> getBannedPlayerArrayList() {
+        return this.bannedPlayerArrayList;
     }
 
     /**
