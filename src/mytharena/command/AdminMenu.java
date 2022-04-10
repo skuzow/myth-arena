@@ -9,7 +9,7 @@ import mytharena.data.Data;
 public class AdminMenu extends Command {
 
     /**
-     * AdminMenu abstract class builder
+     * AdminMenu class builder extends Command
      * @param arena Arena arena
      * @param data Data data
      */

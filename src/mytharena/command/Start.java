@@ -9,7 +9,7 @@ import mytharena.data.Data;
 public class Start extends Command {
 
     /**
-     * Start abstract class builder
+     * Start class builder extends Command
      * @param arena Arena arena
      * @param data Data data
      */

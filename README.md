@@ -1,5 +1,5 @@
 # myth-arena
 
-[![license](https://img.shields.io/github/license/myth-arena/myth-arena.svg)](https://github.com/myth-arena/myth-arena/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/legendnightt/myth-arena.svg)](https://github.com/legendnightt/myth-arena/blob/master/LICENSE)
 
-myth arena 
+myth arena
