@@ -25,7 +25,7 @@ public class Vampire extends Character implements Serializable {
     private final int bloodPoints;
 
     /**
-     * Vampire abstract class builder
+     * Vampire class builder extends Character
      * @param name String name
      * @param gold int gold
      * @param health int health

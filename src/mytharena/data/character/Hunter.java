@@ -20,7 +20,7 @@ public class Hunter extends Character implements Serializable {
     private final int will;
 
     /**
-     * Hunter abstract class builder
+     * Hunter class builder extends Character
      * @param name String name
      * @param gold int gold
      * @param health int health

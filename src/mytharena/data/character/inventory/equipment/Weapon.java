@@ -13,7 +13,7 @@ public class Weapon extends Equipment implements Serializable {
     private final boolean twoHands;
 
     /**
-     * Weapon abstract class builder
+     * Weapon class builder extends Equipment
      * @param name String name
      * @param attackModification int attackModification
      * @param defenseModification int defenseModification

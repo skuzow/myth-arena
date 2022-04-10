@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Armor extends Equipment implements Serializable {
 
     /**
-     * Armor abstract class builder
+     * Armor class builder extends Equipment
      * @param name String name
      * @param attackModification int attackModification
      * @param defenseModification int defenseModification
