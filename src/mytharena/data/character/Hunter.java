@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Hunter class extends Character implements Serializable
  */
-public class  Hunter extends Character implements Serializable {
+public class Hunter extends Character implements Serializable {
 
     /**
      * int will
