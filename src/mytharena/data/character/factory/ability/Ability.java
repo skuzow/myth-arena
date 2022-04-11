@@ -39,7 +39,7 @@ public abstract class Ability implements Serializable {
      * @return String name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -47,7 +47,7 @@ public abstract class Ability implements Serializable {
      * @return int attackModifier
      */
     public int getAttackModifier() {
-        return attackModifier;
+        return this.attackModifier;
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class Ability implements Serializable {
      * @return int defenseModifier
      */
     public int getDefenseModifier() {
-        return defenseModifier;
+        return this.defenseModifier;
     }
 
 }

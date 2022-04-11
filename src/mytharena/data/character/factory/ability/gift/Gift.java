@@ -10,9 +10,9 @@ import java.io.Serializable;
 public class Gift extends Ability implements Serializable {
 
     /**
-     * int rage
+     * int rageMin
      */
-    private int rageMin;
+    private final int rageMin;
 
     /**
      * Gift class builder extends Ability
@@ -25,5 +25,13 @@ public class Gift extends Ability implements Serializable {
         super(name, attackModifier, defenseModifier);
         this.rageMin = rageMin;
     }
-    
+
+    /**
+     * Gets int rageMin
+     * @return int rageMin
+     */
+    public int getRageMin() {
+        return this.rageMin;
+    }
+
 }

@@ -12,7 +12,7 @@ public class Discipline extends Ability implements Serializable {
     /**
      * int cost
      */
-    private int cost;
+    private final int cost;
 
     /**
      * Discipline class builder extends Ability
@@ -23,6 +23,14 @@ public class Discipline extends Ability implements Serializable {
     public Discipline(String name, int attackModifier, int defenseModifier, int cost) {
         super(name, attackModifier, defenseModifier);
         this.cost = cost;
+    }
+
+    /**
+     * Gets int cost
+     * @return int cost
+     */
+    public int getCost() {
+        return this.cost;
     }
 
 }
