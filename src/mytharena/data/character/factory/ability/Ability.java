@@ -57,5 +57,6 @@ public abstract class Ability implements Serializable {
     public int getDefenseModifier() {
         return defenseModifier;
     }
+
 }
 

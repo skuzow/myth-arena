@@ -9,16 +9,17 @@ import mytharena.data.character.factory.ability.Ability;
 public class TalentFactory implements AbilityAbstractFactory {
 
     /**
-     * Ability talent generator
-     * @param name
-     * @param attackModifier
-     * @param defenseModifier
-     * @param rageMin
-     * @param cost
-     * @return
+     * Ability Talent factory method
+     * @param name String name
+     * @param attackModifier int attackModifier
+     * @param defenseModifier int defenseModifier
+     * @param rageMin int rageMin
+     * @param cost int cost
+     * @return new Talent
      */
     @Override
     public Ability createAbility(String name, int attackModifier, int defenseModifier, int rageMin, int cost) {
-        return new Talent(name,attackModifier,defenseModifier);
+        return new Talent(name, attackModifier, defenseModifier);
     }
+
 }

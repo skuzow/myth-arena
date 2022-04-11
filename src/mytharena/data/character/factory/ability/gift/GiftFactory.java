@@ -9,16 +9,17 @@ import mytharena.data.character.factory.ability.AbilityAbstractFactory;
 public class GiftFactory implements AbilityAbstractFactory {
 
     /**
-     * Ability gift generator
-     * @param name
-     * @param attackModifier
-     * @param defenseModifier
-     * @param rageMin
-     * @param cost
-     * @return
+     * Ability Gift factory method
+     * @param name String name
+     * @param attackModifier int attackModifier
+     * @param defenseModifier int defenseModifier
+     * @param rageMin int rageMin
+     * @param cost int cost
+     * @return new Gift
      */
     @Override
     public Ability createAbility(String name, int attackModifier, int defenseModifier, int rageMin, int cost) {
-        return new Gift(name,attackModifier,defenseModifier,rageMin);
+        return new Gift(name, attackModifier, defenseModifier, rageMin);
     }
+    
 }

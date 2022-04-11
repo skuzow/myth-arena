@@ -12,17 +12,18 @@ public class Gift extends Ability implements Serializable {
     /**
      * int rage
      */
-    private int rage;
+    private int rageMin;
 
     /**
-     * Ability abstract class builder
-     *
-     * @param name            String name
-     * @param attackModifier  int attackModifier
+     * Gift class builder extends Ability
+     * @param name String name
+     * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier
+     * @param rageMin int rageMin
      */
-    public Gift(String name, int attackModifier, int defenseModifier, int rage) {
+    public Gift(String name, int attackModifier, int defenseModifier, int rageMin) {
         super(name, attackModifier, defenseModifier);
-        this.rage = rage;
+        this.rageMin = rageMin;
     }
+    
 }

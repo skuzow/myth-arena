@@ -9,16 +9,17 @@ import mytharena.data.character.factory.ability.AbilityAbstractFactory;
 public class DisciplineFactory implements AbilityAbstractFactory {
 
     /**
-     * Ability discipline generator
-     * @param name
-     * @param attackModifier
-     * @param defenseModifier
-     * @param rageMin
-     * @param cost
-     * @return
+     * Ability Discipline factory method
+     * @param name String name
+     * @param attackModifier int attackModifier
+     * @param defenseModifier int defenseModifier
+     * @param rageMin int rageMin
+     * @param cost int cost
+     * @return new Discipline
      */
     @Override
     public Ability createAbility(String name, int attackModifier, int defenseModifier, int rageMin, int cost) {
-        return new Discipline(name,attackModifier,defenseModifier,cost);
+        return new Discipline(name, attackModifier, defenseModifier, cost);
     }
+
 }
