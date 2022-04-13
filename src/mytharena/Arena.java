@@ -5,6 +5,7 @@ import mytharena.command.AdminMenu;
 import mytharena.command.Start;
 import mytharena.command.PlayerMenu;
 import mytharena.data.Data;
+import mytharena.gui.MythArenaGui;
 
 import java.io.*;
 import java.util.HashMap;
@@ -13,6 +14,11 @@ import java.util.HashMap;
  * Arena class
  */
 public class Arena {
+
+    /**
+     * MythArenaGui mythArenaGui
+     */
+    private final MythArenaGui mythArenaGui = new MythArenaGui();
 
     /**
      * Data data
@@ -34,6 +40,7 @@ public class Arena {
      */
     public void start() {
         try {
+            // retrieves data if serializable file exists
             File file = new File(this.serializablePath);
             if (file.exists()) {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.serializablePath));
@@ -43,9 +50,9 @@ public class Arena {
                 this.serializeData();
             }
             // create commands and insert them into commandMap with respective key
-            this.commandMap.put("AdminMenu", new AdminMenu(this, this.data));
-            this.commandMap.put("Start", new Start(this, this.data));
-            this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data));
+            this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
+            this.commandMap.put("Start", new Start(this, this.data, this.mythArenaGui));
+            this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
             // main loop
             while (true) {
                 this.commandMap.get("Start").execute();
