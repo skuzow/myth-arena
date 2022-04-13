@@ -13,7 +13,7 @@ public abstract class Minion implements Serializable {
     private String name;
 
     /**
-     * int attackModifier
+     * int health
      */
     private int health;
 

@@ -16,7 +16,7 @@ public class GhoulFactory implements MinionAbstractFactory {
      * @param health int health
      * @param loyalty String loyalty
      * @param dependency int dependency
-     * @param minionArrayList ArrayList<Minion> minionArrayList
+     * @param minionArrayList ArrayList Minion minionArrayList
      * @return new Ghoul
      */
     @Override

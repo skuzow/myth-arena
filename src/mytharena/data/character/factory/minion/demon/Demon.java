@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Demon extends Minion implements Serializable {
 
     /**
-     * ArrayList<Minion> minionArrayList
+     * ArrayList Minion minionArrayList
      */
     private ArrayList<Minion> minionArrayList;
 
@@ -19,7 +19,7 @@ public class Demon extends Minion implements Serializable {
      * Demon class constructor extends Minion
      * @param name String name
      * @param health int health
-     * @param minionArrayList ArrayList<Minion> minionArrayList
+     * @param minionArrayList ArrayList Minion minionArrayList
      */
     public Demon(String name, int health, ArrayList<Minion> minionArrayList) {
         super(name,health);
@@ -27,8 +27,8 @@ public class Demon extends Minion implements Serializable {
     }
 
     /**
-     * Gets ArrayList<Minion> minionArrayList
-     * @return ArrayList<Minion> minionArrayList
+     * Gets ArrayList Minion minionArrayList
+     * @return ArrayList Minion minionArrayList
      */
     public ArrayList<Minion> getMinionArrayList() {
         return minionArrayList;
