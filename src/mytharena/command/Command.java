@@ -19,7 +19,7 @@ public abstract class Command {
     private final Data data;
 
     /**
-     * Command abstract class builder
+     * Command abstract class constructor
      * @param arena Arena arena
      * @param data Data data
      */

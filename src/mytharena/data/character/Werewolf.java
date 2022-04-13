@@ -20,7 +20,7 @@ public class Werewolf extends Character implements Serializable {
     private final int rage;
 
     /**
-     * Werewolf class builder extends Character
+     * Werewolf class constructor extends Character
      * @param name String name
      * @param gold int gold
      * @param health int health

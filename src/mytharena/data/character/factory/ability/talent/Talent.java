@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Talent extends Ability implements Serializable {
 
     /**
-     * Talent class builder extends Ability
+     * Talent class constructor extends Ability
      * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier

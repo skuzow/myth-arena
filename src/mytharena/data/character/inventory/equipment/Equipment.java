@@ -23,7 +23,7 @@ public abstract class Equipment implements Serializable {
     private final int defenseModification;
 
     /**
-     * Equipment abstract class builder
+     * Equipment abstract class constructor
      * @param name String name
      * @param attackModification int attackModification
      * @param defenseModification int defenseModification

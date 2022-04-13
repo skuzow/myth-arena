@@ -18,7 +18,7 @@ public class Modifier implements Serializable {
     private final int sensibility;
 
     /**
-     * Modifier class builder
+     * Modifier class constructor
      * @param name String name
      * @param sensibility int sensibility
      */

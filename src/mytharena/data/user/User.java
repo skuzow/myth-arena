@@ -25,7 +25,7 @@ public abstract class User implements Serializable {
     private final int registerNumber;
 
     /**
-     * User abstract class builder
+     * User abstract class constructor
      * @param username String username
      * @param password String password
      * @param data Data data

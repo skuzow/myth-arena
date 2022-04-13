@@ -70,7 +70,7 @@ public abstract class Character implements Serializable {
     private ArrayList<Modifier> weaknessArrayList;
 
     /**
-     * Character abstract class builder
+     * Character abstract class constructor
      * @param name String name
      * @param gold int gold
      * @param health int health

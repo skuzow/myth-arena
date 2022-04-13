@@ -15,7 +15,7 @@ public class Discipline extends Ability implements Serializable {
     private final int cost;
 
     /**
-     * Discipline class builder extends Ability
+     * Discipline class constructor extends Ability
      * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier
