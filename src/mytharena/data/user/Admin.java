@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Admin extends User implements Serializable {
 
     /**
-     * Admin class builder extends User
+     * Admin class constructor extends User
      * @param username String username
      * @param password String password
      * @param data Data data

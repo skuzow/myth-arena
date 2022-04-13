@@ -20,7 +20,7 @@ public class Player extends User implements Serializable {
     private Character character;
 
     /**
-     * Player class builder extends User
+     * Player class constructor extends User
      * @param username String username
      * @param password String password
      * @param data Data data

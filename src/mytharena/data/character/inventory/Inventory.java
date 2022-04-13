@@ -21,7 +21,7 @@ public class Inventory implements Serializable {
     private final ArrayList<Equipment> armorArrayList;
 
     /**
-     * Inventory class builder
+     * Inventory class constructor
      * @param weaponArrayList ArrayList Equipment weaponArrayList
      * @param armorArrayList ArrayList Equipment armorArrayList
      */

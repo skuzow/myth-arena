@@ -23,7 +23,7 @@ public abstract class Ability implements Serializable {
     private final int defenseModifier;
 
     /**
-     * Ability abstract class builder
+     * Ability abstract class constructor
      * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier

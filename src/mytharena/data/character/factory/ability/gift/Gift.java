@@ -15,7 +15,7 @@ public class Gift extends Ability implements Serializable {
     private final int rageMin;
 
     /**
-     * Gift class builder extends Ability
+     * Gift class constructor extends Ability
      * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier
