@@ -16,9 +16,9 @@ public class Ghoul extends Minion implements Serializable {
 
     /**
      * Ghoul class constructor extends Minion
-     * @param name
-     * @param health
-     * @param dependency
+     * @param name String name
+     * @param health int health
+     * @param dependency int dependency
      */
     public Ghoul(String name, int health, int dependency) {
         super(name,health);

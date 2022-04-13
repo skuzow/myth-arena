@@ -19,8 +19,8 @@ public abstract class Minion implements Serializable {
 
     /**
      * Minion abstract class constructor
-     * @param name
-     * @param health
+     * @param name String name
+     * @param health String health
      */
     public Minion(String name, int health) {
         this.name = name;

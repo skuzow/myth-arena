@@ -16,9 +16,9 @@ public class Human extends Minion implements Serializable {
 
     /**
      * Human class constructor extends Minion
-     * @param name
-     * @param health
-     * @param loyalty
+     * @param name String name
+     * @param health int health
+     * @param loyalty String loyalty
      */
     public Human(String name, int health, String loyalty) {
         super(name,health);

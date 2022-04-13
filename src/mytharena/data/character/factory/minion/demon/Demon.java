@@ -17,9 +17,9 @@ public class Demon extends Minion implements Serializable {
 
     /**
      * Demon class constructor extends Minion
-     * @param name
-     * @param health
-     * @param minionArrayList
+     * @param name String name
+     * @param health int health
+     * @param minionArrayList ArrayList<Minion> minionArrayList
      */
     public Demon(String name, int health, ArrayList<Minion> minionArrayList) {
         super(name,health);

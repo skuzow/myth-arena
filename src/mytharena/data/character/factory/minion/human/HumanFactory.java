@@ -12,11 +12,11 @@ public class HumanFactory implements MinionAbstractFactory {
 
     /**
      * Minion Human factory method
-     * @param name
-     * @param health
-     * @param loyalty
-     * @param dependency
-     * @param minionArrayList
+     * @param name String name
+     * @param health int health
+     * @param loyalty String loyalty
+     * @param dependency int dependency
+     * @param minionArrayList ArrayList<Minion> minionArrayList
      * @return new Human
      */
     @Override
