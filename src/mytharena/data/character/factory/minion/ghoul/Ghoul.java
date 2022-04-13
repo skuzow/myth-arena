@@ -12,7 +12,7 @@ public class Ghoul extends Minion implements Serializable {
     /**
      * int dependency
      */
-    private int dependency;
+    private final int dependency;
 
     /**
      * Ghoul class constructor extends Minion
@@ -21,7 +21,7 @@ public class Ghoul extends Minion implements Serializable {
      * @param dependency int dependency
      */
     public Ghoul(String name, int health, int dependency) {
-        super(name,health);
+        super(name, health);
         this.dependency = dependency;
     }
 
@@ -30,6 +30,7 @@ public class Ghoul extends Minion implements Serializable {
      * @return int dependency
      */
     public int getDependency() {
-        return dependency;
+        return this.dependency;
     }
+
 }

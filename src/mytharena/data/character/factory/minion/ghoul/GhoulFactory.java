@@ -21,6 +21,7 @@ public class GhoulFactory implements MinionAbstractFactory {
      */
     @Override
     public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
-        return new Ghoul(name,health,dependency);
+        return new Ghoul(name, health, dependency);
     }
+
 }

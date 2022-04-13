@@ -21,6 +21,7 @@ public class DemonFactory implements MinionAbstractFactory {
      */
     @Override
     public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
-        return new Demon(name,health,minionArrayList);
+        return new Demon(name, health, minionArrayList);
     }
+
 }

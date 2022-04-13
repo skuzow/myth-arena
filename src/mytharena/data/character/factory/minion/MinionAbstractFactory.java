@@ -17,4 +17,5 @@ public interface MinionAbstractFactory {
      * @return new Ability
      */
     Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList);
+
 }

@@ -21,6 +21,7 @@ public class HumanFactory implements MinionAbstractFactory {
      */
     @Override
     public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
-        return new Human(name,health,loyalty);
+        return new Human(name, health, loyalty);
     }
+    
 }

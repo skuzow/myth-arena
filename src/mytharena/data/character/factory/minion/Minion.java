@@ -10,12 +10,12 @@ public abstract class Minion implements Serializable {
     /**
      * String name
      */
-    private String name;
+    private final String name;
 
     /**
      * int health
      */
-    private int health;
+    private final int health;
 
     /**
      * Minion abstract class constructor
@@ -32,7 +32,7 @@ public abstract class Minion implements Serializable {
      * @return String name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -40,6 +40,7 @@ public abstract class Minion implements Serializable {
      * @return int health
      */
     public int getHealth() {
-        return health;
+        return this.health;
     }
+
 }

@@ -12,7 +12,7 @@ public class Human extends Minion implements Serializable {
     /**
      *  String loyalty
      */
-    private String loyalty;
+    private final String loyalty;
 
     /**
      * Human class constructor extends Minion
@@ -21,7 +21,7 @@ public class Human extends Minion implements Serializable {
      * @param loyalty String loyalty
      */
     public Human(String name, int health, String loyalty) {
-        super(name,health);
+        super(name, health);
         this.loyalty = loyalty;
     }
 
@@ -30,6 +30,7 @@ public class Human extends Minion implements Serializable {
      * @return String loyalty
      */
     public String getLoyalty() {
-        return loyalty;
+        return this.loyalty;
     }
+
 }
