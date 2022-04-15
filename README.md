@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/legendnightt/myth-arena.svg)](https://github.com/legendnightt/myth-arena/blob/master/LICENSE)
 
-myth arena
+Java application where two users can fight each other, with their own myth creatures.
 
 ## Collaborators
 
