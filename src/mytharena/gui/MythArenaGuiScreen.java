@@ -21,6 +21,78 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private String descriptionText;
     /**
+     * String optionAButtonText
+     */
+    private String optionAButtonText;
+    /**
+     * String optionBButtonText
+     */
+    private String optionBButtonText;
+    /**
+     * String optionCButtonText
+     */
+    private String optionCButtonText;
+    /**
+     * String optionDButtonText
+     */
+    private String optionDButtonText;
+    /**
+     * String optionEButtonText
+     */
+    private String optionEButtonText;
+    /**
+     * String optionFButtonText
+     */
+    private String optionFButtonText;
+    /**
+     * String optionGButtonText
+     */
+    private String optionGButtonText;
+    /**
+     * String optionHButtonText
+     */
+    private String optionHButtonText;
+    /**
+     * String optionIButtonText
+     */
+    private String optionIButtonText;
+    /**
+     * String optionJButtonText
+     */
+    private String optionJButtonText;
+    /**
+     * String optionAMessageText
+     */
+    private String optionAMessageText;
+    /**
+     * String optionBMessageText
+     */
+    private String optionBMessageText;
+    /**
+     * String optionALoginText
+     */
+    private String optionALoginText;
+    /**
+     * String optionBLoginText
+     */
+    private String optionBLoginText;
+    /**
+     * String optionARegisterText
+     */
+    private String optionARegisterText;
+    /**
+     * String optionBRegisterText
+     */
+    private String optionBRegisterText;
+    /**
+     * String optionAListText
+     */
+    private String optionAListText;
+    /**
+     * String optionBListText
+     */
+    private String optionBListText;
+    /**
      * JPanel messagePanel
      */
     private JPanel messagePanel;
@@ -52,6 +124,78 @@ public class MythArenaGuiScreen extends JFrame {
      * JLabel imageLabel
      */
     private JLabel imageLabel;
+    /**
+     * JLabel optionAButton
+     */
+    private JLabel optionAButton;
+    /**
+     * JLabel optionBButton
+     */
+    private JLabel optionBButton;
+    /**
+     * JLabel optionCButton
+     */
+    private JLabel optionCButton;
+    /**
+     * JLabel optionDButton
+     */
+    private JLabel optionDButton;
+    /**
+     * JLabel optionEButton
+     */
+    private JLabel optionEButton;
+    /**
+     * JLabel optionFButton
+     */
+    private JLabel optionFButton;
+    /**
+     * JLabel optionGButton
+     */
+    private JLabel optionGButton;
+    /**
+     * JLabel optionHButton
+     */
+    private JLabel optionHButton;
+    /**
+     * JLabel optionIButton
+     */
+    private JLabel optionIButton;
+    /**
+     * JLabel optionJButton
+     */
+    private JLabel optionJButton;
+    /**
+     * JLabel optionAMessage
+     */
+    private JLabel optionAMessage;
+    /**
+     * JLabel optionBMessage
+     */
+    private JLabel optionBMessage;
+    /**
+     * JLabel optionALogin
+     */
+    private JLabel optionALogin;
+    /**
+     * JLabel optionBLogin
+     */
+    private JLabel optionBLogin;
+    /**
+     * JLabel optionARegister
+     */
+    private JLabel optionARegister;
+    /**
+     * JLabel optionBRegister
+     */
+    private JLabel optionBRegister;
+    /**
+     * JLabel optionAList
+     */
+    private JLabel optionAList;
+    /**
+     * JLabel optionBList
+     */
+    private JLabel optionBList;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -74,6 +218,24 @@ public class MythArenaGuiScreen extends JFrame {
         this.titleLabel = new JLabel();
         this.descriptionLabel = new JLabel();
         this.imageLabel = new JLabel();
+        this.optionAButton = new JLabel();
+        this.optionBButton = new JLabel();
+        this.optionCButton = new JLabel();
+        this.optionDButton = new JLabel();
+        this.optionEButton = new JLabel();
+        this.optionFButton = new JLabel();
+        this.optionGButton = new JLabel();
+        this.optionHButton = new JLabel();
+        this.optionIButton = new JLabel();
+        this.optionJButton = new JLabel();
+        this.optionAMessage = new JLabel();
+        this.optionBMessage = new JLabel();
+        this.optionALogin = new JLabel();
+        this.optionBLogin = new JLabel();
+        this.optionARegister = new JLabel();
+        this.optionBRegister = new JLabel();
+        this.optionAList = new JLabel();
+        this.optionBList = new JLabel();
     }
 
     /**
@@ -131,6 +293,24 @@ public class MythArenaGuiScreen extends JFrame {
         SwingUtilities.invokeLater(() -> {
             MythArenaGuiScreen.this.titleLabel.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.descriptionLabel.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.optionAButton.setText(MythArenaGuiScreen.this.optionAButtonText);
+            MythArenaGuiScreen.this.optionBButton.setText(MythArenaGuiScreen.this.optionBButtonText);
+            MythArenaGuiScreen.this.optionCButton.setText(MythArenaGuiScreen.this.optionCButtonText);
+            MythArenaGuiScreen.this.optionDButton.setText(MythArenaGuiScreen.this.optionDButtonText);
+            MythArenaGuiScreen.this.optionEButton.setText(MythArenaGuiScreen.this.optionEButtonText);
+            MythArenaGuiScreen.this.optionFButton.setText(MythArenaGuiScreen.this.optionFButtonText);
+            MythArenaGuiScreen.this.optionGButton.setText(MythArenaGuiScreen.this.optionGButtonText);
+            MythArenaGuiScreen.this.optionHButton.setText(MythArenaGuiScreen.this.optionHButtonText);
+            MythArenaGuiScreen.this.optionIButton.setText(MythArenaGuiScreen.this.optionIButtonText);
+            MythArenaGuiScreen.this.optionJButton.setText(MythArenaGuiScreen.this.optionJButtonText);
+            MythArenaGuiScreen.this.optionAMessage.setText(MythArenaGuiScreen.this.optionAMessageText);
+            MythArenaGuiScreen.this.optionBMessage.setText(MythArenaGuiScreen.this.optionBMessageText);
+            MythArenaGuiScreen.this.optionALogin.setText(MythArenaGuiScreen.this.optionALoginText);
+            MythArenaGuiScreen.this.optionBLogin.setText(MythArenaGuiScreen.this.optionBLoginText);
+            MythArenaGuiScreen.this.optionARegister.setText(MythArenaGuiScreen.this.optionARegisterText);
+            MythArenaGuiScreen.this.optionBRegister.setText(MythArenaGuiScreen.this.optionBRegisterText);
+            MythArenaGuiScreen.this.optionAList.setText(MythArenaGuiScreen.this.optionAListText);
+            MythArenaGuiScreen.this.optionBList.setText(MythArenaGuiScreen.this.optionBListText);
         });
     }
 
