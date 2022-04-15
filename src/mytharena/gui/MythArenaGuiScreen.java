@@ -1,9 +1,6 @@
 package mytharena.gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Objects;
 
 /**
  * MythArenaGuiScreen class extends JFrame
@@ -11,43 +8,103 @@ import java.util.Objects;
 public class MythArenaGuiScreen extends JFrame {
 
     /**
-     * JPanel Main
+     * MythArenaGui mythArenaGui
      */
-    private JPanel Main;
-
+    private final MythArenaGui mythArenaGui;
     /**
-     * JButton loginButton
+     * JPanel messagePanel
      */
-    private JButton loginButton;
-
+    private JPanel messagePanel;
     /**
-     * JButton registerButton
+     * JPanel loginPanel
      */
-    private JButton registerButton;
+    private JPanel loginPanel;
+    /**
+     * JPanel registerPanel
+     */
+    private JPanel registerPanel;
+    /**
+     * JPanel buttonPanel
+     */
+    private JPanel buttonPanel;
+    /**
+     * JPanel listPanel
+     */
+    private JPanel listPanel;
 
     /**
      * MythArenaGuiScreen class constructor
      */
-    public MythArenaGuiScreen() {
-        this.setContentPane(this.Main);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1300, 700);
-        ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
-        this.setTitle("Myth Arena");
-        this.setIconImage(logo.getImage());
-        this.setVisible(true);
-        this.loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    public MythArenaGuiScreen(MythArenaGui mythArenaGui) {
+        this.initComponents();
+        this.mythArenaGui = mythArenaGui;
+        this.showMessagePanel();
+    }
 
-            }
-        });
-        this.registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    /**
+     * Inits MythArenaGuiScreen components
+     */
+    private void initComponents() {
+        this.messagePanel = new JPanel();
+        this.loginPanel = new JPanel();
+        this.registerPanel = new JPanel();
+        this.buttonPanel = new JPanel();
+        this.listPanel = new JPanel();
+    }
 
-            }
-        });
+    /**
+     * Shows JPanel messagePanel
+     */
+    public void showMessagePanel() {
+        this.messagePanel.setVisible(true);
+        this.loginPanel.setVisible(false);
+        this.registerPanel.setVisible(false);
+        this.buttonPanel.setVisible(false);
+        this.listPanel.setVisible(false);
+    }
+
+    /**
+     * Shows JPanel loginPanel
+     */
+    public void showLoginPanel() {
+        this.messagePanel.setVisible(false);
+        this.loginPanel.setVisible(true);
+        this.registerPanel.setVisible(false);
+        this.buttonPanel.setVisible(false);
+        this.listPanel.setVisible(false);
+    }
+
+    /**
+     * Shows JPanel registerPanel
+     */
+    public void showRegisterPanel() {
+        this.messagePanel.setVisible(false);
+        this.loginPanel.setVisible(false);
+        this.registerPanel.setVisible(true);
+        this.buttonPanel.setVisible(false);
+        this.listPanel.setVisible(false);
+    }
+
+    /**
+     * Shows JPanel buttonPanel
+     */
+    public void showButtonPanel() {
+        this.messagePanel.setVisible(false);
+        this.loginPanel.setVisible(false);
+        this.registerPanel.setVisible(false);
+        this.buttonPanel.setVisible(true);
+        this.listPanel.setVisible(false);
+    }
+
+    /**
+     * Shows JPanel listPanel
+     */
+    public void showListPanel() {
+        this.messagePanel.setVisible(false);
+        this.loginPanel.setVisible(false);
+        this.registerPanel.setVisible(false);
+        this.buttonPanel.setVisible(false);
+        this.listPanel.setVisible(true);
     }
 
 }

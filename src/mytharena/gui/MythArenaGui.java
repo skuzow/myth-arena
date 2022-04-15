@@ -15,7 +15,7 @@ public final class MythArenaGui {
      */
     public MythArenaGui() {
         try {
-            this.mythArenaGuiScreen = new MythArenaGuiScreen();
+            this.mythArenaGuiScreen = new MythArenaGuiScreen(this);
         } catch(Exception e) {
             e.printStackTrace();
         }
