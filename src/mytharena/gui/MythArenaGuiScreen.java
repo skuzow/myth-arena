@@ -26,7 +26,7 @@ public class MythArenaGuiScreen extends JFrame {
     private JButton registerButton;
 
     /**
-     * MythArenaGuiScreen class builder
+     * MythArenaGuiScreen class constructor
      */
     public MythArenaGuiScreen() {
         this.setContentPane(this.Main);

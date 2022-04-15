@@ -11,7 +11,7 @@ public final class MythArenaGui {
     private MythArenaGuiScreen mythArenaGuiScreen;
 
     /**
-     * MythArenaGui class builder
+     * MythArenaGui class constructor
      */
     public MythArenaGui() {
         try {
