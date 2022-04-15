@@ -1,5 +1,8 @@
 package mytharena.gui;
 
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import org.netbeans.lib.awtextra.AbsoluteLayout;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -208,6 +211,10 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionBRegister = new JLabel();
         this.optionAList = new JLabel();
         this.optionBList = new JLabel();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Myth Arena");
+        this.setBackground(new Color(2, 40, 3));
+        this.setResizable(false);
         this.addKeyListener(new KeyAdapter() {
             /**
              * keyPressed
@@ -217,6 +224,35 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.formKeyPressed(event);
             }
         });
+        this.getContentPane().setLayout(new AbsoluteLayout());
+        // buttonPanel
+        this.buttonPanel.setBackground(new Color(254, 254, 254));
+        this.buttonPanel.setMinimumSize(new Dimension(1300, 900));
+        this.buttonPanel.setLayout(new AbsoluteLayout());
+        // messagePanel
+        this.messagePanel.setBackground(new Color(254, 254, 254));
+        this.messagePanel.setMinimumSize(new Dimension(1300, 900));
+        this.messagePanel.setLayout(new AbsoluteLayout());
+        // loginPanel
+        this.loginPanel.setBackground(new Color(254, 254, 254));
+        this.loginPanel.setMinimumSize(new Dimension(1300, 900));
+        this.loginPanel.setLayout(new AbsoluteLayout());
+        // registerPanel
+        this.registerPanel.setBackground(new Color(254, 254, 254));
+        this.registerPanel.setMinimumSize(new Dimension(1300, 900));
+        this.registerPanel.setLayout(new AbsoluteLayout());
+        // listPanel
+        this.listPanel.setBackground(new Color(254, 254, 254));
+        this.listPanel.setMinimumSize(new Dimension(1300, 900));
+        this.listPanel.setLayout(new AbsoluteLayout());
+        // optionAButton
+        this.optionAButton.setBackground(new Color(254, 254, 254));
+        this.optionAButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionAButton.setForeground(new Color(1, 1, 1));
+        this.optionAButton.setHorizontalAlignment(0);
+        this.optionAButton.setText("OptionAButton");
+        this.optionAButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionAButton.setOpaque(true);
         this.optionAButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -226,6 +262,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
+        this.buttonPanel.add(this.optionAButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionBButton
+        this.optionBButton.setBackground(new Color(254, 254, 254));
+        this.optionBButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionBButton.setForeground(new Color(1, 1, 1));
+        this.optionBButton.setHorizontalAlignment(0);
+        this.optionBButton.setText("OptionBButton");
+        this.optionBButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionBButton.setOpaque(true);
         this.optionBButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -235,6 +280,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
+        this.buttonPanel.add(this.optionBButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionCButton
+        this.optionCButton.setBackground(new Color(254, 254, 254));
+        this.optionCButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionCButton.setForeground(new Color(1, 1, 1));
+        this.optionCButton.setHorizontalAlignment(0);
+        this.optionCButton.setText("OptionCButton");
+        this.optionCButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionCButton.setOpaque(true);
         this.optionCButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -244,6 +298,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionC();
             }
         });
+        this.buttonPanel.add(this.optionCButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionDButton
+        this.optionDButton.setBackground(new Color(254, 254, 254));
+        this.optionDButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionDButton.setForeground(new Color(1, 1, 1));
+        this.optionDButton.setHorizontalAlignment(0);
+        this.optionDButton.setText("OptionDButton");
+        this.optionDButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionDButton.setOpaque(true);
         this.optionDButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -253,6 +316,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionD();
             }
         });
+        this.buttonPanel.add(this.optionDButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionEButton
+        this.optionEButton.setBackground(new Color(254, 254, 254));
+        this.optionEButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionEButton.setForeground(new Color(1, 1, 1));
+        this.optionEButton.setHorizontalAlignment(0);
+        this.optionEButton.setText("OptionEButton");
+        this.optionEButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionEButton.setOpaque(true);
         this.optionEButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -262,6 +334,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionE();
             }
         });
+        this.buttonPanel.add(this.optionEButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionFButton
+        this.optionFButton.setBackground(new Color(254, 254, 254));
+        this.optionFButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionFButton.setForeground(new Color(1, 1, 1));
+        this.optionFButton.setHorizontalAlignment(0);
+        this.optionFButton.setText("OptionFButton");
+        this.optionFButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionFButton.setOpaque(true);
         this.optionFButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -271,6 +352,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionF();
             }
         });
+        this.buttonPanel.add(this.optionFButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionGButton
+        this.optionGButton.setBackground(new Color(254, 254, 254));
+        this.optionGButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionGButton.setForeground(new Color(1, 1, 1));
+        this.optionGButton.setHorizontalAlignment(0);
+        this.optionGButton.setText("OptionGButton");
+        this.optionGButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionGButton.setOpaque(true);
         this.optionGButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -280,6 +370,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionG();
             }
         });
+        this.buttonPanel.add(this.optionGButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionHButton
+        this.optionHButton.setBackground(new Color(254, 254, 254));
+        this.optionHButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionHButton.setForeground(new Color(1, 1, 1));
+        this.optionHButton.setHorizontalAlignment(0);
+        this.optionHButton.setText("OptionHButton");
+        this.optionHButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionHButton.setOpaque(true);
         this.optionHButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -289,6 +388,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionH();
             }
         });
+        this.buttonPanel.add(this.optionHButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionHButton
+        this.optionIButton.setBackground(new Color(254, 254, 254));
+        this.optionIButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionIButton.setForeground(new Color(1, 1, 1));
+        this.optionIButton.setHorizontalAlignment(0);
+        this.optionIButton.setText("OptionIButton");
+        this.optionIButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionIButton.setOpaque(true);
         this.optionIButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -298,6 +406,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionI();
             }
         });
+        this.buttonPanel.add(this.optionIButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionJButton
+        this.optionJButton.setBackground(new Color(254, 254, 254));
+        this.optionJButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionJButton.setForeground(new Color(1, 1, 1));
+        this.optionJButton.setHorizontalAlignment(0);
+        this.optionJButton.setText("OptionJButton");
+        this.optionJButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionJButton.setOpaque(true);
         this.optionJButton.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -307,6 +424,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionJ();
             }
         });
+        this.buttonPanel.add(this.optionJButton, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionAMessage
+        this.optionAMessage.setBackground(new Color(254, 254, 254));
+        this.optionAMessage.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionAMessage.setForeground(new Color(1, 1, 1));
+        this.optionAMessage.setHorizontalAlignment(0);
+        this.optionAMessage.setText("optionAMessage");
+        this.optionAMessage.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionAMessage.setOpaque(true);
         this.optionAMessage.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -316,6 +442,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
+        this.messagePanel.add(this.optionAMessage, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionBMessage
+        this.optionBMessage.setBackground(new Color(254, 254, 254));
+        this.optionBMessage.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionBMessage.setForeground(new Color(1, 1, 1));
+        this.optionBMessage.setHorizontalAlignment(0);
+        this.optionBMessage.setText("optionBMessage");
+        this.optionBMessage.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionBMessage.setOpaque(true);
         this.optionBMessage.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -325,6 +460,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
+        this.messagePanel.add(this.optionBMessage, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionALogin
+        this.optionALogin.setBackground(new Color(254, 254, 254));
+        this.optionALogin.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionALogin.setForeground(new Color(1, 1, 1));
+        this.optionALogin.setHorizontalAlignment(0);
+        this.optionALogin.setText("optionALogin");
+        this.optionALogin.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionALogin.setOpaque(true);
         this.optionALogin.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -334,6 +478,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
+        this.loginPanel.add(this.optionALogin, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionBLogin
+        this.optionBLogin.setBackground(new Color(254, 254, 254));
+        this.optionBLogin.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionBLogin.setForeground(new Color(1, 1, 1));
+        this.optionBLogin.setHorizontalAlignment(0);
+        this.optionBLogin.setText("optionBLogin");
+        this.optionBLogin.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionBLogin.setOpaque(true);
         this.optionBLogin.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -343,6 +496,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
+        this.loginPanel.add(this.optionBLogin, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionARegister
+        this.optionARegister.setBackground(new Color(254, 254, 254));
+        this.optionARegister.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionARegister.setForeground(new Color(1, 1, 1));
+        this.optionARegister.setHorizontalAlignment(0);
+        this.optionARegister.setText("optionARegister");
+        this.optionARegister.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionARegister.setOpaque(true);
         this.optionARegister.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -352,6 +514,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
+        this.registerPanel.add(this.optionARegister, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionBRegister
+        this.optionBRegister.setBackground(new Color(254, 254, 254));
+        this.optionBRegister.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionBRegister.setForeground(new Color(1, 1, 1));
+        this.optionBRegister.setHorizontalAlignment(0);
+        this.optionBRegister.setText("optionBRegister");
+        this.optionBRegister.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionBRegister.setOpaque(true);
         this.optionBRegister.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -361,6 +532,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
+        this.registerPanel.add(this.optionBRegister, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionAList
+        this.optionAList.setBackground(new Color(254, 254, 254));
+        this.optionAList.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionAList.setForeground(new Color(1, 1, 1));
+        this.optionAList.setHorizontalAlignment(0);
+        this.optionAList.setText("optionAList");
+        this.optionAList.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionAList.setOpaque(true);
         this.optionAList.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -370,6 +550,15 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
+        this.listPanel.add(this.optionAList, new AbsoluteConstraints(0, 380, 298, 78));
+        // optionBList
+        this.optionBList.setBackground(new Color(254, 254, 254));
+        this.optionBList.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionBList.setForeground(new Color(1, 1, 1));
+        this.optionBList.setHorizontalAlignment(0);
+        this.optionBList.setText("optionBList");
+        this.optionBList.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionBList.setOpaque(true);
         this.optionBList.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
@@ -379,6 +568,8 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
+        this.listPanel.add(this.optionBList, new AbsoluteConstraints(0, 380, 298, 78));
+        this.pack();
     }
 
     /**
@@ -400,7 +591,7 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
-     * Sets Image,
+     * Sets Image
      * @param image ImageIcon image
      */
     public void setImage(ImageIcon image) {
@@ -619,6 +810,7 @@ public class MythArenaGuiScreen extends JFrame {
     private void clickOptionG() {
         this.mythArenaGui.insertChar('G');
     }
+
     /**
      * Clicks OptionH
      */

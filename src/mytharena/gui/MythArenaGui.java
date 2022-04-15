@@ -24,6 +24,7 @@ public final class MythArenaGui {
     public MythArenaGui() {
         try {
             this.mythArenaGuiScreen = new MythArenaGuiScreen(this);
+            this.mythArenaGuiScreen.setVisible(true);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -59,7 +60,7 @@ public final class MythArenaGui {
         if (number <= 9 && number >= 0) {
             this.mythArenaGuiScreen.setOption(number, message);
         } else {
-            throw new RuntimeException("Option number " + number + " ( " + message + " ) " + "out of range");
+            throw new RuntimeException("Option number " + number + " ( " + message + " ) out of range");
         }
     }
 
