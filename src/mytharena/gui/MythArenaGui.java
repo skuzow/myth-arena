@@ -1,5 +1,7 @@
 package mytharena.gui;
 
+import javax.swing.*;
+
 /**
  * MythArenaGui final class
  */
@@ -19,6 +21,27 @@ public final class MythArenaGui {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Sets Title
+     */
+    public void setTitle(String title) {
+        this.mythArenaGuiScreen.setTitleMessage(title);
+    }
+
+    /**
+     * Sets Description
+     */
+    public void setDescription(String description) {
+        this.mythArenaGuiScreen.setDescriptionMessage(description);
+    }
+
+    /**
+     * Sets Image
+     */
+    public void setImage(ImageIcon image) {
+        this.mythArenaGuiScreen.setImage(image);
     }
 
     /**
