@@ -21,4 +21,39 @@ public final class MythArenaGui {
         }
     }
 
+    /**
+     * Sets MessageMode
+     */
+    public void setMessageMode() {
+        this.mythArenaGuiScreen.showMessagePanel();
+    }
+
+    /**
+     * Sets LoginMode
+     */
+    public void setLoginMode() {
+        this.mythArenaGuiScreen.showLoginPanel();
+    }
+
+    /**
+     * Sets RegisterMode
+     */
+    public void setRegisterMode() {
+        this.mythArenaGuiScreen.showRegisterPanel();
+    }
+
+    /**
+     * Sets ButtonMode
+     */
+    public void setButtonMode() {
+        this.mythArenaGuiScreen.showButtonPanel();
+    }
+
+    /**
+     * Sets ListMode
+     */
+    public void setListMode() {
+        this.mythArenaGuiScreen.showListPanel();
+    }
+
 }
