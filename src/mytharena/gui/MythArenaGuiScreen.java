@@ -89,17 +89,65 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JPanel listPanel;
     /**
-     * JLabel titleLabel
+     * JLabel titleMessage
      */
-    private JLabel titleLabel;
+    private JLabel titleMessage;
     /**
-     * JLabel descriptionLabel
+     * JLabel titleLogin
      */
-    private JLabel descriptionLabel;
+    private JLabel titleLogin;
     /**
-     * JLabel imageLabel
+     * JLabel titleRegister
      */
-    private JLabel imageLabel;
+    private JLabel titleRegister;
+    /**
+     * JLabel titleButton
+     */
+    private JLabel titleButton;
+    /**
+     * JLabel titleList
+     */
+    private JLabel titleList;
+    /**
+     * JLabel descriptionMessage
+     */
+    private JLabel descriptionMessage;
+    /**
+     * JLabel descriptionLogin
+     */
+    private JLabel descriptionLogin;
+    /**
+     * JLabel descriptionRegister
+     */
+    private JLabel descriptionRegister;
+    /**
+     * JLabel descriptionButton
+     */
+    private JLabel descriptionButton;
+    /**
+     * JLabel descriptionList
+     */
+    private JLabel descriptionList;
+    /**
+     * JLabel imageMessage
+     */
+    private JLabel imageMessage;
+    /**
+     * JLabel imageLogin
+     */
+    private JLabel imageLogin;
+    /**
+     * JLabel imageRegister
+     */
+    private JLabel imageRegister;
+    /**
+     * JLabel imageButton
+     */
+    private JLabel imageButton;
+    /**
+     * JLabel imageList
+     */
+    private JLabel imageList;
     /**
      * JLabel optionAButton
      */
@@ -191,9 +239,21 @@ public class MythArenaGuiScreen extends JFrame {
         this.registerPanel = new JPanel();
         this.buttonPanel = new JPanel();
         this.listPanel = new JPanel();
-        this.titleLabel = new JLabel();
-        this.descriptionLabel = new JLabel();
-        this.imageLabel = new JLabel();
+        this.titleMessage = new JLabel();
+        this.titleLogin = new JLabel();
+        this.titleRegister = new JLabel();
+        this.titleButton = new JLabel();
+        this.titleList = new JLabel();
+        this.descriptionMessage = new JLabel();
+        this.descriptionLogin = new JLabel();
+        this.descriptionRegister = new JLabel();
+        this.descriptionButton = new JLabel();
+        this.descriptionList = new JLabel();
+        this.imageMessage = new JLabel();
+        this.imageLogin = new JLabel();
+        this.imageRegister = new JLabel();
+        this.imageButton = new JLabel();
+        this.imageList = new JLabel();
         this.optionAButton = new JLabel();
         this.optionBButton = new JLabel();
         this.optionCButton = new JLabel();
@@ -253,6 +313,106 @@ public class MythArenaGuiScreen extends JFrame {
         this.listPanel.setMinimumSize(new Dimension(1300, 900));
         this.listPanel.setLayout(new AbsoluteLayout());
         this.getContentPane().add(this.listPanel, new AbsoluteConstraints(5, 5, 1300, 900));
+        // titleMessage
+        this.titleMessage.setBackground(new Color(254, 254, 254));
+        this.titleMessage.setFont(new Font("Arial", Font.PLAIN, 36));
+        this.titleMessage.setForeground(new Color(1, 1, 1));
+        this.titleMessage.setHorizontalAlignment(0);
+        this.titleMessage.setText("TitleMessage");
+        this.titleMessage.setOpaque(true);
+        this.messagePanel.add(this.titleMessage, new AbsoluteConstraints(330, 20, 630, 60));
+        // titleLogin
+        this.titleLogin.setBackground(new Color(254, 254, 254));
+        this.titleLogin.setFont(new Font("Arial", Font.PLAIN, 36));
+        this.titleLogin.setForeground(new Color(1, 1, 1));
+        this.titleLogin.setHorizontalAlignment(0);
+        this.titleLogin.setText("TitleLogin");
+        this.titleLogin.setOpaque(true);
+        this.loginPanel.add(this.titleLogin, new AbsoluteConstraints(330, 20, 630, 60));
+        // titleRegister
+        this.titleRegister.setBackground(new Color(254, 254, 254));
+        this.titleRegister.setFont(new Font("Arial", Font.PLAIN, 36));
+        this.titleRegister.setForeground(new Color(1, 1, 1));
+        this.titleRegister.setHorizontalAlignment(0);
+        this.titleRegister.setText("TitleRegister");
+        this.titleRegister.setOpaque(true);
+        this.registerPanel.add(this.titleRegister, new AbsoluteConstraints(330, 20, 630, 60));
+        // titleButton
+        this.titleButton.setBackground(new Color(254, 254, 254));
+        this.titleButton.setFont(new Font("Arial", Font.PLAIN, 36));
+        this.titleButton.setForeground(new Color(1, 1, 1));
+        this.titleButton.setHorizontalAlignment(0);
+        this.titleButton.setText("TitleButton");
+        this.titleButton.setOpaque(true);
+        this.buttonPanel.add(this.titleButton, new AbsoluteConstraints(330, 20, 630, 60));
+        // titleList
+        this.titleList.setBackground(new Color(254, 254, 254));
+        this.titleList.setFont(new Font("Arial", Font.PLAIN, 36));
+        this.titleList.setForeground(new Color(1, 1, 1));
+        this.titleList.setHorizontalAlignment(0);
+        this.titleList.setText("TitleList");
+        this.titleList.setOpaque(true);
+        this.listPanel.add(this.titleList, new AbsoluteConstraints(330, 20, 630, 60));
+        // descriptionMessage
+        this.descriptionMessage.setBackground(new Color(254, 254, 254));
+        this.descriptionMessage.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.descriptionMessage.setForeground(new Color(1, 1, 1));
+        this.descriptionMessage.setHorizontalAlignment(0);
+        this.descriptionMessage.setText("DescriptionMessage");
+        this.descriptionMessage.setOpaque(true);
+        this.messagePanel.add(this.descriptionMessage, new AbsoluteConstraints(330, 80, 630, 60));
+        // descriptionLogin
+        this.descriptionLogin.setBackground(new Color(254, 254, 254));
+        this.descriptionLogin.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.descriptionLogin.setForeground(new Color(1, 1, 1));
+        this.descriptionLogin.setHorizontalAlignment(0);
+        this.descriptionLogin.setText("DescriptionLogin");
+        this.descriptionLogin.setOpaque(true);
+        this.loginPanel.add(this.descriptionLogin, new AbsoluteConstraints(330, 80, 630, 60));
+        // descriptionRegister
+        this.descriptionRegister.setBackground(new Color(254, 254, 254));
+        this.descriptionRegister.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.descriptionRegister.setForeground(new Color(1, 1, 1));
+        this.descriptionRegister.setHorizontalAlignment(0);
+        this.descriptionRegister.setText("DescriptionRegister");
+        this.descriptionRegister.setOpaque(true);
+        this.registerPanel.add(this.descriptionRegister, new AbsoluteConstraints(330, 80, 630, 60));
+        // descriptionButton
+        this.descriptionButton.setBackground(new Color(254, 254, 254));
+        this.descriptionButton.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.descriptionButton.setForeground(new Color(1, 1, 1));
+        this.descriptionButton.setHorizontalAlignment(0);
+        this.descriptionButton.setText("DescriptionButton");
+        this.descriptionButton.setOpaque(true);
+        this.buttonPanel.add(this.descriptionButton, new AbsoluteConstraints(330, 80, 630, 60));
+        // descriptionList
+        this.descriptionList.setBackground(new Color(254, 254, 254));
+        this.descriptionList.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.descriptionList.setForeground(new Color(1, 1, 1));
+        this.descriptionList.setHorizontalAlignment(0);
+        this.descriptionList.setText("DescriptionList");
+        this.descriptionList.setOpaque(true);
+        this.listPanel.add(this.descriptionList, new AbsoluteConstraints(330, 80, 630, 60));
+        // imageMessage
+        this.imageMessage.setHorizontalAlignment(0);
+        this.imageMessage.setIconTextGap(0);
+        this.messagePanel.add(this.imageMessage, new AbsoluteConstraints(450, -200, 384, 978));
+        // imageLogin
+        this.imageLogin.setHorizontalAlignment(0);
+        this.imageLogin.setIconTextGap(0);
+        this.loginPanel.add(this.imageLogin, new AbsoluteConstraints(450, -200, 384, 978));
+        // imageRegister
+        this.imageRegister.setHorizontalAlignment(0);
+        this.imageRegister.setIconTextGap(0);
+        this.registerPanel.add(this.imageRegister, new AbsoluteConstraints(450, -200, 384, 978));
+        // imageButton
+        this.imageButton.setHorizontalAlignment(0);
+        this.imageButton.setIconTextGap(0);
+        this.buttonPanel.add(this.imageButton, new AbsoluteConstraints(450, -200, 384, 978));
+        // imageList
+        this.imageList.setHorizontalAlignment(0);
+        this.imageList.setIconTextGap(0);
+        this.listPanel.add(this.imageList, new AbsoluteConstraints(450, -200, 384, 978));
         // optionAButton
         this.optionAButton.setBackground(new Color(254, 254, 254));
         this.optionAButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -600,17 +760,66 @@ public class MythArenaGuiScreen extends JFrame {
 
     /**
      * Sets Image
+     * @param number int number
      * @param image ImageIcon image
      */
-    public void setImage(ImageIcon image) {
-        if (image == null) {
-            this.imageLabel.setVisible(false);
-        } else {
-            this.imageLabel.setText("");
-            int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageLabel.getWidth(), this.imageLabel.getHeight());
-            Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-            this.imageLabel.setIcon(new ImageIcon(scaledImage));
-            this.imageLabel.setVisible(true);
+    public void setImage(int number, ImageIcon image) {
+        switch (number) {
+            case 0 -> {
+                if (image == null) {
+                    this.imageMessage.setVisible(false);
+                } else {
+                    this.imageMessage.setText("");
+                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageMessage.getWidth(), this.imageMessage.getHeight());
+                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
+                    this.imageMessage.setIcon(new ImageIcon(scaledImage));
+                    this.imageMessage.setVisible(true);
+                }
+            }
+            case 1 -> {
+                if (image == null) {
+                    this.imageLogin.setVisible(false);
+                } else {
+                    this.imageLogin.setText("");
+                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageLogin.getWidth(), this.imageLogin.getHeight());
+                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
+                    this.imageLogin.setIcon(new ImageIcon(scaledImage));
+                    this.imageLogin.setVisible(true);
+                }
+            }
+            case 2 -> {
+                if (image == null) {
+                    this.imageRegister.setVisible(false);
+                } else {
+                    this.imageRegister.setText("");
+                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageRegister.getWidth(), this.imageRegister.getHeight());
+                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
+                    this.imageRegister.setIcon(new ImageIcon(scaledImage));
+                    this.imageRegister.setVisible(true);
+                }
+            }
+            case 3 -> {
+                if (image == null) {
+                    this.imageButton.setVisible(false);
+                } else {
+                    this.imageButton.setText("");
+                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageButton.getWidth(), this.imageButton.getHeight());
+                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
+                    this.imageButton.setIcon(new ImageIcon(scaledImage));
+                    this.imageButton.setVisible(true);
+                }
+            }
+            case 4 -> {
+                if (image == null) {
+                    this.imageList.setVisible(false);
+                } else {
+                    this.imageList.setText("");
+                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageList.getWidth(), this.imageList.getHeight());
+                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
+                    this.imageList.setIcon(new ImageIcon(scaledImage));
+                    this.imageList.setVisible(true);
+                }
+            }
         }
     }
 
@@ -718,8 +927,16 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private void refreshLater() {
         SwingUtilities.invokeLater(() -> {
-            MythArenaGuiScreen.this.titleLabel.setText(MythArenaGuiScreen.this.titleText);
-            MythArenaGuiScreen.this.descriptionLabel.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.titleMessage.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.titleLogin.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.titleRegister.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.titleButton.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.titleList.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.descriptionMessage.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.descriptionLogin.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.descriptionRegister.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.descriptionButton.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.descriptionList.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.optionAButton.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBButton.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionCButton.setText(MythArenaGuiScreen.this.optionCText);
@@ -747,8 +964,16 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private void formKeyPressed(KeyEvent event) {
         if (event.getKeyCode() == 116) {
-            this.titleLabel.setText(this.titleText);
-            this.descriptionLabel.setText(this.descriptionText);
+            this.titleMessage.setText(this.titleText);
+            this.titleLogin.setText(this.titleText);
+            this.titleRegister.setText(this.titleText);
+            this.titleButton.setText(this.titleText);
+            this.titleList.setText(this.titleText);
+            this.descriptionMessage.setText(this.descriptionText);
+            this.descriptionLogin.setText(this.descriptionText);
+            this.descriptionRegister.setText(this.descriptionText);
+            this.descriptionButton.setText(this.descriptionText);
+            this.descriptionList.setText(this.descriptionText);
             this.optionAButton.setText(this.optionAText);
             this.optionBButton.setText(this.optionBText);
             this.optionCButton.setText(this.optionCText);

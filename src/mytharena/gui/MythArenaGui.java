@@ -31,24 +31,33 @@ public final class MythArenaGui {
     }
 
     /**
-     * Sets Title
+     * Sets title
+     * @param title String title
      */
     public void setTitle(String title) {
         this.mythArenaGuiScreen.setTitleMessage(title);
     }
 
     /**
-     * Sets Description
+     * Sets description
+     * @param description String description
      */
     public void setDescription(String description) {
         this.mythArenaGuiScreen.setDescriptionMessage(description);
     }
 
     /**
-     * Sets Image
+     * Sets image
+     * @param number int number
+     * @param image ImageIcon image
      */
-    public void setImage(ImageIcon image) {
-        this.mythArenaGuiScreen.setImage(image);
+    public void setImage(int number, ImageIcon image) {
+        if (number <= 4 && number >= 0) {
+            this.mythArenaGuiScreen.setImage(number, image);
+        } else {
+            throw new RuntimeException("Mode number " + number + " out of range");
+        }
+        this.mythArenaGuiScreen.setImage(number, image);
     }
 
     /**
