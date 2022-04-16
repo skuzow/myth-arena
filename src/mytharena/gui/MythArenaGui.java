@@ -57,7 +57,6 @@ public final class MythArenaGui {
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
         }
-        this.mythArenaGuiScreen.setImage(number, image);
     }
 
     /**
