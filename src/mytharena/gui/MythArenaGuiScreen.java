@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 /**
  * MythArenaGuiScreen class extends JFrame
@@ -213,6 +214,8 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionBList = new JLabel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
+        ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
+        this.setIconImage(logo.getImage());
         this.setBackground(new Color(2, 40, 3));
         this.setResizable(false);
         this.addKeyListener(new KeyAdapter() {
@@ -229,22 +232,27 @@ public class MythArenaGuiScreen extends JFrame {
         this.buttonPanel.setBackground(new Color(254, 254, 254));
         this.buttonPanel.setMinimumSize(new Dimension(1300, 900));
         this.buttonPanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(this.buttonPanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // messagePanel
         this.messagePanel.setBackground(new Color(254, 254, 254));
         this.messagePanel.setMinimumSize(new Dimension(1300, 900));
         this.messagePanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(this.messagePanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // loginPanel
         this.loginPanel.setBackground(new Color(254, 254, 254));
         this.loginPanel.setMinimumSize(new Dimension(1300, 900));
         this.loginPanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(this.loginPanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // registerPanel
         this.registerPanel.setBackground(new Color(254, 254, 254));
         this.registerPanel.setMinimumSize(new Dimension(1300, 900));
         this.registerPanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(this.registerPanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // listPanel
         this.listPanel.setBackground(new Color(254, 254, 254));
         this.listPanel.setMinimumSize(new Dimension(1300, 900));
         this.listPanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(this.listPanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // optionAButton
         this.optionAButton.setBackground(new Color(254, 254, 254));
         this.optionAButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -262,7 +270,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
-        this.buttonPanel.add(this.optionAButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionAButton, new AbsoluteConstraints(350, 480, 298, 78));
         // optionBButton
         this.optionBButton.setBackground(new Color(254, 254, 254));
         this.optionBButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -280,7 +288,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
-        this.buttonPanel.add(this.optionBButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionBButton, new AbsoluteConstraints(650, 480, 298, 78));
         // optionCButton
         this.optionCButton.setBackground(new Color(254, 254, 254));
         this.optionCButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -298,7 +306,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionC();
             }
         });
-        this.buttonPanel.add(this.optionCButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionCButton, new AbsoluteConstraints(350, 560, 298, 78));
         // optionDButton
         this.optionDButton.setBackground(new Color(254, 254, 254));
         this.optionDButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -316,7 +324,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionD();
             }
         });
-        this.buttonPanel.add(this.optionDButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionDButton, new AbsoluteConstraints(650, 560, 298, 78));
         // optionEButton
         this.optionEButton.setBackground(new Color(254, 254, 254));
         this.optionEButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -334,7 +342,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionE();
             }
         });
-        this.buttonPanel.add(this.optionEButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionEButton, new AbsoluteConstraints(350, 640, 298, 78));
         // optionFButton
         this.optionFButton.setBackground(new Color(254, 254, 254));
         this.optionFButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -352,7 +360,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionF();
             }
         });
-        this.buttonPanel.add(this.optionFButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionFButton, new AbsoluteConstraints(650, 640, 298, 78));
         // optionGButton
         this.optionGButton.setBackground(new Color(254, 254, 254));
         this.optionGButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -370,7 +378,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionG();
             }
         });
-        this.buttonPanel.add(this.optionGButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionGButton, new AbsoluteConstraints(350, 720, 298, 78));
         // optionHButton
         this.optionHButton.setBackground(new Color(254, 254, 254));
         this.optionHButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -388,7 +396,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionH();
             }
         });
-        this.buttonPanel.add(this.optionHButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionHButton, new AbsoluteConstraints(650, 720, 298, 78));
         // optionHButton
         this.optionIButton.setBackground(new Color(254, 254, 254));
         this.optionIButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -406,7 +414,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionI();
             }
         });
-        this.buttonPanel.add(this.optionIButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionIButton, new AbsoluteConstraints(350, 800, 298, 78));
         // optionJButton
         this.optionJButton.setBackground(new Color(254, 254, 254));
         this.optionJButton.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -424,7 +432,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionJ();
             }
         });
-        this.buttonPanel.add(this.optionJButton, new AbsoluteConstraints(0, 380, 298, 78));
+        this.buttonPanel.add(this.optionJButton, new AbsoluteConstraints(650, 800, 298, 78));
         // optionAMessage
         this.optionAMessage.setBackground(new Color(254, 254, 254));
         this.optionAMessage.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -442,7 +450,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
-        this.messagePanel.add(this.optionAMessage, new AbsoluteConstraints(0, 380, 298, 78));
+        this.messagePanel.add(this.optionAMessage, new AbsoluteConstraints(350, 800, 298, 78));
         // optionBMessage
         this.optionBMessage.setBackground(new Color(254, 254, 254));
         this.optionBMessage.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -460,7 +468,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
-        this.messagePanel.add(this.optionBMessage, new AbsoluteConstraints(0, 380, 298, 78));
+        this.messagePanel.add(this.optionBMessage, new AbsoluteConstraints(650, 800, 298, 78));
         // optionALogin
         this.optionALogin.setBackground(new Color(254, 254, 254));
         this.optionALogin.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -478,7 +486,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
-        this.loginPanel.add(this.optionALogin, new AbsoluteConstraints(0, 380, 298, 78));
+        this.loginPanel.add(this.optionALogin, new AbsoluteConstraints(350, 800, 298, 78));
         // optionBLogin
         this.optionBLogin.setBackground(new Color(254, 254, 254));
         this.optionBLogin.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -496,7 +504,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
-        this.loginPanel.add(this.optionBLogin, new AbsoluteConstraints(0, 380, 298, 78));
+        this.loginPanel.add(this.optionBLogin, new AbsoluteConstraints(650, 800, 298, 78));
         // optionARegister
         this.optionARegister.setBackground(new Color(254, 254, 254));
         this.optionARegister.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -514,7 +522,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
-        this.registerPanel.add(this.optionARegister, new AbsoluteConstraints(0, 380, 298, 78));
+        this.registerPanel.add(this.optionARegister, new AbsoluteConstraints(350, 800, 298, 78));
         // optionBRegister
         this.optionBRegister.setBackground(new Color(254, 254, 254));
         this.optionBRegister.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -532,7 +540,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
-        this.registerPanel.add(this.optionBRegister, new AbsoluteConstraints(0, 380, 298, 78));
+        this.registerPanel.add(this.optionBRegister, new AbsoluteConstraints(650, 800, 298, 78));
         // optionAList
         this.optionAList.setBackground(new Color(254, 254, 254));
         this.optionAList.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -550,7 +558,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
-        this.listPanel.add(this.optionAList, new AbsoluteConstraints(0, 380, 298, 78));
+        this.listPanel.add(this.optionAList, new AbsoluteConstraints(350, 800, 298, 78));
         // optionBList
         this.optionBList.setBackground(new Color(254, 254, 254));
         this.optionBList.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -568,7 +576,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
-        this.listPanel.add(this.optionBList, new AbsoluteConstraints(0, 380, 298, 78));
+        this.listPanel.add(this.optionBList, new AbsoluteConstraints(650, 800, 298, 78));
         this.pack();
     }
 
