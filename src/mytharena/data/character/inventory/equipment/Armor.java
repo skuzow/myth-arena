@@ -7,4 +7,14 @@ import java.io.Serializable;
  */
 public class Armor extends Equipment implements Serializable {
 
+    /**
+     * Armor class constructor extends Equipment
+     * @param name String name
+     * @param attackModification int attackModification
+     * @param defenseModification int defenseModification
+     */
+    public Armor(String name, int attackModification, int defenseModification) {
+        super(name, attackModification, defenseModification);
+    }
+
 }

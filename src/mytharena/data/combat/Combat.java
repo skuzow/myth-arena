@@ -48,7 +48,7 @@ public class Combat implements Serializable {
     private final ArrayList<Minion> minionSurvivorArrayList;
 
     /**
-     * Combat class builder
+     * Combat class constructor
      * @param challenger User challenger
      * @param challenged User challenged
      * @param winner User winner

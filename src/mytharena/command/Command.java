@@ -25,7 +25,7 @@ public abstract class Command {
     private final MythArenaGui mythArenaGui;
 
     /**
-     * Command abstract class builder
+     * Command abstract class constructor
      * @param arena Arena arena
      * @param data Data data
      * @param mythArenaGui MythArenaGui mythArenaGui

@@ -10,7 +10,7 @@ import mytharena.gui.MythArenaGui;
 public class Start extends Command {
 
     /**
-     * Start abstract class builder
+     * Start class constructor extends Command
      * @param arena Arena arena
      * @param data Data data
      * @param mythArenaGui MythArenaGui mythArenaGui

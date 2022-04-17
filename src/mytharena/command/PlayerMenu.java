@@ -10,7 +10,7 @@ import mytharena.gui.MythArenaGui;
 public class PlayerMenu extends Command {
 
     /**
-     * PlayerMenu abstract class builder
+     * PlayerMenu class constructor extends Command
      * @param arena Arena arena
      * @param data Data data
      * @param mythArenaGui MythArenaGui mythArenaGui
