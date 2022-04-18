@@ -346,69 +346,21 @@ public class MythArenaGuiScreen extends JFrame {
         this.listPanel.setLayout(new AbsoluteLayout());
         this.getContentPane().add(this.listPanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // titleMessage
-        this.titleMessage.setBackground(new Color(254, 254, 254));
-        this.titleMessage.setFont(new Font("Arial", Font.PLAIN, 36));
-        this.titleMessage.setForeground(new Color(1, 1, 1));
-        this.titleMessage.setHorizontalAlignment(0);
-        this.titleMessage.setText("TitleMessage");
-        this.titleMessage.setOpaque(true);
-        this.messagePanel.add(this.titleMessage, new AbsoluteConstraints(330, 20, 630, 60));
+        this.generateText(this.titleMessage, this.messagePanel, "TitleMessage", 36, 330, 20);
         // titleForm
-        this.titleForm.setBackground(new Color(254, 254, 254));
-        this.titleForm.setFont(new Font("Arial", Font.PLAIN, 36));
-        this.titleForm.setForeground(new Color(1, 1, 1));
-        this.titleForm.setHorizontalAlignment(0);
-        this.titleForm.setText("TitleForm");
-        this.titleForm.setOpaque(true);
-        this.formPanel.add(this.titleForm, new AbsoluteConstraints(330, 20, 630, 60));
+        this.generateText(this.titleForm, this.formPanel, "TitleForm", 36, 330, 20);
         // titleButton
-        this.titleButton.setBackground(new Color(254, 254, 254));
-        this.titleButton.setFont(new Font("Arial", Font.PLAIN, 36));
-        this.titleButton.setForeground(new Color(1, 1, 1));
-        this.titleButton.setHorizontalAlignment(0);
-        this.titleButton.setText("TitleButton");
-        this.titleButton.setOpaque(true);
-        this.buttonPanel.add(this.titleButton, new AbsoluteConstraints(330, 20, 630, 60));
+        this.generateText(this.titleButton, this.buttonPanel, "TitleButton", 36, 330, 20);
         // titleList
-        this.titleList.setBackground(new Color(254, 254, 254));
-        this.titleList.setFont(new Font("Arial", Font.PLAIN, 36));
-        this.titleList.setForeground(new Color(1, 1, 1));
-        this.titleList.setHorizontalAlignment(0);
-        this.titleList.setText("TitleList");
-        this.titleList.setOpaque(true);
-        this.listPanel.add(this.titleList, new AbsoluteConstraints(330, 20, 630, 60));
+        this.generateText(this.titleList, this.listPanel, "TitleList", 36, 330, 20);
         // descriptionMessage
-        this.descriptionMessage.setBackground(new Color(254, 254, 254));
-        this.descriptionMessage.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.descriptionMessage.setForeground(new Color(1, 1, 1));
-        this.descriptionMessage.setHorizontalAlignment(0);
-        this.descriptionMessage.setText("DescriptionMessage");
-        this.descriptionMessage.setOpaque(true);
-        this.messagePanel.add(this.descriptionMessage, new AbsoluteConstraints(330, 80, 630, 60));
+        this.generateText(this.descriptionMessage, this.messagePanel, "DescriptionMessage", 25, 330, 80);
         // descriptionForm
-        this.descriptionForm.setBackground(new Color(254, 254, 254));
-        this.descriptionForm.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.descriptionForm.setForeground(new Color(1, 1, 1));
-        this.descriptionForm.setHorizontalAlignment(0);
-        this.descriptionForm.setText("DescriptionForm");
-        this.descriptionForm.setOpaque(true);
-        this.formPanel.add(this.descriptionForm, new AbsoluteConstraints(330, 80, 630, 60));
+        this.generateText(this.descriptionForm, this.formPanel, "DescriptionForm", 25, 330, 80);
         // descriptionButton
-        this.descriptionButton.setBackground(new Color(254, 254, 254));
-        this.descriptionButton.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.descriptionButton.setForeground(new Color(1, 1, 1));
-        this.descriptionButton.setHorizontalAlignment(0);
-        this.descriptionButton.setText("DescriptionButton");
-        this.descriptionButton.setOpaque(true);
-        this.buttonPanel.add(this.descriptionButton, new AbsoluteConstraints(330, 80, 630, 60));
+        this.generateText(this.descriptionButton, this.buttonPanel, "DescriptionButton", 25, 330, 80);
         // descriptionList
-        this.descriptionList.setBackground(new Color(254, 254, 254));
-        this.descriptionList.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.descriptionList.setForeground(new Color(1, 1, 1));
-        this.descriptionList.setHorizontalAlignment(0);
-        this.descriptionList.setText("DescriptionList");
-        this.descriptionList.setOpaque(true);
-        this.listPanel.add(this.descriptionList, new AbsoluteConstraints(330, 80, 630, 60));
+        this.generateText(this.descriptionList, this.listPanel, "DescriptionList", 25, 330, 80);
         // imageMessage
         this.generateImage(this.imageMessage, this.messagePanel, 450, -200);
         // imageForm
@@ -456,6 +408,25 @@ public class MythArenaGuiScreen extends JFrame {
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
         this.pack();
+    }
+
+    /**
+     * Generates Text
+     * @param textLabel JLabel textLabel
+     * @param specificPanel JPanel specificPanel
+     * @param text String text
+     * @param size int size
+     * @param x int x
+     * @param y int y
+     */
+    public void generateText(JLabel textLabel, JPanel specificPanel, String text, int size, int x, int y) {
+        textLabel.setBackground(new Color(254, 254, 254));
+        textLabel.setFont(new Font("Arial", Font.PLAIN, size));
+        textLabel.setForeground(new Color(1, 1, 1));
+        textLabel.setHorizontalAlignment(0);
+        textLabel.setText(text);
+        textLabel.setOpaque(true);
+        specificPanel.add(textLabel, new AbsoluteConstraints(x, y, 630, 60));
     }
 
     /**
