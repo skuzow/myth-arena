@@ -52,10 +52,23 @@ public final class MythArenaGui {
      * @param image ImageIcon image
      */
     public void setImage(int number, ImageIcon image) {
-        if (number <= 4 && number >= 0) {
+        if (number <= 3 && number >= 0) {
             this.mythArenaGuiScreen.setImage(number, image);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
+        }
+    }
+
+    /**
+     * Sets specified field message
+     * @param number int number
+     * @param message String message
+     */
+    public void setField(int number, String message) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.setField(number, message);
+        } else {
+            throw new RuntimeException("Field number " + number + " ( " + message + " ) out of range");
         }
     }
 
@@ -69,6 +82,31 @@ public final class MythArenaGui {
             this.mythArenaGuiScreen.setOption(number, message);
         } else {
             throw new RuntimeException("Option number " + number + " ( " + message + " ) out of range");
+        }
+    }
+
+    /**
+     * Gets specified field text
+     * @param number int number
+     * @return String fieldText
+     */
+    public String getFieldText(int number) {
+        if (number <= 2 && number >= 0) {
+            return this.mythArenaGuiScreen.getFieldText(number);
+        } else {
+            throw new RuntimeException("Field Text number " + number + " out of range");
+        }
+    }
+
+    /**
+     * Clear specified field text
+     * @param number int number
+     */
+    public void clearFieldText(int number) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.clearFieldText(number);
+        } else {
+            throw new RuntimeException("Field Text number " + number + " out of range");
         }
     }
 
@@ -106,17 +144,10 @@ public final class MythArenaGui {
     }
 
     /**
-     * Sets LoginMode
+     * Sets FormMode
      */
-    public void setLoginMode() {
-        this.mythArenaGuiScreen.showLoginPanel();
-    }
-
-    /**
-     * Sets RegisterMode
-     */
-    public void setRegisterMode() {
-        this.mythArenaGuiScreen.showRegisterPanel();
+    public void setFormMode() {
+        this.mythArenaGuiScreen.showFormPanel();
     }
 
     /**
