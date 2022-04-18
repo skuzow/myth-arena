@@ -314,17 +314,11 @@ public class MythArenaGuiScreen extends JFrame {
         });
         this.getContentPane().setLayout(new AbsoluteLayout());
         // fieldAForm
-        this.fieldAForm.setBounds(562, 490, 165, 25);
-        this.fieldAForm.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.formPanel.add(this.fieldAForm);
+        this.generateField(this.fieldAForm, 562, 490);
         // fieldBForm
-        this.fieldBForm.setBounds(562, 560, 165, 25);
-        this.fieldBForm.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.formPanel.add(this.fieldBForm);
+        this.generateField(this.fieldBForm, 562, 560);
         // fieldCForm
-        this.fieldCForm.setBounds(562, 630, 165, 25);
-        this.fieldCForm.setFont(new Font("Arial", Font.PLAIN, 16));
-        this.formPanel.add(this.fieldCForm);
+        this.generateField(this.fieldCForm, 562, 630);
         // buttonPanel
         this.buttonPanel.setBackground(new Color(254, 254, 254));
         this.buttonPanel.setMinimumSize(new Dimension(1300, 900));
@@ -408,6 +402,18 @@ public class MythArenaGuiScreen extends JFrame {
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
         this.pack();
+    }
+
+    /**
+     * Generates Field
+     * @param fieldLabel JTextField fieldLabel
+     * @param x int x
+     * @param y int y
+     */
+    public void generateField(JTextField fieldLabel, int x, int y) {
+        fieldLabel.setBounds(x, y, 165, 25);
+        fieldLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.formPanel.add(fieldLabel);
     }
 
     /**
