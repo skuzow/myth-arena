@@ -663,6 +663,24 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
+     * Clear specified field text
+     * @param number int number
+     */
+    public void clearFieldText(int number) {
+        switch (number) {
+            case 0 -> {
+                this.fieldAForm.setText(null);
+            }
+            case 1 -> {
+                this.fieldBForm.setText(null);
+            }
+            case 2 -> {
+                this.fieldCForm.setText(null);
+            }
+        }
+    }
+
+    /**
      * Reformats String message
      * @param message String message
      * @return String message

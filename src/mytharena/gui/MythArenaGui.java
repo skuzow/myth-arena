@@ -99,6 +99,18 @@ public final class MythArenaGui {
     }
 
     /**
+     * Clear specified field text
+     * @param number int number
+     */
+    public void clearFieldText(int number) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.clearFieldText(number);
+        } else {
+            throw new RuntimeException("Field Text number " + number + " out of range");
+        }
+    }
+
+    /**
      * Waits until input event, if int seconds pass it passes
      * @param seconds int seconds
      * @return string option, or '\u0000' if time passes
