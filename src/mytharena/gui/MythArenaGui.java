@@ -60,6 +60,19 @@ public final class MythArenaGui {
     }
 
     /**
+     * Sets specified field message
+     * @param number int number
+     * @param message String message
+     */
+    public void setField(int number, String message) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.setField(number, message);
+        } else {
+            throw new RuntimeException("Field number " + number + " ( " + message + " ) out of range");
+        }
+    }
+
+    /**
      * Sets specified option message
      * @param number int number
      * @param message String message

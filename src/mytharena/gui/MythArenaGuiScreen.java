@@ -792,6 +792,34 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
+     * Sets specified field message
+     * @param number int number
+     * @param message String message
+     */
+    public void setField(int number, String message) {
+        if (message == null) {
+            message = "";
+        } else {
+            message = this.reformatMessage(message);
+        }
+        switch (number) {
+            case 0 -> {
+                this.titlefieldAFormText = message;
+                this.fieldAForm.setVisible(!"".equals(message));
+            }
+            case 1 -> {
+                this.titlefieldBFormText = message;
+                this.fieldBForm.setVisible(!"".equals(message));
+            }
+            case 2 -> {
+                this.titlefieldCFormText = message;
+                this.fieldCForm.setVisible(!"".equals(message));
+            }
+        }
+        this.refreshLater();
+    }
+
+    /**
      * Sets specified option message
      * @param number int number
      * @param message String message
