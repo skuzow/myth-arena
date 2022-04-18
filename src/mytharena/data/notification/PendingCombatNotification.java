@@ -20,8 +20,9 @@ public class PendingCombatNotification extends Notification implements Serializa
      * @param title String title
      * @param body  String body
      */
-    public PendingCombatNotification(String title, String body) {
+    public PendingCombatNotification(String title, String body, Player challenger) {
         super(title, body);
+        this.challenger = challenger;
     }
 
     /**
