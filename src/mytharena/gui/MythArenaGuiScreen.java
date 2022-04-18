@@ -426,293 +426,37 @@ public class MythArenaGuiScreen extends JFrame {
         this.imageList.setIconTextGap(0);
         this.listPanel.add(this.imageList, new AbsoluteConstraints(450, -200, 384, 978));
         // optionAButton
-        this.optionAButton.setBackground(new Color(254, 254, 254));
-        this.optionAButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionAButton.setForeground(new Color(1, 1, 1));
-        this.optionAButton.setHorizontalAlignment(0);
-        this.optionAButton.setText("OptionAButton");
-        this.optionAButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionAButton.setOpaque(true);
-        this.optionAButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionA();
-            }
-        });
-        this.buttonPanel.add(this.optionAButton, new AbsoluteConstraints(350, 480, 298, 78));
+        this.generateOption(this.optionAButton, this.buttonPanel, "optionAButton", 'A', 350, 480);
         // optionBButton
-        this.optionBButton.setBackground(new Color(254, 254, 254));
-        this.optionBButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionBButton.setForeground(new Color(1, 1, 1));
-        this.optionBButton.setHorizontalAlignment(0);
-        this.optionBButton.setText("OptionBButton");
-        this.optionBButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionBButton.setOpaque(true);
-        this.optionBButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionB();
-            }
-        });
-        this.buttonPanel.add(this.optionBButton, new AbsoluteConstraints(650, 480, 298, 78));
+        this.generateOption(this.optionBButton, this.buttonPanel, "optionBButton", 'B', 650, 480);
         // optionCButton
-        this.optionCButton.setBackground(new Color(254, 254, 254));
-        this.optionCButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionCButton.setForeground(new Color(1, 1, 1));
-        this.optionCButton.setHorizontalAlignment(0);
-        this.optionCButton.setText("OptionCButton");
-        this.optionCButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionCButton.setOpaque(true);
-        this.optionCButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionC();
-            }
-        });
-        this.buttonPanel.add(this.optionCButton, new AbsoluteConstraints(350, 560, 298, 78));
+        this.generateOption(this.optionCButton, this.buttonPanel, "optionCButton", 'C', 350, 560);
         // optionDButton
-        this.optionDButton.setBackground(new Color(254, 254, 254));
-        this.optionDButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionDButton.setForeground(new Color(1, 1, 1));
-        this.optionDButton.setHorizontalAlignment(0);
-        this.optionDButton.setText("OptionDButton");
-        this.optionDButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionDButton.setOpaque(true);
-        this.optionDButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionD();
-            }
-        });
-        this.buttonPanel.add(this.optionDButton, new AbsoluteConstraints(650, 560, 298, 78));
+        this.generateOption(this.optionDButton, this.buttonPanel, "optionDButton", 'D', 650, 560);
         // optionEButton
-        this.optionEButton.setBackground(new Color(254, 254, 254));
-        this.optionEButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionEButton.setForeground(new Color(1, 1, 1));
-        this.optionEButton.setHorizontalAlignment(0);
-        this.optionEButton.setText("OptionEButton");
-        this.optionEButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionEButton.setOpaque(true);
-        this.optionEButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionE();
-            }
-        });
-        this.buttonPanel.add(this.optionEButton, new AbsoluteConstraints(350, 640, 298, 78));
+        this.generateOption(this.optionEButton, this.buttonPanel, "optionEButton", 'E', 350, 640);
         // optionFButton
-        this.optionFButton.setBackground(new Color(254, 254, 254));
-        this.optionFButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionFButton.setForeground(new Color(1, 1, 1));
-        this.optionFButton.setHorizontalAlignment(0);
-        this.optionFButton.setText("OptionFButton");
-        this.optionFButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionFButton.setOpaque(true);
-        this.optionFButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionF();
-            }
-        });
-        this.buttonPanel.add(this.optionFButton, new AbsoluteConstraints(650, 640, 298, 78));
+        this.generateOption(this.optionFButton, this.buttonPanel, "optionFButton", 'F', 650, 640);
         // optionGButton
-        this.optionGButton.setBackground(new Color(254, 254, 254));
-        this.optionGButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionGButton.setForeground(new Color(1, 1, 1));
-        this.optionGButton.setHorizontalAlignment(0);
-        this.optionGButton.setText("OptionGButton");
-        this.optionGButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionGButton.setOpaque(true);
-        this.optionGButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionG();
-            }
-        });
-        this.buttonPanel.add(this.optionGButton, new AbsoluteConstraints(350, 720, 298, 78));
+        this.generateOption(this.optionGButton, this.buttonPanel, "optionGButton", 'G', 350, 720);
         // optionHButton
-        this.optionHButton.setBackground(new Color(254, 254, 254));
-        this.optionHButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionHButton.setForeground(new Color(1, 1, 1));
-        this.optionHButton.setHorizontalAlignment(0);
-        this.optionHButton.setText("OptionHButton");
-        this.optionHButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionHButton.setOpaque(true);
-        this.optionHButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionH();
-            }
-        });
-        this.buttonPanel.add(this.optionHButton, new AbsoluteConstraints(650, 720, 298, 78));
+        this.generateOption(this.optionHButton, this.buttonPanel, "optionHButton", 'H', 650, 720);
         // optionHButton
-        this.optionIButton.setBackground(new Color(254, 254, 254));
-        this.optionIButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionIButton.setForeground(new Color(1, 1, 1));
-        this.optionIButton.setHorizontalAlignment(0);
-        this.optionIButton.setText("OptionIButton");
-        this.optionIButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionIButton.setOpaque(true);
-        this.optionIButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionI();
-            }
-        });
-        this.buttonPanel.add(this.optionIButton, new AbsoluteConstraints(350, 800, 298, 78));
+        this.generateOption(this.optionIButton, this.buttonPanel, "optionIButton", 'I', 350, 800);
         // optionJButton
-        this.optionJButton.setBackground(new Color(254, 254, 254));
-        this.optionJButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionJButton.setForeground(new Color(1, 1, 1));
-        this.optionJButton.setHorizontalAlignment(0);
-        this.optionJButton.setText("OptionJButton");
-        this.optionJButton.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionJButton.setOpaque(true);
-        this.optionJButton.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionJ();
-            }
-        });
-        this.buttonPanel.add(this.optionJButton, new AbsoluteConstraints(650, 800, 298, 78));
+        this.generateOption(this.optionJButton, this.buttonPanel, "optionJButton", 'J', 650, 800);
         // optionAMessage
-        this.optionAMessage.setBackground(new Color(254, 254, 254));
-        this.optionAMessage.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionAMessage.setForeground(new Color(1, 1, 1));
-        this.optionAMessage.setHorizontalAlignment(0);
-        this.optionAMessage.setText("optionAMessage");
-        this.optionAMessage.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionAMessage.setOpaque(true);
-        this.optionAMessage.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionA();
-            }
-        });
-        this.messagePanel.add(this.optionAMessage, new AbsoluteConstraints(350, 800, 298, 78));
+        this.generateOption(this.optionAMessage, this.messagePanel, "optionAMessage", 'A', 350, 800);
         // optionBMessage
-        this.optionBMessage.setBackground(new Color(254, 254, 254));
-        this.optionBMessage.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionBMessage.setForeground(new Color(1, 1, 1));
-        this.optionBMessage.setHorizontalAlignment(0);
-        this.optionBMessage.setText("optionBMessage");
-        this.optionBMessage.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionBMessage.setOpaque(true);
-        this.optionBMessage.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionB();
-            }
-        });
-        this.messagePanel.add(this.optionBMessage, new AbsoluteConstraints(650, 800, 298, 78));
+        this.generateOption(this.optionBMessage, this.messagePanel, "optionBMessage", 'B', 650, 800);
         // optionAForm
-        this.optionAForm.setBackground(new Color(254, 254, 254));
-        this.optionAForm.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionAForm.setForeground(new Color(1, 1, 1));
-        this.optionAForm.setHorizontalAlignment(0);
-        this.optionAForm.setText("optionAForm");
-        this.optionAForm.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionAForm.setOpaque(true);
-        this.optionAForm.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionA();
-            }
-        });
-        this.formPanel.add(this.optionAForm, new AbsoluteConstraints(350, 800, 298, 78));
+        this.generateOption(this.optionAForm, this.formPanel, "optionAForm", 'A', 350, 800);
         // optionBForm
-        this.optionBForm.setBackground(new Color(254, 254, 254));
-        this.optionBForm.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionBForm.setForeground(new Color(1, 1, 1));
-        this.optionBForm.setHorizontalAlignment(0);
-        this.optionBForm.setText("optionBForm");
-        this.optionBForm.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionBForm.setOpaque(true);
-        this.optionBForm.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionB();
-            }
-        });
-        this.formPanel.add(this.optionBForm, new AbsoluteConstraints(650, 800, 298, 78));
+        this.generateOption(this.optionBForm, this.formPanel, "optionBForm", 'B', 650, 800);
         // optionAList
-        this.optionAList.setBackground(new Color(254, 254, 254));
-        this.optionAList.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionAList.setForeground(new Color(1, 1, 1));
-        this.optionAList.setHorizontalAlignment(0);
-        this.optionAList.setText("optionAList");
-        this.optionAList.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionAList.setOpaque(true);
-        this.optionAList.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionA();
-            }
-        });
-        this.listPanel.add(this.optionAList, new AbsoluteConstraints(350, 800, 298, 78));
+        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 800);
         // optionBList
-        this.optionBList.setBackground(new Color(254, 254, 254));
-        this.optionBList.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionBList.setForeground(new Color(1, 1, 1));
-        this.optionBList.setHorizontalAlignment(0);
-        this.optionBList.setText("optionBList");
-        this.optionBList.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionBList.setOpaque(true);
-        this.optionBList.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionB();
-            }
-        });
-        this.listPanel.add(this.optionBList, new AbsoluteConstraints(650, 800, 298, 78));
+        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 800);
         // titlefieldAForm
         this.titlefieldAForm.setBackground(new Color(254, 254, 254));
         this.titlefieldAForm.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -738,6 +482,43 @@ public class MythArenaGuiScreen extends JFrame {
         this.titlefieldCForm.setOpaque(true);
         this.formPanel.add(this.titlefieldCForm, new AbsoluteConstraints(330, 580, 630, 60));
         this.pack();
+    }
+
+    /**
+     * Generates Option Button
+     * @param buttonLabel JLabel buttonLabel
+     * @param specificPanel JPanel specificPanel
+     * @param optionText String optionText
+     * @param optionLetter char optionLetter
+     * @param x int x
+     * @param y int y
+     */
+    private void generateOption(JLabel buttonLabel, JPanel specificPanel, String optionText, char optionLetter, int x, int y) {
+        buttonLabel.setBackground(new Color(254, 254, 254));
+        buttonLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        buttonLabel.setForeground(new Color(1, 1, 1));
+        buttonLabel.setHorizontalAlignment(0);
+        buttonLabel.setText(optionText);
+        buttonLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        buttonLabel.setOpaque(true);
+        buttonLabel.addMouseListener(new MouseAdapter() {
+            /**
+             * mouseClicked
+             * @param event MouseEvent event
+             */
+            public void mouseClicked(MouseEvent event) {
+                MythArenaGuiScreen.this.clickOption(optionLetter);
+            }
+        });
+        specificPanel.add(buttonLabel, new AbsoluteConstraints(x, y, 298, 78));
+    }
+
+    /**
+     * Clicks option provided
+     * @param optionLetter char optionLetter
+     */
+    private void clickOption(char optionLetter) {
+        this.mythArenaGui.insertChar(optionLetter);
     }
 
     /**
@@ -1007,76 +788,6 @@ public class MythArenaGuiScreen extends JFrame {
             this.titlefieldCForm.setText(this.titlefieldCFormText);
             this.titlefieldDForm.setText(this.titlefieldDFormText);
         }
-    }
-
-    /**
-     * Clicks OptionA
-     */
-    private void clickOptionA() {
-        this.mythArenaGui.insertChar('A');
-    }
-
-    /**
-     * Clicks OptionB
-     */
-    private void clickOptionB() {
-        this.mythArenaGui.insertChar('B');
-    }
-
-    /**
-     * Clicks OptionC
-     */
-    private void clickOptionC() {
-        this.mythArenaGui.insertChar('C');
-    }
-
-    /**
-     * Clicks OptionD
-     */
-    private void clickOptionD() {
-        this.mythArenaGui.insertChar('D');
-    }
-
-    /**
-     * Clicks OptionE
-     */
-    private void clickOptionE() {
-        this.mythArenaGui.insertChar('E');
-    }
-
-    /**
-     * Clicks OptionF
-     */
-    private void clickOptionF() {
-        this.mythArenaGui.insertChar('F');
-    }
-
-    /**
-     * Clicks OptionG
-     */
-    private void clickOptionG() {
-        this.mythArenaGui.insertChar('G');
-    }
-
-    /**
-     * Clicks OptionH
-     */
-    private void clickOptionH() {
-        this.mythArenaGui.insertChar('H');
-    }
-
-    /**
-     * Clicks OptionI
-     */
-    private void clickOptionI() {
-        this.mythArenaGui.insertChar('I');
-    }
-
-    /**
-     * Clicks OptionJ
-     */
-    private void clickOptionJ() {
-        this.mythArenaGui.insertChar('J');
     }
 
     /**
