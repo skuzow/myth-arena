@@ -69,6 +69,22 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private String optionJText;
     /**
+     * String titlefieldAFormText
+     */
+    private String titlefieldAFormText;
+    /**
+     * String titlefieldBFormText
+     */
+    private String titlefieldBFormText;
+    /**
+     * String titlefieldCFormText
+     */
+    private String titlefieldCFormText;
+    /**
+     * String titlefieldDFormText
+     */
+    private String titlefieldDFormText;
+    /**
      * JPanel messagePanel
      */
     private JPanel messagePanel;
@@ -196,6 +212,38 @@ public class MythArenaGuiScreen extends JFrame {
      * JLabel optionBList
      */
     private JLabel optionBList;
+    /**
+     * JLabel titlefieldAForm
+     */
+    private JLabel titlefieldAForm;
+    /**
+     * JLabel titlefieldBForm
+     */
+    private JLabel titlefieldBForm;
+    /**
+     * JLabel titlefieldCForm
+     */
+    private JLabel titlefieldCForm;
+    /**
+     * JLabel titlefieldDForm
+     */
+    private JLabel titlefieldDForm;
+    /**
+     * JTextField fieldAForm
+     */
+    private JTextField fieldAForm;
+    /**
+     * JTextField fieldBForm
+     */
+    private JTextField fieldBForm;
+    /**
+     * JTextField fieldCForm
+     */
+    private JTextField fieldCForm;
+    /**
+     * JTextField fieldDForm
+     */
+    private JTextField fieldDForm;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -242,6 +290,13 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionBForm = new JLabel();
         this.optionAList = new JLabel();
         this.optionBList = new JLabel();
+        this.titlefieldAForm = new JLabel();
+        this.titlefieldBForm = new JLabel();
+        this.titlefieldCForm = new JLabel();
+        this.titlefieldDForm = new JLabel();
+        this.fieldAForm = new JTextField();
+        this.fieldBForm = new JTextField();
+        this.fieldCForm = new JTextField();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
         ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
@@ -258,6 +313,18 @@ public class MythArenaGuiScreen extends JFrame {
             }
         });
         this.getContentPane().setLayout(new AbsoluteLayout());
+        // fieldAForm
+        this.fieldAForm.setBounds(562, 490, 165, 25);
+        this.fieldAForm.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.formPanel.add(this.fieldAForm);
+        // fieldBForm
+        this.fieldBForm.setBounds(562, 560, 165, 25);
+        this.fieldBForm.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.formPanel.add(this.fieldBForm);
+        // fieldCForm
+        this.fieldCForm.setBounds(562, 630, 165, 25);
+        this.fieldCForm.setFont(new Font("Arial", Font.PLAIN, 16));
+        this.formPanel.add(this.fieldCForm);
         // buttonPanel
         this.buttonPanel.setBackground(new Color(254, 254, 254));
         this.buttonPanel.setMinimumSize(new Dimension(1300, 900));
@@ -646,6 +713,30 @@ public class MythArenaGuiScreen extends JFrame {
             }
         });
         this.listPanel.add(this.optionBList, new AbsoluteConstraints(650, 800, 298, 78));
+        // titlefieldAForm
+        this.titlefieldAForm.setBackground(new Color(254, 254, 254));
+        this.titlefieldAForm.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.titlefieldAForm.setForeground(new Color(1, 1, 1));
+        this.titlefieldAForm.setHorizontalAlignment(0);
+        this.titlefieldAForm.setText("titlefieldAForm");
+        this.titlefieldAForm.setOpaque(true);
+        this.formPanel.add(this.titlefieldAForm, new AbsoluteConstraints(330, 440, 630, 60));
+        // titlefieldBForm
+        this.titlefieldBForm.setBackground(new Color(254, 254, 254));
+        this.titlefieldBForm.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.titlefieldBForm.setForeground(new Color(1, 1, 1));
+        this.titlefieldBForm.setHorizontalAlignment(0);
+        this.titlefieldBForm.setText("titlefieldBForm");
+        this.titlefieldBForm.setOpaque(true);
+        this.formPanel.add(this.titlefieldBForm, new AbsoluteConstraints(330, 510, 630, 60));
+        // titlefieldBForm
+        this.titlefieldCForm.setBackground(new Color(254, 254, 254));
+        this.titlefieldCForm.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.titlefieldCForm.setForeground(new Color(1, 1, 1));
+        this.titlefieldCForm.setHorizontalAlignment(0);
+        this.titlefieldCForm.setText("titlefieldCForm");
+        this.titlefieldCForm.setOpaque(true);
+        this.formPanel.add(this.titlefieldCForm, new AbsoluteConstraints(330, 580, 630, 60));
         this.pack();
     }
 
@@ -826,6 +917,10 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.optionBForm.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionAList.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBList.setText(MythArenaGuiScreen.this.optionBText);
+            MythArenaGuiScreen.this.titlefieldAForm.setText(MythArenaGuiScreen.this.titlefieldAFormText);
+            MythArenaGuiScreen.this.titlefieldBForm.setText(MythArenaGuiScreen.this.titlefieldBFormText);
+            MythArenaGuiScreen.this.titlefieldCForm.setText(MythArenaGuiScreen.this.titlefieldCFormText);
+            MythArenaGuiScreen.this.titlefieldDForm.setText(MythArenaGuiScreen.this.titlefieldDFormText);
         });
     }
 
@@ -859,6 +954,10 @@ public class MythArenaGuiScreen extends JFrame {
             this.optionBForm.setText(this.optionBText);
             this.optionAList.setText(this.optionAText);
             this.optionBList.setText(this.optionBText);
+            this.titlefieldAForm.setText(this.titlefieldAFormText);
+            this.titlefieldBForm.setText(this.titlefieldBFormText);
+            this.titlefieldCForm.setText(this.titlefieldCFormText);
+            this.titlefieldDForm.setText(this.titlefieldDFormText);
         }
     }
 
