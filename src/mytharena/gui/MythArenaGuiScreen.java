@@ -320,25 +320,13 @@ public class MythArenaGuiScreen extends JFrame {
         // fieldCForm
         this.generateField(this.fieldCForm, 562, 630);
         // buttonPanel
-        this.buttonPanel.setBackground(new Color(254, 254, 254));
-        this.buttonPanel.setMinimumSize(new Dimension(1300, 900));
-        this.buttonPanel.setLayout(new AbsoluteLayout());
-        this.getContentPane().add(this.buttonPanel, new AbsoluteConstraints(5, 5, 1300, 900));
+        this.generatePanel(this.buttonPanel);
         // messagePanel
-        this.messagePanel.setBackground(new Color(254, 254, 254));
-        this.messagePanel.setMinimumSize(new Dimension(1300, 900));
-        this.messagePanel.setLayout(new AbsoluteLayout());
-        this.getContentPane().add(this.messagePanel, new AbsoluteConstraints(5, 5, 1300, 900));
+        this.generatePanel(this.messagePanel);
         // formPanel
-        this.formPanel.setBackground(new Color(254, 254, 254));
-        this.formPanel.setMinimumSize(new Dimension(1300, 900));
-        this.formPanel.setLayout(new AbsoluteLayout());
-        this.getContentPane().add(this.formPanel, new AbsoluteConstraints(5, 5, 1300, 900));
+        this.generatePanel(this.formPanel);
         // listPanel
-        this.listPanel.setBackground(new Color(254, 254, 254));
-        this.listPanel.setMinimumSize(new Dimension(1300, 900));
-        this.listPanel.setLayout(new AbsoluteLayout());
-        this.getContentPane().add(this.listPanel, new AbsoluteConstraints(5, 5, 1300, 900));
+        this.generatePanel(this.listPanel);
         // titleMessage
         this.generateText(this.titleMessage, this.messagePanel, "TitleMessage", 36, 330, 20);
         // titleForm
@@ -414,6 +402,17 @@ public class MythArenaGuiScreen extends JFrame {
         fieldLabel.setBounds(x, y, 165, 25);
         fieldLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         this.formPanel.add(fieldLabel);
+    }
+
+    /**
+     * Generates specificPanel
+     * @param specificPanel JPanel specificPanel
+     */
+    public void generatePanel(JPanel specificPanel) {
+        specificPanel.setBackground(new Color(254, 254, 254));
+        specificPanel.setMinimumSize(new Dimension(1300, 900));
+        specificPanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(specificPanel, new AbsoluteConstraints(5, 5, 1300, 900));
     }
 
     /**
