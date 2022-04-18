@@ -86,6 +86,19 @@ public final class MythArenaGui {
     }
 
     /**
+     * Gets specified field text
+     * @param number int number
+     * @return String fieldText
+     */
+    public String getFieldText(int number) {
+        if (number <= 2 && number >= 0) {
+            return this.mythArenaGuiScreen.getFieldText(number);
+        } else {
+            throw new RuntimeException("Field Text number " + number + " out of range");
+        }
+    }
+
+    /**
      * Waits until input event, if int seconds pass it passes
      * @param seconds int seconds
      * @return string option, or '\u0000' if time passes

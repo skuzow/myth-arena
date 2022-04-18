@@ -882,6 +882,26 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
+     * Gets specified field text
+     * @param number int number
+     * @return String fieldText
+     */
+    public String getFieldText(int number) {
+        switch (number) {
+            case 0 -> {
+                return this.fieldAForm.getText();
+            }
+            case 1 -> {
+                return this.fieldBForm.getText();
+            }
+            case 2 -> {
+                return this.fieldCForm.getText();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Reformats String message
      * @param message String message
      * @return String message
