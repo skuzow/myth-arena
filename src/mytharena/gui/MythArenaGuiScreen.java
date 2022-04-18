@@ -81,10 +81,6 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private String titlefieldCFormText;
     /**
-     * String titlefieldDFormText
-     */
-    private String titlefieldDFormText;
-    /**
      * JPanel messagePanel
      */
     private JPanel messagePanel;
@@ -240,10 +236,6 @@ public class MythArenaGuiScreen extends JFrame {
      * JTextField fieldCForm
      */
     private JTextField fieldCForm;
-    /**
-     * JTextField fieldDForm
-     */
-    private JTextField fieldDForm;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -747,7 +739,6 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.titlefieldAForm.setText(MythArenaGuiScreen.this.titlefieldAFormText);
             MythArenaGuiScreen.this.titlefieldBForm.setText(MythArenaGuiScreen.this.titlefieldBFormText);
             MythArenaGuiScreen.this.titlefieldCForm.setText(MythArenaGuiScreen.this.titlefieldCFormText);
-            MythArenaGuiScreen.this.titlefieldDForm.setText(MythArenaGuiScreen.this.titlefieldDFormText);
         });
     }
 
@@ -784,7 +775,6 @@ public class MythArenaGuiScreen extends JFrame {
             this.titlefieldAForm.setText(this.titlefieldAFormText);
             this.titlefieldBForm.setText(this.titlefieldBFormText);
             this.titlefieldCForm.setText(this.titlefieldCFormText);
-            this.titlefieldDForm.setText(this.titlefieldDFormText);
         }
     }
 
