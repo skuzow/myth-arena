@@ -52,7 +52,7 @@ public final class MythArenaGui {
      * @param image ImageIcon image
      */
     public void setImage(int number, ImageIcon image) {
-        if (number <= 4 && number >= 0) {
+        if (number <= 3 && number >= 0) {
             this.mythArenaGuiScreen.setImage(number, image);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
@@ -106,17 +106,10 @@ public final class MythArenaGui {
     }
 
     /**
-     * Sets LoginMode
+     * Sets FormMode
      */
-    public void setLoginMode() {
-        this.mythArenaGuiScreen.showLoginPanel();
-    }
-
-    /**
-     * Sets RegisterMode
-     */
-    public void setRegisterMode() {
-        this.mythArenaGuiScreen.showRegisterPanel();
+    public void setFormMode() {
+        this.mythArenaGuiScreen.showFormPanel();
     }
 
     /**

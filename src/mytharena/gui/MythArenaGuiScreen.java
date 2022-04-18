@@ -73,13 +73,9 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JPanel messagePanel;
     /**
-     * JPanel loginPanel
+     * JPanel formPanel
      */
-    private JPanel loginPanel;
-    /**
-     * JPanel registerPanel
-     */
-    private JPanel registerPanel;
+    private JPanel formPanel;
     /**
      * JPanel buttonPanel
      */
@@ -93,13 +89,9 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel titleMessage;
     /**
-     * JLabel titleLogin
+     * JLabel titleForm
      */
-    private JLabel titleLogin;
-    /**
-     * JLabel titleRegister
-     */
-    private JLabel titleRegister;
+    private JLabel titleForm;
     /**
      * JLabel titleButton
      */
@@ -113,13 +105,9 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel descriptionMessage;
     /**
-     * JLabel descriptionLogin
+     * JLabel descriptionForm
      */
-    private JLabel descriptionLogin;
-    /**
-     * JLabel descriptionRegister
-     */
-    private JLabel descriptionRegister;
+    private JLabel descriptionForm;
     /**
      * JLabel descriptionButton
      */
@@ -133,13 +121,9 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel imageMessage;
     /**
-     * JLabel imageLogin
+     * JLabel imageForm
      */
-    private JLabel imageLogin;
-    /**
-     * JLabel imageRegister
-     */
-    private JLabel imageRegister;
+    private JLabel imageForm;
     /**
      * JLabel imageButton
      */
@@ -197,21 +181,13 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel optionBMessage;
     /**
-     * JLabel optionALogin
+     * JLabel optionAForm
      */
-    private JLabel optionALogin;
+    private JLabel optionAForm;
     /**
-     * JLabel optionBLogin
+     * JLabel optionBForm
      */
-    private JLabel optionBLogin;
-    /**
-     * JLabel optionARegister
-     */
-    private JLabel optionARegister;
-    /**
-     * JLabel optionBRegister
-     */
-    private JLabel optionBRegister;
+    private JLabel optionBForm;
     /**
      * JLabel optionAList
      */
@@ -235,23 +211,19 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private void initComponents() {
         this.messagePanel = new JPanel();
-        this.loginPanel = new JPanel();
-        this.registerPanel = new JPanel();
+        this.formPanel = new JPanel();
         this.buttonPanel = new JPanel();
         this.listPanel = new JPanel();
         this.titleMessage = new JLabel();
-        this.titleLogin = new JLabel();
-        this.titleRegister = new JLabel();
+        this.titleForm = new JLabel();
         this.titleButton = new JLabel();
         this.titleList = new JLabel();
         this.descriptionMessage = new JLabel();
-        this.descriptionLogin = new JLabel();
-        this.descriptionRegister = new JLabel();
+        this.descriptionForm = new JLabel();
         this.descriptionButton = new JLabel();
         this.descriptionList = new JLabel();
         this.imageMessage = new JLabel();
-        this.imageLogin = new JLabel();
-        this.imageRegister = new JLabel();
+        this.imageForm = new JLabel();
         this.imageButton = new JLabel();
         this.imageList = new JLabel();
         this.optionAButton = new JLabel();
@@ -266,10 +238,8 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionJButton = new JLabel();
         this.optionAMessage = new JLabel();
         this.optionBMessage = new JLabel();
-        this.optionALogin = new JLabel();
-        this.optionBLogin = new JLabel();
-        this.optionARegister = new JLabel();
-        this.optionBRegister = new JLabel();
+        this.optionAForm = new JLabel();
+        this.optionBForm = new JLabel();
         this.optionAList = new JLabel();
         this.optionBList = new JLabel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -298,16 +268,11 @@ public class MythArenaGuiScreen extends JFrame {
         this.messagePanel.setMinimumSize(new Dimension(1300, 900));
         this.messagePanel.setLayout(new AbsoluteLayout());
         this.getContentPane().add(this.messagePanel, new AbsoluteConstraints(5, 5, 1300, 900));
-        // loginPanel
-        this.loginPanel.setBackground(new Color(254, 254, 254));
-        this.loginPanel.setMinimumSize(new Dimension(1300, 900));
-        this.loginPanel.setLayout(new AbsoluteLayout());
-        this.getContentPane().add(this.loginPanel, new AbsoluteConstraints(5, 5, 1300, 900));
-        // registerPanel
-        this.registerPanel.setBackground(new Color(254, 254, 254));
-        this.registerPanel.setMinimumSize(new Dimension(1300, 900));
-        this.registerPanel.setLayout(new AbsoluteLayout());
-        this.getContentPane().add(this.registerPanel, new AbsoluteConstraints(5, 5, 1300, 900));
+        // formPanel
+        this.formPanel.setBackground(new Color(254, 254, 254));
+        this.formPanel.setMinimumSize(new Dimension(1300, 900));
+        this.formPanel.setLayout(new AbsoluteLayout());
+        this.getContentPane().add(this.formPanel, new AbsoluteConstraints(5, 5, 1300, 900));
         // listPanel
         this.listPanel.setBackground(new Color(254, 254, 254));
         this.listPanel.setMinimumSize(new Dimension(1300, 900));
@@ -321,22 +286,14 @@ public class MythArenaGuiScreen extends JFrame {
         this.titleMessage.setText("TitleMessage");
         this.titleMessage.setOpaque(true);
         this.messagePanel.add(this.titleMessage, new AbsoluteConstraints(330, 20, 630, 60));
-        // titleLogin
-        this.titleLogin.setBackground(new Color(254, 254, 254));
-        this.titleLogin.setFont(new Font("Arial", Font.PLAIN, 36));
-        this.titleLogin.setForeground(new Color(1, 1, 1));
-        this.titleLogin.setHorizontalAlignment(0);
-        this.titleLogin.setText("TitleLogin");
-        this.titleLogin.setOpaque(true);
-        this.loginPanel.add(this.titleLogin, new AbsoluteConstraints(330, 20, 630, 60));
-        // titleRegister
-        this.titleRegister.setBackground(new Color(254, 254, 254));
-        this.titleRegister.setFont(new Font("Arial", Font.PLAIN, 36));
-        this.titleRegister.setForeground(new Color(1, 1, 1));
-        this.titleRegister.setHorizontalAlignment(0);
-        this.titleRegister.setText("TitleRegister");
-        this.titleRegister.setOpaque(true);
-        this.registerPanel.add(this.titleRegister, new AbsoluteConstraints(330, 20, 630, 60));
+        // titleForm
+        this.titleForm.setBackground(new Color(254, 254, 254));
+        this.titleForm.setFont(new Font("Arial", Font.PLAIN, 36));
+        this.titleForm.setForeground(new Color(1, 1, 1));
+        this.titleForm.setHorizontalAlignment(0);
+        this.titleForm.setText("TitleForm");
+        this.titleForm.setOpaque(true);
+        this.formPanel.add(this.titleForm, new AbsoluteConstraints(330, 20, 630, 60));
         // titleButton
         this.titleButton.setBackground(new Color(254, 254, 254));
         this.titleButton.setFont(new Font("Arial", Font.PLAIN, 36));
@@ -361,22 +318,14 @@ public class MythArenaGuiScreen extends JFrame {
         this.descriptionMessage.setText("DescriptionMessage");
         this.descriptionMessage.setOpaque(true);
         this.messagePanel.add(this.descriptionMessage, new AbsoluteConstraints(330, 80, 630, 60));
-        // descriptionLogin
-        this.descriptionLogin.setBackground(new Color(254, 254, 254));
-        this.descriptionLogin.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.descriptionLogin.setForeground(new Color(1, 1, 1));
-        this.descriptionLogin.setHorizontalAlignment(0);
-        this.descriptionLogin.setText("DescriptionLogin");
-        this.descriptionLogin.setOpaque(true);
-        this.loginPanel.add(this.descriptionLogin, new AbsoluteConstraints(330, 80, 630, 60));
-        // descriptionRegister
-        this.descriptionRegister.setBackground(new Color(254, 254, 254));
-        this.descriptionRegister.setFont(new Font("Arial", Font.PLAIN, 25));
-        this.descriptionRegister.setForeground(new Color(1, 1, 1));
-        this.descriptionRegister.setHorizontalAlignment(0);
-        this.descriptionRegister.setText("DescriptionRegister");
-        this.descriptionRegister.setOpaque(true);
-        this.registerPanel.add(this.descriptionRegister, new AbsoluteConstraints(330, 80, 630, 60));
+        // descriptionForm
+        this.descriptionForm.setBackground(new Color(254, 254, 254));
+        this.descriptionForm.setFont(new Font("Arial", Font.PLAIN, 25));
+        this.descriptionForm.setForeground(new Color(1, 1, 1));
+        this.descriptionForm.setHorizontalAlignment(0);
+        this.descriptionForm.setText("DescriptionForm");
+        this.descriptionForm.setOpaque(true);
+        this.formPanel.add(this.descriptionForm, new AbsoluteConstraints(330, 80, 630, 60));
         // descriptionButton
         this.descriptionButton.setBackground(new Color(254, 254, 254));
         this.descriptionButton.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -397,14 +346,10 @@ public class MythArenaGuiScreen extends JFrame {
         this.imageMessage.setHorizontalAlignment(0);
         this.imageMessage.setIconTextGap(0);
         this.messagePanel.add(this.imageMessage, new AbsoluteConstraints(450, -200, 384, 978));
-        // imageLogin
-        this.imageLogin.setHorizontalAlignment(0);
-        this.imageLogin.setIconTextGap(0);
-        this.loginPanel.add(this.imageLogin, new AbsoluteConstraints(450, -200, 384, 978));
-        // imageRegister
-        this.imageRegister.setHorizontalAlignment(0);
-        this.imageRegister.setIconTextGap(0);
-        this.registerPanel.add(this.imageRegister, new AbsoluteConstraints(450, -200, 384, 978));
+        // imageForm
+        this.imageForm.setHorizontalAlignment(0);
+        this.imageForm.setIconTextGap(0);
+        this.formPanel.add(this.imageForm, new AbsoluteConstraints(450, -200, 384, 978));
         // imageButton
         this.imageButton.setHorizontalAlignment(0);
         this.imageButton.setIconTextGap(0);
@@ -629,15 +574,15 @@ public class MythArenaGuiScreen extends JFrame {
             }
         });
         this.messagePanel.add(this.optionBMessage, new AbsoluteConstraints(650, 800, 298, 78));
-        // optionALogin
-        this.optionALogin.setBackground(new Color(254, 254, 254));
-        this.optionALogin.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionALogin.setForeground(new Color(1, 1, 1));
-        this.optionALogin.setHorizontalAlignment(0);
-        this.optionALogin.setText("optionALogin");
-        this.optionALogin.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionALogin.setOpaque(true);
-        this.optionALogin.addMouseListener(new MouseAdapter() {
+        // optionAForm
+        this.optionAForm.setBackground(new Color(254, 254, 254));
+        this.optionAForm.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionAForm.setForeground(new Color(1, 1, 1));
+        this.optionAForm.setHorizontalAlignment(0);
+        this.optionAForm.setText("optionAForm");
+        this.optionAForm.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionAForm.setOpaque(true);
+        this.optionAForm.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
              * @param event MouseEvent event
@@ -646,16 +591,16 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionA();
             }
         });
-        this.loginPanel.add(this.optionALogin, new AbsoluteConstraints(350, 800, 298, 78));
-        // optionBLogin
-        this.optionBLogin.setBackground(new Color(254, 254, 254));
-        this.optionBLogin.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionBLogin.setForeground(new Color(1, 1, 1));
-        this.optionBLogin.setHorizontalAlignment(0);
-        this.optionBLogin.setText("optionBLogin");
-        this.optionBLogin.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionBLogin.setOpaque(true);
-        this.optionBLogin.addMouseListener(new MouseAdapter() {
+        this.formPanel.add(this.optionAForm, new AbsoluteConstraints(350, 800, 298, 78));
+        // optionBForm
+        this.optionBForm.setBackground(new Color(254, 254, 254));
+        this.optionBForm.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.optionBForm.setForeground(new Color(1, 1, 1));
+        this.optionBForm.setHorizontalAlignment(0);
+        this.optionBForm.setText("optionBForm");
+        this.optionBForm.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.optionBForm.setOpaque(true);
+        this.optionBForm.addMouseListener(new MouseAdapter() {
             /**
              * mouseClicked
              * @param event MouseEvent event
@@ -664,43 +609,7 @@ public class MythArenaGuiScreen extends JFrame {
                 MythArenaGuiScreen.this.clickOptionB();
             }
         });
-        this.loginPanel.add(this.optionBLogin, new AbsoluteConstraints(650, 800, 298, 78));
-        // optionARegister
-        this.optionARegister.setBackground(new Color(254, 254, 254));
-        this.optionARegister.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionARegister.setForeground(new Color(1, 1, 1));
-        this.optionARegister.setHorizontalAlignment(0);
-        this.optionARegister.setText("optionARegister");
-        this.optionARegister.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionARegister.setOpaque(true);
-        this.optionARegister.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionA();
-            }
-        });
-        this.registerPanel.add(this.optionARegister, new AbsoluteConstraints(350, 800, 298, 78));
-        // optionBRegister
-        this.optionBRegister.setBackground(new Color(254, 254, 254));
-        this.optionBRegister.setFont(new Font("Arial", Font.PLAIN, 18));
-        this.optionBRegister.setForeground(new Color(1, 1, 1));
-        this.optionBRegister.setHorizontalAlignment(0);
-        this.optionBRegister.setText("optionBRegister");
-        this.optionBRegister.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.optionBRegister.setOpaque(true);
-        this.optionBRegister.addMouseListener(new MouseAdapter() {
-            /**
-             * mouseClicked
-             * @param event MouseEvent event
-             */
-            public void mouseClicked(MouseEvent event) {
-                MythArenaGuiScreen.this.clickOptionB();
-            }
-        });
-        this.registerPanel.add(this.optionBRegister, new AbsoluteConstraints(650, 800, 298, 78));
+        this.formPanel.add(this.optionBForm, new AbsoluteConstraints(650, 800, 298, 78));
         // optionAList
         this.optionAList.setBackground(new Color(254, 254, 254));
         this.optionAList.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -778,27 +687,16 @@ public class MythArenaGuiScreen extends JFrame {
             }
             case 1 -> {
                 if (image == null) {
-                    this.imageLogin.setVisible(false);
+                    this.imageForm.setVisible(false);
                 } else {
-                    this.imageLogin.setText("");
-                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageLogin.getWidth(), this.imageLogin.getHeight());
+                    this.imageForm.setText("");
+                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageForm.getWidth(), this.imageForm.getHeight());
                     Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-                    this.imageLogin.setIcon(new ImageIcon(scaledImage));
-                    this.imageLogin.setVisible(true);
+                    this.imageForm.setIcon(new ImageIcon(scaledImage));
+                    this.imageForm.setVisible(true);
                 }
             }
             case 2 -> {
-                if (image == null) {
-                    this.imageRegister.setVisible(false);
-                } else {
-                    this.imageRegister.setText("");
-                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageRegister.getWidth(), this.imageRegister.getHeight());
-                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-                    this.imageRegister.setIcon(new ImageIcon(scaledImage));
-                    this.imageRegister.setVisible(true);
-                }
-            }
-            case 3 -> {
                 if (image == null) {
                     this.imageButton.setVisible(false);
                 } else {
@@ -809,7 +707,7 @@ public class MythArenaGuiScreen extends JFrame {
                     this.imageButton.setVisible(true);
                 }
             }
-            case 4 -> {
+            case 3 -> {
                 if (image == null) {
                     this.imageList.setVisible(false);
                 } else {
@@ -839,16 +737,14 @@ public class MythArenaGuiScreen extends JFrame {
                 this.optionAText = message;
                 this.optionAButton.setVisible(!"".equals(message));
                 this.optionAMessage.setVisible(!"".equals(message));
-                this.optionALogin.setVisible(!"".equals(message));
-                this.optionARegister.setVisible(!"".equals(message));
+                this.optionAForm.setVisible(!"".equals(message));
                 this.optionAList.setVisible(!"".equals(message));
             }
             case 1 -> {
                 this.optionBText = message;
                 this.optionBButton.setVisible(!"".equals(message));
                 this.optionBMessage.setVisible(!"".equals(message));
-                this.optionBLogin.setVisible(!"".equals(message));
-                this.optionBRegister.setVisible(!"".equals(message));
+                this.optionBForm.setVisible(!"".equals(message));
                 this.optionBList.setVisible(!"".equals(message));
             }
             case 2 -> {
@@ -928,13 +824,11 @@ public class MythArenaGuiScreen extends JFrame {
     private void refreshLater() {
         SwingUtilities.invokeLater(() -> {
             MythArenaGuiScreen.this.titleMessage.setText(MythArenaGuiScreen.this.titleText);
-            MythArenaGuiScreen.this.titleLogin.setText(MythArenaGuiScreen.this.titleText);
-            MythArenaGuiScreen.this.titleRegister.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.titleForm.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.titleButton.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.titleList.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.descriptionMessage.setText(MythArenaGuiScreen.this.descriptionText);
-            MythArenaGuiScreen.this.descriptionLogin.setText(MythArenaGuiScreen.this.descriptionText);
-            MythArenaGuiScreen.this.descriptionRegister.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.descriptionForm.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.descriptionButton.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.descriptionList.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.optionAButton.setText(MythArenaGuiScreen.this.optionAText);
@@ -949,10 +843,8 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.optionJButton.setText(MythArenaGuiScreen.this.optionJText);
             MythArenaGuiScreen.this.optionAMessage.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBMessage.setText(MythArenaGuiScreen.this.optionBText);
-            MythArenaGuiScreen.this.optionALogin.setText(MythArenaGuiScreen.this.optionAText);
-            MythArenaGuiScreen.this.optionBLogin.setText(MythArenaGuiScreen.this.optionBText);
-            MythArenaGuiScreen.this.optionARegister.setText(MythArenaGuiScreen.this.optionAText);
-            MythArenaGuiScreen.this.optionBRegister.setText(MythArenaGuiScreen.this.optionBText);
+            MythArenaGuiScreen.this.optionAForm.setText(MythArenaGuiScreen.this.optionAText);
+            MythArenaGuiScreen.this.optionBForm.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionAList.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBList.setText(MythArenaGuiScreen.this.optionBText);
         });
@@ -965,13 +857,11 @@ public class MythArenaGuiScreen extends JFrame {
     private void formKeyPressed(KeyEvent event) {
         if (event.getKeyCode() == 116) {
             this.titleMessage.setText(this.titleText);
-            this.titleLogin.setText(this.titleText);
-            this.titleRegister.setText(this.titleText);
+            this.titleForm.setText(this.titleText);
             this.titleButton.setText(this.titleText);
             this.titleList.setText(this.titleText);
             this.descriptionMessage.setText(this.descriptionText);
-            this.descriptionLogin.setText(this.descriptionText);
-            this.descriptionRegister.setText(this.descriptionText);
+            this.descriptionForm.setText(this.descriptionText);
             this.descriptionButton.setText(this.descriptionText);
             this.descriptionList.setText(this.descriptionText);
             this.optionAButton.setText(this.optionAText);
@@ -986,10 +876,8 @@ public class MythArenaGuiScreen extends JFrame {
             this.optionJButton.setText(this.optionJText);
             this.optionAMessage.setText(this.optionAText);
             this.optionBMessage.setText(this.optionBText);
-            this.optionALogin.setText(this.optionAText);
-            this.optionBLogin.setText(this.optionBText);
-            this.optionARegister.setText(this.optionAText);
-            this.optionBRegister.setText(this.optionBText);
+            this.optionAForm.setText(this.optionAText);
+            this.optionBForm.setText(this.optionBText);
             this.optionAList.setText(this.optionAText);
             this.optionBList.setText(this.optionBText);
         }
@@ -1070,30 +958,17 @@ public class MythArenaGuiScreen extends JFrame {
      */
     public void showMessagePanel() {
         this.messagePanel.setVisible(true);
-        this.loginPanel.setVisible(false);
-        this.registerPanel.setVisible(false);
+        this.formPanel.setVisible(false);
         this.buttonPanel.setVisible(false);
         this.listPanel.setVisible(false);
     }
 
     /**
-     * Shows JPanel loginPanel
+     * Shows JPanel formPanel
      */
-    public void showLoginPanel() {
+    public void showFormPanel() {
         this.messagePanel.setVisible(false);
-        this.loginPanel.setVisible(true);
-        this.registerPanel.setVisible(false);
-        this.buttonPanel.setVisible(false);
-        this.listPanel.setVisible(false);
-    }
-
-    /**
-     * Shows JPanel registerPanel
-     */
-    public void showRegisterPanel() {
-        this.messagePanel.setVisible(false);
-        this.loginPanel.setVisible(false);
-        this.registerPanel.setVisible(true);
+        this.formPanel.setVisible(true);
         this.buttonPanel.setVisible(false);
         this.listPanel.setVisible(false);
     }
@@ -1103,8 +978,7 @@ public class MythArenaGuiScreen extends JFrame {
      */
     public void showButtonPanel() {
         this.messagePanel.setVisible(false);
-        this.loginPanel.setVisible(false);
-        this.registerPanel.setVisible(false);
+        this.formPanel.setVisible(false);
         this.buttonPanel.setVisible(true);
         this.listPanel.setVisible(false);
     }
@@ -1114,8 +988,7 @@ public class MythArenaGuiScreen extends JFrame {
      */
     public void showListPanel() {
         this.messagePanel.setVisible(false);
-        this.loginPanel.setVisible(false);
-        this.registerPanel.setVisible(false);
+        this.formPanel.setVisible(false);
         this.buttonPanel.setVisible(false);
         this.listPanel.setVisible(true);
     }
