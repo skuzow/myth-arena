@@ -398,7 +398,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param x int x
      * @param y int y
      */
-    public void generateField(JTextField fieldLabel, int x, int y) {
+    private void generateField(JTextField fieldLabel, int x, int y) {
         fieldLabel.setBounds(x, y, 165, 25);
         fieldLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         this.formPanel.add(fieldLabel);
@@ -408,7 +408,7 @@ public class MythArenaGuiScreen extends JFrame {
      * Generates specificPanel
      * @param specificPanel JPanel specificPanel
      */
-    public void generatePanel(JPanel specificPanel) {
+    private void generatePanel(JPanel specificPanel) {
         specificPanel.setBackground(new Color(254, 254, 254));
         specificPanel.setMinimumSize(new Dimension(1300, 900));
         specificPanel.setLayout(new AbsoluteLayout());
@@ -424,7 +424,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param x int x
      * @param y int y
      */
-    public void generateText(JLabel textLabel, JPanel specificPanel, String text, int size, int x, int y) {
+    private void generateText(JLabel textLabel, JPanel specificPanel, String text, int size, int x, int y) {
         textLabel.setBackground(new Color(254, 254, 254));
         textLabel.setFont(new Font("Arial", Font.PLAIN, size));
         textLabel.setForeground(new Color(1, 1, 1));
@@ -441,7 +441,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param x int x
      * @param y int y
      */
-    public void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y) {
+    private void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y) {
         imageLabel.setHorizontalAlignment(0);
         imageLabel.setIconTextGap(0);
         specificPanel.add(imageLabel, new AbsoluteConstraints(x, y, 384, 978));
