@@ -458,34 +458,16 @@ public class MythArenaGuiScreen extends JFrame {
         // optionBList
         this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 800);
         // titlefieldAForm
-        this.titlefieldAForm.setBackground(new Color(254, 254, 254));
-        this.titlefieldAForm.setFont(new Font("Arial", Font.PLAIN, 20));
-        this.titlefieldAForm.setForeground(new Color(1, 1, 1));
-        this.titlefieldAForm.setHorizontalAlignment(0);
-        this.titlefieldAForm.setText("titlefieldAForm");
-        this.titlefieldAForm.setOpaque(true);
-        this.formPanel.add(this.titlefieldAForm, new AbsoluteConstraints(330, 440, 630, 60));
+        this.generateTitleField(this.titlefieldAForm, "titlefieldAForm", 330, 440);
         // titlefieldBForm
-        this.titlefieldBForm.setBackground(new Color(254, 254, 254));
-        this.titlefieldBForm.setFont(new Font("Arial", Font.PLAIN, 20));
-        this.titlefieldBForm.setForeground(new Color(1, 1, 1));
-        this.titlefieldBForm.setHorizontalAlignment(0);
-        this.titlefieldBForm.setText("titlefieldBForm");
-        this.titlefieldBForm.setOpaque(true);
-        this.formPanel.add(this.titlefieldBForm, new AbsoluteConstraints(330, 510, 630, 60));
-        // titlefieldBForm
-        this.titlefieldCForm.setBackground(new Color(254, 254, 254));
-        this.titlefieldCForm.setFont(new Font("Arial", Font.PLAIN, 20));
-        this.titlefieldCForm.setForeground(new Color(1, 1, 1));
-        this.titlefieldCForm.setHorizontalAlignment(0);
-        this.titlefieldCForm.setText("titlefieldCForm");
-        this.titlefieldCForm.setOpaque(true);
-        this.formPanel.add(this.titlefieldCForm, new AbsoluteConstraints(330, 580, 630, 60));
+        this.generateTitleField(this.titlefieldBForm, "titlefieldBForm", 330, 510);
+        // titlefieldCForm
+        this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
         this.pack();
     }
 
     /**
-     * Generates Option Button
+     * Generates OptionButton
      * @param buttonLabel JLabel buttonLabel
      * @param specificPanel JPanel specificPanel
      * @param optionText String optionText
@@ -519,6 +501,23 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private void clickOption(char optionLetter) {
         this.mythArenaGui.insertChar(optionLetter);
+    }
+
+    /**
+     * Generates TitleField
+     * @param titlefieldLabel JLabel titlefieldLabel
+     * @param titlefieldText String titlefieldText
+     * @param x int x
+     * @param y int y
+     */
+    private void generateTitleField(JLabel titlefieldLabel, String titlefieldText, int x, int y) {
+        titlefieldLabel.setBackground(new Color(254, 254, 254));
+        titlefieldLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        titlefieldLabel.setForeground(new Color(1, 1, 1));
+        titlefieldLabel.setHorizontalAlignment(0);
+        titlefieldLabel.setText(titlefieldText);
+        titlefieldLabel.setOpaque(true);
+        this.formPanel.add(titlefieldLabel, new AbsoluteConstraints(x, y, 630, 60));
     }
 
     /**
