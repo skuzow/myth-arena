@@ -673,51 +673,30 @@ public class MythArenaGuiScreen extends JFrame {
      * @param image ImageIcon image
      */
     public void setImage(int number, ImageIcon image) {
+        JLabel imageLabel;
         switch (number) {
             case 0 -> {
-                if (image == null) {
-                    this.imageMessage.setVisible(false);
-                } else {
-                    this.imageMessage.setText("");
-                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageMessage.getWidth(), this.imageMessage.getHeight());
-                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-                    this.imageMessage.setIcon(new ImageIcon(scaledImage));
-                    this.imageMessage.setVisible(true);
-                }
+                imageLabel = this.imageMessage;
             }
             case 1 -> {
-                if (image == null) {
-                    this.imageForm.setVisible(false);
-                } else {
-                    this.imageForm.setText("");
-                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageForm.getWidth(), this.imageForm.getHeight());
-                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-                    this.imageForm.setIcon(new ImageIcon(scaledImage));
-                    this.imageForm.setVisible(true);
-                }
+                imageLabel = this.imageForm;
             }
             case 2 -> {
-                if (image == null) {
-                    this.imageButton.setVisible(false);
-                } else {
-                    this.imageButton.setText("");
-                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageButton.getWidth(), this.imageButton.getHeight());
-                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-                    this.imageButton.setIcon(new ImageIcon(scaledImage));
-                    this.imageButton.setVisible(true);
-                }
+                imageLabel = this.imageButton;
             }
             case 3 -> {
-                if (image == null) {
-                    this.imageList.setVisible(false);
-                } else {
-                    this.imageList.setText("");
-                    int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), this.imageList.getWidth(), this.imageList.getHeight());
-                    Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
-                    this.imageList.setIcon(new ImageIcon(scaledImage));
-                    this.imageList.setVisible(true);
-                }
+                imageLabel = this.imageList;
             }
+            default -> throw new IllegalStateException("Unexpected value: " + number);
+        }
+        if (image == null) {
+            imageLabel.setVisible(false);
+        } else {
+            imageLabel.setText("");
+            int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), imageLabel.getWidth(), imageLabel.getHeight());
+            Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
+            imageLabel.setIcon(new ImageIcon(scaledImage));
+            imageLabel.setVisible(true);
         }
     }
 
