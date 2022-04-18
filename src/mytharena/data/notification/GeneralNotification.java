@@ -1,4 +1,4 @@
-package mytharena.data.notifications;
+package mytharena.data.notification;
 
 import java.io.Serializable;
 
