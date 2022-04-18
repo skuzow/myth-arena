@@ -410,21 +410,13 @@ public class MythArenaGuiScreen extends JFrame {
         this.descriptionList.setOpaque(true);
         this.listPanel.add(this.descriptionList, new AbsoluteConstraints(330, 80, 630, 60));
         // imageMessage
-        this.imageMessage.setHorizontalAlignment(0);
-        this.imageMessage.setIconTextGap(0);
-        this.messagePanel.add(this.imageMessage, new AbsoluteConstraints(450, -200, 384, 978));
+        this.generateImage(this.imageMessage, this.messagePanel, 450, -200);
         // imageForm
-        this.imageForm.setHorizontalAlignment(0);
-        this.imageForm.setIconTextGap(0);
-        this.formPanel.add(this.imageForm, new AbsoluteConstraints(450, -200, 384, 978));
+        this.generateImage(this.imageForm, this.formPanel, 450, -200);
         // imageButton
-        this.imageButton.setHorizontalAlignment(0);
-        this.imageButton.setIconTextGap(0);
-        this.buttonPanel.add(this.imageButton, new AbsoluteConstraints(450, -200, 384, 978));
+        this.generateImage(this.imageButton, this.buttonPanel, 450, -200);
         // imageList
-        this.imageList.setHorizontalAlignment(0);
-        this.imageList.setIconTextGap(0);
-        this.listPanel.add(this.imageList, new AbsoluteConstraints(450, -200, 384, 978));
+        this.generateImage(this.imageList, this.listPanel, 450, -200);
         // optionAButton
         this.generateOption(this.optionAButton, this.buttonPanel, "optionAButton", 'A', 350, 480);
         // optionBButton
@@ -464,6 +456,19 @@ public class MythArenaGuiScreen extends JFrame {
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
         this.pack();
+    }
+
+    /**
+     * Generates Image
+     * @param imageLabel JLabel imageLabel
+     * @param specificPanel JPanel specificPanel
+     * @param x int x
+     * @param y int y
+     */
+    public void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y) {
+        imageLabel.setHorizontalAlignment(0);
+        imageLabel.setIconTextGap(0);
+        specificPanel.add(imageLabel, new AbsoluteConstraints(x, y, 384, 978));
     }
 
     /**
