@@ -49,11 +49,11 @@ public final class MythArenaGui {
     /**
      * Sets image
      * @param number int number
-     * @param image ImageIcon image
+     * @param imagePath String imagePath
      */
-    public void setImage(int number, ImageIcon image) {
+    public void setImage(int number, String imagePath) {
         if (number <= 3 && number >= 0) {
-            this.mythArenaGuiScreen.setImage(number, image);
+            this.mythArenaGuiScreen.setImage(number, imagePath);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
         }

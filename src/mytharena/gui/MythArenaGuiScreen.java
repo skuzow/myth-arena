@@ -514,9 +514,9 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * Sets Image
      * @param number int number
-     * @param image ImageIcon image
+     * @param imagePath String imagePath
      */
-    public void setImage(int number, ImageIcon image) {
+    public void setImage(int number, String imagePath) {
         JLabel imageLabel;
         switch (number) {
             case 0 -> {
@@ -533,10 +533,11 @@ public class MythArenaGuiScreen extends JFrame {
             }
             default -> throw new IllegalStateException("Unexpected value: " + number);
         }
-        if (image == null) {
+        if (imagePath == null) {
             imageLabel.setVisible(false);
         } else {
             imageLabel.setText("");
+            ImageIcon image = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(imagePath)));
             int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), imageLabel.getWidth(), imageLabel.getHeight());
             Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
             imageLabel.setIcon(new ImageIcon(scaledImage));
