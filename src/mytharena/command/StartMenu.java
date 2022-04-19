@@ -59,7 +59,7 @@ public class StartMenu extends Command {
             i++;
         }
         // Proceed to corresponding menu if it's valid
-        if(isValid) {
+        if (isValid) {
             User activeUser = super.getData().getUserArrayList().get(i - 1);
             super.getArena().setActiveUser(activeUser);
             super.getMythArenaGui().clearFieldText(0);
@@ -87,7 +87,7 @@ public class StartMenu extends Command {
         super.getMythArenaGui().setOption(0, "Cancel");
         super.getMythArenaGui().setOption(1, "Register");
         boolean isValid = false;
-        while(!isValid) {
+        while (!isValid) {
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // Cancel register operation
                 case 'A' -> {
@@ -105,19 +105,19 @@ public class StartMenu extends Command {
                         // Check if username or nickname is taken
                         boolean isUnique = true;
                         int i = 0;
-                        while(i < super.getData().getUserArrayList().size() && isUnique) {
-                            if(user.equals(super.getData().getUserArrayList().get(i).getUsername())){
+                        while (i < super.getData().getUserArrayList().size() && isUnique) {
+                            if (user.equals(super.getData().getUserArrayList().get(i).getUsername())){
                                 super.getMythArenaGui().setDescription("Username is taken");
                                 isUnique = false;
                             }
-                            if(nick.equals(super.getData().getUserArrayList().get(i).getUsername())){
+                            if (nick.equals(super.getData().getUserArrayList().get(i).getUsername())){
                                 super.getMythArenaGui().setDescription("Nickname is taken");
                                 isUnique = false;
                             }
                             i++;
                         }
                         // Create player user and save it in data serializing it
-                        if(isUnique) {
+                        if (isUnique) {
                             try {
                                 super.getData().getUserArrayList().add(new Player(user, pass, super.getData(), nick));
                                 super.getArena().serializeData();
