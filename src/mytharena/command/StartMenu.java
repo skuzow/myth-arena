@@ -32,11 +32,11 @@ public class StartMenu extends Command {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Login");
         super.getMythArenaGui().setDescription("Complete the form for accessing to your account");
-        super.getMythArenaGui().setField(0,"Username");
-        super.getMythArenaGui().setField(1,"Password");
-        super.getMythArenaGui().setOption(0,"Sign up");
-        super.getMythArenaGui().setOption(1,"Log in");
-        super.getMythArenaGui().setField(2,null);
+        super.getMythArenaGui().setField(0, "Username");
+        super.getMythArenaGui().setField(1, "Password");
+        super.getMythArenaGui().setOption(0, "Sign up");
+        super.getMythArenaGui().setOption(1, "Log in");
+        super.getMythArenaGui().setField(2, null);
         switch (super.getMythArenaGui().waitEvent(30)) {
             case 'A' -> this.register();
             case 'B' -> this.login();
@@ -62,6 +62,8 @@ public class StartMenu extends Command {
         if(isValid) {
             User activeUser = super.getData().getUserArrayList().get(i - 1);
             super.getArena().setActiveUser(activeUser);
+            super.getMythArenaGui().clearFieldText(0);
+            super.getMythArenaGui().clearFieldText(1);
             // Check if it's an Admin account
             if (activeUser instanceof Admin) {
                 super.getArena().getCommand("AdminMenu").execute();
@@ -81,9 +83,9 @@ public class StartMenu extends Command {
     private  void register() {
         super.getMythArenaGui().setTitle("Signup");
         super.getMythArenaGui().setDescription("Complete the form for creating new account");
-        super.getMythArenaGui().setField(2,"Nickname");
-        super.getMythArenaGui().setOption(0,"Cancel");
-        super.getMythArenaGui().setOption(1,"Register");
+        super.getMythArenaGui().setField(2, "Nickname");
+        super.getMythArenaGui().setOption(0, "Cancel");
+        super.getMythArenaGui().setOption(1, "Register");
         boolean isValid = false;
         while(!isValid) {
             switch (super.getMythArenaGui().waitEvent(30)) {
@@ -121,6 +123,9 @@ public class StartMenu extends Command {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Account has been created successfully!");
                                 super.getMythArenaGui().waitEvent(1);
+                                super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().clearFieldText(1);
+                                super.getMythArenaGui().clearFieldText(2);
                                 isValid = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
