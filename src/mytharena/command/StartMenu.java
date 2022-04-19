@@ -82,7 +82,7 @@ public class StartMenu extends Command {
      */
     private  void register() {
         super.getMythArenaGui().setTitle("Signup");
-        super.getMythArenaGui().setDescription("Complete the form for creating new account");
+        super.getMythArenaGui().setDescription("Complete the form to create new account");
         super.getMythArenaGui().setField(2, "Nickname");
         super.getMythArenaGui().setOption(0, "Cancel");
         super.getMythArenaGui().setOption(1, "Register");
