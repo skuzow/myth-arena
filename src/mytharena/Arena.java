@@ -5,6 +5,7 @@ import mytharena.command.AdminMenu;
 import mytharena.command.Start;
 import mytharena.command.PlayerMenu;
 import mytharena.data.Data;
+import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.*;
@@ -36,6 +37,11 @@ public class Arena {
     private final HashMap<String, Command> commandMap = new HashMap<>();
 
     /**
+     * User activeUser
+     */
+    private User activeUser;
+
+    /**
      * Starts all, and have main loop of the application
      */
     public void start() {
@@ -65,7 +71,7 @@ public class Arena {
     /**
      * Serializes Data
      */
-    private void serializeData() throws IOException {
+    public void serializeData() throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.serializablePath));
         out.writeObject(this.data);
         out.flush();
@@ -79,6 +85,14 @@ public class Arena {
      */
     public Command getCommand(String key) {
         return this.commandMap.get(key);
+    }
+
+    public User getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(User user) {
+        activeUser = user;
     }
 
 }

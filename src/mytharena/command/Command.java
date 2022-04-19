@@ -4,6 +4,8 @@ import mytharena.Arena;
 import mytharena.data.Data;
 import mytharena.gui.MythArenaGui;
 
+import java.io.IOException;
+
 /**
  * Command abstract class
  */
@@ -39,7 +41,7 @@ public abstract class Command {
     /**
      * Executes respective command
      */
-    public abstract void execute();
+    public abstract void execute() throws IOException;
 
     /**
      * Gets Arena arena

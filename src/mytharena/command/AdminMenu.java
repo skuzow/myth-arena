@@ -24,7 +24,9 @@ public class AdminMenu extends Command {
      */
     @Override
     public void execute() {
-
+        super.getMythArenaGui().setButtonMode();
+        super.getMythArenaGui().setTitle("Welcome to Myth Arena " + super.getArena().getActiveUser().getUsername());
+        super.getMythArenaGui().setDescription("Admin mode");
     }
 
 }

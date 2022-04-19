@@ -24,7 +24,9 @@ public class PlayerMenu extends Command {
      */
     @Override
     public void execute() {
-
+        super.getMythArenaGui().setButtonMode();
+        super.getMythArenaGui().setTitle("Welcome to Myth Arena " + super.getArena().getActiveUser().getUsername());
+        super.getMythArenaGui().waitEvent(30);
     }
 
 }
