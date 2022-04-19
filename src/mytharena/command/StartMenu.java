@@ -31,7 +31,7 @@ public class StartMenu extends Command {
     public void execute() {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Login");
-        super.getMythArenaGui().setDescription("Complete the form for accessing to your account");
+        super.getMythArenaGui().setDescription("Complete the form to login to your account");
         super.getMythArenaGui().setField(0, "Username");
         super.getMythArenaGui().setField(1, "Password");
         super.getMythArenaGui().setOption(0, "Sign up");
@@ -85,7 +85,7 @@ public class StartMenu extends Command {
         super.getMythArenaGui().setDescription("Complete the form to create new account");
         super.getMythArenaGui().setField(2, "Nickname");
         super.getMythArenaGui().setOption(0, "Cancel");
-        super.getMythArenaGui().setOption(1, "Register");
+        super.getMythArenaGui().setOption(1, "Done");
         boolean isValid = false;
         while (!isValid) {
             switch (super.getMythArenaGui().waitEvent(30)) {
