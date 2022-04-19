@@ -2,9 +2,10 @@ package mytharena;
 
 import mytharena.command.Command;
 import mytharena.command.AdminMenu;
-import mytharena.command.Start;
+import mytharena.command.StartMenu;
 import mytharena.command.PlayerMenu;
 import mytharena.data.Data;
+import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.*;
@@ -36,6 +37,11 @@ public class Arena {
     private final HashMap<String, Command> commandMap = new HashMap<>();
 
     /**
+     * User activeUser
+     */
+    private User activeUser;
+
+    /**
      * Starts all, and have main loop of the application
      */
     public void start() {
@@ -51,11 +57,11 @@ public class Arena {
             }
             // create commands and insert them into commandMap with respective key
             this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
-            this.commandMap.put("Start", new Start(this, this.data, this.mythArenaGui));
+            this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
             // main loop
             while (true) {
-                this.commandMap.get("Start").execute();
+                this.commandMap.get("StartMenu").execute();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +71,7 @@ public class Arena {
     /**
      * Serializes Data
      */
-    private void serializeData() throws IOException {
+    public void serializeData() throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.serializablePath));
         out.writeObject(this.data);
         out.flush();
@@ -79,6 +85,14 @@ public class Arena {
      */
     public Command getCommand(String key) {
         return this.commandMap.get(key);
+    }
+
+    public User getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(User user) {
+        activeUser = user;
     }
 
 }
