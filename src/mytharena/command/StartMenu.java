@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * Start class extends Command
  */
-public class Start extends Command {
+public class StartMenu extends Command {
 
     /**
      * Start class constructor extends Command
@@ -21,7 +21,7 @@ public class Start extends Command {
      * @param data Data data
      * @param mythArenaGui MythArenaGui mythArenaGui
      */
-    public Start(Arena arena, Data data, MythArenaGui mythArenaGui) {
+    public StartMenu(Arena arena, Data data, MythArenaGui mythArenaGui) {
         super(arena, data, mythArenaGui);
     }
 
@@ -105,7 +105,7 @@ public class Start extends Command {
                         String pass = super.getMythArenaGui().getFieldText(1);
                         String nick = super.getMythArenaGui().getFieldText(2);
                         if (user == null || user.length() < 4 && pass == null || pass.length() < 4 && nick == null || nick.length() < 4) {
-                            super.getMythArenaGui().setDescription("All fields must be filled in to register. Fields must have atleast 4 characters.");
+                            super.getMythArenaGui().setDescription("All fields must be filled in to register. Fields must have at least 4 characters.");
                         } else {
                             // Check if username or nickname is taken
                             boolean isUnique = true;
@@ -126,7 +126,7 @@ public class Start extends Command {
                                 Player player = new Player(user, pass, super.getData(), nick);
                                 super.getData().getUserArrayList().add(player);
                                 super.getArena().serializeData();
-                                super.getMythArenaGui().setDescription("Account has been created succesfully!");
+                                super.getMythArenaGui().setDescription("Account has been created successfully!");
                                 super.getMythArenaGui().waitEvent(1);
                                 isValid = true;
                             }

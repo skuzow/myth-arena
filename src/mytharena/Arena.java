@@ -2,7 +2,7 @@ package mytharena;
 
 import mytharena.command.Command;
 import mytharena.command.AdminMenu;
-import mytharena.command.Start;
+import mytharena.command.StartMenu;
 import mytharena.command.PlayerMenu;
 import mytharena.data.Data;
 import mytharena.data.user.User;
@@ -57,11 +57,11 @@ public class Arena {
             }
             // create commands and insert them into commandMap with respective key
             this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
-            this.commandMap.put("Start", new Start(this, this.data, this.mythArenaGui));
+            this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
             // main loop
             while (true) {
-                this.commandMap.get("Start").execute();
+                this.commandMap.get("StartMenu").execute();
             }
         } catch (Exception e) {
             e.printStackTrace();
