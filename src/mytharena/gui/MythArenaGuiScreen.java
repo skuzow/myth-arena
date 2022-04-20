@@ -81,6 +81,10 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private String titlefieldCFormText;
     /**
+     * String[] list
+     */
+    private String[] list;
+    /**
      * JPanel messagePanel
      */
     private JPanel messagePanel;
@@ -232,6 +236,10 @@ public class MythArenaGuiScreen extends JFrame {
      * JTextField fieldCForm
      */
     private JTextField fieldCForm;
+    /**
+     * JList listLabel
+     */
+    private JList<String> listLabel;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -284,6 +292,7 @@ public class MythArenaGuiScreen extends JFrame {
         this.fieldAForm = new JTextField();
         this.fieldBForm = new JTextField();
         this.fieldCForm = new JTextField();
+        this.listLabel = new JList<>(this.list);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
         ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
@@ -376,6 +385,12 @@ public class MythArenaGuiScreen extends JFrame {
         this.generateTitleField(this.titlefieldBForm, "titlefieldBForm", 330, 510);
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
+        // listLabel
+        this.listLabel.setVisibleRowCount(10);
+        JScrollPane jScrollPane = new JScrollPane(this.listPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane.setBounds(50, 50, 165, 25);
+        jScrollPane.setFont(new Font("Arial", Font.PLAIN, 16));
+        jScrollPane.add(this.listLabel);
         this.pack();
     }
 

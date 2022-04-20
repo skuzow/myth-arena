@@ -1,6 +1,5 @@
 package mytharena.gui;
 
-import javax.swing.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
