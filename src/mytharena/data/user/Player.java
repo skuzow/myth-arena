@@ -1,6 +1,7 @@
 package mytharena.data.user;
 
 import mytharena.data.Data;
+import mytharena.data.character.Character;
 
 import java.io.Serializable;
 
