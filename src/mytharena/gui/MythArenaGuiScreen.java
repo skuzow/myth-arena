@@ -221,10 +221,6 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel titlefieldCForm;
     /**
-     * JLabel titlefieldDForm
-     */
-    private JLabel titlefieldDForm;
-    /**
      * JTextField fieldAForm
      */
     private JTextField fieldAForm;
@@ -285,7 +281,6 @@ public class MythArenaGuiScreen extends JFrame {
         this.titlefieldAForm = new JLabel();
         this.titlefieldBForm = new JLabel();
         this.titlefieldCForm = new JLabel();
-        this.titlefieldDForm = new JLabel();
         this.fieldAForm = new JTextField();
         this.fieldBForm = new JTextField();
         this.fieldCForm = new JTextField();
