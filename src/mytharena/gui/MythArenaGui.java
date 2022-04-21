@@ -1,6 +1,6 @@
 package mytharena.gui;
 
-import javax.swing.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -49,11 +49,11 @@ public final class MythArenaGui {
     /**
      * Sets image
      * @param number int number
-     * @param image ImageIcon image
+     * @param imagePath String imagePath
      */
-    public void setImage(int number, ImageIcon image) {
+    public void setImage(int number, String imagePath) {
         if (number <= 3 && number >= 0) {
-            this.mythArenaGuiScreen.setImage(number, image);
+            this.mythArenaGuiScreen.setImage(number, imagePath);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
         }
@@ -86,6 +86,14 @@ public final class MythArenaGui {
     }
 
     /**
+     * Sets ArrayList String list
+     * @param list ArrayList String list
+     */
+    public void setList(ArrayList<String> list) {
+        this.mythArenaGuiScreen.setList(list);
+    }
+
+    /**
      * Gets specified field text
      * @param number int number
      * @return String fieldText
@@ -108,6 +116,14 @@ public final class MythArenaGui {
         } else {
             throw new RuntimeException("Field Text number " + number + " out of range");
         }
+    }
+
+    /**
+     * Gets last selected list index
+     * @return int index
+     */
+    public int getLastSelectedListIndex() {
+        return this.mythArenaGuiScreen.getLastSelectedListIndex();
     }
 
     /**

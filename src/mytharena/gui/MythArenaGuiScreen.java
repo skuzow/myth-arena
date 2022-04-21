@@ -4,11 +4,14 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -23,67 +26,67 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * String titleText
      */
-    private String titleText;
+    private String titleText = "titleText";
     /**
      * String descriptionText
      */
-    private String descriptionText;
+    private String descriptionText = "descriptionText";
     /**
      * String optionAText
      */
-    private String optionAText;
+    private String optionAText = "optionAText";
     /**
      * String optionBText
      */
-    private String optionBText;
+    private String optionBText = "optionBText";
     /**
      * String optionCText
      */
-    private String optionCText;
+    private String optionCText = "optionCText";
     /**
      * String optionDText
      */
-    private String optionDText;
+    private String optionDText = "optionDText";
     /**
      * String optionEText
      */
-    private String optionEText;
+    private String optionEText = "optionEText";
     /**
      * String optionFText
      */
-    private String optionFText;
+    private String optionFText = "optionFText";
     /**
      * String optionGText
      */
-    private String optionGText;
+    private String optionGText = "optionGText";
     /**
      * String optionHText
      */
-    private String optionHText;
+    private String optionHText = "optionHText";
     /**
      * String optionIText
      */
-    private String optionIText;
+    private String optionIText = "optionIText";
     /**
      * String optionJText
      */
-    private String optionJText;
+    private String optionJText = "optionJText";
     /**
      * String titlefieldAFormText
      */
-    private String titlefieldAFormText;
+    private String titlefieldAFormText = "titlefieldAFormText";
     /**
      * String titlefieldBFormText
      */
-    private String titlefieldBFormText;
+    private String titlefieldBFormText = "titlefieldBFormText";
     /**
      * String titlefieldCFormText
      */
-    private String titlefieldCFormText;
+    private String titlefieldCFormText = "titlefieldCFormText";
     /**
-     * String titlefieldDFormText
+     * int lastSelectedListindex
      */
-    private String titlefieldDFormText;
+    private int lastSelectedListindex = 0;
     /**
      * JPanel messagePanel
      */
@@ -213,6 +216,14 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel optionBList;
     /**
+     * JLabel optionCList
+     */
+    private JLabel optionCList;
+    /**
+     * JLabel optionDList
+     */
+    private JLabel optionDList;
+    /**
      * JLabel titlefieldAForm
      */
     private JLabel titlefieldAForm;
@@ -224,10 +235,6 @@ public class MythArenaGuiScreen extends JFrame {
      * JLabel titlefieldCForm
      */
     private JLabel titlefieldCForm;
-    /**
-     * JLabel titlefieldDForm
-     */
-    private JLabel titlefieldDForm;
     /**
      * JTextField fieldAForm
      */
@@ -241,9 +248,13 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JTextField fieldCForm;
     /**
-     * JTextField fieldDForm
+     * JList listLabel
      */
-    private JTextField fieldDForm;
+    private JList<String> listLabel;
+    /**
+     * DefaultListModel listModel
+     */
+    private DefaultListModel<String> listModel;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -290,13 +301,16 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionBForm = new JLabel();
         this.optionAList = new JLabel();
         this.optionBList = new JLabel();
+        this.optionCList = new JLabel();
+        this.optionDList = new JLabel();
         this.titlefieldAForm = new JLabel();
         this.titlefieldBForm = new JLabel();
         this.titlefieldCForm = new JLabel();
-        this.titlefieldDForm = new JLabel();
         this.fieldAForm = new JTextField();
         this.fieldBForm = new JTextField();
         this.fieldCForm = new JTextField();
+        this.listLabel = new JList<>();
+        this.listModel = new DefaultListModel<>();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
         ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
@@ -313,6 +327,25 @@ public class MythArenaGuiScreen extends JFrame {
             }
         });
         this.getContentPane().setLayout(new AbsoluteLayout());
+        // listLabel
+        this.listLabel.setModel(this.listModel);
+        this.listLabel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.listLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.listLabel.addListSelectionListener(new ListSelectionListener() {
+            /**
+             * valueChanged
+             * @param event MouseEvent event
+             */
+                @Override
+                public void valueChanged(ListSelectionEvent event) {
+                    MythArenaGuiScreen.this.lastSelectedListindex = event.getLastIndex();
+                }
+            }
+        );
+        JScrollPane scrollPane = new JScrollPane(this.listLabel);
+        scrollPane.setBounds(403, 400, 500, 300);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.listPanel.add(scrollPane);
         // fieldAForm
         this.generateField(this.fieldAForm, 562, 490);
         // fieldBForm
@@ -380,9 +413,13 @@ public class MythArenaGuiScreen extends JFrame {
         // optionBForm
         this.generateOption(this.optionBForm, this.formPanel, "optionBForm", 'B', 650, 800);
         // optionAList
-        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 800);
+        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 720);
         // optionBList
-        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 800);
+        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 720);
+        // optionCList
+        this.generateOption(this.optionCList, this.listPanel, "optionCList", 'C', 350, 800);
+        // optionDList
+        this.generateOption(this.optionDList, this.listPanel, "optionDList", 'D', 650, 800);
         // titlefieldAForm
         this.generateTitleField(this.titlefieldAForm, "titlefieldAForm", 330, 440);
         // titlefieldBForm
@@ -390,6 +427,8 @@ public class MythArenaGuiScreen extends JFrame {
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
         this.pack();
+        // default image setter
+        this.setDefaultImage();
     }
 
     /**
@@ -502,6 +541,15 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
+     * Sets DefaultImage for all modes
+     */
+    private void setDefaultImage() {
+        for (int cont = 0; cont != 4; cont++) {
+            this.setImage(cont, "/resources/images/logo.png");
+        }
+    }
+
+    /**
      * Sets TitleMessage
      * @param title String title
      */
@@ -522,9 +570,9 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * Sets Image
      * @param number int number
-     * @param image ImageIcon image
+     * @param imagePath String imagePath
      */
-    public void setImage(int number, ImageIcon image) {
+    public void setImage(int number, String imagePath) {
         JLabel imageLabel;
         switch (number) {
             case 0 -> {
@@ -541,10 +589,11 @@ public class MythArenaGuiScreen extends JFrame {
             }
             default -> throw new IllegalStateException("Unexpected value: " + number);
         }
-        if (image == null) {
+        if (imagePath == null) {
             imageLabel.setVisible(false);
         } else {
             imageLabel.setText("");
+            ImageIcon image = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(imagePath)));
             int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), imageLabel.getWidth(), imageLabel.getHeight());
             Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
             imageLabel.setIcon(new ImageIcon(scaledImage));
@@ -609,10 +658,12 @@ public class MythArenaGuiScreen extends JFrame {
             case 2 -> {
                 this.optionCText = message;
                 this.optionCButton.setVisible(!"".equals(message));
+                this.optionCList.setVisible(!"".equals(message));
             }
             case 3 -> {
                 this.optionDText = message;
                 this.optionDButton.setVisible(!"".equals(message));
+                this.optionDList.setVisible(!"".equals(message));
             }
             case 4 -> {
                 this.optionEText = message;
@@ -640,6 +691,15 @@ public class MythArenaGuiScreen extends JFrame {
             }
         }
         this.refreshLater();
+    }
+
+    /**
+     * Sets ArrayList String list
+     * @param list ArrayList String list
+     */
+    public void setList(ArrayList<String> list) {
+        this.listModel.removeAllElements();
+        this.listModel.addAll(list);
     }
 
     /**
@@ -678,6 +738,14 @@ public class MythArenaGuiScreen extends JFrame {
                 this.fieldCForm.setText(null);
             }
         }
+    }
+
+    /**
+     * Gets last selected list index
+     * @return int index
+     */
+    public int getLastSelectedListIndex() {
+        return this.lastSelectedListindex;
     }
 
     /**
@@ -744,10 +812,11 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.optionBForm.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionAList.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBList.setText(MythArenaGuiScreen.this.optionBText);
+            MythArenaGuiScreen.this.optionCList.setText(MythArenaGuiScreen.this.optionCText);
+            MythArenaGuiScreen.this.optionDList.setText(MythArenaGuiScreen.this.optionDText);
             MythArenaGuiScreen.this.titlefieldAForm.setText(MythArenaGuiScreen.this.titlefieldAFormText);
             MythArenaGuiScreen.this.titlefieldBForm.setText(MythArenaGuiScreen.this.titlefieldBFormText);
             MythArenaGuiScreen.this.titlefieldCForm.setText(MythArenaGuiScreen.this.titlefieldCFormText);
-            MythArenaGuiScreen.this.titlefieldDForm.setText(MythArenaGuiScreen.this.titlefieldDFormText);
         });
     }
 
@@ -781,10 +850,11 @@ public class MythArenaGuiScreen extends JFrame {
             this.optionBForm.setText(this.optionBText);
             this.optionAList.setText(this.optionAText);
             this.optionBList.setText(this.optionBText);
+            this.optionCList.setText(this.optionCText);
+            this.optionDList.setText(this.optionDText);
             this.titlefieldAForm.setText(this.titlefieldAFormText);
             this.titlefieldBForm.setText(this.titlefieldBFormText);
             this.titlefieldCForm.setText(this.titlefieldCFormText);
-            this.titlefieldDForm.setText(this.titlefieldDFormText);
         }
     }
 
