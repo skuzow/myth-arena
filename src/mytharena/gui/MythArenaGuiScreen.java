@@ -686,6 +686,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param list ArrayList String list
      */
     public void setList(ArrayList<String> list) {
+        this.listModel.removeAllElements();
         this.listModel.addAll(list);
     }
 
