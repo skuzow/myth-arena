@@ -252,10 +252,6 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JList<String> listLabel;
     /**
-     * ArrayList String listArrayList
-     */
-    private ArrayList<String> listArrayList;
-    /**
      * DefaultListModel listModel
      */
     private DefaultListModel<String> listModel;
@@ -314,7 +310,6 @@ public class MythArenaGuiScreen extends JFrame {
         this.fieldBForm = new JTextField();
         this.fieldCForm = new JTextField();
         this.listLabel = new JList<>();
-        this.listArrayList = new ArrayList<>();
         this.listModel = new DefaultListModel<>();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
