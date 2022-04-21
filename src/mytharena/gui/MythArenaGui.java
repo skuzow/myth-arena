@@ -52,7 +52,7 @@ public final class MythArenaGui {
      * @param imagePath String imagePath
      */
     public void setImage(int number, String imagePath) {
-        if (number <= 3 && number >= 0) {
+        if (number <= 4 && number >= 0) {
             this.mythArenaGuiScreen.setImage(number, imagePath);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
@@ -178,6 +178,13 @@ public final class MythArenaGui {
      */
     public void setListMode() {
         this.mythArenaGuiScreen.showListPanel();
+    }
+
+    /**
+     * Sets CombatMode
+     */
+    public void setCombatMode() {
+        this.mythArenaGuiScreen.showCombatPanel();
     }
 
 }
