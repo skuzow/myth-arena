@@ -84,9 +84,9 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private String titlefieldCFormText = "titlefieldCFormText";
     /**
-     * int lastListindex
+     * int lastSelectedListindex
      */
-    private int lastListindex = 0;
+    private int lastSelectedListindex = 0;
     /**
      * JPanel messagePanel
      */
@@ -338,7 +338,7 @@ public class MythArenaGuiScreen extends JFrame {
              */
                 @Override
                 public void valueChanged(ListSelectionEvent event) {
-                    MythArenaGuiScreen.this.lastListindex = event.getLastIndex();
+                    MythArenaGuiScreen.this.lastSelectedListindex = event.getLastIndex();
                 }
             }
         );
@@ -741,11 +741,11 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
-     * Gets selected list element
+     * Gets last selected list index
      * @return int index
      */
-    public int getSelectedList() {
-        return this.lastListindex;
+    public int getLastSelectedListIndex() {
+        return this.lastSelectedListindex;
     }
 
     /**

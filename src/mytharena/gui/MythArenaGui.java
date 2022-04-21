@@ -119,11 +119,11 @@ public final class MythArenaGui {
     }
 
     /**
-     * Gets selected list element
+     * Gets last selected list index
      * @return int index
      */
-    public int getSelectedList() {
-        return this.mythArenaGuiScreen.getSelectedList();
+    public int getLastSelectedListIndex() {
+        return this.mythArenaGuiScreen.getLastSelectedListIndex();
     }
 
     /**
