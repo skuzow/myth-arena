@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -80,10 +81,6 @@ public class MythArenaGuiScreen extends JFrame {
      * String titlefieldCFormText
      */
     private String titlefieldCFormText;
-    /**
-     * String[] list
-     */
-    private String[] list;
     /**
      * JPanel messagePanel
      */
@@ -213,6 +210,14 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel optionBList;
     /**
+     * JLabel optionCList
+     */
+    private JLabel optionCList;
+    /**
+     * JLabel optionDList
+     */
+    private JLabel optionDList;
+    /**
      * JLabel titlefieldAForm
      */
     private JLabel titlefieldAForm;
@@ -240,6 +245,14 @@ public class MythArenaGuiScreen extends JFrame {
      * JList listLabel
      */
     private JList<String> listLabel;
+    /**
+     * ArrayList String listArrayList
+     */
+    private ArrayList<String> listArrayList;
+    /**
+     * DefaultListModel listModel
+     */
+    private DefaultListModel<String> listModel;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -286,13 +299,17 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionBForm = new JLabel();
         this.optionAList = new JLabel();
         this.optionBList = new JLabel();
+        this.optionCList = new JLabel();
+        this.optionDList = new JLabel();
         this.titlefieldAForm = new JLabel();
         this.titlefieldBForm = new JLabel();
         this.titlefieldCForm = new JLabel();
         this.fieldAForm = new JTextField();
         this.fieldBForm = new JTextField();
         this.fieldCForm = new JTextField();
-        this.listLabel = new JList<>(this.list);
+        this.listLabel = new JList<>();
+        this.listArrayList = new ArrayList<>();
+        this.listModel = new DefaultListModel<>();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
         ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
@@ -309,6 +326,14 @@ public class MythArenaGuiScreen extends JFrame {
             }
         });
         this.getContentPane().setLayout(new AbsoluteLayout());
+        // listLabel
+        this.listLabel.setModel(this.listModel);
+        this.listLabel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.listLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        JScrollPane scrollPane = new JScrollPane(this.listLabel);
+        scrollPane.setBounds(403, 400, 500, 300);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.listPanel.add(scrollPane);
         // fieldAForm
         this.generateField(this.fieldAForm, 562, 490);
         // fieldBForm
@@ -376,21 +401,19 @@ public class MythArenaGuiScreen extends JFrame {
         // optionBForm
         this.generateOption(this.optionBForm, this.formPanel, "optionBForm", 'B', 650, 800);
         // optionAList
-        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 800);
+        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 720);
         // optionBList
-        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 800);
+        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 720);
+        // optionCList
+        this.generateOption(this.optionCList, this.listPanel, "optionCList", 'C', 350, 800);
+        // optionDList
+        this.generateOption(this.optionDList, this.listPanel, "optionDList", 'D', 650, 800);
         // titlefieldAForm
         this.generateTitleField(this.titlefieldAForm, "titlefieldAForm", 330, 440);
         // titlefieldBForm
         this.generateTitleField(this.titlefieldBForm, "titlefieldBForm", 330, 510);
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
-        // listLabel
-        this.listLabel.setVisibleRowCount(10);
-        JScrollPane jScrollPane = new JScrollPane(this.listPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        jScrollPane.setBounds(50, 50, 165, 25);
-        jScrollPane.setFont(new Font("Arial", Font.PLAIN, 16));
-        jScrollPane.add(this.listLabel);
         this.pack();
     }
 
@@ -612,10 +635,12 @@ public class MythArenaGuiScreen extends JFrame {
             case 2 -> {
                 this.optionCText = message;
                 this.optionCButton.setVisible(!"".equals(message));
+                this.optionCList.setVisible(!"".equals(message));
             }
             case 3 -> {
                 this.optionDText = message;
                 this.optionDButton.setVisible(!"".equals(message));
+                this.optionDList.setVisible(!"".equals(message));
             }
             case 4 -> {
                 this.optionEText = message;
@@ -747,6 +772,8 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.optionBForm.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionAList.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBList.setText(MythArenaGuiScreen.this.optionBText);
+            MythArenaGuiScreen.this.optionCList.setText(MythArenaGuiScreen.this.optionCText);
+            MythArenaGuiScreen.this.optionDList.setText(MythArenaGuiScreen.this.optionDText);
             MythArenaGuiScreen.this.titlefieldAForm.setText(MythArenaGuiScreen.this.titlefieldAFormText);
             MythArenaGuiScreen.this.titlefieldBForm.setText(MythArenaGuiScreen.this.titlefieldBFormText);
             MythArenaGuiScreen.this.titlefieldCForm.setText(MythArenaGuiScreen.this.titlefieldCFormText);
@@ -783,6 +810,8 @@ public class MythArenaGuiScreen extends JFrame {
             this.optionBForm.setText(this.optionBText);
             this.optionAList.setText(this.optionAText);
             this.optionBList.setText(this.optionBText);
+            this.optionCList.setText(this.optionCText);
+            this.optionDList.setText(this.optionDText);
             this.titlefieldAForm.setText(this.titlefieldAFormText);
             this.titlefieldBForm.setText(this.titlefieldBFormText);
             this.titlefieldCForm.setText(this.titlefieldCFormText);
