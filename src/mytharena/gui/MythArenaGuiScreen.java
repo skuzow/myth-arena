@@ -26,67 +26,67 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * String titleText
      */
-    private String titleText;
+    private String titleText = "titleText";
     /**
      * String descriptionText
      */
-    private String descriptionText;
+    private String descriptionText = "descriptionText";
     /**
      * String optionAText
      */
-    private String optionAText;
+    private String optionAText = "optionAText";
     /**
      * String optionBText
      */
-    private String optionBText;
+    private String optionBText = "optionBText";
     /**
      * String optionCText
      */
-    private String optionCText;
+    private String optionCText = "optionCText";
     /**
      * String optionDText
      */
-    private String optionDText;
+    private String optionDText = "optionDText";
     /**
      * String optionEText
      */
-    private String optionEText;
+    private String optionEText = "optionEText";
     /**
      * String optionFText
      */
-    private String optionFText;
+    private String optionFText = "optionFText";
     /**
      * String optionGText
      */
-    private String optionGText;
+    private String optionGText = "optionGText";
     /**
      * String optionHText
      */
-    private String optionHText;
+    private String optionHText = "optionHText";
     /**
      * String optionIText
      */
-    private String optionIText;
+    private String optionIText = "optionIText";
     /**
      * String optionJText
      */
-    private String optionJText;
+    private String optionJText = "optionJText";
     /**
      * String titlefieldAFormText
      */
-    private String titlefieldAFormText;
+    private String titlefieldAFormText = "titlefieldAFormText";
     /**
      * String titlefieldBFormText
      */
-    private String titlefieldBFormText;
+    private String titlefieldBFormText = "titlefieldBFormText";
     /**
      * String titlefieldCFormText
      */
-    private String titlefieldCFormText;
+    private String titlefieldCFormText = "titlefieldCFormText";
     /**
      * int lastListindex
      */
-    private int lastListindex;
+    private int lastListindex = 0;
     /**
      * JPanel messagePanel
      */
