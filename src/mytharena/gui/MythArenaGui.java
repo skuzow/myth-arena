@@ -119,6 +119,14 @@ public final class MythArenaGui {
     }
 
     /**
+     * Gets selected list element
+     * @return int index
+     */
+    public int getSelectedList() {
+        return this.mythArenaGuiScreen.getSelectedList();
+    }
+
+    /**
      * Waits until input event, if int seconds pass it passes
      * @param seconds int seconds
      * @return string option, or '\u0000' if time passes

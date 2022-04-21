@@ -4,6 +4,8 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -81,6 +83,10 @@ public class MythArenaGuiScreen extends JFrame {
      * String titlefieldCFormText
      */
     private String titlefieldCFormText;
+    /**
+     * int lastListindex
+     */
+    private int lastListindex;
     /**
      * JPanel messagePanel
      */
@@ -330,6 +336,17 @@ public class MythArenaGuiScreen extends JFrame {
         this.listLabel.setModel(this.listModel);
         this.listLabel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.listLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.listLabel.addListSelectionListener(new ListSelectionListener() {
+            /**
+             * valueChanged
+             * @param event MouseEvent event
+             */
+                @Override
+                public void valueChanged(ListSelectionEvent event) {
+                    MythArenaGuiScreen.this.lastListindex = event.getLastIndex();
+                }
+            }
+        );
         JScrollPane scrollPane = new JScrollPane(this.listLabel);
         scrollPane.setBounds(403, 400, 500, 300);
         scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
@@ -726,6 +743,14 @@ public class MythArenaGuiScreen extends JFrame {
                 this.fieldCForm.setText(null);
             }
         }
+    }
+
+    /**
+     * Gets selected list element
+     * @return int index
+     */
+    public int getSelectedList() {
+        return this.lastListindex;
     }
 
     /**
