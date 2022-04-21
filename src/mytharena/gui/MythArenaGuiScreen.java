@@ -415,6 +415,8 @@ public class MythArenaGuiScreen extends JFrame {
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
         this.pack();
+        // default image setter
+        this.setDefaultImage();
     }
 
     /**
@@ -524,6 +526,15 @@ public class MythArenaGuiScreen extends JFrame {
         titlefieldLabel.setText(titlefieldText);
         titlefieldLabel.setOpaque(true);
         this.formPanel.add(titlefieldLabel, new AbsoluteConstraints(x, y, 630, 60));
+    }
+
+    /**
+     * Sets DefaultImage for all modes
+     */
+    private void setDefaultImage() {
+        for (int cont = 0; cont != 4; cont++) {
+            this.setImage(cont, "/resources/images/logo.png");
+        }
     }
 
     /**
