@@ -682,6 +682,14 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
+     * Sets ArrayList String list
+     * @param list ArrayList String list
+     */
+    public void setList(ArrayList<String> list) {
+        this.listModel.addAll(list);
+    }
+
+    /**
      * Gets specified field text
      * @param number int number
      * @return String fieldText

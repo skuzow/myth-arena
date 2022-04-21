@@ -1,5 +1,6 @@
 package mytharena.gui;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -82,6 +83,14 @@ public final class MythArenaGui {
         } else {
             throw new RuntimeException("Option number " + number + " ( " + message + " ) out of range");
         }
+    }
+
+    /**
+     * Sets ArrayList String list
+     * @param list ArrayList String list
+     */
+    public void setList(ArrayList<String> list) {
+        this.mythArenaGuiScreen.setList(list);
     }
 
     /**
