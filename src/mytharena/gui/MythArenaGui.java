@@ -94,6 +94,19 @@ public final class MythArenaGui {
     }
 
     /**
+     * Sets specified combat info
+     * @param number int number
+     * @param message String message
+     */
+    public void setCombatInfo(int number, String message) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.setCombatInfo(number, message);
+        } else {
+            throw new RuntimeException("CombatInfo number " + number + " ( " + message + " ) out of range");
+        }
+    }
+
+    /**
      * Gets specified field text
      * @param number int number
      * @return String fieldText
