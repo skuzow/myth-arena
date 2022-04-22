@@ -692,27 +692,13 @@ public class MythArenaGuiScreen extends JFrame {
     public void setImage(int number, String imagePath) {
         JLabel imageLabel;
         switch (number) {
-            case 0 -> {
-                imageLabel = this.imageMessage;
-            }
-            case 1 -> {
-                imageLabel = this.imageForm;
-            }
-            case 2 -> {
-                imageLabel = this.imageButton;
-            }
-            case 3 -> {
-                imageLabel = this.imageList;
-            }
-            case 4 -> {
-                imageLabel = this.imageCombat;
-            }
-            case 5 -> {
-                imageLabel = this.imageChallenger;
-            }
-            case 6 -> {
-                imageLabel = this.imageChallenged;
-            }
+            case 0 -> imageLabel = this.imageMessage;
+            case 1 -> imageLabel = this.imageForm;
+            case 2 -> imageLabel = this.imageButton;
+            case 3 -> imageLabel = this.imageList;
+            case 4 -> imageLabel = this.imageCombat;
+            case 5 -> imageLabel = this.imageChallenger;
+            case 6 -> imageLabel = this.imageChallenged;
             default -> throw new IllegalStateException("Unexpected value: " + number);
         }
         if (imagePath == null) {
@@ -886,15 +872,9 @@ public class MythArenaGuiScreen extends JFrame {
      */
     public void clearFieldText(int number) {
         switch (number) {
-            case 0 -> {
-                this.fieldAForm.setText(null);
-            }
-            case 1 -> {
-                this.fieldBForm.setText(null);
-            }
-            case 2 -> {
-                this.fieldCForm.setText(null);
-            }
+            case 0 -> this.fieldAForm.setText(null);
+            case 1 -> this.fieldBForm.setText(null);
+            case 2 -> this.fieldCForm.setText(null);
         }
     }
 

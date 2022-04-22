@@ -16,7 +16,7 @@ public final class MythArenaGui {
     /**
      * Queue Character buffer
      */
-    private Queue<Character> buffer = new LinkedList();
+    private final Queue<Character> buffer = new LinkedList();
 
     /**
      * MythArenaGui class constructor
