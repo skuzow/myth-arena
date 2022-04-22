@@ -2,15 +2,8 @@ package mytharena.command;
 
 import mytharena.Arena;
 import mytharena.data.Data;
-import mytharena.data.character.factory.Controller;
-import mytharena.data.character.factory.ability.Ability;
-import mytharena.data.character.factory.ability.AbilityAbstractFactory;
-import mytharena.data.character.factory.minion.Minion;
-import mytharena.data.character.factory.minion.MinionAbstractFactory;
 import mytharena.data.user.Player;
 import mytharena.gui.MythArenaGui;
-
-import java.util.ArrayList;
 
 /**
  * PlayerMenu class extends Command
@@ -24,7 +17,7 @@ public class PlayerMenu extends Command {
     /**
      * boolean hasLoggedOut
      */
-    private boolean userLoggedOut = false;
+    private boolean userLoggedOut;
     /**
      * PlayerMenu class constructor extends Command
      * @param arena Arena arena
@@ -41,6 +34,7 @@ public class PlayerMenu extends Command {
     @Override
     public void execute() {
         player = (Player) super.getArena().getActiveUser();
+        userLoggedOut = false;
         while (!userLoggedOut) {
             super.getMythArenaGui().setButtonMode();
             super.getMythArenaGui().setTitle("Welcome to Myth Arena " + player.getUsername());
@@ -61,7 +55,11 @@ public class PlayerMenu extends Command {
     }
 
     public void getGold() {
-        super.getMythArenaGui().setDescription(Integer.toString(player.getCharacter().getGold()) + " gold");
+        if (player.getCharacter() == null) {
+            super.getMythArenaGui().setDescription("No character found");
+        }else {
+            super.getMythArenaGui().setDescription(Integer.toString(player.getCharacter().getGold()) + " gold");
+        }
     }
 
     public void logout() {
@@ -71,5 +69,9 @@ public class PlayerMenu extends Command {
     public void deleteCharacter() {
         // Player should confirm deletion of character
         player.setCharacter(null);
+    }
+
+    public void createCharacter() {
+
     }
 }
