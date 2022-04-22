@@ -168,6 +168,14 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel imageCombat;
     /**
+     * JLabel imageChallenger
+     */
+    private JLabel imageChallenger;
+    /**
+     * JLabel imageChallenged
+     */
+    private JLabel imageChallenged;
+    /**
      * JLabel optionAButton
      */
     private JLabel optionAButton;
@@ -313,6 +321,8 @@ public class MythArenaGuiScreen extends JFrame {
         this.imageButton = new JLabel();
         this.imageList = new JLabel();
         this.imageCombat = new JLabel();
+        this.imageChallenger = new JLabel();
+        this.imageChallenged = new JLabel();
         this.optionAButton = new JLabel();
         this.optionBButton = new JLabel();
         this.optionCButton = new JLabel();
@@ -413,15 +423,19 @@ public class MythArenaGuiScreen extends JFrame {
         // descriptionCombat
         this.generateText(this.descriptionCombat, this.combatPanel, "DescriptionCombat", 25, 330, 80);
         // imageMessage
-        this.generateImage(this.imageMessage, this.messagePanel, 450, -200);
+        this.generateImage(this.imageMessage, this.messagePanel, 450, -200, 384, 978);
         // imageForm
-        this.generateImage(this.imageForm, this.formPanel, 450, -200);
+        this.generateImage(this.imageForm, this.formPanel, 450, -200, 384, 978);
         // imageButton
-        this.generateImage(this.imageButton, this.buttonPanel, 450, -200);
+        this.generateImage(this.imageButton, this.buttonPanel, 450, -200, 384, 978);
         // imageList
-        this.generateImage(this.imageList, this.listPanel, 450, -200);
+        this.generateImage(this.imageList, this.listPanel, 450, -200, 384, 978);
         // imageCombat
-        this.generateImage(this.imageCombat, this.combatPanel, 450, -200);
+        this.generateImage(this.imageCombat, this.combatPanel, 450, -200, 384, 978);
+        // imageChallenger
+        this.generateImage(this.imageChallenger, this.combatPanel, 50, 250, 200, 600);
+        // imageChallenged
+        this.generateImage(this.imageChallenged, this.combatPanel, 1050, 250, 200, 600);
         // optionAButton
         this.generateOption(this.optionAButton, this.buttonPanel, "optionAButton", 'A', 350, 480);
         // optionBButton
@@ -522,10 +536,10 @@ public class MythArenaGuiScreen extends JFrame {
      * @param x int x
      * @param y int y
      */
-    private void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y) {
+    private void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y, int width, int height) {
         imageLabel.setHorizontalAlignment(0);
         imageLabel.setIconTextGap(0);
-        specificPanel.add(imageLabel, new AbsoluteConstraints(x, y, 384, 978));
+        specificPanel.add(imageLabel, new AbsoluteConstraints(x, y, width, height));
     }
 
     /**
@@ -585,8 +599,12 @@ public class MythArenaGuiScreen extends JFrame {
      * Sets DefaultImage for all modes
      */
     private void setDefaultImage() {
-        for (int cont = 0; cont != 5; cont++) {
-            this.setImage(cont, "/resources/images/logo.png");
+        for (int cont = 0; cont <= 6; cont++) {
+            if (cont <= 4) {
+                this.setImage(cont, "/resources/images/logo.png");
+            } else {
+                this.setImage(cont, "/resources/images/character.png");
+            }
         }
     }
 
@@ -630,6 +648,12 @@ public class MythArenaGuiScreen extends JFrame {
             }
             case 4 -> {
                 imageLabel = this.imageCombat;
+            }
+            case 5 -> {
+                imageLabel = this.imageChallenger;
+            }
+            case 6 -> {
+                imageLabel = this.imageChallenged;
             }
             default -> throw new IllegalStateException("Unexpected value: " + number);
         }
