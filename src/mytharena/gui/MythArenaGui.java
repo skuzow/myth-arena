@@ -102,7 +102,21 @@ public final class MythArenaGui {
         if (number <= 2 && number >= 0) {
             this.mythArenaGuiScreen.setCombatInfo(number, message);
         } else {
-            throw new RuntimeException("CombatInfo number " + number + " ( " + message + " ) out of range");
+            throw new RuntimeException("Combat Info number " + number + " ( " + message + " ) out of range");
+        }
+    }
+
+    /**
+     * Sets specified health bar with calculated progress
+     * @param number int number
+     * @param currentHealth int currentHealth
+     * @param maxHealth int maxHealth
+     */
+    public void setHealthBar(int number, int currentHealth, int maxHealth) {
+        if (number <= 1 && number >= 0) {
+            this.mythArenaGuiScreen.setHealthBar(number, currentHealth, maxHealth);
+        } else {
+            throw new RuntimeException("Health Bar number " + number + " ( " + currentHealth + " / " + maxHealth + " ) out of range");
         }
     }
 

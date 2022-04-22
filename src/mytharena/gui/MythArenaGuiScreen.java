@@ -311,6 +311,14 @@ public class MythArenaGuiScreen extends JFrame {
      * DefaultListModel listModel
      */
     private DefaultListModel<String> listModel;
+    /**
+     * JProgressBar challengerHealthBar
+     */
+    private JProgressBar challengerHealthBar;
+    /**
+     * JProgressBar challengedHealthBar
+     */
+    private JProgressBar challengedHealthBar;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -378,6 +386,8 @@ public class MythArenaGuiScreen extends JFrame {
         this.fieldCForm = new JTextField();
         this.listLabel = new JList<>();
         this.listModel = new DefaultListModel<>();
+        this.challengerHealthBar = new JProgressBar();
+        this.challengedHealthBar = new JProgressBar();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
         ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
@@ -515,6 +525,10 @@ public class MythArenaGuiScreen extends JFrame {
         this.generateTitleField(this.titlefieldBForm, "titlefieldBForm", 330, 510);
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
+        // challengerHealthBar
+        this.generateHealthBar(this.challengerHealthBar, 30, 725);
+        // challengedHealthBar
+        this.generateHealthBar(this.challengedHealthBar,1030, 725);
         this.pack();
         // default image setter
         this.setDefaultImage();
@@ -625,6 +639,18 @@ public class MythArenaGuiScreen extends JFrame {
         titlefieldLabel.setHorizontalAlignment(0);
         titlefieldLabel.setText(titlefieldText);
         this.formPanel.add(titlefieldLabel, new AbsoluteConstraints(x, y, 630, 60));
+    }
+
+    /**
+     * Generates healthBar
+     * @param healthProgressBar JProgressBar healthProgressBar
+     * @param x int x
+     * @param y int y
+     */
+    private void generateHealthBar(JProgressBar healthProgressBar, int x, int y) {
+        healthProgressBar.setBackground(Color.red);
+        healthProgressBar.setForeground(Color.green);
+        this.combatPanel.add(healthProgressBar, new AbsoluteConstraints(x, y, 235, 30));
     }
 
     /**
@@ -830,6 +856,20 @@ public class MythArenaGuiScreen extends JFrame {
             }
         }
         this.refreshLater();
+    }
+
+    /**
+     * Sets specified health bar with calculated progress
+     * @param number int number
+     * @param currentHealth int currentHealth
+     * @param maxHealth int maxHealth
+     */
+    public void setHealthBar(int number, int currentHealth, int maxHealth) {
+        int percentage = currentHealth * 100 / maxHealth;
+        switch (number) {
+            case 0 -> this.challengerHealthBar.setValue(percentage);
+            case 1 -> this.challengedHealthBar.setValue(percentage);
+        }
     }
 
     /**
