@@ -80,7 +80,7 @@ public class StartMenu extends Command {
     /**
      * Register a player into UserArrayList
      */
-    private  void register() {
+    private void register() {
         super.getMythArenaGui().setTitle("Signup");
         super.getMythArenaGui().setDescription("Complete the form to create new account");
         super.getMythArenaGui().setField(2, "Nickname");
@@ -90,9 +90,7 @@ public class StartMenu extends Command {
         while (!isValid) {
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // Cancel register operation
-                case 'A' -> {
-                    isValid = true;
-                }
+                case 'A' -> isValid = true;
                 // Register account
                 // Must pass all criteria to work
                 case 'B' -> {

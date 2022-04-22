@@ -90,12 +90,20 @@ public class Arena {
         return this.commandMap.get(key);
     }
 
+    /**
+     * Gets User activeUser
+     * @return User activeUser
+     */
     public User getActiveUser() {
-        return activeUser;
+        return this.activeUser;
     }
 
-    public void setActiveUser(User user) {
-        activeUser = user;
+    /**
+     * Sets User activeUser
+     * @param activeUser User activeUser
+     */
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
     }
 
 }
