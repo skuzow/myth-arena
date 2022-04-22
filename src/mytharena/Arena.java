@@ -5,6 +5,7 @@ import mytharena.command.AdminMenu;
 import mytharena.command.StartMenu;
 import mytharena.command.PlayerMenu;
 import mytharena.data.Data;
+import mytharena.data.user.Admin;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
@@ -53,6 +54,8 @@ public class Arena {
                 this.data = (Data) in.readObject();
             } else {
                 this.data = new Data();
+                // default admin account
+                this.data.getUserArrayList().add(new Admin("admin", "admin", this.data));
                 this.serializeData();
             }
             // create commands and insert them into commandMap with respective key
