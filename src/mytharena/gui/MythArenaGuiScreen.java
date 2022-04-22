@@ -733,11 +733,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param message String message
      */
     public void setField(int number, String message) {
-        if (message == null) {
-            message = "";
-        } else {
-            message = this.reformatMessage(message);
-        }
+        message = this.reformatMessage(message);
         switch (number) {
             case 0 -> {
                 this.titlefieldAFormText = message;
@@ -761,11 +757,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param message String message
      */
     public void setOption(int number, String message) {
-        if (message == null) {
-            message = "";
-        } else {
-            message = this.reformatMessage(message);
-        }
+        message = this.reformatMessage(message);
         switch (number) {
             case 0 -> {
                 this.optionAText = message;
@@ -836,11 +828,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param message String message
      */
     public void setCombatInfo(int number, String message) {
-        if (message == null) {
-            message = "";
-        } else {
-            message = this.reformatMessage(message);
-        }
+        message = this.reformatMessage(message);
         switch (number) {
             case 0 -> {
                 this.combatInfoText = message;
@@ -924,12 +912,12 @@ public class MythArenaGuiScreen extends JFrame {
      * @return String message
      */
     private String reformatMessage(String message) {
+        if (message == null) return "";
         message = message.replaceAll("<img", "");
         message = message.replaceAll("<href", "");
         message = message.replaceAll("<[A-Za-z0-9]+>", "");
         message = message.replaceAll("\n", "<br>");
-        message = "<html>" + message + "</html>";
-        return message;
+        return "<html>" + message + "</html>";
     }
 
     /**
