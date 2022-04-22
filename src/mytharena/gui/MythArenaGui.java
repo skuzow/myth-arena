@@ -16,7 +16,7 @@ public final class MythArenaGui {
     /**
      * Queue Character buffer
      */
-    private Queue<Character> buffer = new LinkedList();
+    private final Queue<Character> buffer = new LinkedList();
 
     /**
      * MythArenaGui class constructor
@@ -52,7 +52,7 @@ public final class MythArenaGui {
      * @param imagePath String imagePath
      */
     public void setImage(int number, String imagePath) {
-        if (number <= 3 && number >= 0) {
+        if (number <= 6 && number >= 0) {
             this.mythArenaGuiScreen.setImage(number, imagePath);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
@@ -91,6 +91,33 @@ public final class MythArenaGui {
      */
     public void setList(ArrayList<String> list) {
         this.mythArenaGuiScreen.setList(list);
+    }
+
+    /**
+     * Sets specified combat info
+     * @param number int number
+     * @param message String message
+     */
+    public void setCombatInfo(int number, String message) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.setCombatInfo(number, message);
+        } else {
+            throw new RuntimeException("Combat Info number " + number + " ( " + message + " ) out of range");
+        }
+    }
+
+    /**
+     * Sets specified health bar with calculated progress
+     * @param number int number
+     * @param currentHealth int currentHealth
+     * @param maxHealth int maxHealth
+     */
+    public void setHealthBar(int number, int currentHealth, int maxHealth) {
+        if (number <= 1 && number >= 0) {
+            this.mythArenaGuiScreen.setHealthBar(number, currentHealth, maxHealth);
+        } else {
+            throw new RuntimeException("Health Bar number " + number + " ( " + currentHealth + " / " + maxHealth + " ) out of range");
+        }
     }
 
     /**
@@ -178,6 +205,13 @@ public final class MythArenaGui {
      */
     public void setListMode() {
         this.mythArenaGuiScreen.showListPanel();
+    }
+
+    /**
+     * Sets CombatMode
+     */
+    public void setCombatMode() {
+        this.mythArenaGuiScreen.showCombatPanel();
     }
 
 }
