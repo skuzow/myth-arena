@@ -578,7 +578,6 @@ public class MythArenaGuiScreen extends JFrame {
         titlefieldLabel.setForeground(new Color(1, 1, 1));
         titlefieldLabel.setHorizontalAlignment(0);
         titlefieldLabel.setText(titlefieldText);
-        titlefieldLabel.setOpaque(true);
         this.formPanel.add(titlefieldLabel, new AbsoluteConstraints(x, y, 630, 60));
     }
 
