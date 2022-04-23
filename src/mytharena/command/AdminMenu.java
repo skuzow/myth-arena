@@ -101,7 +101,7 @@ public class AdminMenu extends Command {
     }
 
     /**
-     * Register a admin into UserArrayList
+     * Register admin into UserArrayList
      */
     private void registerAdmin() {
         super.getMythArenaGui().setFormMode();
@@ -112,11 +112,11 @@ public class AdminMenu extends Command {
         super.getMythArenaGui().setField(0, "Username");
         super.getMythArenaGui().setField(1, "Password");
         super.getMythArenaGui().setField(2, null);
-        boolean exitRegisterAdmin = false;
-        while (!exitRegisterAdmin) {
+        boolean exit = false;
+        while (!exit) {
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // exits register admin
-                case 'A' -> exitRegisterAdmin = true;
+                case 'A' -> exit = true;
                 // tries to create admin user
                 case 'B' -> {
                     String user = super.getMythArenaGui().getFieldText(0);
@@ -144,7 +144,7 @@ public class AdminMenu extends Command {
                                 super.getMythArenaGui().waitEvent(1);
                                 super.getMythArenaGui().clearFieldText(0);
                                 super.getMythArenaGui().clearFieldText(1);
-                                exitRegisterAdmin = true;
+                                exit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
