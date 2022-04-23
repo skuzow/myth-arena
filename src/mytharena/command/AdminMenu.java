@@ -43,7 +43,7 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(6, null);
             super.getMythArenaGui().setOption(7, null);
             super.getMythArenaGui().setOption(8, "Log out");
-            super.getMythArenaGui().setOption(9, "Sign off");
+            super.getMythArenaGui().setOption(9, "Delete account");
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // manage admins
                 case 'A' -> this.manageAdmins();
@@ -59,28 +59,8 @@ public class AdminMenu extends Command {
                 }
                 // log out
                 case 'I' -> super.getArena().setActiveUser(null);
-                // sign off
-                case 'J' -> {
-                    super.getMythArenaGui().setMessageMode();
-                    super.getMythArenaGui().setTitle("One step of deleting your account");
-                    super.getMythArenaGui().setDescription("Be sure about this, there is no roll back!");
-                    super.getMythArenaGui().setImage(0, "/resources/images/warning.png");
-                    super.getMythArenaGui().setOption(0, "I don't want to delete my account");
-                    super.getMythArenaGui().setOption(1, "Im sure about deleting my account");
-                    switch (super.getMythArenaGui().waitEvent(30)) {
-                        // account deletion
-                        case 'B' -> {
-                            try {
-                                super.getData().getUserArrayList().remove(super.getArena().getActiveUser());
-                                super.getArena().serializeData();
-                                // for exiting to start menu
-                                super.getArena().setActiveUser(null);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
+                // delete account
+                case 'J' -> this.getArena().deleteActiveUserMenu();
             }
         }
     }
