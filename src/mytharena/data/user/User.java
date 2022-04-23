@@ -36,15 +36,16 @@ public abstract class User implements Serializable {
         this.password = password;
         // registerNumber generator
         StringBuilder generatedNumber = new StringBuilder();
+        Random rand = new Random();
         boolean unique = false;
         while (!unique) {
             // random letter between A & Z
-            generatedNumber.append((char) (new Random().nextInt(26) + 'A'));
+            generatedNumber.append((char) (rand.nextInt(26) + 'A'));
             // random number between 0 & 9
-            generatedNumber.append(new Random().nextInt(9 + 1));
-            generatedNumber.append(new Random().nextInt(9 + 1));
-            generatedNumber.append((char) (new Random().nextInt(26) + 'A'));
-            generatedNumber.append((char) (new Random().nextInt(26) + 'A'));
+            generatedNumber.append(rand.nextInt(9 + 1));
+            generatedNumber.append(rand.nextInt(9 + 1));
+            generatedNumber.append((char) (rand.nextInt(26) + 'A'));
+            generatedNumber.append((char) (rand.nextInt(26) + 'A'));
             // checks if it's unique
             unique = true;
             for (User user : data.getUserArrayList()) {
