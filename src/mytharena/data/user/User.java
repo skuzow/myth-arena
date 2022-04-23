@@ -3,6 +3,7 @@ package mytharena.data.user;
 import mytharena.data.Data;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * User abstract class implements Serializable
@@ -20,9 +21,9 @@ public abstract class User implements Serializable {
     private final String password;
 
     /**
-     * int registerNumber
+     * String registerNumber
      */
-    private final int registerNumber;
+    private final String registerNumber;
 
     /**
      * User abstract class constructor
@@ -33,7 +34,28 @@ public abstract class User implements Serializable {
     public User(String username, String password, Data data) {
         this.username = username;
         this.password = password;
-        this.registerNumber = data.getUserArrayList().size() + 1;
+        // registerNumber generator
+        StringBuilder generatedNumber = new StringBuilder();
+        Random rand = new Random();
+        boolean unique = false;
+        while (!unique) {
+            // random letter between A & Z
+            generatedNumber.append((char) (rand.nextInt(26) + 'A'));
+            // random number between 0 & 9
+            generatedNumber.append(rand.nextInt(9 + 1));
+            generatedNumber.append(rand.nextInt(9 + 1));
+            generatedNumber.append((char) (rand.nextInt(26) + 'A'));
+            generatedNumber.append((char) (rand.nextInt(26) + 'A'));
+            // checks if it's unique
+            unique = true;
+            for (User user : data.getUserArrayList()) {
+                if (generatedNumber.toString().equals(user.getRegisterNumber())) {
+                    unique = false;
+                    generatedNumber = new StringBuilder();
+                }
+            }
+        }
+        this.registerNumber = generatedNumber.toString();
     }
 
     /**
@@ -53,10 +75,10 @@ public abstract class User implements Serializable {
     }
 
     /**
-     * Gets int registerNumber
-     * @return int registerNumber
+     * Gets String registerNumber
+     * @return String registerNumber
      */
-    public int getRegisterNumber() {
+    public String getRegisterNumber() {
         return this.registerNumber;
     }
 
