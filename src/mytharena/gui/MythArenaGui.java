@@ -1,6 +1,6 @@
 package mytharena.gui;
 
-import javax.swing.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -16,7 +16,7 @@ public final class MythArenaGui {
     /**
      * Queue Character buffer
      */
-    private Queue<Character> buffer = new LinkedList();
+    private final Queue<Character> buffer = new LinkedList();
 
     /**
      * MythArenaGui class constructor
@@ -49,11 +49,11 @@ public final class MythArenaGui {
     /**
      * Sets image
      * @param number int number
-     * @param image ImageIcon image
+     * @param imagePath String imagePath
      */
-    public void setImage(int number, ImageIcon image) {
-        if (number <= 3 && number >= 0) {
-            this.mythArenaGuiScreen.setImage(number, image);
+    public void setImage(int number, String imagePath) {
+        if (number <= 6 && number >= 0) {
+            this.mythArenaGuiScreen.setImage(number, imagePath);
         } else {
             throw new RuntimeException("Mode number " + number + " out of range");
         }
@@ -86,6 +86,41 @@ public final class MythArenaGui {
     }
 
     /**
+     * Sets ArrayList String list
+     * @param list ArrayList String list
+     */
+    public void setList(ArrayList<String> list) {
+        this.mythArenaGuiScreen.setList(list);
+    }
+
+    /**
+     * Sets specified combat info
+     * @param number int number
+     * @param message String message
+     */
+    public void setCombatInfo(int number, String message) {
+        if (number <= 2 && number >= 0) {
+            this.mythArenaGuiScreen.setCombatInfo(number, message);
+        } else {
+            throw new RuntimeException("Combat Info number " + number + " ( " + message + " ) out of range");
+        }
+    }
+
+    /**
+     * Sets specified health bar with calculated progress
+     * @param number int number
+     * @param currentHealth int currentHealth
+     * @param maxHealth int maxHealth
+     */
+    public void setHealthBar(int number, int currentHealth, int maxHealth) {
+        if (number <= 1 && number >= 0) {
+            this.mythArenaGuiScreen.setHealthBar(number, currentHealth, maxHealth);
+        } else {
+            throw new RuntimeException("Health Bar number " + number + " ( " + currentHealth + " / " + maxHealth + " ) out of range");
+        }
+    }
+
+    /**
      * Gets specified field text
      * @param number int number
      * @return String fieldText
@@ -108,6 +143,14 @@ public final class MythArenaGui {
         } else {
             throw new RuntimeException("Field Text number " + number + " out of range");
         }
+    }
+
+    /**
+     * Gets last selected list index
+     * @return int index
+     */
+    public int getLastSelectedListIndex() {
+        return this.mythArenaGuiScreen.getLastSelectedListIndex();
     }
 
     /**
@@ -162,6 +205,13 @@ public final class MythArenaGui {
      */
     public void setListMode() {
         this.mythArenaGuiScreen.showListPanel();
+    }
+
+    /**
+     * Sets CombatMode
+     */
+    public void setCombatMode() {
+        this.mythArenaGuiScreen.showCombatPanel();
     }
 
 }

@@ -4,11 +4,14 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -23,67 +26,79 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * String titleText
      */
-    private String titleText;
+    private String titleText = "titleText";
     /**
      * String descriptionText
      */
-    private String descriptionText;
+    private String descriptionText = "descriptionText";
+    /**
+     * String combatInfoText
+     */
+    private String combatInfoText = "combatInfoText";
+    /**
+     * String challengerInfoText
+     */
+    private String challengerInfoText = "challengerInfoText";
+    /**
+     * String challengedInfoText
+     */
+    private String challengedInfoText = "challengedInfoText";
     /**
      * String optionAText
      */
-    private String optionAText;
+    private String optionAText = "optionAText";
     /**
      * String optionBText
      */
-    private String optionBText;
+    private String optionBText = "optionBText";
     /**
      * String optionCText
      */
-    private String optionCText;
+    private String optionCText = "optionCText";
     /**
      * String optionDText
      */
-    private String optionDText;
+    private String optionDText = "optionDText";
     /**
      * String optionEText
      */
-    private String optionEText;
+    private String optionEText = "optionEText";
     /**
      * String optionFText
      */
-    private String optionFText;
+    private String optionFText = "optionFText";
     /**
      * String optionGText
      */
-    private String optionGText;
+    private String optionGText = "optionGText";
     /**
      * String optionHText
      */
-    private String optionHText;
+    private String optionHText = "optionHText";
     /**
      * String optionIText
      */
-    private String optionIText;
+    private String optionIText = "optionIText";
     /**
      * String optionJText
      */
-    private String optionJText;
+    private String optionJText = "optionJText";
     /**
      * String titlefieldAFormText
      */
-    private String titlefieldAFormText;
+    private String titlefieldAFormText = "titlefieldAFormText";
     /**
      * String titlefieldBFormText
      */
-    private String titlefieldBFormText;
+    private String titlefieldBFormText = "titlefieldBFormText";
     /**
      * String titlefieldCFormText
      */
-    private String titlefieldCFormText;
+    private String titlefieldCFormText = "titlefieldCFormText";
     /**
-     * String titlefieldDFormText
+     * int lastSelectedListindex
      */
-    private String titlefieldDFormText;
+    private int lastSelectedListindex = 0;
     /**
      * JPanel messagePanel
      */
@@ -101,6 +116,10 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JPanel listPanel;
     /**
+     * JPanel combatPanel
+     */
+    private JPanel combatPanel;
+    /**
      * JLabel titleMessage
      */
     private JLabel titleMessage;
@@ -116,6 +135,10 @@ public class MythArenaGuiScreen extends JFrame {
      * JLabel titleList
      */
     private JLabel titleList;
+    /**
+     * JLabel titleCombat
+     */
+    private JLabel titleCombat;
     /**
      * JLabel descriptionMessage
      */
@@ -133,6 +156,22 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel descriptionList;
     /**
+     * JLabel descriptionCombat
+     */
+    private JLabel descriptionCombat;
+    /**
+     * JLabel combatInfo
+     */
+    private JLabel combatInfo;
+    /**
+     * JLabel challengerInfo
+     */
+    private JLabel challengerInfo;
+    /**
+     * JLabel challengedInfo
+     */
+    private JLabel challengedInfo;
+    /**
      * JLabel imageMessage
      */
     private JLabel imageMessage;
@@ -148,6 +187,18 @@ public class MythArenaGuiScreen extends JFrame {
      * JLabel imageList
      */
     private JLabel imageList;
+    /**
+     * JLabel imageCombat
+     */
+    private JLabel imageCombat;
+    /**
+     * JLabel imageChallenger
+     */
+    private JLabel imageChallenger;
+    /**
+     * JLabel imageChallenged
+     */
+    private JLabel imageChallenged;
     /**
      * JLabel optionAButton
      */
@@ -213,6 +264,22 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JLabel optionBList;
     /**
+     * JLabel optionCList
+     */
+    private JLabel optionCList;
+    /**
+     * JLabel optionDList
+     */
+    private JLabel optionDList;
+    /**
+     * JLabel optionACombat
+     */
+    private JLabel optionACombat;
+    /**
+     * JLabel optionBCombat
+     */
+    private JLabel optionBCombat;
+    /**
      * JLabel titlefieldAForm
      */
     private JLabel titlefieldAForm;
@@ -224,10 +291,6 @@ public class MythArenaGuiScreen extends JFrame {
      * JLabel titlefieldCForm
      */
     private JLabel titlefieldCForm;
-    /**
-     * JLabel titlefieldDForm
-     */
-    private JLabel titlefieldDForm;
     /**
      * JTextField fieldAForm
      */
@@ -241,9 +304,21 @@ public class MythArenaGuiScreen extends JFrame {
      */
     private JTextField fieldCForm;
     /**
-     * JTextField fieldDForm
+     * JList listLabel
      */
-    private JTextField fieldDForm;
+    private JList<String> listLabel;
+    /**
+     * DefaultListModel listModel
+     */
+    private DefaultListModel<String> listModel;
+    /**
+     * JProgressBar challengerHealthBar
+     */
+    private JProgressBar challengerHealthBar;
+    /**
+     * JProgressBar challengedHealthBar
+     */
+    private JProgressBar challengedHealthBar;
 
     /**
      * MythArenaGuiScreen class constructor
@@ -262,18 +337,27 @@ public class MythArenaGuiScreen extends JFrame {
         this.formPanel = new JPanel();
         this.buttonPanel = new JPanel();
         this.listPanel = new JPanel();
+        this.combatPanel = new JPanel();
         this.titleMessage = new JLabel();
         this.titleForm = new JLabel();
         this.titleButton = new JLabel();
         this.titleList = new JLabel();
+        this.titleCombat = new JLabel();
         this.descriptionMessage = new JLabel();
         this.descriptionForm = new JLabel();
         this.descriptionButton = new JLabel();
         this.descriptionList = new JLabel();
+        this.descriptionCombat = new JLabel();
+        this.combatInfo = new JLabel();
+        this.challengerInfo = new JLabel();
+        this.challengedInfo = new JLabel();
         this.imageMessage = new JLabel();
         this.imageForm = new JLabel();
         this.imageButton = new JLabel();
         this.imageList = new JLabel();
+        this.imageCombat = new JLabel();
+        this.imageChallenger = new JLabel();
+        this.imageChallenged = new JLabel();
         this.optionAButton = new JLabel();
         this.optionBButton = new JLabel();
         this.optionCButton = new JLabel();
@@ -290,13 +374,20 @@ public class MythArenaGuiScreen extends JFrame {
         this.optionBForm = new JLabel();
         this.optionAList = new JLabel();
         this.optionBList = new JLabel();
+        this.optionCList = new JLabel();
+        this.optionDList = new JLabel();
+        this.optionACombat = new JLabel();
+        this.optionBCombat = new JLabel();
         this.titlefieldAForm = new JLabel();
         this.titlefieldBForm = new JLabel();
         this.titlefieldCForm = new JLabel();
-        this.titlefieldDForm = new JLabel();
         this.fieldAForm = new JTextField();
         this.fieldBForm = new JTextField();
         this.fieldCForm = new JTextField();
+        this.listLabel = new JList<>();
+        this.listModel = new DefaultListModel<>();
+        this.challengerHealthBar = new JProgressBar();
+        this.challengedHealthBar = new JProgressBar();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Myth Arena");
         ImageIcon logo = new ImageIcon(Objects.requireNonNull(super.getClass().getResource("/resources/images/logo.png")));
@@ -313,6 +404,25 @@ public class MythArenaGuiScreen extends JFrame {
             }
         });
         this.getContentPane().setLayout(new AbsoluteLayout());
+        // listLabel
+        this.listLabel.setModel(this.listModel);
+        this.listLabel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.listLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        this.listLabel.addListSelectionListener(new ListSelectionListener() {
+            /**
+             * valueChanged
+             * @param event MouseEvent event
+             */
+                @Override
+                public void valueChanged(ListSelectionEvent event) {
+                    MythArenaGuiScreen.this.lastSelectedListindex = event.getLastIndex();
+                }
+            }
+        );
+        JScrollPane scrollPane = new JScrollPane(this.listLabel);
+        scrollPane.setBounds(403, 400, 500, 300);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        this.listPanel.add(scrollPane);
         // fieldAForm
         this.generateField(this.fieldAForm, 562, 490);
         // fieldBForm
@@ -327,6 +437,8 @@ public class MythArenaGuiScreen extends JFrame {
         this.generatePanel(this.formPanel);
         // listPanel
         this.generatePanel(this.listPanel);
+        // combatPanel
+        this.generatePanel(this.combatPanel);
         // titleMessage
         this.generateText(this.titleMessage, this.messagePanel, "TitleMessage", 36, 330, 20);
         // titleForm
@@ -335,6 +447,8 @@ public class MythArenaGuiScreen extends JFrame {
         this.generateText(this.titleButton, this.buttonPanel, "TitleButton", 36, 330, 20);
         // titleList
         this.generateText(this.titleList, this.listPanel, "TitleList", 36, 330, 20);
+        // titleCombat
+        this.generateText(this.titleCombat, this.combatPanel, "TitleCombat", 36, 330, 20);
         // descriptionMessage
         this.generateText(this.descriptionMessage, this.messagePanel, "DescriptionMessage", 25, 330, 80);
         // descriptionForm
@@ -343,14 +457,28 @@ public class MythArenaGuiScreen extends JFrame {
         this.generateText(this.descriptionButton, this.buttonPanel, "DescriptionButton", 25, 330, 80);
         // descriptionList
         this.generateText(this.descriptionList, this.listPanel, "DescriptionList", 25, 330, 80);
+        // descriptionCombat
+        this.generateText(this.descriptionCombat, this.combatPanel, "DescriptionCombat", 25, 330, 80);
+        // combatInfo
+        this.generateText(this.combatInfo, this.combatPanel, "CombatInfo", 25, 330, 520);
+        // challengerInfo
+        this.generateText(this.challengerInfo, this.combatPanel, "ChallengerInfo", 25, -170, 300);
+        // challengedInfo
+        this.generateText(this.challengedInfo, this.combatPanel, "ChallengedInfo", 25, 830, 300);
         // imageMessage
-        this.generateImage(this.imageMessage, this.messagePanel, 450, -200);
+        this.generateImage(this.imageMessage, this.messagePanel, 450, -200, 384, 978);
         // imageForm
-        this.generateImage(this.imageForm, this.formPanel, 450, -200);
+        this.generateImage(this.imageForm, this.formPanel, 450, -200, 384, 978);
         // imageButton
-        this.generateImage(this.imageButton, this.buttonPanel, 450, -200);
+        this.generateImage(this.imageButton, this.buttonPanel, 450, -200, 384, 978);
         // imageList
-        this.generateImage(this.imageList, this.listPanel, 450, -200);
+        this.generateImage(this.imageList, this.listPanel, 450, -200, 384, 978);
+        // imageCombat
+        this.generateImage(this.imageCombat, this.combatPanel, 450, -200, 384, 978);
+        // imageChallenger
+        this.generateImage(this.imageChallenger, this.combatPanel, 50, 250, 200, 600);
+        // imageChallenged
+        this.generateImage(this.imageChallenged, this.combatPanel, 1050, 250, 200, 600);
         // optionAButton
         this.generateOption(this.optionAButton, this.buttonPanel, "optionAButton", 'A', 350, 480);
         // optionBButton
@@ -380,16 +508,30 @@ public class MythArenaGuiScreen extends JFrame {
         // optionBForm
         this.generateOption(this.optionBForm, this.formPanel, "optionBForm", 'B', 650, 800);
         // optionAList
-        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 800);
+        this.generateOption(this.optionAList, this.listPanel, "optionAList", 'A', 350, 720);
         // optionBList
-        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 800);
+        this.generateOption(this.optionBList, this.listPanel, "optionBList", 'B', 650, 720);
+        // optionCList
+        this.generateOption(this.optionCList, this.listPanel, "optionCList", 'C', 350, 800);
+        // optionDList
+        this.generateOption(this.optionDList, this.listPanel, "optionDList", 'D', 650, 800);
+        // optionACombat
+        this.generateOption(this.optionACombat, this.combatPanel, "optionACombat", 'A', 350, 800);
+        // optionBCombat
+        this.generateOption(this.optionBCombat, this.combatPanel, "optionBCombat", 'B', 650, 800);
         // titlefieldAForm
         this.generateTitleField(this.titlefieldAForm, "titlefieldAForm", 330, 440);
         // titlefieldBForm
         this.generateTitleField(this.titlefieldBForm, "titlefieldBForm", 330, 510);
         // titlefieldCForm
         this.generateTitleField(this.titlefieldCForm, "titlefieldCForm", 330, 580);
+        // challengerHealthBar
+        this.generateHealthBar(this.challengerHealthBar, 30, 725);
+        // challengedHealthBar
+        this.generateHealthBar(this.challengedHealthBar,1030, 725);
         this.pack();
+        // default image setter
+        this.setDefaultImage();
     }
 
     /**
@@ -430,7 +572,6 @@ public class MythArenaGuiScreen extends JFrame {
         textLabel.setForeground(new Color(1, 1, 1));
         textLabel.setHorizontalAlignment(0);
         textLabel.setText(text);
-        textLabel.setOpaque(true);
         specificPanel.add(textLabel, new AbsoluteConstraints(x, y, 630, 60));
     }
 
@@ -441,10 +582,10 @@ public class MythArenaGuiScreen extends JFrame {
      * @param x int x
      * @param y int y
      */
-    private void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y) {
+    private void generateImage(JLabel imageLabel, JPanel specificPanel, int x, int y, int width, int height) {
         imageLabel.setHorizontalAlignment(0);
         imageLabel.setIconTextGap(0);
-        specificPanel.add(imageLabel, new AbsoluteConstraints(x, y, 384, 978));
+        specificPanel.add(imageLabel, new AbsoluteConstraints(x, y, width, height));
     }
 
     /**
@@ -497,8 +638,32 @@ public class MythArenaGuiScreen extends JFrame {
         titlefieldLabel.setForeground(new Color(1, 1, 1));
         titlefieldLabel.setHorizontalAlignment(0);
         titlefieldLabel.setText(titlefieldText);
-        titlefieldLabel.setOpaque(true);
         this.formPanel.add(titlefieldLabel, new AbsoluteConstraints(x, y, 630, 60));
+    }
+
+    /**
+     * Generates healthBar
+     * @param healthProgressBar JProgressBar healthProgressBar
+     * @param x int x
+     * @param y int y
+     */
+    private void generateHealthBar(JProgressBar healthProgressBar, int x, int y) {
+        healthProgressBar.setBackground(Color.red);
+        healthProgressBar.setForeground(Color.green);
+        this.combatPanel.add(healthProgressBar, new AbsoluteConstraints(x, y, 235, 30));
+    }
+
+    /**
+     * Sets DefaultImage for all modes
+     */
+    private void setDefaultImage() {
+        for (int cont = 0; cont <= 6; cont++) {
+            if (cont <= 4) {
+                this.setImage(cont, "/resources/images/logo.png");
+            } else {
+                this.setImage(cont, "/resources/images/character.png");
+            }
+        }
     }
 
     /**
@@ -522,29 +687,25 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * Sets Image
      * @param number int number
-     * @param image ImageIcon image
+     * @param imagePath String imagePath
      */
-    public void setImage(int number, ImageIcon image) {
+    public void setImage(int number, String imagePath) {
         JLabel imageLabel;
         switch (number) {
-            case 0 -> {
-                imageLabel = this.imageMessage;
-            }
-            case 1 -> {
-                imageLabel = this.imageForm;
-            }
-            case 2 -> {
-                imageLabel = this.imageButton;
-            }
-            case 3 -> {
-                imageLabel = this.imageList;
-            }
+            case 0 -> imageLabel = this.imageMessage;
+            case 1 -> imageLabel = this.imageForm;
+            case 2 -> imageLabel = this.imageButton;
+            case 3 -> imageLabel = this.imageList;
+            case 4 -> imageLabel = this.imageCombat;
+            case 5 -> imageLabel = this.imageChallenger;
+            case 6 -> imageLabel = this.imageChallenged;
             default -> throw new IllegalStateException("Unexpected value: " + number);
         }
-        if (image == null) {
+        if (imagePath == null) {
             imageLabel.setVisible(false);
         } else {
             imageLabel.setText("");
+            ImageIcon image = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(imagePath)));
             int[] proportions = this.getProportions(image.getIconWidth(), image.getIconHeight(), imageLabel.getWidth(), imageLabel.getHeight());
             Image scaledImage = image.getImage().getScaledInstance(proportions[0], proportions[1], 8);
             imageLabel.setIcon(new ImageIcon(scaledImage));
@@ -558,11 +719,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param message String message
      */
     public void setField(int number, String message) {
-        if (message == null) {
-            message = "";
-        } else {
-            message = this.reformatMessage(message);
-        }
+        message = this.reformatMessage(message);
         switch (number) {
             case 0 -> {
                 this.titlefieldAFormText = message;
@@ -586,11 +743,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param message String message
      */
     public void setOption(int number, String message) {
-        if (message == null) {
-            message = "";
-        } else {
-            message = this.reformatMessage(message);
-        }
+        message = this.reformatMessage(message);
         switch (number) {
             case 0 -> {
                 this.optionAText = message;
@@ -598,6 +751,7 @@ public class MythArenaGuiScreen extends JFrame {
                 this.optionAMessage.setVisible(!"".equals(message));
                 this.optionAForm.setVisible(!"".equals(message));
                 this.optionAList.setVisible(!"".equals(message));
+                this.optionACombat.setVisible(!"".equals(message));
             }
             case 1 -> {
                 this.optionBText = message;
@@ -605,14 +759,17 @@ public class MythArenaGuiScreen extends JFrame {
                 this.optionBMessage.setVisible(!"".equals(message));
                 this.optionBForm.setVisible(!"".equals(message));
                 this.optionBList.setVisible(!"".equals(message));
+                this.optionBCombat.setVisible(!"".equals(message));
             }
             case 2 -> {
                 this.optionCText = message;
                 this.optionCButton.setVisible(!"".equals(message));
+                this.optionCList.setVisible(!"".equals(message));
             }
             case 3 -> {
                 this.optionDText = message;
                 this.optionDButton.setVisible(!"".equals(message));
+                this.optionDList.setVisible(!"".equals(message));
             }
             case 4 -> {
                 this.optionEText = message;
@@ -643,6 +800,53 @@ public class MythArenaGuiScreen extends JFrame {
     }
 
     /**
+     * Sets ArrayList String list
+     * @param list ArrayList String list
+     */
+    public void setList(ArrayList<String> list) {
+        this.listModel.removeAllElements();
+        this.listModel.addAll(list);
+    }
+
+    /**
+     * Sets specified combat info
+     * @param number int number
+     * @param message String message
+     */
+    public void setCombatInfo(int number, String message) {
+        message = this.reformatMessage(message);
+        switch (number) {
+            case 0 -> {
+                this.combatInfoText = message;
+                this.combatInfo.setVisible(!"".equals(message));
+            }
+            case 1 -> {
+                this.challengerInfoText = message;
+                this.challengerInfo.setVisible(!"".equals(message));
+            }
+            case 2 -> {
+                this.challengedInfoText = message;
+                this.challengedInfo.setVisible(!"".equals(message));
+            }
+        }
+        this.refreshLater();
+    }
+
+    /**
+     * Sets specified health bar with calculated progress
+     * @param number int number
+     * @param currentHealth int currentHealth
+     * @param maxHealth int maxHealth
+     */
+    public void setHealthBar(int number, int currentHealth, int maxHealth) {
+        int percentage = currentHealth * 100 / maxHealth;
+        switch (number) {
+            case 0 -> this.challengerHealthBar.setValue(percentage);
+            case 1 -> this.challengedHealthBar.setValue(percentage);
+        }
+    }
+
+    /**
      * Gets specified field text
      * @param number int number
      * @return String fieldText
@@ -668,16 +872,18 @@ public class MythArenaGuiScreen extends JFrame {
      */
     public void clearFieldText(int number) {
         switch (number) {
-            case 0 -> {
-                this.fieldAForm.setText(null);
-            }
-            case 1 -> {
-                this.fieldBForm.setText(null);
-            }
-            case 2 -> {
-                this.fieldCForm.setText(null);
-            }
+            case 0 -> this.fieldAForm.setText(null);
+            case 1 -> this.fieldBForm.setText(null);
+            case 2 -> this.fieldCForm.setText(null);
         }
+    }
+
+    /**
+     * Gets last selected list index
+     * @return int index
+     */
+    public int getLastSelectedListIndex() {
+        return this.lastSelectedListindex;
     }
 
     /**
@@ -686,12 +892,12 @@ public class MythArenaGuiScreen extends JFrame {
      * @return String message
      */
     private String reformatMessage(String message) {
+        if (message == null) return "";
         message = message.replaceAll("<img", "");
         message = message.replaceAll("<href", "");
         message = message.replaceAll("<[A-Za-z0-9]+>", "");
         message = message.replaceAll("\n", "<br>");
-        message = "<html>" + message + "</html>";
-        return message;
+        return "<html>" + message + "</html>";
     }
 
     /**
@@ -724,10 +930,15 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.titleForm.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.titleButton.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.titleList.setText(MythArenaGuiScreen.this.titleText);
+            MythArenaGuiScreen.this.titleCombat.setText(MythArenaGuiScreen.this.titleText);
             MythArenaGuiScreen.this.descriptionMessage.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.descriptionForm.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.descriptionButton.setText(MythArenaGuiScreen.this.descriptionText);
             MythArenaGuiScreen.this.descriptionList.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.descriptionCombat.setText(MythArenaGuiScreen.this.descriptionText);
+            MythArenaGuiScreen.this.combatInfo.setText(MythArenaGuiScreen.this.combatInfoText);
+            MythArenaGuiScreen.this.challengerInfo.setText(MythArenaGuiScreen.this.challengerInfoText);
+            MythArenaGuiScreen.this.challengedInfo.setText(MythArenaGuiScreen.this.challengedInfoText);
             MythArenaGuiScreen.this.optionAButton.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBButton.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionCButton.setText(MythArenaGuiScreen.this.optionCText);
@@ -744,10 +955,13 @@ public class MythArenaGuiScreen extends JFrame {
             MythArenaGuiScreen.this.optionBForm.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.optionAList.setText(MythArenaGuiScreen.this.optionAText);
             MythArenaGuiScreen.this.optionBList.setText(MythArenaGuiScreen.this.optionBText);
+            MythArenaGuiScreen.this.optionCList.setText(MythArenaGuiScreen.this.optionCText);
+            MythArenaGuiScreen.this.optionDList.setText(MythArenaGuiScreen.this.optionDText);
+            MythArenaGuiScreen.this.optionACombat.setText(MythArenaGuiScreen.this.optionAText);
+            MythArenaGuiScreen.this.optionBCombat.setText(MythArenaGuiScreen.this.optionBText);
             MythArenaGuiScreen.this.titlefieldAForm.setText(MythArenaGuiScreen.this.titlefieldAFormText);
             MythArenaGuiScreen.this.titlefieldBForm.setText(MythArenaGuiScreen.this.titlefieldBFormText);
             MythArenaGuiScreen.this.titlefieldCForm.setText(MythArenaGuiScreen.this.titlefieldCFormText);
-            MythArenaGuiScreen.this.titlefieldDForm.setText(MythArenaGuiScreen.this.titlefieldDFormText);
         });
     }
 
@@ -761,10 +975,15 @@ public class MythArenaGuiScreen extends JFrame {
             this.titleForm.setText(this.titleText);
             this.titleButton.setText(this.titleText);
             this.titleList.setText(this.titleText);
+            this.titleCombat.setText(this.titleText);
             this.descriptionMessage.setText(this.descriptionText);
             this.descriptionForm.setText(this.descriptionText);
             this.descriptionButton.setText(this.descriptionText);
             this.descriptionList.setText(this.descriptionText);
+            this.descriptionCombat.setText(this.descriptionText);
+            this.combatInfo.setText(this.combatInfoText);
+            this.challengerInfo.setText(this.challengerInfoText);
+            this.challengedInfo.setText(this.challengedInfoText);
             this.optionAButton.setText(this.optionAText);
             this.optionBButton.setText(this.optionBText);
             this.optionCButton.setText(this.optionCText);
@@ -781,10 +1000,13 @@ public class MythArenaGuiScreen extends JFrame {
             this.optionBForm.setText(this.optionBText);
             this.optionAList.setText(this.optionAText);
             this.optionBList.setText(this.optionBText);
+            this.optionCList.setText(this.optionCText);
+            this.optionDList.setText(this.optionDText);
+            this.optionACombat.setText(this.optionAText);
+            this.optionBCombat.setText(this.optionBText);
             this.titlefieldAForm.setText(this.titlefieldAFormText);
             this.titlefieldBForm.setText(this.titlefieldBFormText);
             this.titlefieldCForm.setText(this.titlefieldCFormText);
-            this.titlefieldDForm.setText(this.titlefieldDFormText);
         }
     }
 
@@ -796,6 +1018,7 @@ public class MythArenaGuiScreen extends JFrame {
         this.formPanel.setVisible(false);
         this.buttonPanel.setVisible(false);
         this.listPanel.setVisible(false);
+        this.combatPanel.setVisible(false);
     }
 
     /**
@@ -806,6 +1029,7 @@ public class MythArenaGuiScreen extends JFrame {
         this.formPanel.setVisible(true);
         this.buttonPanel.setVisible(false);
         this.listPanel.setVisible(false);
+        this.combatPanel.setVisible(false);
     }
 
     /**
@@ -816,6 +1040,7 @@ public class MythArenaGuiScreen extends JFrame {
         this.formPanel.setVisible(false);
         this.buttonPanel.setVisible(true);
         this.listPanel.setVisible(false);
+        this.combatPanel.setVisible(false);
     }
 
     /**
@@ -826,6 +1051,18 @@ public class MythArenaGuiScreen extends JFrame {
         this.formPanel.setVisible(false);
         this.buttonPanel.setVisible(false);
         this.listPanel.setVisible(true);
+        this.combatPanel.setVisible(false);
+    }
+
+    /**
+     * Shows JPanel combatPanel
+     */
+    public void showCombatPanel() {
+        this.messagePanel.setVisible(false);
+        this.formPanel.setVisible(false);
+        this.buttonPanel.setVisible(false);
+        this.listPanel.setVisible(false);
+        this.combatPanel.setVisible(true);
     }
 
 }
