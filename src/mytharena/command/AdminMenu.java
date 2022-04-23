@@ -3,6 +3,7 @@ package mytharena.command;
 import mytharena.Arena;
 import mytharena.data.Data;
 import mytharena.data.user.Admin;
+import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
@@ -34,7 +35,7 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setTitle("Welcome to Myth Arena " + super.getArena().getActiveUser().getUsername());
             super.getMythArenaGui().setDescription("Admin Panel");
             super.getMythArenaGui().setOption(0, "Manage admins");
-            super.getMythArenaGui().setOption(1, "Manage users");
+            super.getMythArenaGui().setOption(1, "Manage players");
             super.getMythArenaGui().setOption(2, "Manage characters");
             super.getMythArenaGui().setOption(3, "Validate combats");
             super.getMythArenaGui().setOption(4, null);
@@ -46,10 +47,8 @@ public class AdminMenu extends Command {
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // manage admins
                 case 'A' -> this.manageAdmins();
-                // manage users
-                case 'B' -> {
-
-                }
+                // manage players
+                case 'B' -> this.managePlayers();
                 // manage characters
                 case 'C' -> {
 
@@ -152,6 +151,75 @@ public class AdminMenu extends Command {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Manage Players
+     */
+    private void managePlayers() {
+        boolean exit = false;
+        while (!exit) {
+            this.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Player Manager Tool");
+            super.getMythArenaGui().setDescription("Select what you want to change");
+            super.getMythArenaGui().setOption(0, "Ban 24h selected player");
+            super.getMythArenaGui().setOption(1, "Unban selected player");
+            super.getMythArenaGui().setOption(2, "Back to AdminMenu");
+            super.getMythArenaGui().setOption(3, null);
+            ArrayList<User> playerArrayList = new ArrayList<>();
+            ArrayList<String> playerUsernameArrayList = new ArrayList<>();
+            for (User user : super.getData().getUserArrayList()) {
+                if (user instanceof Player) {
+                    playerArrayList.add(user);
+                    if (super.getData().getBannedPlayerArrayList().contains(user)) {
+                        // TODO: display remaining ban time & auto unban when time finishes
+                        playerUsernameArrayList.add(user.getUsername() + " banned :(");
+                    } else {
+                        playerUsernameArrayList.add(user.getUsername());
+                    }
+                }
+            }
+            super.getMythArenaGui().setList(playerUsernameArrayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // ban 24h selected player
+                case 'A' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    // checks if player is not already banned
+                    if (!super.getData().getBannedPlayerArrayList().contains(playerArrayList.get(selected))) {
+                        // adds player from bannedPlayerArrayList saving it in data serializing it
+                        try {
+                            super.getData().getBannedPlayerArrayList().add(playerArrayList.get(selected));
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Banned selected player: " + selected);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Selected player is already banned: " + selected);
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                // unban selected player if banned
+                case 'B' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    // checks if player is already banned
+                    if (super.getData().getBannedPlayerArrayList().contains(playerArrayList.get(selected))) {
+                        // removes player from bannedPlayerArrayList deleting it in data serializing it
+                        try {
+                            super.getData().getBannedPlayerArrayList().remove(playerArrayList.get(selected));
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Unbanned selected player: " + selected);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Selected player has to be banned at first: " + selected);
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                case 'C' -> exit = true;
             }
         }
     }
