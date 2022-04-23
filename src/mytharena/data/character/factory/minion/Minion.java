@@ -18,7 +18,7 @@ public abstract class Minion implements Serializable {
     private final int health;
 
     /**
-     * Minion abstract class constructor
+     * Minion abstract class constructor implements Serializable
      * @param name String name
      * @param health String health
      */

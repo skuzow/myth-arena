@@ -1,8 +1,9 @@
-package mytharena.data.character.factory.ability.discipline;
+package mytharena.data.character.ability;
 
-import mytharena.data.character.factory.ability.Ability;
+import mytharena.data.character.ability.Ability;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Discipline class extends Ability implements Serializable
@@ -16,13 +17,13 @@ public class Discipline extends Ability implements Serializable {
 
     /**
      * Discipline class constructor extends Ability
-     * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier
      */
-    public Discipline(String name, int attackModifier, int defenseModifier, int cost) {
-        super(name, attackModifier, defenseModifier);
-        this.cost = cost;
+    public Discipline(int attackModifier, int defenseModifier) {
+        super(attackModifier, defenseModifier);
+        Random rand = new Random();
+        cost = rand.nextInt(4);
     }
 
     /**

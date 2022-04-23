@@ -11,16 +11,38 @@ import java.util.ArrayList;
 public class HumanFactory implements MinionAbstractFactory {
 
     /**
-     * Minion Human factory method
+     * String name
+     */
+    private final String name;
+
+    /**
+     * int health
+     */
+    private final int health;
+
+    /**
+     * String loyalty
+     */
+    private final String loyalty;
+
+    /**
+     * HumanFactory constructor implements MinionAbstracFactory
      * @param name String name
      * @param health int health
-     * @param loyalty String loyalty
-     * @param dependency int dependency
-     * @param minionArrayList ArrayList Minion minionArrayList
-     * @return new Human
+     * @param loyalty String loyal
+     */
+    public HumanFactory(String name, int health, String loyalty) {
+        this.name = name;
+        this.health = health;
+        this.loyalty = loyalty;
+    }
+
+    /**
+     * HumanFactory createMinion method
+     * @return Human
      */
     @Override
-    public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
+    public Minion createMinion() {
         return new Human(name, health, loyalty);
     }
     

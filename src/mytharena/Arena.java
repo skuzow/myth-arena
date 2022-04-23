@@ -1,9 +1,6 @@
 package mytharena;
 
-import mytharena.command.Command;
-import mytharena.command.AdminMenu;
-import mytharena.command.StartMenu;
-import mytharena.command.PlayerMenu;
+import mytharena.command.*;
 import mytharena.data.Data;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
@@ -59,6 +56,7 @@ public class Arena {
             this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
+            this.commandMap.put("CharacterCreationMenu", new CharacterCreationMenu(this, this.data, this.mythArenaGui));
             // main loop
             while (true) {
                 this.commandMap.get("StartMenu").execute();

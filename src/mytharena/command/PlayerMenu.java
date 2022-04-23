@@ -49,6 +49,7 @@ public class PlayerMenu extends Command {
 
             switch (super.getMythArenaGui().waitEvent(30)) {
                 case 'A' -> getGold();
+                case 'C' -> createCharacter();
                 case 'H' -> logout();
             }
         }
@@ -72,6 +73,7 @@ public class PlayerMenu extends Command {
     }
 
     public void createCharacter() {
-
+        super.getArena().getCommand("CharacterCreationMenu");
     }
+
 }

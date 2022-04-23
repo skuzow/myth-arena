@@ -11,16 +11,38 @@ import java.util.ArrayList;
 public class GhoulFactory implements MinionAbstractFactory {
 
     /**
-     * Minion Ghoul factory method
+     * String name
+     */
+    private final String name;
+
+    /**
+     * int health
+     */
+    private final int health;
+
+    /**
+     * int dependency
+     */
+    private final int dependency;
+
+    /**
+     * GhoulFactory constructor implements MinionAbstractFactory
      * @param name String name
      * @param health int health
-     * @param loyalty String loyalty
      * @param dependency int dependency
-     * @param minionArrayList ArrayList Minion minionArrayList
-     * @return new Ghoul
+     */
+    public GhoulFactory(String name, int health, int dependency) {
+        this.name = name;
+        this.health = health;
+        this.dependency = dependency;
+    }
+
+    /**
+     * GhoulFactory createMinion method
+     * @return Ghoul
      */
     @Override
-    public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
+    public Minion createMinion() {
         return new Ghoul(name, health, dependency);
     }
 

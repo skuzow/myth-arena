@@ -11,16 +11,38 @@ import java.util.ArrayList;
 public class DemonFactory implements MinionAbstractFactory {
 
     /**
-     * Minion Demon factory method
+     * String name
+     */
+    private final String name;
+
+    /**
+     * int health
+     */
+    private final int health;
+
+    /**
+     * ArrayList Minion minionArrayList
+     */
+    private final ArrayList<Minion> minionArrayList;
+
+    /**
+     * DemonFactory constructor implements MinionAbstractFactory
      * @param name String name
      * @param health int health
-     * @param loyalty String loyalty
-     * @param dependency int dependency
      * @param minionArrayList ArrayList Minion minionArrayList
+     */
+    public DemonFactory(String name, int health, ArrayList<Minion> minionArrayList) {
+        this.name = name;
+        this.health = health;
+        this.minionArrayList = minionArrayList;
+    }
+
+    /**
+     * DemonFactory createMinion method
      * @return new Demon
      */
     @Override
-    public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
+    public Minion createMinion() {
         return new Demon(name, health, minionArrayList);
     }
 
