@@ -10,18 +10,19 @@ import java.util.ArrayList;
  */
 public class DemonFactory implements MinionAbstractFactory {
 
+    private ArrayList<Minion> minionArrayList;
+
+    public DemonFactory() {
+
+    }
+
     /**
-     * Minion Demon factory method
-     * @param name String name
-     * @param health int health
-     * @param loyalty String loyalty
-     * @param dependency int dependency
-     * @param minionArrayList ArrayList Minion minionArrayList
+     * DemonFactory createMinion method
      * @return new Demon
      */
     @Override
-    public Minion createMinion(String name, int health, String loyalty, int dependency, ArrayList<Minion> minionArrayList) {
-        return new Demon(name, health, minionArrayList);
+    public Minion createMinion() {
+        return new Demon();
     }
 
 }

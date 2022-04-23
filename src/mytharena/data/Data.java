@@ -1,5 +1,7 @@
 package mytharena.data;
 
+import mytharena.data.character.inventory.equipment.Armor;
+import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.PendingCombat;
 import mytharena.data.user.User;
@@ -21,6 +23,16 @@ public class Data implements Serializable {
      * ArrayList User bannedPlayerArrayList
      */
     private final ArrayList<User> bannedPlayerArrayList = new ArrayList<>();
+
+    /**
+     * ArrayList Weapon weaponPool
+     */
+    private final ArrayList<Weapon> weaponPool = new ArrayList<>();
+
+    /**
+     * ArrayList Armor armorPool
+     */
+    private final ArrayList<Armor> armorPool = new ArrayList<>();
 
     /**
      * ArrayList Combat combatArrayList
@@ -63,5 +75,21 @@ public class Data implements Serializable {
     public ArrayList<PendingCombat> getPendingCombatArrayList() {
         return this.pendingCombatArrayList;
     }
-    
+
+    /**
+     * Get ArrayList Weapon weaponPool
+     * @return ArrayList Weapon weaponPool
+     */
+    public ArrayList<Weapon> getWeaponPool() {
+        return weaponPool;
+    }
+
+    /**
+     * ArrayList Armor armorPool
+     * @return ArrayList Armor armorPool
+     */
+    public ArrayList<Armor> getArmorPool() {
+        return armorPool;
+    }
+
 }

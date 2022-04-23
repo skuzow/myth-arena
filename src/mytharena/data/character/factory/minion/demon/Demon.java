@@ -13,17 +13,11 @@ public class Demon extends Minion implements Serializable {
     /**
      * ArrayList Minion minionArrayList
      */
-    private final ArrayList<Minion> minionArrayList;
+    private ArrayList<Minion> minionArrayList;
 
-    /**
-     * Demon class constructor extends Minion
-     * @param name String name
-     * @param health int health
-     * @param minionArrayList ArrayList Minion minionArrayList
-     */
-    public Demon(String name, int health, ArrayList<Minion> minionArrayList) {
-        super(name, health);
-        this.minionArrayList = minionArrayList;
+
+    public Demon() {
+
     }
 
     /**

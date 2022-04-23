@@ -3,6 +3,7 @@ package mytharena.data.character.factory.minion.ghoul;
 import mytharena.data.character.factory.minion.Minion;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Ghoul class extends Minion implements Serializable
@@ -14,15 +15,9 @@ public class Ghoul extends Minion implements Serializable {
      */
     private final int dependency;
 
-    /**
-     * Ghoul class constructor extends Minion
-     * @param name String name
-     * @param health int health
-     * @param dependency int dependency
-     */
-    public Ghoul(String name, int health, int dependency) {
-        super(name, health);
-        this.dependency = dependency;
+    public Ghoul() {
+        Random rand = new Random();
+        this.dependency = rand.nextInt(5)+1;
     }
 
     /**

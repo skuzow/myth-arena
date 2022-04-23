@@ -1,4 +1,4 @@
-package mytharena.data.character.factory.ability;
+package mytharena.data.character.ability;
 
 import java.io.Serializable;
 
@@ -6,11 +6,6 @@ import java.io.Serializable;
  * Ability abstract class implements Serializable
  */
 public abstract class Ability implements Serializable {
-
-    /**
-     * String name
-     */
-    private final String name;
 
     /**
      * int attackModifier
@@ -24,22 +19,12 @@ public abstract class Ability implements Serializable {
 
     /**
      * Ability abstract class constructor
-     * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier
      */
-    public Ability(String name, int attackModifier, int defenseModifier) {
-        this.name = name;
+    public Ability(int attackModifier, int defenseModifier) {
         this.attackModifier = attackModifier;
         this.defenseModifier = defenseModifier;
-    }
-
-    /**
-     * Gets String name
-     * @return String name
-     */
-    public String getName() {
-        return this.name;
     }
 
     /**

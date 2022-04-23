@@ -1,6 +1,4 @@
-package mytharena.data.character.factory.ability.gift;
-
-import mytharena.data.character.factory.ability.Ability;
+package mytharena.data.character.ability;
 
 import java.io.Serializable;
 
@@ -16,14 +14,12 @@ public class Gift extends Ability implements Serializable {
 
     /**
      * Gift class constructor extends Ability
-     * @param name String name
      * @param attackModifier int attackModifier
      * @param defenseModifier int defenseModifier
-     * @param rageMin int rageMin
      */
-    public Gift(String name, int attackModifier, int defenseModifier, int rageMin) {
-        super(name, attackModifier, defenseModifier);
-        this.rageMin = rageMin;
+    public Gift(int attackModifier, int defenseModifier) {
+        super(attackModifier, defenseModifier);
+        this.rageMin = 0;
     }
 
     /**

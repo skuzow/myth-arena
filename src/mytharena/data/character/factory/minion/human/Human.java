@@ -3,6 +3,7 @@ package mytharena.data.character.factory.minion.human;
 import mytharena.data.character.factory.minion.Minion;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Human class extends Minion implements Serializable
@@ -12,24 +13,18 @@ public class Human extends Minion implements Serializable {
     /**
      *  String loyalty
      */
-    private final String loyalty;
+    private final Loyalty loyalty;
 
-    /**
-     * Human class constructor extends Minion
-     * @param name String name
-     * @param health int health
-     * @param loyalty String loyalty
-     */
-    public Human(String name, int health, String loyalty) {
-        super(name, health);
-        this.loyalty = loyalty;
+
+    public Human() {
+        loyalty = Loyalty.values()[new Random().nextInt(Loyalty.values().length)];
     }
 
     /**
      * Gets String loyalty
      * @return String loyalty
      */
-    public String getLoyalty() {
+    public Loyalty getLoyalty() {
         return this.loyalty;
     }
 
