@@ -1,11 +1,13 @@
 package mytharena.data.character.factory.character;
 
 import mytharena.data.character.ability.Ability;
+import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.inventory.Inventory;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.modifier.Modifier;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,11 +15,6 @@ import java.util.Random;
  * Character abstract class implements Serializable
  */
 public abstract class Character implements Serializable {
-
-    /**
-     * String name
-     */
-    private String name;
 
     /**
      * int gold
@@ -48,6 +45,16 @@ public abstract class Character implements Serializable {
      * ArrayList Modifier weaknessArrayList
      */
     private ArrayList<Modifier> weaknessArrayList;
+
+    private ArrayList<Minion> minionArrayList;
+
+    public ArrayList<Minion> getMinionArrayList() {
+        return minionArrayList;
+    }
+
+    public void setMinionArrayList(ArrayList<Minion> minionArrayList) {
+        this.minionArrayList = minionArrayList;
+    }
 
     /**
      * ArrayList Modifier fortitudeArrayList
@@ -85,25 +92,12 @@ public abstract class Character implements Serializable {
 
     private Ability ability;
 
-    /**
-     * Character abstract class constructor
-     * @param name String name
-     */
-    public Character(String name) {
-        this.name = name;
-        gold = 0;
+    public Character() {
+        gold = 100;
         Random rand = new Random();
 
-        this.health = rand.nextInt(3)+1;
+        this.health = 5;
         this.power = rand.nextInt(5)+1;
-    }
-
-    /**
-     * Sets String name
-     * @param name String name
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -153,15 +147,6 @@ public abstract class Character implements Serializable {
      */
     public void setEquippedWeaponArrayList(ArrayList<Equipment> equippedWeaponArrayList) {
         this.equippedWeaponArrayList = equippedWeaponArrayList;
-    }
-
-
-    /**
-     * Gets String name
-     * @return String name
-     */
-    public String getName() {
-        return this.name;
     }
 
     /**

@@ -73,7 +73,7 @@ public class PlayerMenu extends Command {
     }
 
     public void createCharacter() {
-        super.getArena().getCommand("CharacterCreationMenu");
+        super.getArena().getCommand("CharacterCreationMenu").execute();
     }
 
 }

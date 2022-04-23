@@ -5,9 +5,8 @@ import mytharena.data.character.factory.character.CharacterAbstractFactory;
 
 public class WerewolfFactory implements CharacterAbstractFactory {
 
-    private String name;
-    public WerewolfFactory(String name) {
-        this.name = name;
+    public WerewolfFactory() {
+
     }
 
 
@@ -18,6 +17,6 @@ public class WerewolfFactory implements CharacterAbstractFactory {
      */
     @Override
     public Character createCharacter() {
-        return new Werewolf(name);
+        return new Werewolf();
     }
 }

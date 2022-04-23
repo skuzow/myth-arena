@@ -10,31 +10,10 @@ import java.util.ArrayList;
  */
 public class DemonFactory implements MinionAbstractFactory {
 
-    /**
-     * String name
-     */
-    private final String name;
+    private ArrayList<Minion> minionArrayList;
 
-    /**
-     * int health
-     */
-    private final int health;
+    public DemonFactory() {
 
-    /**
-     * ArrayList Minion minionArrayList
-     */
-    private final ArrayList<Minion> minionArrayList;
-
-    /**
-     * DemonFactory constructor implements MinionAbstractFactory
-     * @param name String name
-     * @param health int health
-     * @param minionArrayList ArrayList Minion minionArrayList
-     */
-    public DemonFactory(String name, int health, ArrayList<Minion> minionArrayList) {
-        this.name = name;
-        this.health = health;
-        this.minionArrayList = minionArrayList;
     }
 
     /**
@@ -43,7 +22,7 @@ public class DemonFactory implements MinionAbstractFactory {
      */
     @Override
     public Minion createMinion() {
-        return new Demon(name, health, minionArrayList);
+        return new Demon();
     }
 
 }

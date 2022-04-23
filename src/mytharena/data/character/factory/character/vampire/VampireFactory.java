@@ -5,17 +5,7 @@ import mytharena.data.character.factory.character.CharacterAbstractFactory;
 
 public class VampireFactory implements CharacterAbstractFactory {
 
-    /**
-     * String name
-     */
-    private String name;
-
-    /**
-     * VampireFactory Constructor
-     * @param name String name
-     */
-    public VampireFactory(String name) {
-        this.name = name;
+    public VampireFactory() {
     }
 
     /**
@@ -25,6 +15,6 @@ public class VampireFactory implements CharacterAbstractFactory {
      */
     @Override
     public Character createCharacter() {
-        return new Vampire(name);
+        return new Vampire();
     }
 }

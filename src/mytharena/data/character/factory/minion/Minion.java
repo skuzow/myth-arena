@@ -1,6 +1,7 @@
 package mytharena.data.character.factory.minion;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Minion abstract class implements Serializable
@@ -8,31 +9,14 @@ import java.io.Serializable;
 public abstract class Minion implements Serializable {
 
     /**
-     * String name
-     */
-    private final String name;
-
-    /**
      * int health
      */
     private final int health;
 
-    /**
-     * Minion abstract class constructor implements Serializable
-     * @param name String name
-     * @param health String health
-     */
-    public Minion(String name, int health) {
-        this.name = name;
-        this.health = health;
-    }
 
-    /**
-     * Gets String name
-     * @return String name
-     */
-    public String getName() {
-        return this.name;
+    public Minion() {
+        Random rand = new Random();
+        health = rand.nextInt(3)+1;
     }
 
     /**

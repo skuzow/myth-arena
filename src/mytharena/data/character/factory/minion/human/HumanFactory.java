@@ -10,31 +10,8 @@ import java.util.ArrayList;
  */
 public class HumanFactory implements MinionAbstractFactory {
 
-    /**
-     * String name
-     */
-    private final String name;
+    public HumanFactory() {
 
-    /**
-     * int health
-     */
-    private final int health;
-
-    /**
-     * String loyalty
-     */
-    private final String loyalty;
-
-    /**
-     * HumanFactory constructor implements MinionAbstracFactory
-     * @param name String name
-     * @param health int health
-     * @param loyalty String loyal
-     */
-    public HumanFactory(String name, int health, String loyalty) {
-        this.name = name;
-        this.health = health;
-        this.loyalty = loyalty;
     }
 
     /**
@@ -43,7 +20,7 @@ public class HumanFactory implements MinionAbstractFactory {
      */
     @Override
     public Minion createMinion() {
-        return new Human(name, health, loyalty);
+        return new Human();
     }
     
 }

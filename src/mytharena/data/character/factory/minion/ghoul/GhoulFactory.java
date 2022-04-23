@@ -10,31 +10,8 @@ import java.util.ArrayList;
  */
 public class GhoulFactory implements MinionAbstractFactory {
 
-    /**
-     * String name
-     */
-    private final String name;
+    public GhoulFactory() {
 
-    /**
-     * int health
-     */
-    private final int health;
-
-    /**
-     * int dependency
-     */
-    private final int dependency;
-
-    /**
-     * GhoulFactory constructor implements MinionAbstractFactory
-     * @param name String name
-     * @param health int health
-     * @param dependency int dependency
-     */
-    public GhoulFactory(String name, int health, int dependency) {
-        this.name = name;
-        this.health = health;
-        this.dependency = dependency;
     }
 
     /**
@@ -43,7 +20,7 @@ public class GhoulFactory implements MinionAbstractFactory {
      */
     @Override
     public Minion createMinion() {
-        return new Ghoul(name, health, dependency);
+        return new Ghoul();
     }
 
 }

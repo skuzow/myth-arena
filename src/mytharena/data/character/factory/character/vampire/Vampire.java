@@ -27,12 +27,7 @@ public class Vampire extends Character implements Serializable {
      */
     private final int bloodPoints;
 
-    /**
-     * Vampire class constructor extends Character
-     * @param name String name
-     */
-    public Vampire(String name) {
-        super(name);
+    public Vampire() {
         Random rand = new Random();
         age = rand.nextInt(1000)+1;
         bloodPoints = 0;

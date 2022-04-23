@@ -18,12 +18,7 @@ public class Werewolf extends Character implements Serializable {
      */
     private final int rage;
 
-    /**
-     * Werewolf class constructor extends Character
-     * @param name String name
-     */
-    public Werewolf(String name) {
-        super(name);
+    public Werewolf() {
         Random rand = new Random();
         this.rage = 0;
         setAbility(new Gift(rand.nextInt(3)+1,rand.nextInt(3)+1));

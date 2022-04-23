@@ -5,10 +5,7 @@ import mytharena.data.character.factory.character.CharacterAbstractFactory;
 
 public class HunterFactory implements CharacterAbstractFactory {
 
-    private final String name;
-
-    public HunterFactory(String name) {
-        this.name = name;
+    public HunterFactory() {
     }
 
     /**
@@ -17,6 +14,6 @@ public class HunterFactory implements CharacterAbstractFactory {
      */
     @Override
     public Character createCharacter() {
-        return new Hunter(name);
+        return new Hunter();
     }
 }

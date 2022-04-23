@@ -18,12 +18,7 @@ public class Hunter extends Character implements Serializable {
      */
     private final int will;
 
-    /**
-     * Hunter class constructor extends Character
-     * @param name String name
-     */
-    public Hunter(String name) {
-        super(name);
+    public Hunter() {
         Random rand = new Random();
         will = rand.nextInt(3)+1;
         setAbility(new Talent(rand.nextInt(3)+1,rand.nextInt(3)+1));
