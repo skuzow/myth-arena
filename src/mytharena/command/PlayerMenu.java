@@ -123,7 +123,7 @@ public class PlayerMenu extends Command {
                 User challengedPlayer = getData().getUserArrayList().get(getMythArenaGui().getLastSelectedListIndex() + 1);
                 if (challengedPlayer instanceof Player) {
                     if (challengedPlayer != player) {
-                        PendingCombat pendingCombat = new PendingCombat(getArena().getActiveUser(), challengedPlayer);
+                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer);
                         getData().getPendingCombatArrayList().add(pendingCombat);
                         getMythArenaGui().setDescription("Your challenge request has been sent!");
                         getMythArenaGui().waitEvent(3);
