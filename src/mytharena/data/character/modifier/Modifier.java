@@ -11,7 +11,6 @@ public class Modifier implements Serializable {
      * String name
      */
     private final String name;
-
     /**
      * int sensibility
      */

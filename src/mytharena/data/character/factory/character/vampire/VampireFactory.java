@@ -6,18 +6,26 @@ import mytharena.data.character.factory.character.CharacterAbstractFactory;
 
 public class VampireFactory implements CharacterAbstractFactory {
 
+    /**
+     * Data data
+     */
     private final Data data;
+
+    /**
+     * HunterFactory class constructor
+     * @param data Data data
+     */
     public VampireFactory(Data data) {
         this.data = data;
     }
 
     /**
-     * AbilityAbstractFactory interface method
-     *
-     * @return Ability
+     * HunterFactory createCharacter method
+     * @return new Vampire
      */
     @Override
     public Character createCharacter() {
-        return new Vampire(data);
+        return new Vampire(this.data);
     }
+
 }

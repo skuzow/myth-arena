@@ -13,7 +13,6 @@ public class PendingCombat implements Serializable {
      * Player challenger
      */
     private final Player challenger;
-
     /**
      * Player challenged
      */

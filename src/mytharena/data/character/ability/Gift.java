@@ -10,7 +10,7 @@ public class Gift extends Ability implements Serializable {
     /**
      * int rageMin
      */
-    private final int rageMin;
+    private int rageMin;
 
     /**
      * Gift class constructor extends Ability
@@ -20,6 +20,14 @@ public class Gift extends Ability implements Serializable {
     public Gift(int attackModifier, int defenseModifier) {
         super(attackModifier, defenseModifier);
         this.rageMin = 0;
+    }
+
+    /**
+     * Sets int rageMin
+     * @param rageMin int rageMin
+     */
+    public void setRageMin(int rageMin) {
+        this.rageMin = rageMin;
     }
 
     /**

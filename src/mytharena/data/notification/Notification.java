@@ -11,7 +11,6 @@ public abstract class Notification implements Serializable {
      * String title
      */
     private final String title;
-
     /**
      * String body
      */

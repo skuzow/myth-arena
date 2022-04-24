@@ -6,8 +6,9 @@ package mytharena.data.character.factory.character;
 public interface CharacterAbstractFactory {
 
     /**
-     * AbilityAbstractFactory interface method
-     * @return Ability
+     * CharacterAbstractFactory interface method
+     * @return new Character
      */
     Character createCharacter();
+
 }

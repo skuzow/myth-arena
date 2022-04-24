@@ -1,12 +1,8 @@
 package mytharena.data.character.factory.character.vampire;
 
 import mytharena.data.Data;
-import mytharena.data.character.ability.Ability;
 import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.factory.character.Character;
-import mytharena.data.character.factory.minion.Minion;
-import mytharena.data.character.inventory.Inventory;
-import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.modifier.Modifier;
 
 import java.io.Serializable;
@@ -21,22 +17,41 @@ public class Vampire extends Character implements Serializable {
     /**
      * int age
      */
-    private final int age;
-
+    private int age;
     /**
      * int bloodPoints
      */
-    private final int bloodPoints;
+    private int bloodPoints;
 
+    /**
+     * Hunter class constructor extends Character
+     * @param data Data data
+     */
     public Vampire(Data data) {
         super(data);
         Random rand = new Random();
-        age = rand.nextInt(1000)+1;
-        bloodPoints = 0;
-        setAbility(new Discipline(rand.nextInt(3)+1,rand.nextInt(3)+1));
+        this.age = rand.nextInt(1000)+1;
+        this.bloodPoints = 0;
+        super.setAbility(new Discipline(rand.nextInt(3) + 1, rand.nextInt(3) + 1));
         ArrayList<Modifier> weaknessArrayList = new ArrayList<>();
-        weaknessArrayList.add(new Modifier("Luz solar", rand.nextInt(5)+1));
-        setFortitudeArrayList(weaknessArrayList);
+        weaknessArrayList.add(new Modifier("Luz solar", rand.nextInt(5) + 1));
+        super.setFortitudeArrayList(weaknessArrayList);
+    }
+
+    /**
+     * Sets int age
+     * @param age int age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    /**
+     * Sets int bloodPoints
+     * @param bloodPoints int bloodPoints
+     */
+    public void setBloodPoints(int bloodPoints) {
+        this.bloodPoints = bloodPoints;
     }
 
     /**

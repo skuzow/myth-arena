@@ -16,32 +16,26 @@ public class Combat implements Serializable {
      * Player challenger
      */
     private final Player challenger;
-
     /**
      * Player challenged
      */
     private final Player challenged;
-
     /**
      * Player winner
      */
     private final Player winner;
-
     /**
      * Date date
      */
     private final Date date;
-
     /**
      * int rounds
      */
     private final int rounds;
-
     /**
      * int obtainedGold
      */
     private final int obtainedGold;
-
     /**
      * ArrayList Minion minionSurvivorArrayList
      */
