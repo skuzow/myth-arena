@@ -71,22 +71,29 @@ public class PlayerMenu extends Command {
         if (player.getCharacter() == null) {
             super.getMythArenaGui().setDescription("No character found");
         }else {
-            getMythArenaGui().setListMode();
-            ArrayList<String> message = new ArrayList<>();
-            message.add(Integer.toString(player.getCharacter().getGold()) + " gold");
-            message.add("Gold lost in battle: 2M");
-            message.add("Gold won in battle: 1M");
-            getMythArenaGui().setList(message);
-            getMythArenaGui().setOption(0,null);
-            getMythArenaGui().setOption(1,null);
-            getMythArenaGui().setOption(2,null);
-            getMythArenaGui().setOption(3,"Exit");
-            getMythArenaGui().waitEvent(30);
-
+            boolean exit = false;
+            while (!exit) {
+                getMythArenaGui().setListMode();
+                ArrayList<String> message = new ArrayList<>();
+                message.add(Integer.toString(player.getCharacter().getGold()) + " gold");
+                message.add("Gold lost in battle: 2M");
+                message.add("Gold won in battle: 1M");
+                getMythArenaGui().setList(message);
+                getMythArenaGui().setOption(0, null);
+                getMythArenaGui().setOption(1, null);
+                getMythArenaGui().setOption(2, null);
+                getMythArenaGui().setOption(3, "Exit");
+                if (getMythArenaGui().waitEvent(30) == 'D') {
+                    exit = true;
+                }
+            }
         }
     }
 
     public void viewNotifications() {
+        if (player.getNotificationArrayList().size() == 0) {
+            getMythArenaGui().setDescription("You don't have notifications");
+        }
         boolean exit = false;
         while (!exit) {
             getMythArenaGui().setListMode();
@@ -147,19 +154,25 @@ public class PlayerMenu extends Command {
 
     public void deleteCharacter() {
         if (player.getCharacter() != null) {
-            getMythArenaGui().setMessageMode();
-            getMythArenaGui().setTitle(null);
-            getMythArenaGui().setDescription("Are you sure you want to delete your character?");
-            getMythArenaGui().setOption(0, "No, I love my character :)");
-            getMythArenaGui().setOption(1, "Yes, I'm sure :(");
-            if (getMythArenaGui().waitEvent(30) == 'B') {
-                player.setCharacter(null);
-                getMythArenaGui().setDescription("Character has been deleted");
-            }
-            try {
-                getArena().serializeData();
-            } catch (IOException e) {
-                e.printStackTrace();
+            boolean exit = false;
+            while (!exit) {
+                getMythArenaGui().setMessageMode();
+                getMythArenaGui().setTitle(null);
+                getMythArenaGui().setDescription("Are you sure you want to delete your character?");
+                getMythArenaGui().setOption(0, "No, I love my character :)");
+                getMythArenaGui().setOption(1, "Yes, I'm sure :(");
+                char choice = getMythArenaGui().waitEvent(30);
+                if (choice == 'B') {
+                    player.setCharacter(null);
+                    getMythArenaGui().setDescription("Character has been deleted");
+                } else if (choice == 'A') {
+                    exit = true;
+                }
+                try {
+                    getArena().serializeData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }else {
             getMythArenaGui().setDescription("What character?");
@@ -168,7 +181,6 @@ public class PlayerMenu extends Command {
 
     public void createCharacter() {
         super.getArena().getCommand("CharacterCreationMenu").execute();
-
     }
 
     public void challengeUser() {
