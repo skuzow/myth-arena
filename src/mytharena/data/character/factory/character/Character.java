@@ -10,10 +10,8 @@ import mytharena.data.character.factory.minion.human.Human;
 import mytharena.data.character.inventory.Inventory;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.modifier.Modifier;
-import mytharena.data.user.Player;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 

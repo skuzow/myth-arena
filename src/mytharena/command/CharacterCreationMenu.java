@@ -27,7 +27,6 @@ import java.util.Random;
  */
 public class CharacterCreationMenu extends Command{
 
-    private Player player;
     private Character character;
     /**
      * CharacterCreationMenu Constructor extends Command
@@ -44,7 +43,7 @@ public class CharacterCreationMenu extends Command{
      */
     @Override
     public void execute() {
-        player = (Player) super.getArena().getActiveUser();
+        Player player = (Player) super.getArena().getActiveUser();
         super.getMythArenaGui().setButtonMode();
         super.getMythArenaGui().setTitle("Character Creation");
         super.getMythArenaGui().setDescription("Select the type of your new character");
