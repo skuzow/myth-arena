@@ -98,7 +98,7 @@ public class MythArenaGuiScreen extends JFrame {
     /**
      * int lastSelectedListindex
      */
-    private int lastSelectedListindex = 0;
+    private int lastSelectedListindex = -1;
     /**
      * JPanel messagePanel
      */
@@ -804,6 +804,7 @@ public class MythArenaGuiScreen extends JFrame {
      * @param list ArrayList String list
      */
     public void setList(ArrayList<String> list) {
+        this.lastSelectedListindex = -1;
         this.listLabel.setVisible(false);
         this.listModel.removeAllElements();
         this.listModel.addAll(list);
