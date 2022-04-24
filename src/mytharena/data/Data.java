@@ -4,6 +4,7 @@ import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.PendingCombat;
+import mytharena.data.user.Player;
 import mytharena.data.user.User;
 
 import java.io.Serializable;
@@ -18,31 +19,26 @@ public class Data implements Serializable {
      * ArrayList User userArrayList
      */
     private final ArrayList<User> userArrayList = new ArrayList<>();
-
     /**
-     * ArrayList User bannedPlayerArrayList
+     * ArrayList Player bannedPlayerArrayList
      */
-    private final ArrayList<User> bannedPlayerArrayList = new ArrayList<>();
-
-    /**
-     * ArrayList Weapon weaponPool
-     */
-    private final ArrayList<Weapon> weaponPool = new ArrayList<>();
-
-    /**
-     * ArrayList Armor armorPool
-     */
-    private final ArrayList<Armor> armorPool = new ArrayList<>();
-
+    private final ArrayList<Player> bannedPlayerArrayList = new ArrayList<>();
     /**
      * ArrayList Combat combatArrayList
      */
     private final ArrayList<Combat> combatArrayList = new ArrayList<>();
-
     /**
      * ArrayList PendingCombat pendingCombatArrayList
      */
     private final ArrayList<PendingCombat> pendingCombatArrayList = new ArrayList<>();
+    /**
+     * ArrayList Weapon weaponPool
+     */
+    private final ArrayList<Weapon> weaponPool = new ArrayList<>();
+    /**
+     * ArrayList Armor armorPool
+     */
+    private final ArrayList<Armor> armorPool = new ArrayList<>();
 
     /**
      * Gets ArrayList User userArrayList
@@ -53,10 +49,10 @@ public class Data implements Serializable {
     }
 
     /**
-     * Gets ArrayList User bannedPlayerArrayList
-     * @return ArrayList User bannedPlayerArrayList
+     * Gets ArrayList Player bannedPlayerArrayList
+     * @return ArrayList Player bannedPlayerArrayList
      */
-    public ArrayList<User> getBannedPlayerArrayList() {
+    public ArrayList<Player> getBannedPlayerArrayList() {
         return this.bannedPlayerArrayList;
     }
 
@@ -81,7 +77,7 @@ public class Data implements Serializable {
      * @return ArrayList Weapon weaponPool
      */
     public ArrayList<Weapon> getWeaponPool() {
-        return weaponPool;
+        return this.weaponPool;
     }
 
     /**
@@ -89,7 +85,7 @@ public class Data implements Serializable {
      * @return ArrayList Armor armorPool
      */
     public ArrayList<Armor> getArmorPool() {
-        return armorPool;
+        return this.armorPool;
     }
 
 }

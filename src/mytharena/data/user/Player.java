@@ -3,9 +3,10 @@ package mytharena.data.user;
 import mytharena.data.Data;
 
 import mytharena.data.character.factory.character.Character;
-
+import mytharena.data.notification.Notification;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Player class extends User implements Serializable
@@ -16,11 +17,14 @@ public class Player extends User implements Serializable {
      * String nickname
      */
     private final String nickname;
-
     /**
      * Character character
      */
     private Character character;
+    /**
+     * ArrayList Notification notificationArrayList
+     */
+    private final ArrayList<Notification> notificationArrayList = new ArrayList<>();
 
     /**
      * Player class constructor extends User
@@ -54,7 +58,15 @@ public class Player extends User implements Serializable {
      * @return Character character
      */
     public Character getCharacter() {
-        return character;
+        return this.character;
+    }
+
+    /**
+     * Gets ArrayList Notification notificationArrayList
+     * @return ArrayList Notification notificationArrayList
+     */
+    public ArrayList<Notification> getNotificationArrayList() {
+        return this.notificationArrayList;
     }
 
 }

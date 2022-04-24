@@ -1,7 +1,7 @@
 package mytharena.data.combat;
 
 import mytharena.data.character.factory.minion.Minion;
-import mytharena.data.user.User;
+import mytharena.data.user.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,19 +13,19 @@ import java.util.Date;
 public class Combat implements Serializable {
 
     /**
-     * User challenger
+     * Player challenger
      */
-    private final User challenger;
+    private final Player challenger;
 
     /**
-     * User challenged
+     * Player challenged
      */
-    private final User challenged;
+    private final Player challenged;
 
     /**
-     * User winner
+     * Player winner
      */
-    private final User winner;
+    private final Player winner;
 
     /**
      * Date date
@@ -49,15 +49,15 @@ public class Combat implements Serializable {
 
     /**
      * Combat class constructor
-     * @param challenger User challenger
-     * @param challenged User challenged
-     * @param winner User winner
+     * @param challenger Player challenger
+     * @param challenged Player challenged
+     * @param winner Player winner
      * @param date Date date
      * @param rounds int rounds
      * @param obtainedGold int obtainedGold
      * @param minionSurvivorArrayList ArrayList Minion minionSurvivorArrayList
      */
-    public Combat(User challenger, User challenged, User winner, Date date, int rounds, int obtainedGold, ArrayList<Minion> minionSurvivorArrayList) {
+    public Combat(Player challenger, Player challenged, Player winner, Date date, int rounds, int obtainedGold, ArrayList<Minion> minionSurvivorArrayList) {
         this.challenger = challenger;
         this.challenged = challenged;
         this.winner = winner;
@@ -68,26 +68,26 @@ public class Combat implements Serializable {
     }
 
     /**
-     * Gets User challenger
-     * @return User challenger
+     * Gets Player challenger
+     * @return Player challenger
      */
-    public User getChallenger() {
+    public Player getChallenger() {
         return this.challenger;
     }
 
     /**
-     * Gets User challenged
-     * @return User challenged
+     * Gets Player challenged
+     * @return Player challenged
      */
-    public User getChallenged() {
+    public Player getChallenged() {
         return this.challenged;
     }
 
     /**
-     * Gets User winner
-     * @return User winner
+     * Gets Player winner
+     * @return Player winner
      */
-    public User getWinner() {
+    public Player getWinner() {
         return this.winner;
     }
 
