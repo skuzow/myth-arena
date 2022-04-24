@@ -47,7 +47,7 @@ public class CharacterCreationMenu extends Command{
         getMythArenaGui().setListMode();
         getMythArenaGui().setOption(0,null);
         getMythArenaGui().setOption(1,null);
-        getMythArenaGui().setOption(2,null);
+        getMythArenaGui().setOption(2,"Cancel");
         getMythArenaGui().setOption(3,"Next");
         getMythArenaGui().setTitle("Select the type of your new Character");
         ArrayList<String> characterTypes = new ArrayList<>();
@@ -64,10 +64,10 @@ public class CharacterCreationMenu extends Command{
                 case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
                 case 2 -> player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
             }
+            super.getMythArenaGui().setDescription("Character has been created");
+            super.getMythArenaGui().waitEvent(1);
         }
 
-        super.getMythArenaGui().setDescription("Character has been created");
-        super.getMythArenaGui().waitEvent(1);
     }
 
 

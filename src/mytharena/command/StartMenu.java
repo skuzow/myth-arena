@@ -31,7 +31,7 @@ public class StartMenu extends Command {
     public void execute() {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Login");
-        super.getMythArenaGui().setDescription("Complete the form to login to your account");
+        super.getMythArenaGui().setDescription(null);
         super.getMythArenaGui().setField(0, "Username");
         super.getMythArenaGui().setField(1, "Password");
         super.getMythArenaGui().setOption(0, "Sign up");
