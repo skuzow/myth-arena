@@ -78,8 +78,7 @@ public class PlayerMenu extends Command {
     }
 
     public void challengeUser() {
-        super.getMythArenaGui().setMessageMode();
-        super.getMythArenaGui().waitEvent(30);
+
     }
 
 }

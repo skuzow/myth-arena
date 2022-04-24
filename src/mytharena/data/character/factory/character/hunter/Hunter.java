@@ -1,5 +1,6 @@
 package mytharena.data.character.factory.character.hunter;
 
+import mytharena.data.Data;
 import mytharena.data.character.ability.Ability;
 import mytharena.data.character.ability.Talent;
 import mytharena.data.character.factory.character.Character;
@@ -21,7 +22,8 @@ public class Hunter extends Character implements Serializable {
     /**
      *
      */
-    public Hunter() {
+    public Hunter(Data data) {
+        super(data);
         Random rand = new Random();
         will = rand.nextInt(3)+1;
         setAbility(new Talent(rand.nextInt(3)+1,rand.nextInt(3)+1));

@@ -1,11 +1,14 @@
 package mytharena.data.character.factory.character.vampire;
 
+import mytharena.data.Data;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.CharacterAbstractFactory;
 
 public class VampireFactory implements CharacterAbstractFactory {
 
-    public VampireFactory() {
+    private final Data data;
+    public VampireFactory(Data data) {
+        this.data = data;
     }
 
     /**
@@ -15,6 +18,6 @@ public class VampireFactory implements CharacterAbstractFactory {
      */
     @Override
     public Character createCharacter() {
-        return new Vampire();
+        return new Vampire(data);
     }
 }

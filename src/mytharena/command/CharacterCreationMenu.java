@@ -64,74 +64,18 @@ public class CharacterCreationMenu extends Command{
 
         switch (super.getMythArenaGui().waitEvent(30)) {
             case 'A' -> {
-                character = characterFactory.createCharacter(new HunterFactory());
+                player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
             }
             case 'B' -> {
-                character = characterFactory.createCharacter(new VampireFactory());
+                player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
             }
             case 'C' -> {
-                character = characterFactory.createCharacter(new WerewolfFactory());
+                player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
             }
         }
 
-        // Randomly gets 3 armor and 3 weapons
-        int pair = 0;
-        ArrayList<Equipment> armorArrayList = new ArrayList<>();
-        ArrayList<Equipment> weaponArrayList = new ArrayList<>();
-        while (pair < 3) {
-            Random rand = new Random();
-            armorArrayList.add(super.getData().getArmorPool().get(rand.nextInt(super.getData().getArmorPool().size())));
-            weaponArrayList.add(super.getData().getWeaponPool().get(rand.nextInt(super.getData().getWeaponPool().size())));
-            pair++;
-        }
-        character.setInventory(new Inventory(weaponArrayList,armorArrayList));
-        // By default, the first weapon/armor in inventory will be equipped
-        character.setArmor(character.getInventory().getArmorArrayList().get(0));
-        ArrayList<Equipment> equippedWeaponArrayList = new ArrayList<>();
-        equippedWeaponArrayList.add(character.getInventory().getWeaponArrayList().get(0));
-        character.setEquippedWeaponArrayList(equippedWeaponArrayList);
-
-         double roll = Math.random();
-         int minionsCount;
-         if (roll < 0.1) {
-            minionsCount = 3;
-         }else if(roll < 0.25) {
-             minionsCount = 2;
-         }else if(roll < 0.45) {
-             minionsCount = 1;
-         }else {
-             minionsCount = 0;
-         }
-        ArrayList<Minion> minionArrayList = new ArrayList<>();
-
-        for (int i = 0; i < minionsCount; i++) {
-               if (character instanceof Vampire) {
-                    if (Math.random() < 0.5) {
-                        Minion minion = new Demon();
-                        minionArrayList.add(minion);
-                   } else {
-                        Minion minion = new Ghoul();
-                        minionArrayList.add(minion);
-                    }
-               }else {
-                   double randomMinion = Math.random();
-                   if (randomMinion < 0.33) {
-                       Minion minion = new Demon();
-                       minionArrayList.add(minion);
-                   } else if (randomMinion < 0.66) {
-                       Minion minion = new Ghoul();
-                       minionArrayList.add(minion);
-                   }else {
-                       Minion minion = new Human();
-                       minionArrayList.add(minion);
-                   }
-               }
-        }
-
-        character.setMinionArrayList(minionArrayList);
-        player.setCharacter(character);
         super.getMythArenaGui().setDescription("Character has been created");
-        super.getMythArenaGui().waitEvent(3);
+        super.getMythArenaGui().waitEvent(1);
     }
 
 

@@ -1,10 +1,16 @@
 package mytharena.data.character.factory.character;
 
+import mytharena.data.Data;
 import mytharena.data.character.ability.Ability;
+import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.minion.Minion;
+import mytharena.data.character.factory.minion.demon.Demon;
+import mytharena.data.character.factory.minion.ghoul.Ghoul;
+import mytharena.data.character.factory.minion.human.Human;
 import mytharena.data.character.inventory.Inventory;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.modifier.Modifier;
+import mytharena.data.user.Player;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -66,12 +72,65 @@ public abstract class Character implements Serializable {
      */
     private Ability ability;
 
-    public Character() {
+    public Character(Data data) {
         gold = 100;
         Random rand = new Random();
 
         this.health = 5;
         this.power = rand.nextInt(5)+1;
+        // Randomly gets 3 armor and 3 weapons
+        int pair = 0;
+        ArrayList<Equipment> armorArrayList = new ArrayList<>();
+        ArrayList<Equipment> weaponArrayList = new ArrayList<>();
+        while (pair < 3) {
+            armorArrayList.add(data.getArmorPool().get(rand.nextInt(data.getArmorPool().size())));
+            weaponArrayList.add(data.getWeaponPool().get(rand.nextInt(data.getWeaponPool().size())));
+            pair++;
+        }
+        setInventory(new Inventory(weaponArrayList,armorArrayList));
+        // By default, the first weapon/armor in inventory will be equipped
+        setArmor(getInventory().getArmorArrayList().get(0));
+        ArrayList<Equipment> equippedWeaponArrayList = new ArrayList<>();
+        equippedWeaponArrayList.add(getInventory().getWeaponArrayList().get(0));
+        setEquippedWeaponArrayList(equippedWeaponArrayList);
+
+        double roll = Math.random();
+        int minionsCount;
+        if (roll < 0.1) {
+            minionsCount = 3;
+        }else if(roll < 0.25) {
+            minionsCount = 2;
+        }else if(roll < 0.45) {
+            minionsCount = 1;
+        }else {
+            minionsCount = 0;
+        }
+        ArrayList<Minion> minionArrayList = new ArrayList<>();
+
+        for (int i = 0; i < minionsCount; i++) {
+            if (this instanceof Vampire) {
+                if (Math.random() < 0.5) {
+                    Minion minion = new Demon();
+                    minionArrayList.add(minion);
+                } else {
+                    Minion minion = new Ghoul();
+                    minionArrayList.add(minion);
+                }
+            }else {
+                double randomMinion = Math.random();
+                if (randomMinion < 0.33) {
+                    Minion minion = new Demon();
+                    minionArrayList.add(minion);
+                } else if (randomMinion < 0.66) {
+                    Minion minion = new Ghoul();
+                    minionArrayList.add(minion);
+                }else {
+                    Minion minion = new Human();
+                    minionArrayList.add(minion);
+                }
+            }
+        }
+        setMinionArrayList(minionArrayList);
     }
 
     /**
