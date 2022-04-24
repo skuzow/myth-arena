@@ -19,6 +19,7 @@ import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.user.Player;
 import mytharena.gui.MythArenaGui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -63,6 +64,11 @@ public class CharacterCreationMenu extends Command{
                 case 0 -> player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
                 case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
                 case 2 -> player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
+            }
+            try {
+                getArena().serializeData();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             super.getMythArenaGui().setDescription("Character has been created");
             super.getMythArenaGui().waitEvent(1);

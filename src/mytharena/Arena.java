@@ -118,6 +118,10 @@ public class Arena {
         }
     }
 
+    public void combat() {
+
+    }
+
     /**
      * Gets specific Command command in commandMap with String key
      * @param key String key

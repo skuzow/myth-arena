@@ -4,10 +4,14 @@ import mytharena.Arena;
 import mytharena.data.Data;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.combat.PendingCombat;
+import mytharena.data.notification.GeneralNotification;
+import mytharena.data.notification.Notification;
+import mytharena.data.notification.PendingCombatNotification;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,10 +23,7 @@ public class PlayerMenu extends Command {
      * Player player
      */
     private Player player;
-    /**
-     * boolean hasLoggedOut
-     */
-    private boolean userLoggedOut;
+
     /**
      * PlayerMenu class constructor extends Command
      * @param arena Arena arena
@@ -86,7 +87,51 @@ public class PlayerMenu extends Command {
     }
 
     public void viewNotifications() {
-
+        boolean exit = false;
+        while (!exit) {
+            getMythArenaGui().setListMode();
+            getMythArenaGui().setOption(0, null);
+            getMythArenaGui().setOption(1, null);
+            getMythArenaGui().setOption(2, "Back");
+            getMythArenaGui().setOption(3, "Open");
+            ArrayList<String> notificationList = new ArrayList<>();
+            for (Notification notification : player.getNotificationArrayList()) {
+                notificationList.add(notification.getTitle());
+            }
+            getMythArenaGui().setList(notificationList);
+            if (getMythArenaGui().waitEvent(30) == 'D') {
+                Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
+                ArrayList<String> notificationContent = new ArrayList<>();
+                notificationContent.add(notification.getTitle());
+                notificationContent.add(notification.getBody());
+                getMythArenaGui().setList(notificationContent);
+                char choice = getMythArenaGui().waitEvent(30);
+                if (notification instanceof PendingCombatNotification) {
+                    PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
+                    getMythArenaGui().setOption(0,"Decline");
+                    getMythArenaGui().setOption(1,"Accept");
+                    getMythArenaGui().setOption(2,"Back");
+                    if (choice == 'A') {
+                        pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                                "Your challenge request has been declined.",
+                                "Challenged user: " + player.getUsername() + "has declined your challenge, therefore conceding 10% of the bet to you. "
+                        ));
+                    } else if (choice == 'B') {
+                        getArena().combat();
+                    }
+                } else {
+                    getMythArenaGui().setOption(0,null);
+                    getMythArenaGui().setOption(1,null);
+                    getMythArenaGui().setOption(2,"Delete");
+                    getMythArenaGui().setOption(3,"Close");
+                    if (choice == 'C') {
+                        player.getNotificationArrayList().remove(notification);
+                    }
+                }
+            } else {
+                exit = true;
+            }
+        }
     }
 
     public void viewRanking() {
@@ -104,6 +149,11 @@ public class PlayerMenu extends Command {
                 player.setCharacter(null);
                 getMythArenaGui().setDescription("Character has been deleted");
             }
+            try {
+                getArena().serializeData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else {
             getMythArenaGui().setDescription("What character?");
         }
@@ -111,6 +161,7 @@ public class PlayerMenu extends Command {
 
     public void createCharacter() {
         super.getArena().getCommand("CharacterCreationMenu").execute();
+
     }
 
     public void challengeUser() {
@@ -131,15 +182,21 @@ public class PlayerMenu extends Command {
                 User challengedPlayer = getData().getUserArrayList().get(getMythArenaGui().getLastSelectedListIndex() + 1);
                 if (challengedPlayer instanceof Player) {
                     if (challengedPlayer != player) {
-                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer);
+                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer,20);
                         getData().getPendingCombatArrayList().add(pendingCombat);
                         getMythArenaGui().setDescription("Your challenge request has been sent!");
                         getMythArenaGui().waitEvent(3);
+                        try {
+                            getArena().serializeData();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         getMythArenaGui().setDescription("You can't challenge yourself");
                     }
                 }
             }
+
         }else {
             getMythArenaGui().setDescription("No character found");
         }
@@ -175,6 +232,11 @@ public class PlayerMenu extends Command {
                 } else if (choice == 'C') {
                     isFinished = true;
                 }
+            }
+            try {
+                getArena().serializeData();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }else {
             getMythArenaGui().setDescription("No character found");
