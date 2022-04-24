@@ -70,8 +70,16 @@ public class PlayerMenu extends Command {
         if (player.getCharacter() == null) {
             super.getMythArenaGui().setDescription("No character found");
         }else {
-            getMythArenaGui().setMessageMode();
-            super.getMythArenaGui().setDescription(Integer.toString(player.getCharacter().getGold()) + " gold \n Gold lost in battle: 2M \n Gold won in battle: 1M");
+            getMythArenaGui().setListMode();
+            ArrayList<String> message = new ArrayList<>();
+            message.add(Integer.toString(player.getCharacter().getGold()) + " gold");
+            message.add("Gold lost in battle: 2M");
+            message.add("Gold won in battle: 1M");
+            getMythArenaGui().setList(message);
+            getMythArenaGui().setOption(0,null);
+            getMythArenaGui().setOption(1,null);
+            getMythArenaGui().setOption(2,null);
+            getMythArenaGui().setOption(3,"Exit");
             getMythArenaGui().waitEvent(30);
 
         }
@@ -123,7 +131,7 @@ public class PlayerMenu extends Command {
                 User challengedPlayer = getData().getUserArrayList().get(getMythArenaGui().getLastSelectedListIndex() + 1);
                 if (challengedPlayer instanceof Player) {
                     if (challengedPlayer != player) {
-                        PendingCombat pendingCombat = new PendingCombat(getArena().getActiveUser(), challengedPlayer);
+                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer);
                         getData().getPendingCombatArrayList().add(pendingCombat);
                         getMythArenaGui().setDescription("Your challenge request has been sent!");
                         getMythArenaGui().waitEvent(3);
@@ -144,19 +152,29 @@ public class PlayerMenu extends Command {
             getMythArenaGui().setOption(1, null);
             getMythArenaGui().setOption(2, "Cancel");
             getMythArenaGui().setOption(3, "Next");
-            ArrayList<String> listWeapons = new ArrayList<>();
-            for (Equipment weapon : player.getCharacter().getInventory().getWeaponArrayList()) {
-                listWeapons.add(weapon.getName());
-            }
-            getMythArenaGui().setList(listWeapons);
-            if (getMythArenaGui().waitEvent(30) == 'D') {
-                getMythArenaGui().setListMode();
-                ArrayList<String> listArmor = new ArrayList<>();
-                for (Equipment armor : player.getCharacter().getInventory().getWeaponArrayList()) {
-                    listArmor.add(armor.getName());
+            boolean isFinished = false;
+            while (!isFinished) {
+                ArrayList<String> listWeapons = new ArrayList<>();
+                getMythArenaGui().setDescription("Select your weapons");
+                for (Equipment weapon : player.getCharacter().getInventory().getWeaponArrayList()) {
+                    listWeapons.add(weapon.getName());
                 }
-                getMythArenaGui().setList(listArmor);
-                getMythArenaGui().waitEvent(30);
+                getMythArenaGui().setList(listWeapons);
+                char choice = getMythArenaGui().waitEvent(30);
+                if (choice == 'D') {
+                    getMythArenaGui().setDescription("Select your armor");
+                    getMythArenaGui().setOption(2,"Back");
+                    ArrayList<String> listArmor = new ArrayList<>();
+                    for (Equipment armor : player.getCharacter().getInventory().getArmorArrayList()) {
+                        listArmor.add(armor.getName());
+                    }
+                    getMythArenaGui().setList(listArmor);
+                    if (getMythArenaGui().waitEvent(30) == 'D') {
+                        isFinished = true;
+                    }
+                } else if (choice == 'C') {
+                    isFinished = true;
+                }
             }
         }else {
             getMythArenaGui().setDescription("No character found");
