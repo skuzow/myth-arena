@@ -100,38 +100,45 @@ public class PlayerMenu extends Command {
             }
             getMythArenaGui().setList(notificationList);
             if (getMythArenaGui().waitEvent(30) == 'D') {
-                Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
-                ArrayList<String> notificationContent = new ArrayList<>();
-                notificationContent.add(notification.getTitle());
-                notificationContent.add(notification.getBody());
-                getMythArenaGui().setList(notificationContent);
-                char choice = getMythArenaGui().waitEvent(30);
-                if (notification instanceof PendingCombatNotification) {
-                    PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
-                    getMythArenaGui().setOption(0,"Decline");
-                    getMythArenaGui().setOption(1,"Accept");
-                    getMythArenaGui().setOption(2,"Back");
-                    if (choice == 'A') {
-                        pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
-                                "Your challenge request has been declined.",
-                                "Challenged user: " + player.getUsername() + "has declined your challenge, therefore conceding 10% of the bet to you. "
-                        ));
-                    } else if (choice == 'B') {
-                        getArena().combat();
+                int index = getMythArenaGui().getLastSelectedListIndex();
+                if (index != -1) {
+                    Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
+                    ArrayList<String> notificationContent = new ArrayList<>();
+                    notificationContent.add(notification.getTitle());
+                    notificationContent.add(notification.getBody());
+                    getMythArenaGui().setList(notificationContent);
+
+                    char choice = getMythArenaGui().waitEvent(30);
+                        if (notification instanceof PendingCombatNotification) {
+                            PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
+                            getMythArenaGui().setOption(0, "Decline");
+                            getMythArenaGui().setOption(1, "Accept");
+                            getMythArenaGui().setOption(2, "Back");
+                            if (choice == 'A') {
+                                pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                                        "Your challenge request has been declined.",
+                                        "Challenged user: " + player.getUsername() + "has declined your challenge, therefore conceding 10% of the bet to you. "
+                                ));
+                            } else if (choice == 'B') {
+                                getArena().combat();
+                            }
+
+                        } else {
+                            getMythArenaGui().setOption(0, null);
+                            getMythArenaGui().setOption(1, null);
+                            getMythArenaGui().setOption(2, "Delete");
+                            getMythArenaGui().setOption(3, "Close");
+                            if (choice == 'C') {
+                                player.getNotificationArrayList().remove(notification);
+                            }
+                        }
+                    } else {
+                        getMythArenaGui().setDescription("Must select an item in the list to open!");
                     }
                 } else {
-                    getMythArenaGui().setOption(0,null);
-                    getMythArenaGui().setOption(1,null);
-                    getMythArenaGui().setOption(2,"Delete");
-                    getMythArenaGui().setOption(3,"Close");
-                    if (choice == 'C') {
-                        player.getNotificationArrayList().remove(notification);
-                    }
+                    exit = true;
                 }
-            } else {
-                exit = true;
             }
-        }
     }
 
     public void viewRanking() {
@@ -171,32 +178,43 @@ public class PlayerMenu extends Command {
             getMythArenaGui().setOption(1, null);
             getMythArenaGui().setOption(2, "Cancel");
             getMythArenaGui().setOption(3, "Next");
-            ArrayList<String> listOptions = new ArrayList<>();
-            for (User user : getData().getUserArrayList()) {
-                if (user instanceof Player) {
-                    listOptions.add(user.getUsername());
-                }
-            }
-            getMythArenaGui().setList(listOptions);
-            if (getMythArenaGui().waitEvent(30) == 'D') {
-                User challengedPlayer = getData().getUserArrayList().get(getMythArenaGui().getLastSelectedListIndex() + 1);
-                if (challengedPlayer instanceof Player) {
-                    if (challengedPlayer != player) {
-                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer,20);
-                        getData().getPendingCombatArrayList().add(pendingCombat);
-                        getMythArenaGui().setDescription("Your challenge request has been sent!");
-                        getMythArenaGui().waitEvent(3);
-                        try {
-                            getArena().serializeData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        getMythArenaGui().setDescription("You can't challenge yourself");
+
+            boolean exit = false;
+            while (!exit) {
+                ArrayList<String> listOptions = new ArrayList<>();
+                for (User user : getData().getUserArrayList()) {
+                    if (user instanceof Player) {
+                        listOptions.add(user.getUsername());
                     }
                 }
+                getMythArenaGui().setList(listOptions);
+                char choice = getMythArenaGui().waitEvent(30);
+                if (choice == 'D') {
+                    int index = getMythArenaGui().getLastSelectedListIndex();
+                    if (index != -1) {
+                        User challengedPlayer = getData().getUserArrayList().get(index + 1);
+                        if (challengedPlayer instanceof Player) {
+                            if (challengedPlayer != player) {
+                                PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, 20);
+                                getData().getPendingCombatArrayList().add(pendingCombat);
+                                getMythArenaGui().setDescription("Your challenge request has been sent!");
+                                getMythArenaGui().waitEvent(3);
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                getMythArenaGui().setDescription("You can't challenge yourself");
+                            }
+                        }
+                    } else {
+                        getMythArenaGui().setDescription("You must select an item in the list to challenge!");
+                    }
+                } else if (choice == 'C') {
+                    exit = true;
+                }
             }
-
         }else {
             getMythArenaGui().setDescription("No character found");
         }
