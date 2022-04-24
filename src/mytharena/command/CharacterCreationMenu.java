@@ -43,33 +43,26 @@ public class CharacterCreationMenu extends Command{
      */
     @Override
     public void execute() {
-        Player player = (Player) super.getArena().getActiveUser();
-        super.getMythArenaGui().setButtonMode();
-        super.getMythArenaGui().setTitle("Character Creation");
-        super.getMythArenaGui().setDescription("Select the type of your new character");
-        super.getMythArenaGui().setOption(0,"Hunter");
-        super.getMythArenaGui().setOption(1,"Vampire");
-        super.getMythArenaGui().setOption(2,"Werewolf");
-        super.getMythArenaGui().setOption(3,null);
-        super.getMythArenaGui().setOption(4,null);
-        super.getMythArenaGui().setOption(5,null);
-        super.getMythArenaGui().setOption(6,null);
-        super.getMythArenaGui().setOption(7,null);
-        super.getMythArenaGui().setOption(8,null);
-        super.getMythArenaGui().setOption(9,"Cancel");
-
+        Player player = (Player) getArena().getActiveUser();
+        getMythArenaGui().setListMode();
+        getMythArenaGui().setOption(0,null);
+        getMythArenaGui().setOption(1,null);
+        getMythArenaGui().setOption(2,null);
+        getMythArenaGui().setOption(3,"Next");
+        getMythArenaGui().setTitle("Select the type of your new Character");
+        ArrayList<String> characterTypes = new ArrayList<>();
+        characterTypes.add("Hunter");
+        characterTypes.add("Vampire");
+        characterTypes.add("Werewolf");
+        getMythArenaGui().setList(characterTypes);
 
         CharacterFactory characterFactory = new CharacterFactory();
 
-        switch (super.getMythArenaGui().waitEvent(30)) {
-            case 'A' -> {
-                player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
-            }
-            case 'B' -> {
-                player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
-            }
-            case 'C' -> {
-                player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
+        if (getMythArenaGui().waitEvent(30) == 'D') {
+            switch (getMythArenaGui().getLastSelectedListIndex()) {
+                case 0 -> player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
+                case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
+                case 2 -> player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
             }
         }
 
