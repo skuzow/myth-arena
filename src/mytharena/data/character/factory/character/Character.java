@@ -4,9 +4,10 @@ import mytharena.data.Data;
 import mytharena.data.character.ability.Ability;
 import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.minion.Minion;
-import mytharena.data.character.factory.minion.demon.Demon;
-import mytharena.data.character.factory.minion.ghoul.Ghoul;
-import mytharena.data.character.factory.minion.human.Human;
+import mytharena.data.character.factory.minion.MinionFactory;
+import mytharena.data.character.factory.minion.demon.DemonFactory;
+import mytharena.data.character.factory.minion.ghoul.GhoulFactory;
+import mytharena.data.character.factory.minion.human.HumanFactory;
 import mytharena.data.character.inventory.Inventory;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.modifier.Modifier;
@@ -96,21 +97,22 @@ public abstract class Character implements Serializable {
             minionsCount = 0;
         }
         // Generate proper minions
+        MinionFactory minionFactory = new MinionFactory();
         for (int i = 0; i < minionsCount; i++) {
             if (this instanceof Vampire) {
                 if (Math.random() < 0.5) {
-                    this.minionArrayList.add(new Demon());
+                    this.minionArrayList.add(minionFactory.createMinion(new DemonFactory()));
                 } else {
-                    this.minionArrayList.add(new Ghoul());
+                    this.minionArrayList.add(minionFactory.createMinion(new GhoulFactory()));
                 }
             } else {
                 double randomMinion = Math.random();
                 if (randomMinion < 0.33) {
-                    this.minionArrayList.add(new Demon());
+                    this.minionArrayList.add(minionFactory.createMinion(new DemonFactory()));
                 } else if (randomMinion < 0.66) {
-                    this.minionArrayList.add(new Ghoul());
+                    this.minionArrayList.add(minionFactory.createMinion(new GhoulFactory()));
                 } else {
-                    this.minionArrayList.add(new Human());
+                    this.minionArrayList.add(minionFactory.createMinion(new HumanFactory()));
                 }
             }
         }

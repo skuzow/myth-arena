@@ -1,8 +1,9 @@
 package mytharena.data.character.factory.minion.demon;
 
 import mytharena.data.character.factory.minion.Minion;
-import mytharena.data.character.factory.minion.ghoul.Ghoul;
-import mytharena.data.character.factory.minion.human.Human;
+import mytharena.data.character.factory.minion.MinionFactory;
+import mytharena.data.character.factory.minion.ghoul.GhoulFactory;
+import mytharena.data.character.factory.minion.human.HumanFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,14 +35,15 @@ public class Demon extends Minion implements Serializable {
             minionsCount = 0;
         }
         // generates proper minions
+        MinionFactory minionFactory = new MinionFactory();
         for (int cont = 0; cont < minionsCount; cont++) {
             double randomMinion = Math.random();
             if (randomMinion < 0.33) {
-                this.minionArrayList.add(new Demon());
+                this.minionArrayList.add(minionFactory.createMinion(new DemonFactory()));
             } else if (randomMinion < 0.66) {
-                this.minionArrayList.add(new Ghoul());
+                this.minionArrayList.add(minionFactory.createMinion(new GhoulFactory()));
             } else {
-                this.minionArrayList.add(new Human());
+                this.minionArrayList.add(minionFactory.createMinion(new HumanFactory()));
             }
         }
     }
