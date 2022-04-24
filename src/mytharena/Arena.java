@@ -80,6 +80,29 @@ public class Arena {
     }
 
     /**
+     * Delete active user menu
+     */
+    public void deleteActiveUserMenu() {
+        this.mythArenaGui.setMessageMode();
+        this.mythArenaGui.setTitle("One step of deleting your account");
+        this.mythArenaGui.setDescription("Be sure about this, there is no roll back!");
+        this.mythArenaGui.setImage(0, "/resources/images/warning.png");
+        this.mythArenaGui.setOption(0, "I don't want to delete my account");
+        this.mythArenaGui.setOption(1, "Im sure about deleting my account");
+        // account deletion
+        if (this.mythArenaGui.waitEvent(30) == 'B') {
+            try {
+                this.data.getUserArrayList().remove(this.activeUser);
+                this.serializeData();
+                // for exiting to start menu
+                this.setActiveUser(null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Gets specific Command command in commandMap with String key
      * @param key String key
      * @return Command command

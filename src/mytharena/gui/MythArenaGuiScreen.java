@@ -466,7 +466,7 @@ public class MythArenaGuiScreen extends JFrame {
         // challengedInfo
         this.generateText(this.challengedInfo, this.combatPanel, "ChallengedInfo", 25, 830, 300);
         // imageMessage
-        this.generateImage(this.imageMessage, this.messagePanel, 450, -200, 384, 978);
+        this.generateImage(this.imageMessage, this.messagePanel, 450, -70, 384, 978);
         // imageForm
         this.generateImage(this.imageForm, this.formPanel, 450, -200, 384, 978);
         // imageButton

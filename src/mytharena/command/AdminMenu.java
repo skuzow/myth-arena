@@ -2,6 +2,9 @@ package mytharena.command;
 
 import mytharena.Arena;
 import mytharena.data.Data;
+import mytharena.data.combat.PendingCombat;
+import mytharena.data.notification.GeneralNotification;
+import mytharena.data.notification.PendingCombatNotification;
 import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
@@ -43,7 +46,7 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(6, null);
             super.getMythArenaGui().setOption(7, null);
             super.getMythArenaGui().setOption(8, "Log out");
-            super.getMythArenaGui().setOption(9, null);
+            super.getMythArenaGui().setOption(9, "Delete account");
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // manage admins
                 case 'A' -> this.manageAdmins();
@@ -54,11 +57,11 @@ public class AdminMenu extends Command {
 
                 }
                 // validate combats
-                case 'D' -> {
-
-                }
+                case 'D' -> this.validateCombats();
                 // log out
                 case 'I' -> super.getArena().setActiveUser(null);
+                // delete account
+                case 'J' -> this.getArena().deleteActiveUserMenu();
             }
         }
     }
@@ -76,11 +79,11 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(1, "Register new admin");
             super.getMythArenaGui().setOption(2, "Back to AdminMenu");
             super.getMythArenaGui().setOption(3, null);
-            ArrayList<User> adminArrayList = new ArrayList<>();
+            ArrayList<Admin> adminArrayList = new ArrayList<>();
             ArrayList<String> adminUsernameArrayList = new ArrayList<>();
             for (User user : super.getData().getUserArrayList()) {
                 if (user instanceof Admin) {
-                    adminArrayList.add(user);
+                    adminArrayList.add((Admin) user);
                     adminUsernameArrayList.add(user.getUsername());
                 }
             }
@@ -95,6 +98,7 @@ public class AdminMenu extends Command {
                 }
                 // register admin
                 case 'B' -> this.registerAdmin();
+                // exit manage admins
                 case 'C' -> exit = true;
             }
         }
@@ -115,9 +119,9 @@ public class AdminMenu extends Command {
         boolean exit = false;
         while (!exit) {
             switch (super.getMythArenaGui().waitEvent(30)) {
-                // exits register admin
+                // exit register admin
                 case 'A' -> exit = true;
-                // tries to create admin user
+                // try to create admin user
                 case 'B' -> {
                     String user = super.getMythArenaGui().getFieldText(0);
                     String pass = super.getMythArenaGui().getFieldText(1);
@@ -168,11 +172,11 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(1, "Unban selected player");
             super.getMythArenaGui().setOption(2, "Back to AdminMenu");
             super.getMythArenaGui().setOption(3, null);
-            ArrayList<User> playerArrayList = new ArrayList<>();
+            ArrayList<Player> playerArrayList = new ArrayList<>();
             ArrayList<String> playerUsernameArrayList = new ArrayList<>();
             for (User user : super.getData().getUserArrayList()) {
                 if (user instanceof Player) {
-                    playerArrayList.add(user);
+                    playerArrayList.add((Player) user);
                     if (super.getData().getBannedPlayerArrayList().contains(user)) {
                         // TODO: display remaining ban time & auto unban when time finishes
                         playerUsernameArrayList.add(user.getUsername() + " banned :(");
@@ -219,6 +223,75 @@ public class AdminMenu extends Command {
                     }
                     super.getMythArenaGui().waitEvent(1);
                 }
+                // exit manage players
+                case 'C' -> exit = true;
+            }
+        }
+    }
+
+    /**
+     * Validate Combats
+     */
+    private void validateCombats() {
+        boolean exit = false;
+        while (!exit) {
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Combat Validator Tool");
+            super.getMythArenaGui().setDescription("Select what you want to change");
+            super.getMythArenaGui().setOption(0, "Approve selected combat");
+            super.getMythArenaGui().setOption(1, "Deny selected combat");
+            super.getMythArenaGui().setOption(2, "Back to AdminMenu");
+            super.getMythArenaGui().setOption(3, null);
+            ArrayList<String> pendingCombatInfoArrayList = new ArrayList<>();
+            for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
+                pendingCombatInfoArrayList.add(
+                    pendingCombat.getChallenger().getUsername() + " : " +
+                    pendingCombat.getChallenger().getCharacter().getGold() + " gold |-> " +
+                    pendingCombat.getChallenged().getUsername() + " : " +
+                    pendingCombat.getChallenged().getCharacter().getGold() + " gold"
+                );
+            }
+            super.getMythArenaGui().setList(pendingCombatInfoArrayList);
+            switch(super.getMythArenaGui().waitEvent(30)) {
+                // approve selected combat
+                case 'A' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
+                    try {
+                        // accepted combat notification for challenged
+                        pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
+                            "Another player has challenged you to a combat",
+                            "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
+                            pendingCombat.getChallenger().getCharacter().getGold() + "gold\n" +
+                            "Click what you want to do with it",
+                            pendingCombat.getChallenger()
+                        ));
+                        super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                        super.getArena().serializeData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // deny selected combat
+                case 'B' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
+                    try {
+                        super.getData().getBannedPlayerArrayList().add(pendingCombat.getChallenger());
+                        // 24h ban notification for challenger
+                        pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                            "Your pending combat has been denied",
+                            "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
+                            pendingCombat.getChallenged().getCharacter().getGold() + "gold\n" +
+                            "As a result you have been banned for 24h"
+                        ));
+                        super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                        super.getArena().serializeData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // exit validate combats
                 case 'C' -> exit = true;
             }
         }

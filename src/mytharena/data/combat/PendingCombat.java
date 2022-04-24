@@ -1,6 +1,6 @@
 package mytharena.data.combat;
 
-import mytharena.data.user.User;
+import mytharena.data.user.Player;
 
 import java.io.Serializable;
 
@@ -10,38 +10,38 @@ import java.io.Serializable;
 public class PendingCombat implements Serializable {
 
     /**
-     * User challenger
+     * Player challenger
      */
-    private final User challenger;
+    private final Player challenger;
 
     /**
-     * User challenged
+     * Player challenged
      */
-    private final User challenged;
+    private final Player challenged;
 
     /**
      * PendingCombat class builder
-     * @param challenger User challenger
-     * @param challenged User challenged
+     * @param challenger Player challenger
+     * @param challenged Player challenged
      */
-    public PendingCombat(User challenger, User challenged) {
+    public PendingCombat(Player challenger, Player challenged) {
         this.challenger = challenger;
         this.challenged = challenged;
     }
 
     /**
-     * Gets User challenger
-     * @return User challenger
+     * Gets Player challenger
+     * @return Player challenger
      */
-    public User getChallenger() {
+    public Player getChallenger() {
         return this.challenger;
     }
 
     /**
-     * Gets User challenged
-     * @return User challenged
+     * Gets Player challenged
+     * @return Player challenged
      */
-    public User getChallenged() {
+    public Player getChallenged() {
         return this.challenged;
     }
 
