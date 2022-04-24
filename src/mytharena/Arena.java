@@ -2,11 +2,14 @@ package mytharena;
 
 import mytharena.command.*;
 import mytharena.data.Data;
+import mytharena.data.character.inventory.equipment.Armor;
+import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.user.Admin;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -51,6 +54,19 @@ public class Arena {
                 this.data = (Data) in.readObject();
             } else {
                 this.data = new Data();
+                // add Armor pool
+                data.getArmorPool().add(new Armor("Platemail",0,2));
+                data.getArmorPool().add(new Armor("Chainmail",0,1));
+                data.getArmorPool().add(new Armor("Blademail",3,2));
+                data.getArmorPool().add(new Armor("Cuirass", 0,3));
+
+                // add Weapon pool
+                data.getWeaponPool().add(new Weapon("Broadsword",1,0,false));
+                data.getWeaponPool().add(new Weapon("Claymore",1,1,false));
+                data.getWeaponPool().add(new Weapon("Katana",2,0,false));
+                data.getWeaponPool().add(new Weapon("Axe",2,2,true));
+                data.getWeaponPool().add(new Weapon("Rapier",3,0,false));
+
                 // default admin account
                 this.data.getUserArrayList().add(new Admin("admin", "admin", this.data));
                 this.serializeData();

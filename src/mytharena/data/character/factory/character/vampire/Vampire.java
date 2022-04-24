@@ -1,5 +1,6 @@
 package mytharena.data.character.factory.character.vampire;
 
+import mytharena.data.Data;
 import mytharena.data.character.ability.Ability;
 import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.factory.character.Character;
@@ -27,7 +28,8 @@ public class Vampire extends Character implements Serializable {
      */
     private final int bloodPoints;
 
-    public Vampire() {
+    public Vampire(Data data) {
+        super(data);
         Random rand = new Random();
         age = rand.nextInt(1000)+1;
         bloodPoints = 0;

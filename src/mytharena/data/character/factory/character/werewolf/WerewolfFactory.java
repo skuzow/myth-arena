@@ -1,12 +1,15 @@
 package mytharena.data.character.factory.character.werewolf;
 
+import mytharena.data.Data;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.CharacterAbstractFactory;
 
 public class WerewolfFactory implements CharacterAbstractFactory {
 
-    public WerewolfFactory() {
+    private final Data data;
 
+    public WerewolfFactory(Data data) {
+        this.data = data;
     }
 
 
@@ -17,6 +20,6 @@ public class WerewolfFactory implements CharacterAbstractFactory {
      */
     @Override
     public Character createCharacter() {
-        return new Werewolf();
+        return new Werewolf(data);
     }
 }

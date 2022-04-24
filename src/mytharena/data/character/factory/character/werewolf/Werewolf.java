@@ -1,5 +1,6 @@
 package mytharena.data.character.factory.character.werewolf;
 
+import mytharena.data.Data;
 import mytharena.data.character.ability.Gift;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.modifier.Modifier;
@@ -18,7 +19,8 @@ public class Werewolf extends Character implements Serializable {
      */
     private final int rage;
 
-    public Werewolf() {
+    public Werewolf(Data data) {
+        super(data);
         Random rand = new Random();
         this.rage = 0;
         setAbility(new Gift(rand.nextInt(3)+1,rand.nextInt(3)+1));
