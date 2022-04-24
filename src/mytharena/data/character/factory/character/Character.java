@@ -46,50 +46,24 @@ public abstract class Character implements Serializable {
      */
     private ArrayList<Modifier> weaknessArrayList;
 
+    /**
+     * ArrayList Minion minionArrayList
+     */
     private ArrayList<Minion> minionArrayList;
-
-    public ArrayList<Minion> getMinionArrayList() {
-        return minionArrayList;
-    }
-
-    public void setMinionArrayList(ArrayList<Minion> minionArrayList) {
-        this.minionArrayList = minionArrayList;
-    }
 
     /**
      * ArrayList Modifier fortitudeArrayList
      */
     private ArrayList<Modifier> fortitudeArrayList;
 
-    public ArrayList<Modifier> getWeaknessArrayList() {
-        return weaknessArrayList;
-    }
-
-    public void setWeaknessArrayList(ArrayList<Modifier> weaknessArrayList) {
-        this.weaknessArrayList = weaknessArrayList;
-    }
-
-    public ArrayList<Modifier> getFortitudeArrayList() {
-        return fortitudeArrayList;
-    }
-
-    public void setFortitudeArrayList(ArrayList<Modifier> fortitudeArrayList) {
-        this.fortitudeArrayList = fortitudeArrayList;
-    }
-
     /**
      * ArrayList Equipment weaponArrayList
      */
     private ArrayList<Equipment> equippedWeaponArrayList;
 
-    public Ability getAbility() {
-        return ability;
-    }
-
-    public void setAbility(Ability ability) {
-        this.ability = ability;
-    }
-
+    /**
+     * Ability ability
+     */
     private Ability ability;
 
     public Character() {
@@ -142,6 +116,22 @@ public abstract class Character implements Serializable {
     }
 
     /**
+     * ArrayList Modifier weaknessArrayList
+     * @param weaknessArrayList ArrayList Modifier weaknessArrayList
+     */
+    public void setWeaknessArrayList(ArrayList<Modifier> weaknessArrayList) {
+        this.weaknessArrayList = weaknessArrayList;
+    }
+
+    /**
+     * ArrayList Minion minionArrayList
+     * @param minionArrayList ArrayList Minion minionArrayList
+     */
+    public void setMinionArrayList(ArrayList<Minion> minionArrayList) {
+        this.minionArrayList = minionArrayList;
+    }
+
+    /**
      * Sets ArrayList Equipment weaponArrayList
      * @param equippedWeaponArrayList ArrayList Equipment weaponArrayList
      */
@@ -149,6 +139,29 @@ public abstract class Character implements Serializable {
         this.equippedWeaponArrayList = equippedWeaponArrayList;
     }
 
+    /**
+     * Sets ArrayList Modifier fortitudeArrayList
+     * @param fortitudeArrayList ArrayList Modifier fortitudeArrayList
+     */
+    public void setFortitudeArrayList(ArrayList<Modifier> fortitudeArrayList) {
+        this.fortitudeArrayList = fortitudeArrayList;
+    }
+
+    /**
+     * Sets Ability ability
+     * @param ability Ability ability
+     */
+    public void setAbility(Ability ability) {
+        this.ability = ability;
+    }
+
+    /**
+     * Gets Ability ability
+     * @return Ability ability
+     */
+    public Ability getAbility() {
+        return ability;
+    }
     /**
      * Gets int gold
      * @return int gold
@@ -166,6 +179,14 @@ public abstract class Character implements Serializable {
     }
 
     /**
+     * Gets ArrayList Modifier fortitudeArrayList
+     * @return ArrayList Modifier fortitudeArrayList
+     */
+    public ArrayList<Modifier> getFortitudeArrayList() {
+        return fortitudeArrayList;
+    }
+
+    /**
      * Gets int power
      * @return int power
      */
@@ -173,6 +194,21 @@ public abstract class Character implements Serializable {
         return this.power;
     }
 
+    /**
+     * ArrayList Modifier weaknessArrayList
+     * @return ArrayList Modifier weaknessArrayList
+     */
+    public ArrayList<Modifier> getWeaknessArrayList() {
+        return weaknessArrayList;
+    }
+
+    /**
+     * Get ArrayList Minion minionArrayList
+     * @return ArrayList Minion minionArrayList
+     */
+    public ArrayList<Minion> getMinionArrayList() {
+        return minionArrayList;
+    }
 
     /**
      * Gets Inventory inventory

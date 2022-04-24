@@ -1,6 +1,8 @@
 package mytharena.data.character.inventory;
 
+import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Equipment;
+import mytharena.data.character.inventory.equipment.Weapon;
 
 import java.io.Serializable;
 import java.util.ArrayList;

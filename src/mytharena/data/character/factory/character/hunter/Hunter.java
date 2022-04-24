@@ -18,6 +18,9 @@ public class Hunter extends Character implements Serializable {
      */
     private final int will;
 
+    /**
+     *
+     */
     public Hunter() {
         Random rand = new Random();
         will = rand.nextInt(3)+1;

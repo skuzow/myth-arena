@@ -12,6 +12,10 @@ import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.factory.minion.demon.Demon;
 import mytharena.data.character.factory.minion.ghoul.Ghoul;
 import mytharena.data.character.factory.minion.human.Human;
+import mytharena.data.character.inventory.Inventory;
+import mytharena.data.character.inventory.equipment.Armor;
+import mytharena.data.character.inventory.equipment.Equipment;
+import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.user.Player;
 import mytharena.gui.MythArenaGui;
 
@@ -23,7 +27,7 @@ import java.util.Random;
  */
 public class CharacterCreationMenu extends Command{
 
-    private final Player player;
+    private Player player;
     private Character character;
     /**
      * CharacterCreationMenu Constructor extends Command
@@ -33,7 +37,6 @@ public class CharacterCreationMenu extends Command{
      */
     public CharacterCreationMenu(Arena arena, Data data, MythArenaGui mythArenaGui) {
         super(arena,data,mythArenaGui);
-        player = (Player) super.getArena().getActiveUser();
     }
 
     /**
@@ -41,6 +44,7 @@ public class CharacterCreationMenu extends Command{
      */
     @Override
     public void execute() {
+        player = (Player) super.getArena().getActiveUser();
         super.getMythArenaGui().setButtonMode();
         super.getMythArenaGui().setTitle("Character Creation");
         super.getMythArenaGui().setDescription("Select the type of your new character");
@@ -71,14 +75,21 @@ public class CharacterCreationMenu extends Command{
         }
 
         // Randomly gets 3 armor and 3 weapons
-        while (character.getInventory().getWeaponArrayList().size() < 3) {
+        int pair = 0;
+        ArrayList<Equipment> armorArrayList = new ArrayList<>();
+        ArrayList<Equipment> weaponArrayList = new ArrayList<>();
+        while (pair < 3) {
             Random rand = new Random();
-            character.getInventory().getArmorArrayList().add(super.getData().getArmorPool().get(rand.nextInt(super.getData().getArmorPool().size())));
-            character.getInventory().getWeaponArrayList().add(super.getData().getWeaponPool().get(rand.nextInt(super.getData().getWeaponPool().size())));
+            armorArrayList.add(super.getData().getArmorPool().get(rand.nextInt(super.getData().getArmorPool().size())));
+            weaponArrayList.add(super.getData().getWeaponPool().get(rand.nextInt(super.getData().getWeaponPool().size())));
+            pair++;
         }
+        character.setInventory(new Inventory(weaponArrayList,armorArrayList));
         // By default, the first weapon/armor in inventory will be equipped
         character.setArmor(character.getInventory().getArmorArrayList().get(0));
-        character.getEquippedWeaponArrayList().add(character.getInventory().getArmorArrayList().get(0));
+        ArrayList<Equipment> equippedWeaponArrayList = new ArrayList<>();
+        equippedWeaponArrayList.add(character.getInventory().getWeaponArrayList().get(0));
+        character.setEquippedWeaponArrayList(equippedWeaponArrayList);
 
          double roll = Math.random();
          int minionsCount;
