@@ -806,6 +806,7 @@ public class MythArenaGuiScreen extends JFrame {
     public void setList(ArrayList<String> list) {
         this.listModel.removeAllElements();
         this.listModel.addAll(list);
+        this.listLabel.setVisible(true);
     }
 
     /**
@@ -883,6 +884,8 @@ public class MythArenaGuiScreen extends JFrame {
      * @return int index
      */
     public int getLastSelectedListIndex() {
+        this.listLabel.setVisible(false);
+        this.listModel.removeAllElements();
         return this.lastSelectedListindex;
     }
 
