@@ -19,6 +19,7 @@ import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.user.Player;
 import mytharena.gui.MythArenaGui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -50,24 +51,40 @@ public class CharacterCreationMenu extends Command{
         getMythArenaGui().setOption(2,"Cancel");
         getMythArenaGui().setOption(3,"Next");
         getMythArenaGui().setTitle("Select the type of your new Character");
-        ArrayList<String> characterTypes = new ArrayList<>();
-        characterTypes.add("Hunter");
-        characterTypes.add("Vampire");
-        characterTypes.add("Werewolf");
-        getMythArenaGui().setList(characterTypes);
 
-        CharacterFactory characterFactory = new CharacterFactory();
+        boolean exit = false;
+        while (!exit) {
+            ArrayList<String> characterTypes = new ArrayList<>();
+            characterTypes.add("Hunter");
+            characterTypes.add("Vampire");
+            characterTypes.add("Werewolf");
+            getMythArenaGui().setList(characterTypes);
 
-        if (getMythArenaGui().waitEvent(30) == 'D') {
-            switch (getMythArenaGui().getLastSelectedListIndex()) {
-                case 0 -> player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
-                case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
-                case 2 -> player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
+            CharacterFactory characterFactory = new CharacterFactory();
+            char choice = getMythArenaGui().waitEvent(30);
+            if ( choice == 'D') {
+                int index = getMythArenaGui().getLastSelectedListIndex();
+                if (index != -1) {
+                    switch (index) {
+                        case 0 -> player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
+                        case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
+                        case 2 -> player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
+                    }
+                    try {
+                        getArena().serializeData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    super.getMythArenaGui().setDescription("Character has been created");
+                    super.getMythArenaGui().waitEvent(1);
+                    exit = true;
+                } else {
+                    getMythArenaGui().setDescription("You must select a type before continuing");
+                }
+            } else if (choice == 'C') {
+                exit = true;
             }
-            super.getMythArenaGui().setDescription("Character has been created");
-            super.getMythArenaGui().waitEvent(1);
         }
-
     }
 
 
