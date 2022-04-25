@@ -13,12 +13,10 @@ public abstract class Command {
      * Arena arena
      */
     private final Arena arena;
-
     /**
      * Data data
      */
     private final Data data;
-
     /**
      * MythArenaGui mythArenaGui
      */

@@ -13,11 +13,21 @@ public class Human extends Minion implements Serializable {
     /**
      *  String loyalty
      */
-    private final Loyalty loyalty;
+    private Loyalty loyalty;
 
-
+    /**
+     * Human class constructor extends Minion
+     */
     public Human() {
-        loyalty = Loyalty.values()[new Random().nextInt(Loyalty.values().length)];
+        this.loyalty = Loyalty.values()[ new Random().nextInt(Loyalty.values().length) ];
+    }
+
+    /**
+     * Sets Loyalty loyalty
+     * @param loyalty Loyalty loyalty
+     */
+    public void setLoyalty(Loyalty loyalty) {
+        this.loyalty = loyalty;
     }
 
     /**

@@ -11,7 +11,6 @@ public abstract class Notification implements Serializable {
      * String title
      */
     private final String title;
-
     /**
      * String body
      */
@@ -32,7 +31,7 @@ public abstract class Notification implements Serializable {
      * @return String title
      */
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     /**
@@ -40,6 +39,7 @@ public abstract class Notification implements Serializable {
      * @return String body
      */
     public String getBody() {
-        return body;
+        return this.body;
     }
+
 }

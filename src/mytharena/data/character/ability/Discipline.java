@@ -1,7 +1,5 @@
 package mytharena.data.character.ability;
 
-import mytharena.data.character.ability.Ability;
-
 import java.io.Serializable;
 import java.util.Random;
 
@@ -13,7 +11,7 @@ public class Discipline extends Ability implements Serializable {
     /**
      * int cost
      */
-    private final int cost;
+    private int cost;
 
     /**
      * Discipline class constructor extends Ability
@@ -23,7 +21,15 @@ public class Discipline extends Ability implements Serializable {
     public Discipline(int attackModifier, int defenseModifier) {
         super(attackModifier, defenseModifier);
         Random rand = new Random();
-        cost = rand.nextInt(4);
+        this.cost = rand.nextInt(4);
+    }
+
+    /**
+     * Sets int cost
+     * @param cost int cost
+     */
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     /**

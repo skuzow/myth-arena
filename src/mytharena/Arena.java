@@ -13,7 +13,6 @@ import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,22 +24,18 @@ public class Arena {
      * MythArenaGui mythArenaGui
      */
     private final MythArenaGui mythArenaGui = new MythArenaGui();
-
     /**
      * Data data
      */
     private Data data;
-
     /**
      * String serializablePath
      */
     private final String serializablePath = "./src/resources/serializable/data.bin";
-
     /**
      * HashMap String Command commandMap
      */
     private final HashMap<String, Command> commandMap = new HashMap<>();
-
     /**
      * User activeUser
      */
@@ -58,21 +53,19 @@ public class Arena {
                 this.data = (Data) in.readObject();
             } else {
                 this.data = new Data();
-                // add Armor pool
-                data.getArmorPool().add(new Armor("Platemail",0,2));
-                data.getArmorPool().add(new Armor("Chainmail",0,1));
-                data.getArmorPool().add(new Armor("Blademail",3,2));
-                data.getArmorPool().add(new Armor("Cuirass", 0,3));
-
-                // add Weapon pool
-                data.getWeaponPool().add(new Weapon("Broadsword",1,0,false));
-                data.getWeaponPool().add(new Weapon("Claymore",1,1,false));
-                data.getWeaponPool().add(new Weapon("Katana",2,0,false));
-                data.getWeaponPool().add(new Weapon("Axe",2,2,true));
-                data.getWeaponPool().add(new Weapon("Rapier",3,0,false));
-
                 // default admin account
                 this.data.getUserArrayList().add(new Admin("admin", "admin", this.data));
+                // armor pool
+                this.data.getArmorPool().add(new Armor("Platemail", 0, 2));
+                this.data.getArmorPool().add(new Armor("Chainmail", 0, 1));
+                this.data.getArmorPool().add(new Armor("Blademail", 3, 2));
+                this.data.getArmorPool().add(new Armor("Cuirass", 0, 3));
+                // weapon pool
+                this.data.getWeaponPool().add(new Weapon("Broadsword", 1, 0, false));
+                this.data.getWeaponPool().add(new Weapon("Claymore", 1, 1, false));
+                this.data.getWeaponPool().add(new Weapon("Katana", 2, 0, false));
+                this.data.getWeaponPool().add(new Weapon("Axe", 2, 2, true));
+                this.data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false));
                 this.serializeData();
             }
             // create commands and insert them into commandMap with respective key
@@ -136,20 +129,19 @@ public class Arena {
     }
 
     /**
-     * Gets User activeUser
-     * @return User activeUser
-     */
-    public User getActiveUser() {
-        return this.activeUser;
-    }
-
-    /**
      * Sets User activeUser
      * @param activeUser User activeUser
      */
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
     }
+
+    /**
+     * Gets User activeUser
+     * @return User activeUser
+     */
+    public User getActiveUser() {
+        return this.activeUser;
 
     public  boolean isInteger(String str) {
         if (str == null) {

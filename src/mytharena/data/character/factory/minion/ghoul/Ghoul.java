@@ -13,11 +13,22 @@ public class Ghoul extends Minion implements Serializable {
     /**
      * int dependency
      */
-    private final int dependency;
+    private int dependency;
 
+    /**
+     * Ghoul class constructor extends Minion
+     */
     public Ghoul() {
         Random rand = new Random();
-        this.dependency = rand.nextInt(5)+1;
+        this.dependency = rand.nextInt(5) + 1;
+    }
+
+    /**
+     * Sets int dependency
+     * @param dependency int dependency
+     */
+    public void setDependency(int dependency) {
+        this.dependency = dependency;
     }
 
     /**
