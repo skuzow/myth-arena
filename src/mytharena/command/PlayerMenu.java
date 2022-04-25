@@ -43,6 +43,7 @@ public class PlayerMenu extends Command {
         while (getArena().getActiveUser() != null) {
             super.getMythArenaGui().setButtonMode();
             super.getMythArenaGui().setTitle("Welcome to Myth Arena " + player.getUsername());
+            getMythArenaGui().setDescription(null);
             super.getMythArenaGui().setOption(0, "Check gold");
             super.getMythArenaGui().setOption(1, "Challenge user");
             super.getMythArenaGui().setOption(2, "Create character");
@@ -236,20 +237,33 @@ public class PlayerMenu extends Command {
         if (player.getCharacter() != null) {
             getMythArenaGui().setListMode();
             getMythArenaGui().setOption(0, null);
-            getMythArenaGui().setOption(1, null);
-            getMythArenaGui().setOption(2, "Cancel");
-            getMythArenaGui().setOption(3, "Next");
             boolean isFinished = false;
             while (!isFinished) {
+                getMythArenaGui().setOption(1, "Equip");
+                getMythArenaGui().setOption(2, "Cancel");
+                getMythArenaGui().setOption(3, "Next");
                 ArrayList<String> listWeapons = new ArrayList<>();
-                getMythArenaGui().setDescription("Select your weapons");
+                getMythArenaGui().setDescription("Select your weapons. TIP: You may equip two single-handed weapons simultaneously");
                 for (Equipment weapon : player.getCharacter().getInventory().getWeaponArrayList()) {
-                    listWeapons.add(weapon.getName());
+                        listWeapons.add(weapon.getName());
                 }
+                listWeapons.add("----------------------------------------------------------------------------------");
+                listWeapons.add("Weapon slots:");
+                int equippedWeaponCount = 0;
+                for (Equipment equippedWeapon: player.getCharacter().getEquippedWeaponArrayList()) {
+                    listWeapons.add("Slot "+ Integer.toString(equippedWeaponCount+1) +": "+ equippedWeapon.getName());
+                    equippedWeaponCount++;
+                }
+                if (equippedWeaponCount < 2) {
+                    listWeapons.add("Slot "+ Integer.toString(equippedWeaponCount+1) +": Free");
+                }
+
                 getMythArenaGui().setList(listWeapons);
                 char choice = getMythArenaGui().waitEvent(30);
                 if (choice == 'D') {
                     getMythArenaGui().setDescription("Select your armor");
+                    getMythArenaGui().setOption(1,null);
+                    getMythArenaGui().setOption(3,"Finish");
                     getMythArenaGui().setOption(2,"Back");
                     ArrayList<String> listArmor = new ArrayList<>();
                     for (Equipment armor : player.getCharacter().getInventory().getArmorArrayList()) {
@@ -261,6 +275,20 @@ public class PlayerMenu extends Command {
                     }
                 } else if (choice == 'C') {
                     isFinished = true;
+                }else if (choice == 'B') {
+                    int listIndex = getMythArenaGui().getLastSelectedListIndex();
+                    if (listIndex < 3 && listIndex != -1) {
+                        Equipment weapon = player.getCharacter().getInventory().getWeaponArrayList().get(listIndex);
+                        if (!player.getCharacter().getEquippedWeaponArrayList().contains(weapon)) {
+                            int size = player.getCharacter().getEquippedWeaponArrayList().size();
+                            if (size < 2) {
+                                player.getCharacter().getEquippedWeaponArrayList().add(1, player.getCharacter().getInventory().getWeaponArrayList().get(listIndex));
+                            } else {
+                                player.getCharacter().getEquippedWeaponArrayList().set(1, player.getCharacter().getEquippedWeaponArrayList().get(0));
+                                player.getCharacter().getEquippedWeaponArrayList().set(0, player.getCharacter().getInventory().getWeaponArrayList().get(listIndex));
+                            }
+                        }
+                    }
                 }
             }
             try {
