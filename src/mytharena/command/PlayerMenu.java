@@ -143,6 +143,11 @@ public class PlayerMenu extends Command {
                                 int amount = pendingCombatNotification.getBet();
                                 int pay = (int) (amount * 0.10);
                                 pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 exit = true;
                             } else if (choice == 'B') {
                                 // If player accepts. We start combat
