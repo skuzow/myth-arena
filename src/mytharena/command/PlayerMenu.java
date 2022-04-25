@@ -130,6 +130,10 @@ public class PlayerMenu extends Command {
                                         "Your challenge request has been declined.",
                                         "Challenged user: " + player.getUsername() + "has declined your challenge, therefore conceding 10% of the bet to you. "
                                 ));
+                                int amount = pendingCombatNotification.getBet();
+                                int pay = (int) (amount * 0.10);
+                                pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
+                                exit = true;
                             } else if (choice == 'B') {
                                 getArena().combat();
                             }
@@ -162,6 +166,7 @@ public class PlayerMenu extends Command {
             while (!exit) {
                 getMythArenaGui().setMessageMode();
                 getMythArenaGui().setTitle(null);
+                getMythArenaGui().setImage(0,"/resources/images/warning.png");
                 getMythArenaGui().setDescription("Are you sure you want to delete your character?");
                 getMythArenaGui().setOption(0, "No, I love my character :)");
                 getMythArenaGui().setOption(1, "Yes, I'm sure :(");
@@ -189,18 +194,19 @@ public class PlayerMenu extends Command {
 
     public void challengeUser() {
         if (player.getCharacter() != null) {
-            getMythArenaGui().setListMode();
-            getMythArenaGui().setOption(0, null);
-            getMythArenaGui().setOption(1, null);
-            getMythArenaGui().setOption(2, "Cancel");
-            getMythArenaGui().setOption(3, "Next");
-
             boolean exit = false;
             while (!exit) {
+                getMythArenaGui().setListMode();
+                getMythArenaGui().setTitle("Challenge User Menu");
+                getMythArenaGui().setOption(0, null);
+                getMythArenaGui().setOption(1, null);
+                getMythArenaGui().setOption(2, "Cancel");
+                getMythArenaGui().setOption(3, "Next");
+
                 ArrayList<String> listOptions = new ArrayList<>();
                 for (User user : getData().getUserArrayList()) {
                     if (user instanceof Player) {
-                        listOptions.add(user.getUsername());
+                        listOptions.add(((Player) user).getNickname());
                     }
                 }
                 getMythArenaGui().setList(listOptions);
@@ -211,14 +217,28 @@ public class PlayerMenu extends Command {
                         User challengedPlayer = getData().getUserArrayList().get(index + 1);
                         if (challengedPlayer instanceof Player) {
                             if (challengedPlayer != player) {
-                                PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, 20);
-                                getData().getPendingCombatArrayList().add(pendingCombat);
-                                getMythArenaGui().setDescription("Your challenge request has been sent!");
-                                getMythArenaGui().waitEvent(3);
-                                try {
-                                    getArena().serializeData();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                getMythArenaGui().setFormMode();
+                                getMythArenaGui().setField(1,null);
+                                getMythArenaGui().setField(2,null);
+                                getMythArenaGui().setTitle("Gambling Menu");
+                                getMythArenaGui().setDescription("Type the amount of gold you want to bet");
+                                getMythArenaGui().setOption(0,"Exit");
+                                getMythArenaGui().setOption(1,"Bet");
+                                getMythArenaGui().setField(0, "Bet:");
+                                char option = getMythArenaGui().waitEvent(30);
+                                if (option == 'B') {
+                                    int amount = Integer.parseInt(getMythArenaGui().getFieldText(0));
+                                    if (amount > 0 && (player.getCharacter().getGold() - amount) >= 0) {
+                                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, amount);
+                                        getData().getPendingCombatArrayList().add(pendingCombat);
+                                        getMythArenaGui().setDescription("Your challenge request has been sent!");
+                                        getMythArenaGui().waitEvent(2);
+                                        try {
+                                            getArena().serializeData();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                 }
                             } else {
                                 getMythArenaGui().setDescription("You can't challenge yourself");
@@ -241,6 +261,7 @@ public class PlayerMenu extends Command {
             getMythArenaGui().setListMode();
             boolean exit = false;
             while (!exit) {
+                getMythArenaGui().setTitle("Weapon Selection Menu");
                 getMythArenaGui().setOption(0, "Unequip all");
                 getMythArenaGui().setOption(1, "Equip");
                 getMythArenaGui().setOption(2, "Cancel");

@@ -36,5 +36,8 @@ public class PendingCombatNotification extends Notification implements Serializa
         return challenger;
     }
 
+    public int getBet() {
+        return bet;
+    }
 }
 
