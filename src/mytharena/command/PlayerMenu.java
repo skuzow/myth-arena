@@ -79,7 +79,7 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().setListMode();
                 getMythArenaGui().setTitle("Gold history");
                 ArrayList<String> message = new ArrayList<>();
-                message.add("Current gold: " + Integer.toString(player.getCharacter().getGold()) + " gold");
+                message.add("Current gold: " + player.getCharacter().getGold() + " gold");
                 message.add("Gold lost in battle: 2M");
                 message.add("Gold won in battle: 1M");
                 getMythArenaGui().setList(message);
@@ -254,19 +254,29 @@ public class PlayerMenu extends Command {
                                 char option = getMythArenaGui().waitEvent(30);
                                 // Bet the given amount and make a pending combat to be saved in Arena
                                 if (option == 'B') {
-                                    int amount = Integer.parseInt(getMythArenaGui().getFieldText(0));
-                                    // Bet has to be strictly more than 0. Player must have said amount of gold to bet.
-                                    if (amount > 0 && (player.getCharacter().getGold() - amount) >= 0) {
-                                        PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, amount);
-                                        getData().getPendingCombatArrayList().add(pendingCombat);
-                                        getMythArenaGui().setDescription("Your challenge request has been sent!");
-                                        getMythArenaGui().clearFieldText(0);
-                                        getMythArenaGui().waitEvent(2);
-                                        try {
-                                            getArena().serializeData();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                    if (getArena().isInteger(getMythArenaGui().getFieldText(0))) {
+                                        int amount = Integer.parseInt(getMythArenaGui().getFieldText(0));
+                                        // Bet has to be strictly more than 0. Player must have said amount of gold to bet.
+                                        if (amount > 0) {
+                                            if ((player.getCharacter().getGold() - amount) >= 0) {
+                                                PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, amount);
+                                                getData().getPendingCombatArrayList().add(pendingCombat);
+                                                getMythArenaGui().setDescription("Your challenge request has been sent!");
+                                                getMythArenaGui().clearFieldText(0);
+                                                getMythArenaGui().waitEvent(2);
+                                                try {
+                                                    getArena().serializeData();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }else {
+                                                getMythArenaGui().setDescription("You're betting more gold than you currently have!");
+                                            }
+                                        }else {
+                                            getMythArenaGui().setDescription("Invalid amount");
                                         }
+                                    }else {
+                                        getMythArenaGui().setDescription("Write numbers only. No spaces or comma");
                                     }
                                 }
                             } else {
@@ -313,13 +323,13 @@ public class PlayerMenu extends Command {
                 // List of weapon slots and their respective status (Free/Occupied)
                 int equippedWeaponCount = 0;
                 for (Equipment equippedWeapon: player.getCharacter().getEquippedWeaponArrayList()) {
-                    listWeapons.add("Slot "+ Integer.toString(equippedWeaponCount+1) +": "+ equippedWeapon.getName());
+                    listWeapons.add("Slot "+ (equippedWeaponCount+1) +": "+ equippedWeapon.getName());
                     equippedWeaponCount++;
                 }
 
                 int freeSlotCount = player.getCharacter().getEquippedWeaponArrayList().size();
                 while (freeSlotCount < 2) {
-                    listWeapons.add("Slot "+ Integer.toString(freeSlotCount+1) +": Free");
+                    listWeapons.add("Slot "+ (freeSlotCount+1) +": Free");
                     freeSlotCount++;
                 }
 
