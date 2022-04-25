@@ -232,6 +232,7 @@ public class PlayerMenu extends Command {
                                         PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, amount);
                                         getData().getPendingCombatArrayList().add(pendingCombat);
                                         getMythArenaGui().setDescription("Your challenge request has been sent!");
+                                        getMythArenaGui().clearFieldText(0);
                                         getMythArenaGui().waitEvent(2);
                                         try {
                                             getArena().serializeData();

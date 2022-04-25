@@ -77,6 +77,7 @@ public class CharacterCreationMenu extends Command{
                     }
                     super.getMythArenaGui().setDescription("Character has been created");
                     super.getMythArenaGui().waitEvent(1);
+                    exit = true;
                 } else {
                     getMythArenaGui().setDescription("You must select a type before continuing");
                 }
