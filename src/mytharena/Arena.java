@@ -2,9 +2,13 @@ package mytharena;
 
 import mytharena.command.*;
 import mytharena.data.Data;
+import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
+import mytharena.data.combat.Combat;
+import mytharena.data.notification.GeneralNotification;
 import mytharena.data.user.Admin;
+import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
@@ -118,7 +122,7 @@ public class Arena {
         }
     }
 
-    public void combat() {
+   public void combat() {
 
     }
 
