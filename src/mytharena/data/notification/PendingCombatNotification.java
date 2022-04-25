@@ -14,15 +14,18 @@ public class PendingCombatNotification extends Notification implements Serializa
      */
     private final Player challenger;
 
+    private int bet;
+
     /**
      * PendingCombatNotification class constructor extends Notification
      * @param title String title
      * @param body String body
      * @param challenger Player challenger
      */
-    public PendingCombatNotification(String title, String body, Player challenger) {
+    public PendingCombatNotification(String title, String body, Player challenger, int bet) {
         super(title, body);
         this.challenger = challenger;
+        this.bet = bet;
     }
 
     /**
@@ -33,5 +36,8 @@ public class PendingCombatNotification extends Notification implements Serializa
         return this.challenger;
     }
 
+    public int getBet() {
+        return bet;
+    }
 }
 

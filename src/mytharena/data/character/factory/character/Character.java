@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * Character abstract class implements Serializable
  */
-public abstract class Character implements Serializable {
+public abstract class Character implements Serializable, Cloneable {
 
     /**
      * int gold
@@ -278,5 +278,15 @@ public abstract class Character implements Serializable {
         return this.equippedWeaponArrayList;
     }
 
+    @Override
+    public Character clone() {
+        try {
+            Character clone = (Character) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
 

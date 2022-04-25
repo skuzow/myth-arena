@@ -19,13 +19,19 @@ public class PendingCombat implements Serializable {
     private final Player challenged;
 
     /**
+     * int bet
+     */
+    private final int bet;
+
+    /**
      * PendingCombat class builder
      * @param challenger Player challenger
      * @param challenged Player challenged
      */
-    public PendingCombat(Player challenger, Player challenged) {
+    public PendingCombat(Player challenger, Player challenged, int bet) {
         this.challenger = challenger;
         this.challenged = challenged;
+        this.bet = bet;
     }
 
     /**
@@ -44,4 +50,7 @@ public class PendingCombat implements Serializable {
         return this.challenged;
     }
 
+    public int getBet() {
+        return bet;
+    }
 }

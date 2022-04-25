@@ -420,7 +420,7 @@ public class AdminMenu extends Command {
                                 "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
                                 pendingCombat.getChallenger().getCharacter().getGold() + " gold\n" +
                                 "Click what you want to do with it",
-                                pendingCombat.getChallenger()
+                                pendingCombat.getChallenger(), 20
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();

@@ -2,9 +2,13 @@ package mytharena;
 
 import mytharena.command.*;
 import mytharena.data.Data;
+import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
+import mytharena.data.combat.Combat;
+import mytharena.data.notification.GeneralNotification;
 import mytharena.data.user.Admin;
+import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
@@ -111,6 +115,10 @@ public class Arena {
         }
     }
 
+   public void combat() {
+
+    }
+
     /**
      * Gets specific Command command in commandMap with String key
      * @param key String key
@@ -134,6 +142,29 @@ public class Arena {
      */
     public User getActiveUser() {
         return this.activeUser;
+
+    public  boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
