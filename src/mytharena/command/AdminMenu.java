@@ -90,8 +90,18 @@ public class AdminMenu extends Command {
                 // remove selected admin
                 case 'A' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    super.getMythArenaGui().setDescription("Removed selected admin: " + selected);
-                    super.getData().getUserArrayList().remove(adminArrayList.get(selected));
+                    if (selected != -1) {
+                        try {
+                            Admin selectedAdmin = adminArrayList.get(selected);
+                            super.getData().getUserArrayList().remove(selectedAdmin);
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Removed selected admin: " + selectedAdmin.getUsername());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                    }
                     super.getMythArenaGui().waitEvent(1);
                 }
                 // register admin
@@ -109,8 +119,8 @@ public class AdminMenu extends Command {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Admin Register Form");
         super.getMythArenaGui().setDescription("Fill the fields for creating an admin account");
-        super.getMythArenaGui().setOption(0, "Back to Admin Manager Tool");
-        super.getMythArenaGui().setOption(0, "Register Admin");
+        super.getMythArenaGui().setOption(0, "Back to Manage Admins");
+        super.getMythArenaGui().setOption(1, "Register Admin");
         super.getMythArenaGui().setField(0, "Username");
         super.getMythArenaGui().setField(1, "Password");
         super.getMythArenaGui().setField(2, null);
@@ -188,36 +198,46 @@ public class AdminMenu extends Command {
                 // ban 24h selected player
                 case 'A' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    // checks if player is not already banned
-                    if (!super.getData().getBannedPlayerArrayList().contains(playerArrayList.get(selected))) {
-                        // adds player from bannedPlayerArrayList saving it in data serializing it
-                        try {
-                            super.getData().getBannedPlayerArrayList().add(playerArrayList.get(selected));
-                            super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Banned selected player: " + selected);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    if (selected != -1) {
+                        // checks if player is not already banned
+                        Player selectedPlayer = playerArrayList.get(selected);
+                        if (!super.getData().getBannedPlayerArrayList().contains(selectedPlayer)) {
+                            // adds player from bannedPlayerArrayList saving it in data serializing it
+                            try {
+                                super.getData().getBannedPlayerArrayList().add(selectedPlayer);
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getUsername());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription("Selected player is already banned: " + selectedPlayer.getUsername());
                         }
                     } else {
-                        super.getMythArenaGui().setDescription("Selected player is already banned: " + selected);
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                     }
                     super.getMythArenaGui().waitEvent(1);
                 }
                 // unban selected player if banned
                 case 'B' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    // checks if player is already banned
-                    if (super.getData().getBannedPlayerArrayList().contains(playerArrayList.get(selected))) {
-                        // removes player from bannedPlayerArrayList deleting it in data serializing it
-                        try {
-                            super.getData().getBannedPlayerArrayList().remove(playerArrayList.get(selected));
-                            super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Unbanned selected player: " + selected);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    if (selected != -1) {
+                        // checks if player is already banned
+                        Player selectedPlayer = playerArrayList.get(selected);
+                        if (super.getData().getBannedPlayerArrayList().contains(selectedPlayer)) {
+                            // removes player from bannedPlayerArrayList deleting it in data serializing it
+                            try {
+                                super.getData().getBannedPlayerArrayList().remove(selectedPlayer);
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Unbanned selected player: " + selectedPlayer.getUsername());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription("Selected player has to be banned at first: " + selectedPlayer.getUsername());
                         }
                     } else {
-                        super.getMythArenaGui().setDescription("Selected player has to be banned at first: " + selected);
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                     }
                     super.getMythArenaGui().waitEvent(1);
                 }
@@ -253,16 +273,26 @@ public class AdminMenu extends Command {
                 // delete selected user character
                 case 'A' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    try {
-                        ((Player) super.getData().getUserArrayList().get(selected)).setCharacter(null);
-                        super.getArena().serializeData();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (selected != -1) {
+                        try {
+                            playerArrayList.get(selected).setCharacter(null);
+                            super.getArena().serializeData();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                     }
+                    super.getMythArenaGui().waitEvent(1);
                 }
                 case 'B' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    this.editCharacter(playerArrayList.get(selected));
+                    if (selected != -1) {
+                        this.editCharacter(playerArrayList.get(selected));
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                        super.getMythArenaGui().waitEvent(1);
+                    }
                 }
                 // exit validate combats
                 case 'C' -> exit = true;
@@ -277,7 +307,7 @@ public class AdminMenu extends Command {
     public void editCharacter(Player player) {
         boolean exit = false;
         while (!exit) {
-            super.getMythArenaGui().setFormMode();
+            super.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Character Editor Tool");
             super.getMythArenaGui().setDescription("Select what you want to change\nYou are currently editing the character of " + player.getUsername());
             super.getMythArenaGui().setOption(0, null);
@@ -301,47 +331,53 @@ public class AdminMenu extends Command {
                 case 'C' -> exit = true;
                 // enter modifier menu of selected character attribute
                 case 'D' -> {
-                    switch (super.getMythArenaGui().getLastSelectedListIndex()) {
-                        // gold
-                        case 0 -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        switch (selected) {
+                            // gold
+                            case 0 -> {
 
-                        }
-                        // health
-                        case 1 -> {
+                            }
+                            // health
+                            case 1 -> {
 
-                        }
-                        // power
-                        case 2 -> {
+                            }
+                            // power
+                            case 2 -> {
 
-                        }
-                        // inventory
-                        case 3 -> {
+                            }
+                            // inventory
+                            case 3 -> {
 
-                        }
-                        // armor
-                        case 4 -> {
+                            }
+                            // armor
+                            case 4 -> {
 
-                        }
-                        // weaknesses
-                        case 5 -> {
+                            }
+                            // weaknesses
+                            case 5 -> {
 
-                        }
-                        // minions
-                        case 6 -> {
+                            }
+                            // minions
+                            case 6 -> {
 
-                        }
-                        // fortitudes
-                        case 7 -> {
+                            }
+                            // fortitudes
+                            case 7 -> {
 
-                        }
-                        // weapons
-                        case 8 -> {
+                            }
+                            // weapons
+                            case 8 -> {
 
-                        }
-                        // ability
-                        case 9 -> {
+                            }
+                            // ability
+                            case 9 -> {
 
+                            }
                         }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                        super.getMythArenaGui().waitEvent(1);
                     }
                 }
             }
@@ -375,40 +411,52 @@ public class AdminMenu extends Command {
                 // approve selected combat
                 case 'A' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
-                    try {
-                        // accepted combat notification for challenged
-                        pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
-                            "Another player has challenged you to a combat",
-                            "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
-                            pendingCombat.getChallenger().getCharacter().getGold() + "gold\n" +
-                            "Click what you want to do with it",
-                            pendingCombat.getChallenger()
-                        ));
-                        super.getData().getPendingCombatArrayList().remove(pendingCombat);
-                        super.getArena().serializeData();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (selected != -1) {
+                        PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
+                        try {
+                            // accepted combat notification for challenged
+                            pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
+                                "Another player has challenged you to a combat",
+                                "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
+                                pendingCombat.getChallenger().getCharacter().getGold() + " gold\n" +
+                                "Click what you want to do with it",
+                                pendingCombat.getChallenger()
+                            ));
+                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Approved selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                     }
+                    super.getMythArenaGui().waitEvent(1);
                 }
                 // deny selected combat
                 case 'B' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
-                    try {
-                        super.getData().getBannedPlayerArrayList().add(pendingCombat.getChallenger());
-                        // 24h ban notification for challenger
-                        pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
-                            "Your pending combat has been denied",
-                            "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
-                            pendingCombat.getChallenged().getCharacter().getGold() + "gold\n" +
-                            "As a result you have been banned for 24h"
-                        ));
-                        super.getData().getPendingCombatArrayList().remove(pendingCombat);
-                        super.getArena().serializeData();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (selected != -1) {
+                        PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
+                        try {
+                            super.getData().getBannedPlayerArrayList().add(pendingCombat.getChallenger());
+                            // 24h ban notification for challenger
+                            pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                                "Your pending combat has been denied",
+                                "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
+                                pendingCombat.getChallenged().getCharacter().getGold() + " gold\n" +
+                                "As a result you have been banned for 24h"
+                            ));
+                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Denied selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                     }
+                    super.getMythArenaGui().waitEvent(1);
                 }
                 // exit validate combats
                 case 'C' -> exit = true;
