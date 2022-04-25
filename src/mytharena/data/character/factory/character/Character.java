@@ -44,19 +44,19 @@ public abstract class Character implements Serializable {
     /**
      * ArrayList Modifier weaknessArrayList
      */
-    private ArrayList<Modifier> weaknessArrayList;
+    private ArrayList<Modifier> weaknessArrayList = new ArrayList<>();
     /**
      * ArrayList Minion minionArrayList
      */
-    private ArrayList<Minion> minionArrayList;
+    private ArrayList<Minion> minionArrayList = new ArrayList<>();
     /**
      * ArrayList Modifier fortitudeArrayList
      */
-    private ArrayList<Modifier> fortitudeArrayList;
+    private ArrayList<Modifier> fortitudeArrayList = new ArrayList<>();
     /**
      * ArrayList Equipment weaponArrayList
      */
-    private ArrayList<Equipment> equippedWeaponArrayList;
+    private ArrayList<Equipment> equippedWeaponArrayList = new ArrayList<>();
     /**
      * Ability ability
      */
@@ -78,7 +78,7 @@ public abstract class Character implements Serializable {
             armorArrayList.add(data.getArmorPool().get(rand.nextInt(data.getArmorPool().size())));
             weaponArrayList.add(data.getWeaponPool().get(rand.nextInt(data.getWeaponPool().size())));
         }
-        this.setInventory(new Inventory(weaponArrayList,armorArrayList));
+        this.setInventory(new Inventory(weaponArrayList, armorArrayList));
         // By default, the first weapon/armor in inventory will be equipped
         this.setArmor(getInventory().getArmorArrayList().get(0));
         ArrayList<Equipment> equippedWeaponArrayList = new ArrayList<>();

@@ -16,7 +16,7 @@ public class Demon extends Minion implements Serializable {
     /**
      * ArrayList Minion minionArrayList
      */
-    private ArrayList<Minion> minionArrayList;
+    private ArrayList<Minion> minionArrayList = new ArrayList<>();
 
     /**
      * Demon class constructor extends Minion
