@@ -49,7 +49,4 @@ public class Werewolf extends Character implements Serializable {
         return this.rage;
     }
 
-    public void setRage(int rage) {
-        this.rage = rage;
-    }
 }
