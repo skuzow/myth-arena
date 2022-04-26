@@ -132,6 +132,7 @@ public class PlayerMenu extends Command {
                         // If notification is of type PendingCombat then Player must Accept or Decline.
                         if (notification instanceof PendingCombatNotification) {
                             PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
+                            Player challenger = (Player) pendingCombatNotification.getChallenger();
                             getMythArenaGui().setOption(0, "Decline");
                             getMythArenaGui().setOption(1, "Accept");
                             if (choice == 'A') {
@@ -152,6 +153,7 @@ public class PlayerMenu extends Command {
                                 exit = true;
                             } else if (choice == 'B') {
                                 // If player accepts. We start combat
+
                                 getArena().combat();
                                 player.getNotificationArrayList().remove(pendingCombatNotification);
                                 try {

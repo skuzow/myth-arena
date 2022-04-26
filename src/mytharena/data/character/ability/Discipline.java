@@ -21,7 +21,7 @@ public class Discipline extends Ability implements Serializable {
     public Discipline(int attackModifier, int defenseModifier) {
         super(attackModifier, defenseModifier);
         Random rand = new Random();
-        this.cost = rand.nextInt(4);
+        cost = rand.nextInt(3)+1;
     }
 
     /**

@@ -43,4 +43,7 @@ public class Hunter extends Character implements Serializable {
         return this.will;
     }
 
+    public void setWill(int will) {
+        this.will = will;
+    }
 }

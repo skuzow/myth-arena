@@ -31,7 +31,9 @@ public class Combat implements Serializable {
     /**
      * int rounds
      */
-    private final int rounds;
+
+    private final ArrayList<Round> rounds;
+
     /**
      * int obtainedGold
      */
@@ -39,7 +41,7 @@ public class Combat implements Serializable {
     /**
      * ArrayList Minion minionSurvivorArrayList
      */
-    private final ArrayList<Minion> minionSurvivorArrayList;
+    private final Player playerWithMinionsLeft;
 
     /**
      * Combat class constructor
@@ -49,16 +51,16 @@ public class Combat implements Serializable {
      * @param date Date date
      * @param rounds int rounds
      * @param obtainedGold int obtainedGold
-     * @param minionSurvivorArrayList ArrayList Minion minionSurvivorArrayList
+     * @param playerWithMinionsLeft Player playerWithMinionsLeft
      */
-    public Combat(Player challenger, Player challenged, Player winner, Date date, int rounds, int obtainedGold, ArrayList<Minion> minionSurvivorArrayList) {
+    public Combat(Player challenger, Player challenged, Player winner, Date date, ArrayList<Round> rounds, int obtainedGold, Player playerWithMinionsLeft) {
         this.challenger = challenger;
         this.challenged = challenged;
         this.winner = winner;
         this.date = date;
         this.rounds = rounds;
         this.obtainedGold = obtainedGold;
-        this.minionSurvivorArrayList = minionSurvivorArrayList;
+        this.playerWithMinionsLeft = playerWithMinionsLeft;
     }
 
     /**
@@ -97,7 +99,7 @@ public class Combat implements Serializable {
      * Gets int rounds
      * @return int rounds
      */
-    public int getRounds() {
+    public ArrayList<Round> getRounds() {
         return this.rounds;
     }
 
@@ -109,12 +111,7 @@ public class Combat implements Serializable {
         return this.obtainedGold;
     }
 
-    /**
-     * Gets ArrayList Minion minionSurvivorArrayList
-     * @return ArrayList Minion minionSurvivorArrayList
-     */
-    public ArrayList<Minion> getMinionSurvivorArrayList() {
-        return this.minionSurvivorArrayList;
+    public Player getPlayerWithMinionsLeft() {
+        return playerWithMinionsLeft;
     }
-
 }
