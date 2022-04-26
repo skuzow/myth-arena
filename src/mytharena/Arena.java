@@ -172,8 +172,8 @@ public class Arena {
        int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
 
         while (character1.getHealth() > 0 && character2.getHealth() > 0) {
-            mythArenaGui.setHealthBar(0,character1.getHealth(),10);
-            mythArenaGui.setHealthBar(1,character2.getHealth(),10);
+            mythArenaGui.setHealthBar(0,character1.getHealth(),5);
+            mythArenaGui.setHealthBar(1,character2.getHealth(),5);
             // Calculate character 1 ability, weaknesses and strengths
             int[] values1 = calculateCharacterModifiers(character1);
             int abilityOffense1 = values1[0];
@@ -230,13 +230,12 @@ public class Arena {
                         }else {
                             hunter.setWill(0);
                         }
-
                     }
                 }
             }
 
             if (character2AttackResult > 0) {
-                if (character1 instanceof Vampire vampire) {
+                if (character2 instanceof Vampire vampire) {
                     if (vampire.getBloodPoints() < 7) {
                         vampire.setBloodPoints(vampire.getBloodPoints() + 4);
                     }else {
@@ -291,6 +290,11 @@ public class Arena {
        } catch (IOException e) {
            e.printStackTrace();
        }
+       mythArenaGui.setOption(0,null);
+       mythArenaGui.setOption(1,null);
+       mythArenaGui.setCombatInfo(0,"VS");
+       mythArenaGui.setCombatInfo(1,"Gled");
+       mythArenaGui.setCombatInfo(2,"Alex");
        mythArenaGui.waitEvent(300);
    }
 
