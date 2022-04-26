@@ -71,11 +71,5 @@ public class Vampire extends Character implements Serializable {
         return this.bloodPoints;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
 
-    public void setBloodPoints(int bloodPoints) {
-        this.bloodPoints = bloodPoints;
-    }
 }

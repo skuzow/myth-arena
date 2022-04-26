@@ -150,6 +150,7 @@ public class Arena {
     }
 
    public void combat(Player player1, Player player2, int bet) {
+        mythArenaGui.setCombatMode();
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
         Date date = new Date();
@@ -171,7 +172,8 @@ public class Arena {
        int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
 
         while (character1.getHealth() > 0 && character2.getHealth() > 0) {
-
+            mythArenaGui.setHealthBar(0,character1.getHealth(),10);
+            mythArenaGui.setHealthBar(1,character2.getHealth(),10);
             // Calculate character 1 ability, weaknesses and strengths
             int[] values1 = calculateCharacterModifiers(character1);
             int abilityOffense1 = values1[0];
@@ -236,6 +238,7 @@ public class Arena {
        } catch (IOException e) {
            e.printStackTrace();
        }
+       mythArenaGui.waitEvent(300);
    }
 
     private void inflictDamage(Character character, int minionTotalHealth, int damage) {
@@ -339,16 +342,16 @@ public class Arena {
                 }
 
                 vampire.setBloodPoints(vampire.getBloodPoints() - vampireDiscipline.getCost());
-                // Calculate modifiers for Vampire during daytime
-                if (hour >= 7 && hour < 21) {
-                    for (Modifier weakness : vampire.getWeaknessArrayList()) {
-                        switch (weakness.getSensibility()) {
-                            case 1 -> modifier -= 1;
-                            case 2 -> modifier -= 2;
-                            case 3 -> modifier -= 3;
-                            case 4 -> modifier -= 4;
-                            case 5 -> modifier -= 5;
-                        }
+            }
+            // Calculate modifiers for Vampire during daytime
+            if (hour >= 7 && hour < 21) {
+                for (Modifier weakness : vampire.getWeaknessArrayList()) {
+                    switch (weakness.getSensibility()) {
+                        case 1 -> modifier -= 1;
+                        case 2 -> modifier -= 2;
+                        case 3 -> modifier -= 3;
+                        case 4 -> modifier -= 4;
+                        case 5 -> modifier -= 5;
                     }
                 }
             }
@@ -384,11 +387,9 @@ public class Arena {
     private int[] calculateWeaponModifier(Character character) {
         int [] values = new int[2];
 
-        for(int i = 1; i  < 2; i++) {
-            if (character.getEquippedWeaponArrayList().get(i) != null) {
-                values[0] = character.getEquippedWeaponArrayList().get(i).getAttackModification();
-                values[1] = character.getEquippedWeaponArrayList().get(i).getDefenseModification();
-            }
+        for(int i = 0; i  < character.getEquippedWeaponArrayList().size(); i++) {
+            values[0] += character.getEquippedWeaponArrayList().get(i).getAttackModification();
+            values[1] += character.getEquippedWeaponArrayList().get(i).getDefenseModification();
         }
         return values;
     }

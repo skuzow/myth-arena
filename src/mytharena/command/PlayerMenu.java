@@ -128,47 +128,50 @@ public class PlayerMenu extends Command {
                     notificationContent.add(notification.getBody());
                     getMythArenaGui().setList(notificationContent);
 
-                    char choice = getMythArenaGui().waitEvent(30);
-                        // If notification is of type PendingCombat then Player must Accept or Decline.
-                        if (notification instanceof PendingCombatNotification) {
-                            PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
-                            Player challenger = (Player) pendingCombatNotification.getChallenger();
-                            getMythArenaGui().setOption(0, "Decline");
-                            getMythArenaGui().setOption(1, "Accept");
-                            if (choice == 'A') {
-                                // If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
-                                pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
-                                        "Your challenge request has been declined.",
-                                        "Challenged user: " + player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
-                                ));
-                                int amount = pendingCombatNotification.getBet();
-                                int pay = (int) (amount * 0.10);
-                                pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
-                                player.getNotificationArrayList().remove(pendingCombatNotification);
-                                try {
-                                    getArena().serializeData();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                exit = true;
-                            } else if (choice == 'B') {
-                                // If player accepts. We start combat
-
-                                getArena().combat();
-                                player.getNotificationArrayList().remove(pendingCombatNotification);
-                                try {
-                                    getArena().serializeData();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                exit = true;
+                    // If notification is of type PendingCombat then Player must Accept or Decline.
+                    if (notification instanceof PendingCombatNotification) {
+                        PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
+                        Player challenger = (Player) pendingCombatNotification.getChallenger();
+                        getMythArenaGui().setOption(0, "Decline");
+                        getMythArenaGui().setOption(1, "Accept");
+                        getMythArenaGui().setOption(2, null);
+                        getMythArenaGui().setOption(3, null);
+                        char choice = getMythArenaGui().waitEvent(30);
+                        if (choice == 'A') {
+                            // If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
+                            pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                                    "Your challenge request has been declined.",
+                                    "Challenged user: " + player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
+                            ));
+                            int amount = pendingCombatNotification.getBet();
+                            int pay = (int) (amount * 0.10);
+                            pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
+                            player.getNotificationArrayList().remove(pendingCombatNotification);
+                            try {
+                                getArena().serializeData();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
+                            exit = true;
+                        } else if (choice == 'B') {
+                            // If player accepts. We start combat
+
+                            getArena().combat(player,pendingCombatNotification.getChallenger(), pendingCombatNotification.getBet());
+                            player.getNotificationArrayList().remove(pendingCombatNotification);
+                            try {
+                                getArena().serializeData();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            exit = true;
+                        }
                         } else {
                             // In case the notification is of general type. Player can delete or close this notification.
                             getMythArenaGui().setOption(0, null);
                             getMythArenaGui().setOption(1, null);
                             getMythArenaGui().setOption(2, "Delete");
                             getMythArenaGui().setOption(3, "Close");
+                            char choice = getMythArenaGui().waitEvent(30);
                             if (choice == 'C') {
                                 player.getNotificationArrayList().remove(notification);
                                 try {
