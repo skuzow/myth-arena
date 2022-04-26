@@ -12,6 +12,8 @@ import mytharena.gui.MythArenaGui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * AdminMenu class extends Command
@@ -173,6 +175,7 @@ public class AdminMenu extends Command {
     private void managePlayers() {
         boolean exit = false;
         while (!exit) {
+            super.getArena().updateBans();
             this.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Player Manager Tool");
             super.getMythArenaGui().setDescription("Select what you want to change");
@@ -185,9 +188,8 @@ public class AdminMenu extends Command {
             for (User user : super.getData().getUserArrayList()) {
                 if (user instanceof Player) {
                     playerArrayList.add((Player) user);
-                    if (super.getData().getBannedPlayerArrayList().contains(user)) {
-                        // TODO: display remaining ban time & auto unban when time finishes
-                        playerUsernameArrayList.add(user.getUsername() + " banned :(");
+                    if (super.getData().getBannedPlayerMap().containsKey(user)) {
+                        playerUsernameArrayList.add(user.getUsername() + " banned until " + super.getData().getBannedPlayerMap().get(user));
                     } else {
                         playerUsernameArrayList.add(user.getUsername());
                     }
@@ -201,10 +203,18 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         // checks if player is not already banned
                         Player selectedPlayer = playerArrayList.get(selected);
-                        if (!super.getData().getBannedPlayerArrayList().contains(selectedPlayer)) {
-                            // adds player from bannedPlayerArrayList saving it in data serializing it
+                        if (!super.getData().getBannedPlayerMap().containsKey(selectedPlayer)) {
+                            // adds player from bannedPlayerMap saving it in data serializing it
                             try {
-                                super.getData().getBannedPlayerArrayList().add(selectedPlayer);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(new Date());
+                                // adds 24h since current date, for unban date
+                                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                                Date unBanDate = calendar.getTime();
+                                super.getData().getBannedPlayerMap().put(selectedPlayer, unBanDate);
+                                selectedPlayer.getNotificationArrayList().add(new GeneralNotification(
+                                    "You have been banned by an administrator", "Banned until " + unBanDate
+                                ));
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {
@@ -224,10 +234,13 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         // checks if player is already banned
                         Player selectedPlayer = playerArrayList.get(selected);
-                        if (super.getData().getBannedPlayerArrayList().contains(selectedPlayer)) {
-                            // removes player from bannedPlayerArrayList deleting it in data serializing it
+                        if (super.getData().getBannedPlayerMap().containsKey(selectedPlayer)) {
+                            // removes player from bannedPlayerMap deleting it in data serializing it
                             try {
-                                super.getData().getBannedPlayerArrayList().remove(selectedPlayer);
+                                super.getData().getBannedPlayerMap().remove(selectedPlayer);
+                                selectedPlayer.getNotificationArrayList().add(new GeneralNotification(
+                                        "You have been unbanned by an administrator", "Your ban was revoked"
+                                ));
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Unbanned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {
@@ -401,9 +414,10 @@ public class AdminMenu extends Command {
             for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
                 pendingCombatInfoArrayList.add(
                     pendingCombat.getChallenger().getUsername() + " : " +
-                    pendingCombat.getChallenger().getCharacter().getGold() + " gold |-> " +
+                    pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
                     pendingCombat.getChallenged().getUsername() + " : " +
-                    pendingCombat.getChallenged().getCharacter().getGold() + " gold"
+                    pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                    pendingCombat.getBet() + " gold bet"
                 );
             }
             super.getMythArenaGui().setList(pendingCombatInfoArrayList);
@@ -439,13 +453,18 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
                         try {
-                            super.getData().getBannedPlayerArrayList().add(pendingCombat.getChallenger());
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(new Date());
+                            // adds 24h since current date, for unban date
+                            calendar.add(Calendar.DAY_OF_MONTH, 1);
+                            Date unBanDate = calendar.getTime();
+                            super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), unBanDate);
                             // 24h ban notification for challenger
                             pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                 "Your pending combat has been denied",
                                 "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
-                                pendingCombat.getChallenged().getCharacter().getGold() + " gold\n" +
-                                "As a result you have been banned for 24h"
+                                pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                                "As a result you have been banned for 24h, until " + unBanDate
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();

@@ -2,18 +2,18 @@ package mytharena;
 
 import mytharena.command.*;
 import mytharena.data.Data;
-import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
-import mytharena.data.combat.Combat;
-import mytharena.data.notification.GeneralNotification;
 import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Arena class
@@ -73,6 +73,8 @@ public class Arena {
             this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("CharacterCreationMenu", new CharacterCreationMenu(this, this.data, this.mythArenaGui));
+            // update player bans
+            this.updateBans();
             // main loop
             while (true) {
                 this.commandMap.get("StartMenu").execute();
@@ -90,6 +92,24 @@ public class Arena {
         out.writeObject(this.data);
         out.flush();
         out.close();
+    }
+
+    /**
+     * Update bans
+     */
+    public void updateBans() {
+        Date currentDate = new Date();
+        ArrayList<Player> unBanPlayerArrayList = new ArrayList<>();
+        for (Map.Entry<Player, Date> entry : this.data.getBannedPlayerMap().entrySet()) {
+            // checks if player ban has to be removed
+            if (currentDate.after(entry.getValue())) {
+                unBanPlayerArrayList.add(entry.getKey());
+            }
+        }
+        // unbans passed ban players
+        for (Player player : unBanPlayerArrayList) {
+            this.data.getBannedPlayerMap().remove(player);
+        }
     }
 
     /**
@@ -120,31 +140,6 @@ public class Arena {
     }
 
     /**
-     * Gets specific Command command in commandMap with String key
-     * @param key String key
-     * @return Command command
-     */
-    public Command getCommand(String key) {
-        return this.commandMap.get(key);
-    }
-
-    /**
-     * Sets User activeUser
-     * @param activeUser User activeUser
-     */
-    public void setActiveUser(User activeUser) {
-        this.activeUser = activeUser;
-    }
-
-    /**
-     * Gets User activeUser
-     * @return User activeUser
-     */
-    public User getActiveUser() {
-        return this.activeUser;
-    }
-
-    /**
      * Checks String str can be converted to integer
      * @param str String str
      * @return boolean
@@ -171,6 +166,31 @@ public class Arena {
             }
         }
         return true;
+    }
+
+    /**
+     * Sets User activeUser
+     * @param activeUser User activeUser
+     */
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
+    }
+
+    /**
+     * Gets specific Command command in commandMap with String key
+     * @param key String key
+     * @return Command command
+     */
+    public Command getCommand(String key) {
+        return this.commandMap.get(key);
+    }
+
+    /**
+     * Gets User activeUser
+     * @return User activeUser
+     */
+    public User getActiveUser() {
+        return this.activeUser;
     }
 
 }
