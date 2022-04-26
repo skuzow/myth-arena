@@ -12,6 +12,7 @@ import mytharena.gui.MythArenaGui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -174,6 +175,7 @@ public class AdminMenu extends Command {
     private void managePlayers() {
         boolean exit = false;
         while (!exit) {
+            super.getArena().updateBans();
             this.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Player Manager Tool");
             super.getMythArenaGui().setDescription("Select what you want to change");
@@ -187,8 +189,7 @@ public class AdminMenu extends Command {
                 if (user instanceof Player) {
                     playerArrayList.add((Player) user);
                     if (super.getData().getBannedPlayerMap().containsKey(user)) {
-                        // TODO: display remaining ban time & auto unban when time finishes
-                        playerUsernameArrayList.add(user.getUsername() + " banned since " + super.getData().getBannedPlayerMap().get(user));
+                        playerUsernameArrayList.add(user.getUsername() + " banned until " + super.getData().getBannedPlayerMap().get(user));
                     } else {
                         playerUsernameArrayList.add(user.getUsername());
                     }
@@ -205,7 +206,11 @@ public class AdminMenu extends Command {
                         if (!super.getData().getBannedPlayerMap().containsKey(selectedPlayer)) {
                             // adds player from bannedPlayerMap saving it in data serializing it
                             try {
-                                super.getData().getBannedPlayerMap().put(selectedPlayer, new Date());
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(new Date());
+                                // adds 24h since current date, for unban date
+                                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                                super.getData().getBannedPlayerMap().put(selectedPlayer, calendar.getTime());
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {

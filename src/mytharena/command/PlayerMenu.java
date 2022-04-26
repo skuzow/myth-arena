@@ -216,38 +216,41 @@ public class PlayerMenu extends Command {
     }
 
     public void challengeUser() {
-        // Must have character to challenge
-        if (player.getCharacter() != null) {
-            boolean exit = false;
-            while (!exit) {
-                // Main settings
-                getMythArenaGui().setListMode();
-                getMythArenaGui().setTitle("Challenge User Menu");
-                getMythArenaGui().setOption(0, null);
-                getMythArenaGui().setOption(1, null);
-                getMythArenaGui().setOption(2, "Cancel");
-                getMythArenaGui().setOption(3, "Challenge");
+        // Update bans & check if player is still combat banned
+        getArena().updateBans();
+        if (!getData().getBannedPlayerMap().containsKey(player)) {
+            // Must have character to challenge
+            if (player.getCharacter() != null) {
+                boolean exit = false;
+                while (!exit) {
+                    // Main settings
+                    getMythArenaGui().setListMode();
+                    getMythArenaGui().setTitle("Challenge User Menu");
+                    getMythArenaGui().setOption(0, null);
+                    getMythArenaGui().setOption(1, null);
+                    getMythArenaGui().setOption(2, "Cancel");
+                    getMythArenaGui().setOption(3, "Challenge");
 
-                // List of players
-                ArrayList<Player> playerArrayList = new ArrayList<>();
-                ArrayList<String> playerNicknameArrayList = new ArrayList<>();
-                for (User user : getData().getUserArrayList()) {
-                    // Filter not active user & player have character
-                    if (user instanceof Player && user != getArena().getActiveUser() && ((Player) user).getCharacter() != null) {
-                        playerArrayList.add((Player) user);
-                        playerNicknameArrayList.add(((Player) user).getNickname());
+                    // List of players
+                    ArrayList<Player> playerArrayList = new ArrayList<>();
+                    ArrayList<String> playerNicknameArrayList = new ArrayList<>();
+                    for (User user : getData().getUserArrayList()) {
+                        // Filter not active user & player have character
+                        if (user instanceof Player && user != getArena().getActiveUser() && ((Player) user).getCharacter() != null) {
+                            playerArrayList.add((Player) user);
+                            playerNicknameArrayList.add(((Player) user).getNickname());
+                        }
                     }
-                }
-                getMythArenaGui().setList(playerNicknameArrayList);
-                char choice = getMythArenaGui().waitEvent(30);
+                    getMythArenaGui().setList(playerNicknameArrayList);
+                    char choice = getMythArenaGui().waitEvent(30);
 
-                // Challenge player at current list index
-                if (choice == 'D') {
-                    int index = getMythArenaGui().getLastSelectedListIndex();
-                    // You can't advance if you didn't pick an item on the list
-                    if (index != -1) {
-                        // Use previous playerArrayList to get proper player with index on the list
-                        Player challengedPlayer = playerArrayList.get(index);
+                    // Challenge player at current list index
+                    if (choice == 'D') {
+                        int index = getMythArenaGui().getLastSelectedListIndex();
+                        // You can't advance if you didn't pick an item on the list
+                        if (index != -1) {
+                            // Use previous playerArrayList to get proper player with index on the list
+                            Player challengedPlayer = playerArrayList.get(index);
                             getMythArenaGui().setFormMode();
                             getMythArenaGui().setField(1,null);
                             getMythArenaGui().setField(2,null);
@@ -284,16 +287,20 @@ public class PlayerMenu extends Command {
                                     getMythArenaGui().setDescription("Write numbers only. No spaces or comma");
                                 }
                             }
-                    } else {
-                        getMythArenaGui().setDescription("You must select an item in the list to challenge!");
+                        } else {
+                            getMythArenaGui().setDescription("You must select an item in the list to challenge!");
+                        }
+                    } else if (choice == 'C') {
+                        // Ends the while loop, thus ending the operation
+                        exit = true;
                     }
-                } else if (choice == 'C') {
-                    // Ends the while loop, thus ending the operation
-                    exit = true;
                 }
+            } else {
+                getMythArenaGui().setDescription("No character found");
+                getMythArenaGui().waitEvent(3);
             }
         } else {
-            getMythArenaGui().setDescription("No character found");
+            getMythArenaGui().setDescription("You can't enter to this option because you have been banned, look notifications for more information");
             getMythArenaGui().waitEvent(3);
         }
     }
