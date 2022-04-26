@@ -190,9 +190,9 @@ public class AdminMenu extends Command {
                 if (user instanceof Player) {
                     playerArrayList.add((Player) user);
                     if (super.getData().getBannedPlayerMap().containsKey(user)) {
-                        playerUsernameArrayList.add(user.getUsername() + " banned until " + super.getData().getBannedPlayerMap().get(user));
+                        playerUsernameArrayList.add(((Player) user).getNickname() + " banned until " + super.getData().getBannedPlayerMap().get(user));
                     } else {
-                        playerUsernameArrayList.add(user.getUsername());
+                        playerUsernameArrayList.add(((Player) user).getNickname());
                     }
                 }
             }
@@ -217,12 +217,12 @@ public class AdminMenu extends Command {
                                     "You have been banned by an administrator", "Banned until " + unBanDate
                                 ));
                                 super.getArena().serializeData();
-                                super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getUsername());
+                                super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getNickname());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            super.getMythArenaGui().setDescription("Selected player is already banned: " + selectedPlayer.getUsername());
+                            super.getMythArenaGui().setDescription("Selected player is already banned: " + selectedPlayer.getNickname());
                         }
                     } else {
                         super.getMythArenaGui().setDescription("Please select one element of the list before continue");
@@ -243,12 +243,12 @@ public class AdminMenu extends Command {
                                         "You have been unbanned by an administrator", "Your ban was revoked"
                                 ));
                                 super.getArena().serializeData();
-                                super.getMythArenaGui().setDescription("Unbanned selected player: " + selectedPlayer.getUsername());
+                                super.getMythArenaGui().setDescription("Unbanned selected player: " + selectedPlayer.getNickname());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            super.getMythArenaGui().setDescription("Selected player has to be banned at first: " + selectedPlayer.getUsername());
+                            super.getMythArenaGui().setDescription("Selected player has to be banned at first: " + selectedPlayer.getNickname());
                         }
                     } else {
                         super.getMythArenaGui().setDescription("Please select one element of the list before continue");
@@ -279,7 +279,7 @@ public class AdminMenu extends Command {
             for (User user : super.getData().getUserArrayList()) {
                 if (user instanceof Player && ((Player) user).getCharacter() != null) {
                     playerArrayList.add((Player) user);
-                    playerInfoArrayList.add(user.getUsername());
+                    playerInfoArrayList.add(((Player) user).getNickname());
                 }
             }
             super.getMythArenaGui().setList(playerInfoArrayList);
@@ -330,9 +330,9 @@ public class AdminMenu extends Command {
             ArrayList<String> pendingCombatInfoArrayList = new ArrayList<>();
             for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
                 pendingCombatInfoArrayList.add(
-                        pendingCombat.getChallenger().getUsername() + " : " +
+                        pendingCombat.getChallenger().getNickname() + " : " +
                                 pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
-                                pendingCombat.getChallenged().getUsername() + " : " +
+                                pendingCombat.getChallenged().getNickname() + " : " +
                                 pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
                                 pendingCombat.getBet() + " gold bet"
                 );
@@ -348,14 +348,14 @@ public class AdminMenu extends Command {
                             // accepted combat notification for challenged
                             pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
                                     "Another player has challenged you to a combat",
-                                    "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
+                                    "Challenger user: " + pendingCombat.getChallenger().getNickname() + " : " +
                                             pendingCombat.getChallenger().getCharacter().getGold() + " gold\n" +
                                             "Click what you want to do with it",
                                     pendingCombat.getChallenger(), 20
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Approved selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
+                            super.getMythArenaGui().setDescription("Approved selected combat: " + pendingCombat.getChallenger().getNickname() + " -> " + pendingCombat.getChallenged().getNickname());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -379,13 +379,13 @@ public class AdminMenu extends Command {
                             // 24h ban notification for challenger
                             pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                     "Your pending combat has been denied",
-                                    "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
+                                    "Challenged user: " + pendingCombat.getChallenged().getNickname() + " : " +
                                             pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
                                             "As a result you have been banned for 24h, until " + unBanDate
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Denied selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
+                            super.getMythArenaGui().setDescription("Denied selected combat: " + pendingCombat.getChallenger().getNickname() + " -> " + pendingCombat.getChallenged().getNickname());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -409,7 +409,7 @@ public class AdminMenu extends Command {
         while (!exit) {
             super.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Character Editor Tool");
-            super.getMythArenaGui().setDescription("Select what you want to change\nYou are currently editing the character of " + player.getUsername());
+            super.getMythArenaGui().setDescription("Select what you want to change\nYou are currently editing the character of " + player.getNickname());
             super.getMythArenaGui().setOption(0, null);
             super.getMythArenaGui().setOption(1, null);
             super.getMythArenaGui().setOption(2, "Back to Manage Characters");
@@ -510,7 +510,7 @@ public class AdminMenu extends Command {
      */
     private void editGold(Player player) {
         super.getMythArenaGui().setFormMode();
-        super.getMythArenaGui().setTitle("Gold editor for " + player.getUsername());
+        super.getMythArenaGui().setTitle("Gold editor for " + player.getNickname());
         super.getMythArenaGui().setDescription("Type the amount of gold you want to change\nCurrent gold: " + player.getCharacter().getGold());
         super.getMythArenaGui().setField(0, "Amount of gold");
         super.getMythArenaGui().setField(1, null);

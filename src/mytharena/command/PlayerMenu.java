@@ -141,7 +141,7 @@ public class PlayerMenu extends Command {
                                 // If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
                                 pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                         "Your challenge request has been declined.",
-                                        "Challenged user: " + player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
+                                        "Challenged user: " + player.getNickname() + " has declined your challenge, therefore conceding 10% of the bet to you"
                                 ));
                                 int amount = pendingCombatNotification.getBet();
                                 int pay = (int) (amount * 0.10);
