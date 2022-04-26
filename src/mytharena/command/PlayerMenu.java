@@ -4,6 +4,7 @@ import mytharena.Arena;
 import mytharena.data.Data;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
+import mytharena.data.combat.Combat;
 import mytharena.data.combat.PendingCombat;
 import mytharena.data.notification.GeneralNotification;
 import mytharena.data.notification.Notification;
@@ -13,7 +14,8 @@ import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * PlayerMenu class extends Command
@@ -188,8 +190,46 @@ public class PlayerMenu extends Command {
             }
     }
 
+    /**
+     * View Ranking
+     */
     public void viewRanking() {
-
+        super.getMythArenaGui().setListMode();
+        super.getMythArenaGui().setTitle("Ranking");
+        super.getMythArenaGui().setDescription(null);
+        super.getMythArenaGui().setOption(0, null);
+        super.getMythArenaGui().setOption(1, null);
+        super.getMythArenaGui().setOption(2, "Exit");
+        super.getMythArenaGui().setOption(3, null);
+        // gets player unSortedplayerMap with win values
+        HashMap<Player, Integer> unSortedplayerMap = new HashMap<>();
+        for (Combat combat : super.getData().getCombatArrayList()) {
+            Player winner = combat.getWinner();
+            if (unSortedplayerMap.containsKey(winner)) {
+                unSortedplayerMap.replace(winner, unSortedplayerMap.get(winner) + 1);
+            } else {
+                unSortedplayerMap.put(winner, 1);
+            }
+        }
+        // sorts it
+        HashMap<Player, Integer> sortedPlayerMap =
+            unSortedplayerMap.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        // makes info for input in list mode
+        ArrayList<String> rankInfoArrayList = new ArrayList<>();
+        int rankPosition = 1;
+        for (Map.Entry<Player, Integer> entry : sortedPlayerMap.entrySet()) {
+            rankInfoArrayList.add(rankPosition + " -> " + entry.getKey().getNickname() + " with " + entry.getValue() + " wins");
+            rankPosition++;
+        }
+        super.getMythArenaGui().setList(rankInfoArrayList);
+        boolean exit = false;
+        while (!exit) {
+            if (super.getMythArenaGui().waitEvent(30) == 'C') {
+                exit = true;
+            }
+        }
     }
 
     public void deleteCharacter() {
