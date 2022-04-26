@@ -262,59 +262,6 @@ public class AdminMenu extends Command {
     }
 
     /**
-     * Manage Characters
-     */
-    private void manageCharacters() {
-        boolean exit = false;
-        while (!exit) {
-            super.getMythArenaGui().setListMode();
-            super.getMythArenaGui().setTitle("Character Manager Tool");
-            super.getMythArenaGui().setDescription("Select what you want to change");
-            super.getMythArenaGui().setOption(0, "Remove selected character");
-            super.getMythArenaGui().setOption(1, "Edit selected character");
-            super.getMythArenaGui().setOption(2, "Back to Admin Menu");
-            super.getMythArenaGui().setOption(3, null);
-            ArrayList<Player> playerArrayList = new ArrayList<>();
-            ArrayList<String> playerInfoArrayList = new ArrayList<>();
-            for (User user : super.getData().getUserArrayList()) {
-                if (user instanceof Player && ((Player) user).getCharacter() != null) {
-                    playerArrayList.add((Player) user);
-                    playerInfoArrayList.add(((Player) user).getNickname());
-                }
-            }
-            super.getMythArenaGui().setList(playerInfoArrayList);
-            switch (super.getMythArenaGui().waitEvent(30)) {
-                // delete selected user character
-                case 'A' -> {
-                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    if (selected != -1) {
-                        try {
-                            playerArrayList.get(selected).setCharacter(null);
-                            super.getArena().serializeData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
-                    }
-                    super.getMythArenaGui().waitEvent(1);
-                }
-                case 'B' -> {
-                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    if (selected != -1) {
-                        this.editCharacter(playerArrayList.get(selected));
-                    } else {
-                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
-                        super.getMythArenaGui().waitEvent(1);
-                    }
-                }
-                // exit validate combats
-                case 'C' -> exit = true;
-            }
-        }
-    }
-
-    /**
      * Validate Combats
      */
     private void validateCombats() {
@@ -401,26 +348,79 @@ public class AdminMenu extends Command {
     }
 
     /**
-     * Character editor
-     * @param player Player player
+     * Manage Characters
      */
-    private void editCharacter(Player player) {
+    private void manageCharacters() {
+        boolean exit = false;
+        while (!exit) {
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Character Manager Tool");
+            super.getMythArenaGui().setDescription("Select what you want to change");
+            super.getMythArenaGui().setOption(0, "Remove selected character");
+            super.getMythArenaGui().setOption(1, "Edit selected character");
+            super.getMythArenaGui().setOption(2, "Back to Admin Menu");
+            super.getMythArenaGui().setOption(3, null);
+            ArrayList<Player> playerArrayList = new ArrayList<>();
+            ArrayList<String> playerInfoArrayList = new ArrayList<>();
+            for (User user : super.getData().getUserArrayList()) {
+                if (user instanceof Player && ((Player) user).getCharacter() != null) {
+                    playerArrayList.add((Player) user);
+                    playerInfoArrayList.add(((Player) user).getNickname());
+                }
+            }
+            super.getMythArenaGui().setList(playerInfoArrayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // delete selected user character
+                case 'A' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        try {
+                            playerArrayList.get(selected).setCharacter(null);
+                            super.getArena().serializeData();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                case 'B' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        this.editCharacter(playerArrayList.get(selected));
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                        super.getMythArenaGui().waitEvent(1);
+                    }
+                }
+                // exit validate combats
+                case 'C' -> exit = true;
+            }
+        }
+    }
+
+    /**
+     * Character editor
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editCharacter(Player selectedPlayer) {
         boolean exit = false;
         while (!exit) {
             super.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Character Editor Tool");
-            super.getMythArenaGui().setDescription("Select what you want to change\nYou are currently editing the character of " + player.getNickname());
+            super.getMythArenaGui().setDescription("Select what you want to change\nYou are currently editing the character of " + selectedPlayer.getNickname());
             super.getMythArenaGui().setOption(0, null);
             super.getMythArenaGui().setOption(1, null);
             super.getMythArenaGui().setOption(2, "Back to Manage Characters");
             super.getMythArenaGui().setOption(3, "Edit selected attribute");
             ArrayList<String> attributeArrayList = new ArrayList<>();
             // types of character display
-            if (player.getCharacter() instanceof Hunter) {
+            if (selectedPlayer.getCharacter() instanceof Hunter) {
                 attributeArrayList.add("Hunter");
-            } else if (player.getCharacter() instanceof Vampire) {
+            } else if (selectedPlayer.getCharacter() instanceof Vampire) {
                 attributeArrayList.add("Vampire");
-            } else if (player.getCharacter() instanceof Werewolf) {
+            } else if (selectedPlayer.getCharacter() instanceof Werewolf) {
                 attributeArrayList.add("Werewolf");
             }
             attributeArrayList.add("Gold");
@@ -457,7 +457,7 @@ public class AdminMenu extends Command {
                                 }
                             }
                             // gold
-                            case 1 -> this.editGold(player);
+                            case 1 -> this.editGold(selectedPlayer);
                             // health
                             case 2 -> {
 
@@ -506,12 +506,12 @@ public class AdminMenu extends Command {
 
     /**
      * Gold editor for character editor tool
-     * @param player Player player
+     * @param selectedPlayer Player selectedPlayer
      */
-    private void editGold(Player player) {
+    private void editGold(Player selectedPlayer) {
         super.getMythArenaGui().setFormMode();
-        super.getMythArenaGui().setTitle("Gold editor for " + player.getNickname());
-        super.getMythArenaGui().setDescription("Type the amount of gold you want to change\nCurrent gold: " + player.getCharacter().getGold());
+        super.getMythArenaGui().setTitle("Gold editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount of gold you want to change\nCurrent gold: " + selectedPlayer.getCharacter().getGold());
         super.getMythArenaGui().setField(0, "Amount of gold");
         super.getMythArenaGui().setField(1, null);
         super.getMythArenaGui().setOption(0, "Exit without saving");
@@ -524,9 +524,9 @@ public class AdminMenu extends Command {
                     String value = super.getMythArenaGui().getFieldText(0);
                     if (super.getArena().isInteger(value)) {
                         try {
-                            player.getCharacter().setGold(Integer.parseInt(value));
+                            selectedPlayer.getCharacter().setGold(Integer.parseInt(value));
                             super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Gold value changed succesfully!");
+                            super.getMythArenaGui().setDescription("Gold value changed successfully!");
                             super.getMythArenaGui().clearFieldText(0);
                             exit = true;
                         } catch (IOException e) {
