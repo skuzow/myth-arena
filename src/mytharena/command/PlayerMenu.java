@@ -155,8 +155,7 @@ public class PlayerMenu extends Command {
                                 exit = true;
                             } else if (choice == 'B') {
                                 // If player accepts. We start combat
-
-                                getArena().combat();
+                                getArena().combat(player, pendingCombatNotification.getChallenger(), pendingCombatNotification.getBet());
                                 player.getNotificationArrayList().remove(pendingCombatNotification);
                                 try {
                                     getArena().serializeData();
