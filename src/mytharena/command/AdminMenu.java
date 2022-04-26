@@ -403,7 +403,7 @@ public class AdminMenu extends Command {
      * Character editor
      * @param player Player player
      */
-    public void editCharacter(Player player) {
+    private void editCharacter(Player player) {
         boolean exit = false;
         while (!exit) {
             super.getMythArenaGui().setListMode();
@@ -434,9 +434,7 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         switch (selected) {
                             // gold
-                            case 0 -> {
-
-                            }
+                            case 0 -> this.editGold(player);
                             // health
                             case 1 -> {
 
@@ -478,6 +476,43 @@ public class AdminMenu extends Command {
                         super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                         super.getMythArenaGui().waitEvent(1);
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Gold editor for character editor tool
+     * @param player Player player
+     */
+    private void editGold(Player player) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Gold editor for " + player.getUsername());
+        super.getMythArenaGui().setDescription("Type the amount of gold you want to change\nCurrent gold: " + player.getCharacter().getGold());
+        super.getMythArenaGui().setField(0, "Amount of gold");
+        super.getMythArenaGui().setField(1, null);
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value = super.getMythArenaGui().getFieldText(0);
+                    if (super.getArena().isInteger(value)) {
+                        try {
+                            player.getCharacter().setGold(Integer.parseInt(value));
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Gold value changed succesfully!");
+                            super.getMythArenaGui().clearFieldText(0);
+                            exit = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please type a valid value");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
                 }
             }
         }
