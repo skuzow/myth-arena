@@ -41,8 +41,8 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setDescription("Admin Panel");
             super.getMythArenaGui().setOption(0, "Manage admins");
             super.getMythArenaGui().setOption(1, "Manage players");
-            super.getMythArenaGui().setOption(2, "Manage characters");
-            super.getMythArenaGui().setOption(3, "Validate combats");
+            super.getMythArenaGui().setOption(2, "Validate combats");
+            super.getMythArenaGui().setOption(3, "Manage characters");
             super.getMythArenaGui().setOption(4, null);
             super.getMythArenaGui().setOption(5, null);
             super.getMythArenaGui().setOption(6, null);
@@ -54,10 +54,10 @@ public class AdminMenu extends Command {
                 case 'A' -> this.manageAdmins();
                 // manage players
                 case 'B' -> this.managePlayers();
-                // manage characters
-                case 'C' -> this.manageCharacters();
                 // validate combats
-                case 'D' -> this.validateCombats();
+                case 'C' -> this.validateCombats();
+                // manage characters
+                case 'D' -> this.manageCharacters();
                 // log out
                 case 'I' -> super.getArena().setActiveUser(null);
                 // delete account
@@ -314,6 +314,92 @@ public class AdminMenu extends Command {
     }
 
     /**
+     * Validate Combats
+     */
+    private void validateCombats() {
+        boolean exit = false;
+        while (!exit) {
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Combat Validator Tool");
+            super.getMythArenaGui().setDescription("Select what you want to change");
+            super.getMythArenaGui().setOption(0, "Approve selected combat");
+            super.getMythArenaGui().setOption(1, "Deny selected combat");
+            super.getMythArenaGui().setOption(2, "Back to Admin Menu");
+            super.getMythArenaGui().setOption(3, null);
+            ArrayList<String> pendingCombatInfoArrayList = new ArrayList<>();
+            for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
+                pendingCombatInfoArrayList.add(
+                        pendingCombat.getChallenger().getUsername() + " : " +
+                                pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
+                                pendingCombat.getChallenged().getUsername() + " : " +
+                                pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                                pendingCombat.getBet() + " gold bet"
+                );
+            }
+            super.getMythArenaGui().setList(pendingCombatInfoArrayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // approve selected combat
+                case 'A' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
+                        try {
+                            // accepted combat notification for challenged
+                            pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
+                                    "Another player has challenged you to a combat",
+                                    "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
+                                            pendingCombat.getChallenger().getCharacter().getGold() + " gold\n" +
+                                            "Click what you want to do with it",
+                                    pendingCombat.getChallenger(), 20
+                            ));
+                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Approved selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                // deny selected combat
+                case 'B' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
+                        try {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(new Date());
+                            // adds 24h since current date, for unban date
+                            calendar.add(Calendar.DAY_OF_MONTH, 1);
+                            Date unBanDate = calendar.getTime();
+                            super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), unBanDate);
+                            // 24h ban notification for challenger
+                            pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                                    "Your pending combat has been denied",
+                                    "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
+                                            pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                                            "As a result you have been banned for 24h, until " + unBanDate
+                            ));
+                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                            super.getArena().serializeData();
+                            super.getMythArenaGui().setDescription("Denied selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                // exit validate combats
+                case 'C' -> exit = true;
+            }
+        }
+    }
+
+    /**
      * Character editor
      * @param player Player player
      */
@@ -393,92 +479,6 @@ public class AdminMenu extends Command {
                         super.getMythArenaGui().waitEvent(1);
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * Validate Combats
-     */
-    private void validateCombats() {
-        boolean exit = false;
-        while (!exit) {
-            super.getMythArenaGui().setListMode();
-            super.getMythArenaGui().setTitle("Combat Validator Tool");
-            super.getMythArenaGui().setDescription("Select what you want to change");
-            super.getMythArenaGui().setOption(0, "Approve selected combat");
-            super.getMythArenaGui().setOption(1, "Deny selected combat");
-            super.getMythArenaGui().setOption(2, "Back to Admin Menu");
-            super.getMythArenaGui().setOption(3, null);
-            ArrayList<String> pendingCombatInfoArrayList = new ArrayList<>();
-            for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
-                pendingCombatInfoArrayList.add(
-                    pendingCombat.getChallenger().getUsername() + " : " +
-                    pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
-                    pendingCombat.getChallenged().getUsername() + " : " +
-                    pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
-                    pendingCombat.getBet() + " gold bet"
-                );
-            }
-            super.getMythArenaGui().setList(pendingCombatInfoArrayList);
-            switch (super.getMythArenaGui().waitEvent(30)) {
-                // approve selected combat
-                case 'A' -> {
-                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    if (selected != -1) {
-                        PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
-                        try {
-                            // accepted combat notification for challenged
-                            pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
-                                "Another player has challenged you to a combat",
-                                "Challenger user: " + pendingCombat.getChallenger().getUsername() + " : " +
-                                pendingCombat.getChallenger().getCharacter().getGold() + " gold\n" +
-                                "Click what you want to do with it",
-                                pendingCombat.getChallenger(), 20
-                            ));
-                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
-                            super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Approved selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
-                    }
-                    super.getMythArenaGui().waitEvent(1);
-                }
-                // deny selected combat
-                case 'B' -> {
-                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
-                    if (selected != -1) {
-                        PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
-                        try {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(new Date());
-                            // adds 24h since current date, for unban date
-                            calendar.add(Calendar.DAY_OF_MONTH, 1);
-                            Date unBanDate = calendar.getTime();
-                            super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), unBanDate);
-                            // 24h ban notification for challenger
-                            pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
-                                "Your pending combat has been denied",
-                                "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
-                                pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
-                                "As a result you have been banned for 24h, until " + unBanDate
-                            ));
-                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
-                            super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Denied selected combat: " + pendingCombat.getChallenger().getUsername() + " -> " + pendingCombat.getChallenged().getUsername());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
-                    }
-                    super.getMythArenaGui().waitEvent(1);
-                }
-                // exit validate combats
-                case 'C' -> exit = true;
             }
         }
     }
