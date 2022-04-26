@@ -2,6 +2,9 @@ package mytharena.command;
 
 import mytharena.Arena;
 import mytharena.data.Data;
+import mytharena.data.character.factory.character.hunter.Hunter;
+import mytharena.data.character.factory.character.vampire.Vampire;
+import mytharena.data.character.factory.character.werewolf.Werewolf;
 import mytharena.data.combat.PendingCombat;
 import mytharena.data.notification.GeneralNotification;
 import mytharena.data.notification.PendingCombatNotification;
@@ -11,9 +14,7 @@ import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * AdminMenu class extends Command
@@ -414,6 +415,14 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(2, "Back to Manage Characters");
             super.getMythArenaGui().setOption(3, "Edit selected attribute");
             ArrayList<String> attributeArrayList = new ArrayList<>();
+            // types of character display
+            if (player.getCharacter() instanceof Hunter) {
+                attributeArrayList.add("Hunter");
+            } else if (player.getCharacter() instanceof Vampire) {
+                attributeArrayList.add("Vampire");
+            } else if (player.getCharacter() instanceof Werewolf) {
+                attributeArrayList.add("Werewolf");
+            }
             attributeArrayList.add("Gold");
             attributeArrayList.add("Health");
             attributeArrayList.add("Power");
@@ -433,42 +442,56 @@ public class AdminMenu extends Command {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
                     if (selected != -1) {
                         switch (selected) {
-                            // gold
-                            case 0 -> this.editGold(player);
-                            // health
-                            case 1 -> {
+                            // character type
+                            case 0 -> {
+                                switch (attributeArrayList.get(0)) {
+                                    case "Hunter" -> {
 
+                                    }
+                                    case "Vampire" -> {
+
+                                    }
+                                    case "Werewolf" -> {
+
+                                    }
+                                }
                             }
-                            // power
+                            // gold
+                            case 1 -> this.editGold(player);
+                            // health
                             case 2 -> {
 
                             }
-                            // inventory
+                            // power
                             case 3 -> {
 
                             }
-                            // armor
+                            // inventory
                             case 4 -> {
 
                             }
-                            // weaknesses
+                            // armor
                             case 5 -> {
 
                             }
-                            // minions
+                            // weaknesses
                             case 6 -> {
 
                             }
-                            // fortitudes
+                            // minions
                             case 7 -> {
 
                             }
-                            // weapons
+                            // fortitudes
                             case 8 -> {
 
                             }
-                            // ability
+                            // weapons
                             case 9 -> {
+
+                            }
+                            // ability
+                            case 10 -> {
 
                             }
                         }
