@@ -453,13 +453,18 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
                         try {
-                            super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), new Date());
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(new Date());
+                            // adds 24h since current date, for unban date
+                            calendar.add(Calendar.DAY_OF_MONTH, 1);
+                            Date unBanDate = calendar.getTime();
+                            super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), unBanDate);
                             // 24h ban notification for challenger
                             pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                 "Your pending combat has been denied",
                                 "Challenged user: " + pendingCombat.getChallenged().getUsername() + " : " +
-                                pendingCombat.getChallenged().getCharacter().getGold() + " gold\n" +
-                                "As a result you have been banned for 24h"
+                                pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                                "As a result you have been banned for 24h, until " + unBanDate
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();
