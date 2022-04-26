@@ -11,7 +11,7 @@ public class Gift extends Ability implements Serializable {
     /**
      * int rageMin
      */
-    private final int rageMin;
+    private int rageMin;
 
     /**
      * Gift class constructor extends Ability
@@ -22,6 +22,14 @@ public class Gift extends Ability implements Serializable {
         super(attackModifier, defenseModifier);
         Random rand = new Random();
         this.rageMin = rand.nextInt(3);
+    }
+
+    /**
+     * Sets int rageMin
+     * @param rageMin int rageMin
+     */
+    public void setRageMin(int rageMin) {
+        this.rageMin = rageMin;
     }
 
     /**

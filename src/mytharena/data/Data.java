@@ -9,6 +9,8 @@ import mytharena.data.user.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Data class implements Serializable
@@ -20,9 +22,9 @@ public class Data implements Serializable {
      */
     private final ArrayList<User> userArrayList = new ArrayList<>();
     /**
-     * ArrayList Player bannedPlayerArrayList
+     * HashMap Player Date bannedPlayerMap
      */
-    private final ArrayList<Player> bannedPlayerArrayList = new ArrayList<>();
+    private final HashMap<Player, Date> bannedPlayerMap = new HashMap<>();
     /**
      * ArrayList Combat combatArrayList
      */
@@ -49,11 +51,11 @@ public class Data implements Serializable {
     }
 
     /**
-     * Gets ArrayList Player bannedPlayerArrayList
-     * @return ArrayList Player bannedPlayerArrayList
+     * Gets HashMap Player Date bannedPlayerMap
+     * @return HashMap Player Date bannedPlayerMap
      */
-    public ArrayList<Player> getBannedPlayerArrayList() {
-        return this.bannedPlayerArrayList;
+    public HashMap<Player, Date> getBannedPlayerMap() {
+        return this.bannedPlayerMap;
     }
 
     /**

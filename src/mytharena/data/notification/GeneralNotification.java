@@ -8,11 +8,12 @@ import java.io.Serializable;
 public class GeneralNotification extends Notification implements Serializable {
 
     /**
-     * Notification abstract class constructor
+     * GeneralNotification class constructor extends Notification
      * @param title String title
-     * @param body  String body
+     * @param body String body
      */
     public GeneralNotification(String title, String body) {
         super(title, body);
     }
+
 }

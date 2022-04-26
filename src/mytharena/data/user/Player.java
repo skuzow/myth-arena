@@ -1,7 +1,6 @@
 package mytharena.data.user;
 
 import mytharena.data.Data;
-
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.notification.Notification;
 

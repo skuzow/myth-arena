@@ -10,12 +10,11 @@ public abstract class Ability implements Serializable {
     /**
      * int attackModifier
      */
-    private final int attackModifier;
-
+    private int attackModifier;
     /**
      * int defenseModifier
      */
-    private final int defenseModifier;
+    private int defenseModifier;
 
     /**
      * Ability abstract class constructor
@@ -24,6 +23,22 @@ public abstract class Ability implements Serializable {
      */
     public Ability(int attackModifier, int defenseModifier) {
         this.attackModifier = attackModifier;
+        this.defenseModifier = defenseModifier;
+    }
+
+    /**
+     * Sets int attackModifier
+     * @param attackModifier int attackModifier
+     */
+    public void setAttackModifier(int attackModifier) {
+        this.attackModifier = attackModifier;
+    }
+
+    /**
+     * Sets int defenseModifier
+     * @param defenseModifier int defenseModifier
+     */
+    public void setDefenseModifier(int defenseModifier) {
         this.defenseModifier = defenseModifier;
     }
 

@@ -11,12 +11,10 @@ public abstract class Equipment implements Serializable {
      * String name
      */
     private final String name;
-
     /**
      * int attackModification
      */
     private final int attackModification;
-
     /**
      * int defenseModification
      */

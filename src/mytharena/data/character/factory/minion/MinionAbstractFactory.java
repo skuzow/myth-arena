@@ -7,7 +7,7 @@ public interface MinionAbstractFactory {
 
     /**
      * MinionAbstractFactory interface method
-     * @return Minion
+     * @return new Minion
      */
     Minion createMinion();
 

@@ -19,14 +19,26 @@ public class Werewolf extends Character implements Serializable {
      */
     private int rage;
 
+    /**
+     * Werewolf class constructor extends Character
+     * @param data Data data
+     */
     public Werewolf(Data data) {
         super(data);
         Random rand = new Random();
         this.rage = 0;
-        setAbility(new Gift(rand.nextInt(3)+1,rand.nextInt(3)+1));
+        super.setAbility(new Gift(rand.nextInt(3) + 1,rand.nextInt(3) + 1));
         ArrayList<Modifier> fortitudeArrayList = new ArrayList<>();
-        fortitudeArrayList.add(new Modifier("Luna llena", rand.nextInt(5)+1));
-        setFortitudeArrayList(fortitudeArrayList);
+        fortitudeArrayList.add(new Modifier("Luna llena", rand.nextInt(5) + 1));
+        super.setFortitudeArrayList(fortitudeArrayList);
+    }
+
+    /**
+     * Sets int rage
+     * @param rage int rage
+     */
+    public void setRage(int rage) {
+        this.rage = rage;
     }
 
     /**

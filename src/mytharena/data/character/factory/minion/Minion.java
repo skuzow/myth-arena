@@ -11,12 +11,22 @@ public abstract class Minion implements Serializable {
     /**
      * int health
      */
-    private final int health;
+    private int health;
 
-
+    /**
+     * Minion class constructor
+     */
     public Minion() {
         Random rand = new Random();
-        health = rand.nextInt(3)+1;
+        this.health = rand.nextInt(3) + 1;
+    }
+
+    /**
+     * Sets int health
+     * @param health int health
+     */
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     /**
