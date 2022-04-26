@@ -138,11 +138,12 @@ public class PlayerMenu extends Command {
                                 // If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
                                 pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                         "Your challenge request has been declined.",
-                                        "Challenged user: " + player.getUsername() + "has declined your challenge, therefore conceding 10% of the bet to you. "
+                                        "Challenged user: " + player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
                                 ));
                                 int amount = pendingCombatNotification.getBet();
                                 int pay = (int) (amount * 0.10);
                                 pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
+                                player.getNotificationArrayList().remove(pendingCombatNotification);
                                 try {
                                     getArena().serializeData();
                                 } catch (IOException e) {
@@ -152,6 +153,13 @@ public class PlayerMenu extends Command {
                             } else if (choice == 'B') {
                                 // If player accepts. We start combat
                                 getArena().combat();
+                                player.getNotificationArrayList().remove(pendingCombatNotification);
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                exit = true;
                             }
                         } else {
                             // In case the notification is of general type. Player can delete or close this notification.
@@ -161,6 +169,11 @@ public class PlayerMenu extends Command {
                             getMythArenaGui().setOption(3, "Close");
                             if (choice == 'C') {
                                 player.getNotificationArrayList().remove(notification);
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     } else {
