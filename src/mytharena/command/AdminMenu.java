@@ -12,6 +12,7 @@ import mytharena.gui.MythArenaGui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * AdminMenu class extends Command
@@ -185,9 +186,9 @@ public class AdminMenu extends Command {
             for (User user : super.getData().getUserArrayList()) {
                 if (user instanceof Player) {
                     playerArrayList.add((Player) user);
-                    if (super.getData().getBannedPlayerArrayList().contains(user)) {
+                    if (super.getData().getBannedPlayerMap().containsKey(user)) {
                         // TODO: display remaining ban time & auto unban when time finishes
-                        playerUsernameArrayList.add(user.getUsername() + " banned :(");
+                        playerUsernameArrayList.add(user.getUsername() + " banned since " + super.getData().getBannedPlayerMap().get(user));
                     } else {
                         playerUsernameArrayList.add(user.getUsername());
                     }
@@ -201,10 +202,10 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         // checks if player is not already banned
                         Player selectedPlayer = playerArrayList.get(selected);
-                        if (!super.getData().getBannedPlayerArrayList().contains(selectedPlayer)) {
-                            // adds player from bannedPlayerArrayList saving it in data serializing it
+                        if (!super.getData().getBannedPlayerMap().containsKey(selectedPlayer)) {
+                            // adds player from bannedPlayerMap saving it in data serializing it
                             try {
-                                super.getData().getBannedPlayerArrayList().add(selectedPlayer);
+                                super.getData().getBannedPlayerMap().put(selectedPlayer, new Date());
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {
@@ -224,10 +225,10 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         // checks if player is already banned
                         Player selectedPlayer = playerArrayList.get(selected);
-                        if (super.getData().getBannedPlayerArrayList().contains(selectedPlayer)) {
-                            // removes player from bannedPlayerArrayList deleting it in data serializing it
+                        if (super.getData().getBannedPlayerMap().containsKey(selectedPlayer)) {
+                            // removes player from bannedPlayerMap deleting it in data serializing it
                             try {
-                                super.getData().getBannedPlayerArrayList().remove(selectedPlayer);
+                                super.getData().getBannedPlayerMap().remove(selectedPlayer);
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Unbanned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {
@@ -401,9 +402,10 @@ public class AdminMenu extends Command {
             for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
                 pendingCombatInfoArrayList.add(
                     pendingCombat.getChallenger().getUsername() + " : " +
-                    pendingCombat.getChallenger().getCharacter().getGold() + " gold |-> " +
+                    pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
                     pendingCombat.getChallenged().getUsername() + " : " +
-                    pendingCombat.getChallenged().getCharacter().getGold() + " gold"
+                    pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                    pendingCombat.getBet() + " gold bet"
                 );
             }
             super.getMythArenaGui().setList(pendingCombatInfoArrayList);
@@ -439,7 +441,7 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
                         try {
-                            super.getData().getBannedPlayerArrayList().add(pendingCombat.getChallenger());
+                            super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), new Date());
                             // 24h ban notification for challenger
                             pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                 "Your pending combat has been denied",
