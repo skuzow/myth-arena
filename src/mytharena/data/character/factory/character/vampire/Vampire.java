@@ -21,12 +21,12 @@ public class Vampire extends Character implements Serializable {
     /**
      * int age
      */
-    private final int age;
+    private int age;
 
     /**
      * int bloodPoints
      */
-    private final int bloodPoints;
+    private int bloodPoints;
 
     public Vampire(Data data) {
         super(data);
@@ -55,4 +55,11 @@ public class Vampire extends Character implements Serializable {
         return this.bloodPoints;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setBloodPoints(int bloodPoints) {
+        this.bloodPoints = bloodPoints;
+    }
 }

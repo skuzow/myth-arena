@@ -1,6 +1,7 @@
 package mytharena.data.character.ability;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Gift class extends Ability implements Serializable
@@ -19,7 +20,8 @@ public class Gift extends Ability implements Serializable {
      */
     public Gift(int attackModifier, int defenseModifier) {
         super(attackModifier, defenseModifier);
-        this.rageMin = 0;
+        Random rand = new Random();
+        this.rageMin = rand.nextInt(3);
     }
 
     /**
