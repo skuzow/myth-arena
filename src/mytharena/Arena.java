@@ -142,8 +142,14 @@ public class Arena {
      */
     public User getActiveUser() {
         return this.activeUser;
+    }
 
-    public  boolean isInteger(String str) {
+    /**
+     * Checks String str can be converted to integer
+     * @param str String str
+     * @return boolean
+     */
+    public boolean isInteger(String str) {
         if (str == null) {
             return false;
         }
