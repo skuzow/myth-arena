@@ -210,7 +210,11 @@ public class AdminMenu extends Command {
                                 calendar.setTime(new Date());
                                 // adds 24h since current date, for unban date
                                 calendar.add(Calendar.DAY_OF_MONTH, 1);
-                                super.getData().getBannedPlayerMap().put(selectedPlayer, calendar.getTime());
+                                Date unBanDate = calendar.getTime();
+                                super.getData().getBannedPlayerMap().put(selectedPlayer, unBanDate);
+                                selectedPlayer.getNotificationArrayList().add(new GeneralNotification(
+                                    "You have been banned by an administrator", "Banned until " + unBanDate
+                                ));
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Banned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {
@@ -234,6 +238,9 @@ public class AdminMenu extends Command {
                             // removes player from bannedPlayerMap deleting it in data serializing it
                             try {
                                 super.getData().getBannedPlayerMap().remove(selectedPlayer);
+                                selectedPlayer.getNotificationArrayList().add(new GeneralNotification(
+                                        "You have been unbanned by an administrator", "Your ban was revoked"
+                                ));
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Unbanned selected player: " + selectedPlayer.getUsername());
                             } catch (IOException e) {
