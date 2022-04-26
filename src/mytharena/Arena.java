@@ -151,6 +151,11 @@ public class Arena {
 
    public void combat(Player player1, Player player2, int bet) {
         mythArenaGui.setCombatMode();
+        mythArenaGui.setOption(0,null);
+        mythArenaGui.setOption(1,null);
+        mythArenaGui.setCombatInfo(0,"VS");
+        mythArenaGui.setCombatInfo(1,"Gled");
+        mythArenaGui.setCombatInfo(2,"Alex");
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
         Date date = new Date();
@@ -261,7 +266,7 @@ public class Arena {
                     }
                 }
             }
-
+            mythArenaGui.waitEvent(1);
             Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,character1AttackResult,character2AttackResult);
             roundsArrayList.add(round);
         }
@@ -285,17 +290,18 @@ public class Arena {
         data.getCombatArrayList().add(combat);
         winner.getCharacter().setGold(winner.getCharacter().getGold() + bet);
         loser.getCharacter().setGold(loser.getCharacter().getGold() - bet);
+        mythArenaGui.setHealthBar(0,character1.getHealth(),5);
+        mythArenaGui.setHealthBar(1,character2.getHealth(),5);
+        mythArenaGui.setCombatInfo(0,winner.getNickname() + " wins!");
+        mythArenaGui.setCombatInfo(1,null);
+        mythArenaGui.setCombatInfo(2,null);
+        mythArenaGui.waitEvent(50);
        try {
            serializeData();
        } catch (IOException e) {
            e.printStackTrace();
        }
-       mythArenaGui.setOption(0,null);
-       mythArenaGui.setOption(1,null);
-       mythArenaGui.setCombatInfo(0,"VS");
-       mythArenaGui.setCombatInfo(1,"Gled");
-       mythArenaGui.setCombatInfo(2,"Alex");
-       mythArenaGui.waitEvent(300);
+
    }
 
     private void inflictDamage(Character character, int minionTotalHealth, int damage) {

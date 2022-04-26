@@ -146,6 +146,7 @@ public class PlayerMenu extends Command {
                             int amount = pendingCombatNotification.getBet();
                             int pay = (int) (amount * 0.10);
                             pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
+                            player.getCharacter().setGold(player.getCharacter().getGold() - pay);
                             player.getNotificationArrayList().remove(pendingCombatNotification);
                             try {
                                 getArena().serializeData();
