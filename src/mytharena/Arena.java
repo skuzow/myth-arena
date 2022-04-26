@@ -138,18 +138,19 @@ public class Arena {
    public void combat(Player player1, Player player2, int bet) {
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
+        Date date = new Date();
 
-        // Get weapon offense for both characters
-        int weaponOffense1 = 0;
-        int weaponOffense2 = 0;
-        for(int i = 1; i  < 2; i++) {
-            if (character1.getEquippedWeaponArrayList().get(i) != null) {
-                weaponOffense1 = character1.getEquippedWeaponArrayList().get(i).getAttackModification();
-            }
-            if (character2.getEquippedWeaponArrayList().get(i) != null) {
-                weaponOffense2 = character2.getEquippedWeaponArrayList().get(i).getAttackModification();
-            }
-        }
+        ArrayList<Round> roundsArrayList = new ArrayList<>();
+
+        // Get weapon offense and defense for character 1
+        int[] weaponModifierValues1 = calculateWeaponModifier(character1);
+        int weaponOffense1 = weaponModifierValues1[0];
+        int weaponDefense1 = weaponModifierValues1[1];
+
+        // Get weapon offense and defense for character 2
+        int[] weaponModifierValues2 = calculateWeaponModifier(character2);
+        int weaponOffense2 = weaponModifierValues2[0];
+        int weaponDefense2 = weaponModifierValues2[1];
 
        // Calculate minions total health
        int minionTotalHealth1 = calculateMinionsTotalHealth(character1.getMinionArrayList());
@@ -171,12 +172,12 @@ public class Arena {
 
 
             // Calculate attack and block potential of character 1
-            int attackPotential1 = character1.getPower() + weaponOffense1 + abilityOffense1 + modifier1;
-            int blockPotential1 = character1.getArmor().getDefenseModification() + abilityDefense1 + modifier2;
+            int attackPotential1 = character1.getPower() + weaponOffense1 + abilityOffense1 + modifier1 + character1.getArmor().getAttackModification();
+            int blockPotential1 = character1.getArmor().getDefenseModification() + abilityDefense1 + modifier1 + weaponDefense1;
 
             // Calculate attack and block potential of character 2
-            int attackPotential2 = character2.getPower() + weaponOffense2 + abilityOffense2 + modifier2;
-            int blockPotential2 = character2.getArmor().getDefenseModification() + abilityDefense2 + modifier2;
+            int attackPotential2 = character2.getPower() + weaponOffense2 + abilityOffense2 + modifier2 + character1.getArmor().getAttackModification();
+            int blockPotential2 = character2.getArmor().getDefenseModification() + abilityDefense2 + modifier2 + weaponDefense2;
 
             // Calculate attack and block value for player 1
             int attackValue1 = calculateValue(attackPotential1);
@@ -186,26 +187,69 @@ public class Arena {
             int attackValue2 = calculateValue(attackPotential2);
             int blockValue2 = calculateValue(blockPotential2);
 
+            // Calculate both results
             int character1AttackResult = blockValue2 - attackValue1;
             int character2AttackResult = blockValue1 - attackValue2;
 
             if (character1AttackResult > 0) {
-                if (minionTotalHealth2 > 0) {
-                    minionTotalHealth2 -= attackValue1;
-                }else {
-                    character2.setHealth(character2.getHealth() - attackValue1);
-                }
+                inflictDamage(character2,minionTotalHealth2,attackValue1);
+            }
+            if (character2AttackResult > 0) {
+                inflictDamage(character1,minionTotalHealth1,attackValue2);
             }
 
-            if (character2AttackResult > 0) {
-                if (minionTotalHealth1 > 0) {
-                    minionTotalHealth1 -= attackValue2;
-                }else {
-                    character1.setHealth(character1.getHealth() - attackValue2);
+            Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,character1AttackResult,character2AttackResult);
+            roundsArrayList.add(round);
+        }
+        Player winner;
+        Player playerWithMinionsLeft = null;
+        if (character1.getHealth() > 0) {
+            winner = player1;
+            if (minionTotalHealth1 > 0) {
+                playerWithMinionsLeft = player1;
+            }
+        }else {
+            winner = player2;
+            if (minionTotalHealth2 > 0) {
+                playerWithMinionsLeft = player2;
+            }
+        }
+        Combat combat = new Combat(player2,player1,winner,date,roundsArrayList,bet,playerWithMinionsLeft);
+        data.getCombatArrayList().add(combat);
+        winner.getCharacter().setGold(winner.getCharacter().getGold() + bet);
+       try {
+           serializeData();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+   }
+
+    private void inflictDamage(Character character, int minionTotalHealth, int damage) {
+            if (minionTotalHealth > 0) {
+                minionTotalHealth -= damage;
+            }else {
+                character.setHealth(character.getHealth() - damage);
+                if (character instanceof Vampire vampire) {
+                    if (vampire.getBloodPoints() < 7) {
+                        vampire.setBloodPoints(vampire.getBloodPoints() + 4);
+                    }else {
+                        vampire.setBloodPoints(10);
+                    }
+                }
+                if (character instanceof Werewolf werewolf) {
+                    if (werewolf.getRage() < 3) {
+                        werewolf.setRage(werewolf.getRage() + 1);
+                    }
+                }
+                if (character instanceof Hunter hunter) {
+                    if (hunter.getWill() > 1) {
+                        hunter.setWill(hunter.getWill() - 1);
+                    }else {
+                        hunter.setWill(0);
+                    }
+
                 }
             }
-            Round round = new Round();
-        }
     }
 
     /**
@@ -343,4 +387,15 @@ public class Arena {
         return values;
     }
 
+    private int[] calculateWeaponModifier(Character character) {
+        int [] values = new int[2];
+
+        for(int i = 1; i  < 2; i++) {
+            if (character.getEquippedWeaponArrayList().get(i) != null) {
+                values[0] = character.getEquippedWeaponArrayList().get(i).getAttackModification();
+                values[1] = character.getEquippedWeaponArrayList().get(i).getDefenseModification();
+            }
+        }
+        return values;
+    }
 }

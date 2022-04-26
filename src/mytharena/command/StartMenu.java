@@ -85,7 +85,7 @@ public class StartMenu extends Command {
         super.getMythArenaGui().setDescription("Complete the form to create new account");
         super.getMythArenaGui().setField(2, "Nickname");
         super.getMythArenaGui().setOption(0, "Cancel");
-        super.getMythArenaGui().setOption(1, "Done");
+        super.getMythArenaGui().setOption(1, "Sign up");
         boolean isValid = false;
         while (!isValid) {
             switch (super.getMythArenaGui().waitEvent(30)) {

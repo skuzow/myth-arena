@@ -17,7 +17,7 @@ public class Hunter extends Character implements Serializable {
     /**
      * int will
      */
-    private final int will;
+    private int will;
 
     /**
      *
@@ -37,4 +37,7 @@ public class Hunter extends Character implements Serializable {
         return this.will;
     }
 
+    public void setWill(int will) {
+        this.will = will;
+    }
 }

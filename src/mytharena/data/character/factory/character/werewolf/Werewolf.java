@@ -17,7 +17,7 @@ public class Werewolf extends Character implements Serializable {
     /**
      * int rage
      */
-    private final int rage;
+    private int rage;
 
     public Werewolf(Data data) {
         super(data);
@@ -37,4 +37,7 @@ public class Werewolf extends Character implements Serializable {
         return this.rage;
     }
 
+    public void setRage(int rage) {
+        this.rage = rage;
+    }
 }
