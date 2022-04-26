@@ -229,13 +229,16 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().setOption(3, "Challenge");
 
                 // List of players
-                ArrayList<String> listOptions = new ArrayList<>();
+                ArrayList<Player> playerArrayList = new ArrayList<>();
+                ArrayList<String> playerNicknameArrayList = new ArrayList<>();
                 for (User user : getData().getUserArrayList()) {
-                    if (user instanceof Player) {
-                        listOptions.add(((Player) user).getNickname());
+                    // Filter not active user & player have character
+                    if (user instanceof Player && user != getArena().getActiveUser() && ((Player) user).getCharacter() != null) {
+                        playerArrayList.add((Player) user);
+                        playerNicknameArrayList.add(((Player) user).getNickname());
                     }
                 }
-                getMythArenaGui().setList(listOptions);
+                getMythArenaGui().setList(playerNicknameArrayList);
                 char choice = getMythArenaGui().waitEvent(30);
 
                 // Challenge player at current list index
@@ -243,51 +246,44 @@ public class PlayerMenu extends Command {
                     int index = getMythArenaGui().getLastSelectedListIndex();
                     // You can't advance if you didn't pick an item on the list
                     if (index != -1) {
-                        // Must get index + 1 because index 0 is Admin and not visible on the list
-                        User challengedPlayer = getData().getUserArrayList().get(index + 1);
-                        if (challengedPlayer instanceof Player) {
-                            // You can't challenge yourself
-                            if (challengedPlayer != player) {
-                                getMythArenaGui().setFormMode();
-                                getMythArenaGui().setField(1,null);
-                                getMythArenaGui().setField(2,null);
-                                getMythArenaGui().setTitle("Betting Menu");
-                                getMythArenaGui().setDescription("Type the amount of gold you want to bet");
-                                getMythArenaGui().setOption(0,"Exit");
-                                getMythArenaGui().setOption(1,"Bet");
-                                getMythArenaGui().setField(0, "Bet:");
-                                char option = getMythArenaGui().waitEvent(30);
-                                // Bet the given amount and make a pending combat to be saved in Arena
-                                if (option == 'B') {
-                                    if (getArena().isInteger(getMythArenaGui().getFieldText(0))) {
-                                        int amount = Integer.parseInt(getMythArenaGui().getFieldText(0));
-                                        // Bet has to be strictly more than 0. Player must have said amount of gold to bet.
-                                        if (amount > 0) {
-                                            if ((player.getCharacter().getGold() - amount) >= 0) {
-                                                PendingCombat pendingCombat = new PendingCombat(player, (Player) challengedPlayer, amount);
-                                                getData().getPendingCombatArrayList().add(pendingCombat);
-                                                getMythArenaGui().setDescription("Your challenge request has been sent!");
-                                                getMythArenaGui().clearFieldText(0);
-                                                getMythArenaGui().waitEvent(2);
-                                                try {
-                                                    getArena().serializeData();
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }else {
-                                                getMythArenaGui().setDescription("You're betting more gold than you currently have!");
+                        // Use previous playerArrayList to get proper player with index on the list
+                        Player challengedPlayer = playerArrayList.get(index);
+                            getMythArenaGui().setFormMode();
+                            getMythArenaGui().setField(1,null);
+                            getMythArenaGui().setField(2,null);
+                            getMythArenaGui().setTitle("Betting Menu");
+                            getMythArenaGui().setDescription("Type the amount of gold you want to bet");
+                            getMythArenaGui().setOption(0,"Exit");
+                            getMythArenaGui().setOption(1,"Bet");
+                            getMythArenaGui().setField(0, "Bet:");
+                            char option = getMythArenaGui().waitEvent(30);
+                            // Bet the given amount and make a pending combat to be saved in Arena
+                            if (option == 'B') {
+                                if (getArena().isInteger(getMythArenaGui().getFieldText(0))) {
+                                    int amount = Integer.parseInt(getMythArenaGui().getFieldText(0));
+                                    // Bet has to be strictly more than 0. Player must have said amount of gold to bet.
+                                    if (amount > 0) {
+                                        if ((player.getCharacter().getGold() - amount) >= 0) {
+                                            PendingCombat pendingCombat = new PendingCombat(player, challengedPlayer, amount);
+                                            getData().getPendingCombatArrayList().add(pendingCombat);
+                                            getMythArenaGui().setDescription("Your challenge request has been sent!");
+                                            getMythArenaGui().clearFieldText(0);
+                                            getMythArenaGui().waitEvent(2);
+                                            try {
+                                                getArena().serializeData();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
                                             }
-                                        }else {
-                                            getMythArenaGui().setDescription("Invalid amount");
+                                        } else {
+                                            getMythArenaGui().setDescription("You're betting more gold than you currently have!");
                                         }
-                                    }else {
-                                        getMythArenaGui().setDescription("Write numbers only. No spaces or comma");
+                                    } else {
+                                        getMythArenaGui().setDescription("Invalid amount");
                                     }
+                                } else {
+                                    getMythArenaGui().setDescription("Write numbers only. No spaces or comma");
                                 }
-                            } else {
-                                getMythArenaGui().setDescription("You can't challenge yourself");
                             }
-                        }
                     } else {
                         getMythArenaGui().setDescription("You must select an item in the list to challenge!");
                     }
@@ -296,7 +292,7 @@ public class PlayerMenu extends Command {
                     exit = true;
                 }
             }
-        }else {
+        } else {
             getMythArenaGui().setDescription("No character found");
             getMythArenaGui().waitEvent(3);
         }
