@@ -1,7 +1,5 @@
 package mytharena.data.character.ability;
 
-import mytharena.data.character.ability.Ability;
-
 import java.io.Serializable;
 
 /**

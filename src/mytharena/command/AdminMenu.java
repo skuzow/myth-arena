@@ -453,9 +453,7 @@ public class AdminMenu extends Command {
                             // gold
                             case 1 -> this.editGold(selectedPlayer);
                             // health
-                            case 2 -> {
-
-                            }
+                            case 2 -> this.editHealth(selectedPlayer);
                             // power
                             case 3 -> {
 
@@ -601,7 +599,7 @@ public class AdminMenu extends Command {
                                 e.printStackTrace();
                             }
                         } else {
-                            super.getMythArenaGui().setDescription(outBounds + "have values out of bounds");
+                            super.getMythArenaGui().setDescription(outBounds + "have values out of bounds!");
                         }
                     } else {
                         super.getMythArenaGui().setDescription(notValid + "have not valid values");
@@ -685,7 +683,48 @@ public class AdminMenu extends Command {
                                 e.printStackTrace();
                             }
                         } else {
-                            super.getMythArenaGui().setDescription("Negative values are not valid");
+                            super.getMythArenaGui().setDescription("Negative values are not valid!");
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please type a valid value");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Health editor for character editor tool
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editHealth(Player selectedPlayer) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Health editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
+        super.getMythArenaGui().setField(0, "Bounds 0-5 || Amount of Health || Current value: " + selectedPlayer.getCharacter().getHealth());
+        super.getMythArenaGui().setField(1, null);
+        super.getMythArenaGui().setField(2, null);
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value = super.getMythArenaGui().getFieldText(0);
+                    if (super.getArena().isInteger(value)) {
+                        if (selectedPlayer.getCharacter().setHealth(Integer.parseInt(value))) {
+                            try {
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Health value changed successfully!");
+                                super.getMythArenaGui().clearFieldText(0);
+                                exit = true;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription("Value outside bounds!");
                         }
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");

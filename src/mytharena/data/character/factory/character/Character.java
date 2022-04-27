@@ -129,9 +129,14 @@ public abstract class Character implements Serializable, Cloneable {
     /**
      * Sets int health
      * @param health int health
+     * @return boolean inside bounds
      */
-    public void setHealth(int health) {
-        this.health = health;
+    public boolean setHealth(int health) {
+        if (health <= 5 && health >= 0) {
+            this.health = health;
+            return true;
+        }
+        return false;
     }
 
     /**
