@@ -455,9 +455,7 @@ public class AdminMenu extends Command {
                             // health
                             case 2 -> this.editHealth(selectedPlayer);
                             // power
-                            case 3 -> {
-
-                            }
+                            case 3 -> this.editPower(selectedPlayer);
                             // inventory
                             case 4 -> {
 
@@ -718,6 +716,47 @@ public class AdminMenu extends Command {
                             try {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Health value changed successfully!");
+                                super.getMythArenaGui().clearFieldText(0);
+                                exit = true;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription("Value outside bounds!");
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please type a valid value");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Power editor for character editor tool
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editPower(Player selectedPlayer) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Power editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
+        super.getMythArenaGui().setField(0, "Bounds 1-5 || Amount of Power || Current value: " + selectedPlayer.getCharacter().getPower());
+        super.getMythArenaGui().setField(1, null);
+        super.getMythArenaGui().setField(2, null);
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value = super.getMythArenaGui().getFieldText(0);
+                    if (super.getArena().isInteger(value)) {
+                        if (selectedPlayer.getCharacter().setPower(Integer.parseInt(value))) {
+                            try {
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Power value changed successfully!");
                                 super.getMythArenaGui().clearFieldText(0);
                                 exit = true;
                             } catch (IOException e) {

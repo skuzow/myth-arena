@@ -142,9 +142,14 @@ public abstract class Character implements Serializable, Cloneable {
     /**
      * Sets int power
      * @param power int power
+     * @return boolean inside bounds
      */
-    public void setPower(int power) {
-        this.power = power;
+    public boolean setPower(int power) {
+        if (power <= 5 && power >= 1) {
+            this.power = power;
+            return true;
+        }
+        return false;
     }
 
     /**
