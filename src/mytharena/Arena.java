@@ -150,9 +150,19 @@ public class Arena {
     }
 
    public void combat(Player player1, Player player2, int bet) {
+        mythArenaGui.setCombatMode();
+        mythArenaGui.setOption(0,null);
+        mythArenaGui.setOption(1,null);
+        mythArenaGui.setHealthBar(0,5,5);
+       mythArenaGui.setHealthBar(1,5,5);
+        mythArenaGui.setCombatInfo(0,"VS");
+        mythArenaGui.setCombatInfo(1, player1.getNickname());
+        mythArenaGui.setCombatInfo(2,player1.getNickname());
+        mythArenaGui.waitEvent(2);
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
         Date date = new Date();
+        int roundCount = 1;
 
         ArrayList<Round> roundsArrayList = new ArrayList<>();
 
@@ -171,7 +181,9 @@ public class Arena {
        int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
 
         while (character1.getHealth() > 0 && character2.getHealth() > 0) {
-
+            mythArenaGui.setCombatInfo(0,"Round: "+ Integer.toString(roundCount));
+            mythArenaGui.setHealthBar(0,character1.getHealth(),5);
+            mythArenaGui.setHealthBar(1,character2.getHealth(),5);
             // Calculate character 1 ability, weaknesses and strengths
             int[] values1 = calculateCharacterModifiers(character1);
             int abilityOffense1 = values1[0];
@@ -206,24 +218,76 @@ public class Arena {
             int character2AttackResult = blockValue1 - attackValue2;
 
             if (character1AttackResult > 0) {
-                inflictDamage(character2,minionTotalHealth2,attackValue1);
-            }
-            if (character2AttackResult > 0) {
-                inflictDamage(character1,minionTotalHealth1,attackValue2);
+                if (character1 instanceof Vampire vampire) {
+                    if (vampire.getBloodPoints() < 7) {
+                        vampire.setBloodPoints(vampire.getBloodPoints() + 4);
+                    }else {
+                        vampire.setBloodPoints(10);
+                    }
+                }
+                if (minionTotalHealth2 > 0){
+                    minionTotalHealth2 -= attackValue1;
+                }else {
+                    character2.setHealth(character2.getHealth() - attackValue1);
+                    if (character2 instanceof Werewolf werewolf) {
+                        if (werewolf.getRage() < 3) {
+                            werewolf.setRage(werewolf.getRage() + 1);
+                        }
+                    }
+                    if (character2 instanceof Hunter hunter) {
+                        if (hunter.getWill() > 1) {
+                            hunter.setWill(hunter.getWill() - 1);
+                        }else {
+                            hunter.setWill(0);
+                        }
+                    }
+                }
             }
 
+            if (character2AttackResult > 0) {
+                if (character2 instanceof Vampire vampire) {
+                    if (vampire.getBloodPoints() < 7) {
+                        vampire.setBloodPoints(vampire.getBloodPoints() + 4);
+                    }else {
+                        vampire.setBloodPoints(10);
+                    }
+                }
+                if (minionTotalHealth1 > 0){
+                    minionTotalHealth1 -= attackValue2;
+                }else {
+                    character1.setHealth(character1.getHealth() - attackValue2);
+                    if (character2 instanceof Werewolf werewolf) {
+                        if (werewolf.getRage() < 3) {
+                            werewolf.setRage(werewolf.getRage() + 1);
+                        }
+                    }
+                    if (character2 instanceof Hunter hunter) {
+                        if (hunter.getWill() > 1) {
+                            hunter.setWill(hunter.getWill() - 1);
+                        }else {
+                            hunter.setWill(0);
+                        }
+
+                    }
+                }
+            }
+            mythArenaGui.waitEvent(1);
+            roundCount++;
             Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,character1AttackResult,character2AttackResult);
             roundsArrayList.add(round);
         }
         Player winner;
+        Player loser;
         Player playerWithMinionsLeft = null;
         if (character1.getHealth() > 0) {
             winner = player1;
+            loser = player2;
             if (minionTotalHealth1 > 0) {
                 playerWithMinionsLeft = player1;
             }
         }else {
             winner = player2;
+            loser = player1;
             if (minionTotalHealth2 > 0) {
                 playerWithMinionsLeft = player2;
             }
@@ -231,41 +295,20 @@ public class Arena {
         Combat combat = new Combat(player2,player1,winner,date,roundsArrayList,bet,playerWithMinionsLeft);
         data.getCombatArrayList().add(combat);
         winner.getCharacter().setGold(winner.getCharacter().getGold() + bet);
+        loser.getCharacter().setGold(loser.getCharacter().getGold() - bet);
+        mythArenaGui.setHealthBar(0,character1.getHealth(),5);
+        mythArenaGui.setHealthBar(1,character2.getHealth(),5);
+        mythArenaGui.setCombatInfo(0,winner.getNickname() + " wins!");
+        mythArenaGui.setCombatInfo(1,null);
+        mythArenaGui.setCombatInfo(2,null);
+        mythArenaGui.waitEvent(50);
        try {
            serializeData();
        } catch (IOException e) {
            e.printStackTrace();
        }
+
    }
-
-    private void inflictDamage(Character character, int minionTotalHealth, int damage) {
-            if (minionTotalHealth > 0) {
-                minionTotalHealth -= damage;
-            }else {
-                character.setHealth(character.getHealth() - damage);
-                if (character instanceof Vampire vampire) {
-                    if (vampire.getBloodPoints() < 7) {
-                        vampire.setBloodPoints(vampire.getBloodPoints() + 4);
-                    }else {
-                        vampire.setBloodPoints(10);
-                    }
-                }
-                if (character instanceof Werewolf werewolf) {
-                    if (werewolf.getRage() < 3) {
-                        werewolf.setRage(werewolf.getRage() + 1);
-                    }
-                }
-                if (character instanceof Hunter hunter) {
-                    if (hunter.getWill() > 1) {
-                        hunter.setWill(hunter.getWill() - 1);
-                    }else {
-                        hunter.setWill(0);
-                    }
-
-                }
-            }
-    }
-
     /**
      * Checks String str can be converted to integer
      * @param str String str
@@ -339,16 +382,16 @@ public class Arena {
                 }
 
                 vampire.setBloodPoints(vampire.getBloodPoints() - vampireDiscipline.getCost());
-                // Calculate modifiers for Vampire during daytime
-                if (hour >= 7 && hour < 21) {
-                    for (Modifier weakness : vampire.getWeaknessArrayList()) {
-                        switch (weakness.getSensibility()) {
-                            case 1 -> modifier -= 1;
-                            case 2 -> modifier -= 2;
-                            case 3 -> modifier -= 3;
-                            case 4 -> modifier -= 4;
-                            case 5 -> modifier -= 5;
-                        }
+            }
+            // Calculate modifiers for Vampire during daytime
+            if (hour >= 7 && hour < 21) {
+                for (Modifier weakness : vampire.getWeaknessArrayList()) {
+                    switch (weakness.getSensibility()) {
+                        case 1 -> modifier -= 1;
+                        case 2 -> modifier -= 2;
+                        case 3 -> modifier -= 3;
+                        case 4 -> modifier -= 4;
+                        case 5 -> modifier -= 5;
                     }
                 }
             }
@@ -360,7 +403,7 @@ public class Arena {
             }
             // Calculate modifiers for werewolves during nighttime
             if (hour < 7 || hour >= 21) {
-                for (Modifier strength : werewolf.getWeaknessArrayList()) {
+                for (Modifier strength : werewolf.getFortitudeArrayList()) {
                     switch (strength.getSensibility()) {
                         case 1 -> modifier += 1;
                         case 2 -> modifier += 2;
@@ -384,11 +427,9 @@ public class Arena {
     private int[] calculateWeaponModifier(Character character) {
         int [] values = new int[2];
 
-        for(int i = 1; i  < 2; i++) {
-            if (character.getEquippedWeaponArrayList().get(i) != null) {
-                values[0] = character.getEquippedWeaponArrayList().get(i).getAttackModification();
-                values[1] = character.getEquippedWeaponArrayList().get(i).getDefenseModification();
-            }
+        for(int i = 0; i  < character.getEquippedWeaponArrayList().size(); i++) {
+            values[0] += character.getEquippedWeaponArrayList().get(i).getAttackModification();
+            values[1] += character.getEquippedWeaponArrayList().get(i).getDefenseModification();
         }
         return values;
     }
