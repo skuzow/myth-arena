@@ -42,17 +42,27 @@ public class Vampire extends Character implements Serializable {
     /**
      * Sets int age
      * @param age int age
+     * @return boolean inside bounds
      */
-    public void setAge(int age) {
-        this.age = age;
+    public boolean setAge(int age) {
+        if (age > 0) {
+            this.age = age;
+            return true;
+        }
+        return false;
     }
 
     /**
      * Sets int bloodPoints
      * @param bloodPoints int bloodPoints
+     * @return boolean inside bounds
      */
-    public void setBloodPoints(int bloodPoints) {
-        this.bloodPoints = bloodPoints;
+    public boolean setBloodPoints(int bloodPoints) {
+        if (bloodPoints <= 10 && bloodPoints >= 0) {
+            this.bloodPoints = bloodPoints;
+            return true;
+        }
+        return false;
     }
 
     /**

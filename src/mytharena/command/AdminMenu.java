@@ -446,9 +446,7 @@ public class AdminMenu extends Command {
                             case 0 -> {
                                 switch (attributeArrayList.get(0)) {
                                     case "Hunter" -> this.editHunter(selectedPlayer);
-                                    case "Vampire" -> {
-
-                                    }
+                                    case "Vampire" -> this.editVampire(selectedPlayer);
                                     case "Werewolf" -> {
 
                                     }
@@ -536,6 +534,79 @@ public class AdminMenu extends Command {
                         }
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Vampire editor for character editor tool
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editVampire(Player selectedPlayer) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Vampire editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
+        super.getMythArenaGui().setField(0, "Bounds 0-inf || Amount of Age || Current value: " + ((Vampire) selectedPlayer.getCharacter()).getAge());
+        super.getMythArenaGui().setField(1, "Bounds 0-10 || Amount of BloodPoints || Current value: " + ((Vampire) selectedPlayer.getCharacter()).getBloodPoints());
+        super.getMythArenaGui().setField(2, null);
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value1 = super.getMythArenaGui().getFieldText(0);
+                    String value2 = super.getMythArenaGui().getFieldText(1);
+                    StringBuilder notValid = new StringBuilder();
+                    StringBuilder outBounds = new StringBuilder();
+                    StringBuilder modified = new StringBuilder();
+                    // age
+                    if (!Objects.equals(value1, "")) {
+                        String value1Info = "Age ";
+                        if (super.getArena().isInteger(value1)) {
+                            if (((Vampire) selectedPlayer.getCharacter()).setAge(Integer.parseInt(value1))) {
+                                modified.append(value1Info);
+                            } else {
+                                outBounds.append(value1Info);
+                            }
+                        } else {
+                            notValid.append(value1Info);
+                        }
+                    }
+                    // bloodpoints
+                    if (!Objects.equals(value2, "")) {
+                        String value2Info = "BloodPoints ";
+                        if (super.getArena().isInteger(value2)) {
+                            if (((Vampire) selectedPlayer.getCharacter()).setBloodPoints(Integer.parseInt(value2))) {
+                                modified.append(value2Info);
+                            } else {
+                                outBounds.append(value2Info);
+                            }
+                        } else {
+                            notValid.append(value2Info);
+                        }
+                    }
+                    // general stuff
+                    if (notValid.isEmpty()) {
+                        if (outBounds.isEmpty()) {
+                            try {
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription(modified + "value changed successfully!");
+                                super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().clearFieldText(1);
+                                exit = true;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription(outBounds + "have values out of bounds");
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription(notValid + "have not valid values");
                     }
                     super.getMythArenaGui().waitEvent(1);
                 }
