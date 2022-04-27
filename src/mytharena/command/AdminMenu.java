@@ -415,13 +415,16 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(2, "Back to Manage Characters");
             super.getMythArenaGui().setOption(3, "Edit selected attribute");
             ArrayList<String> attributeArrayList = new ArrayList<>();
-            // types of character display
+            // types of character & ability display
             if (selectedPlayer.getCharacter() instanceof Hunter) {
                 attributeArrayList.add("Hunter");
+                attributeArrayList.add("Talent");
             } else if (selectedPlayer.getCharacter() instanceof Vampire) {
                 attributeArrayList.add("Vampire");
+                attributeArrayList.add("Discipline");
             } else if (selectedPlayer.getCharacter() instanceof Werewolf) {
                 attributeArrayList.add("Werewolf");
+                attributeArrayList.add("Gift");
             }
             attributeArrayList.add("Gold");
             attributeArrayList.add("Health");
@@ -432,7 +435,6 @@ public class AdminMenu extends Command {
             attributeArrayList.add("Minions");
             attributeArrayList.add("Fortitudes");
             attributeArrayList.add("Weapons");
-            attributeArrayList.add("Ability");
             super.getMythArenaGui().setList(attributeArrayList);
             switch (super.getMythArenaGui().waitEvent(30)) {
                 // exit manage characters
@@ -450,37 +452,45 @@ public class AdminMenu extends Command {
                                     case "Werewolf" -> this.editWerewolf(selectedPlayer);
                                 }
                             }
-                            // gold
-                            case 1 -> this.editGold(selectedPlayer);
-                            // health
-                            case 2 -> this.editHealth(selectedPlayer);
-                            // power
-                            case 3 -> this.editPower(selectedPlayer);
-                            // inventory
-                            case 4 -> {
+                            // ability type
+                            case 1 -> {
+                                switch (attributeArrayList.get(1)) {
+                                    case "Talent" -> this.editTalent(selectedPlayer);
+                                    case "Discipline" -> {
 
+                                    }
+                                    case "Gift" -> {
+
+                                    }
+                                }
                             }
-                            // armor
+                            // gold
+                            case 2 -> this.editGold(selectedPlayer);
+                            // health
+                            case 3 -> this.editHealth(selectedPlayer);
+                            // power
+                            case 4 -> this.editPower(selectedPlayer);
+                            // inventory
                             case 5 -> {
 
                             }
-                            // weaknesses
+                            // armor
                             case 6 -> {
 
                             }
-                            // minions
+                            // weaknesses
                             case 7 -> {
 
                             }
-                            // fortitudes
+                            // minions
                             case 8 -> {
 
                             }
-                            // weapons
+                            // fortitudes
                             case 9 -> {
 
                             }
-                            // ability
+                            // weapons
                             case 10 -> {
 
                             }
@@ -642,6 +652,79 @@ public class AdminMenu extends Command {
                         }
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Talent editor for character editor tool
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editTalent(Player selectedPlayer) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Talent editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
+        super.getMythArenaGui().setField(0, "Bounds 0-3 || Amount of AttackModifier || Current value: " + (selectedPlayer.getCharacter()).getAbility().getAttackModifier());
+        super.getMythArenaGui().setField(1, "Bounds 0-3 || Amount of DefenseModifier || Current value: " + (selectedPlayer.getCharacter()).getAbility().getDefenseModifier());
+        super.getMythArenaGui().setField(2, null);
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value1 = super.getMythArenaGui().getFieldText(0);
+                    String value2 = super.getMythArenaGui().getFieldText(1);
+                    StringBuilder notValid = new StringBuilder();
+                    StringBuilder outBounds = new StringBuilder();
+                    StringBuilder modified = new StringBuilder();
+                    // attackModifier
+                    if (!Objects.equals(value1, "")) {
+                        String value1Info = "AttackModifier ";
+                        if (super.getArena().isInteger(value1)) {
+                            if (selectedPlayer.getCharacter().getAbility().setAttackModifier(Integer.parseInt(value1))) {
+                                modified.append(value1Info);
+                            } else {
+                                outBounds.append(value1Info);
+                            }
+                        } else {
+                            notValid.append(value1Info);
+                        }
+                    }
+                    // defenseModifier
+                    if (!Objects.equals(value2, "")) {
+                        String value2Info = "DefenseModifier ";
+                        if (super.getArena().isInteger(value2)) {
+                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value1))) {
+                                modified.append(value2Info);
+                            } else {
+                                outBounds.append(value2Info);
+                            }
+                        } else {
+                            notValid.append(value2Info);
+                        }
+                    }
+                    // general stuff
+                    if (notValid.isEmpty()) {
+                        if (outBounds.isEmpty()) {
+                            try {
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription(modified + "value changed successfully!");
+                                super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().clearFieldText(1);
+                                exit = true;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription(outBounds + "have values out of bounds!");
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription(notValid + "have not valid values");
                     }
                     super.getMythArenaGui().waitEvent(1);
                 }

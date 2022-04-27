@@ -29,17 +29,27 @@ public abstract class Ability implements Serializable {
     /**
      * Sets int attackModifier
      * @param attackModifier int attackModifier
+     * @return boolean inside bounds
      */
-    public void setAttackModifier(int attackModifier) {
-        this.attackModifier = attackModifier;
+    public boolean setAttackModifier(int attackModifier) {
+        if (attackModifier <= 3 && attackModifier >= 0) {
+            this.attackModifier = attackModifier;
+            return true;
+        }
+        return false;
     }
 
     /**
      * Sets int defenseModifier
      * @param defenseModifier int defenseModifier
+     * @return boolean inside bounds
      */
-    public void setDefenseModifier(int defenseModifier) {
-        this.defenseModifier = defenseModifier;
+    public boolean setDefenseModifier(int defenseModifier) {
+        if (defenseModifier <= 3 && defenseModifier >= 0) {
+            this.defenseModifier = defenseModifier;
+            return true;
+        }
+        return false;
     }
 
     /**
