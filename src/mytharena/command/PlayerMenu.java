@@ -122,6 +122,8 @@ public class PlayerMenu extends Command {
                 // Must select an item from list for button to work
                 if (index != -1) {
                     // Display the content of notification on the screen
+                    getMythArenaGui().setTitle("Battle request");
+                    getMythArenaGui().setDescription("Note: declining a battle request will result in paying 10% of the proposed bet as penalty!");
                     Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
                     ArrayList<String> notificationContent = new ArrayList<>();
                     notificationContent.add(notification.getTitle());
@@ -141,7 +143,7 @@ public class PlayerMenu extends Command {
                             // If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
                             pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                     "Your challenge request has been declined.",
-                                    "Challenged user: " + player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
+                                    "Challenged user: " + player.getUsername() + " has declined your \nchallenge, therefore conceding 10% of the bet to you"
                             ));
                             int amount = pendingCombatNotification.getBet();
                             int pay = (int) (amount * 0.10);
@@ -287,10 +289,11 @@ public class PlayerMenu extends Command {
                                     if (amount > 0) {
                                         if ((player.getCharacter().getGold() - amount) >= 0) {
                                             PendingCombat pendingCombat = new PendingCombat(player, challengedPlayer, amount);
+                                            selectEquipment();
                                             getData().getPendingCombatArrayList().add(pendingCombat);
                                             getMythArenaGui().setDescription("Your challenge request has been sent!");
                                             getMythArenaGui().clearFieldText(0);
-                                            getMythArenaGui().waitEvent(2);
+                                            getMythArenaGui().waitEvent(1);
                                             try {
                                                 getArena().serializeData();
                                             } catch (IOException e) {
@@ -319,7 +322,7 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().waitEvent(3);
             }
         } else {
-            getMythArenaGui().setDescription("You can't enter to this option because you have been banned, look notifications for more information");
+            getMythArenaGui().setDescription("You can't enter to this option because you have been banned, check notifications for more information");
             getMythArenaGui().waitEvent(3);
         }
     }

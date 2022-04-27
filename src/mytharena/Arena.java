@@ -153,12 +153,16 @@ public class Arena {
         mythArenaGui.setCombatMode();
         mythArenaGui.setOption(0,null);
         mythArenaGui.setOption(1,null);
+        mythArenaGui.setHealthBar(0,5,5);
+       mythArenaGui.setHealthBar(1,5,5);
         mythArenaGui.setCombatInfo(0,"VS");
-        mythArenaGui.setCombatInfo(1,"Gled");
-        mythArenaGui.setCombatInfo(2,"Alex");
+        mythArenaGui.setCombatInfo(1, player1.getNickname());
+        mythArenaGui.setCombatInfo(2,player1.getNickname());
+        mythArenaGui.waitEvent(2);
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
         Date date = new Date();
+        int roundCount = 1;
 
         ArrayList<Round> roundsArrayList = new ArrayList<>();
 
@@ -177,6 +181,7 @@ public class Arena {
        int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
 
         while (character1.getHealth() > 0 && character2.getHealth() > 0) {
+            mythArenaGui.setCombatInfo(0,"Round: "+ Integer.toString(roundCount));
             mythArenaGui.setHealthBar(0,character1.getHealth(),5);
             mythArenaGui.setHealthBar(1,character2.getHealth(),5);
             // Calculate character 1 ability, weaknesses and strengths
@@ -267,6 +272,7 @@ public class Arena {
                 }
             }
             mythArenaGui.waitEvent(1);
+            roundCount++;
             Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,character1AttackResult,character2AttackResult);
             roundsArrayList.add(round);
         }
@@ -303,35 +309,6 @@ public class Arena {
        }
 
    }
-
-    private void inflictDamage(Character character, int minionTotalHealth, int damage) {
-            if (minionTotalHealth > 0) {
-                minionTotalHealth -= damage;
-            }else {
-                character.setHealth(character.getHealth() - damage);
-                if (character instanceof Vampire vampire) {
-                    if (vampire.getBloodPoints() < 7) {
-                        vampire.setBloodPoints(vampire.getBloodPoints() + 4);
-                    }else {
-                        vampire.setBloodPoints(10);
-                    }
-                }
-                if (character instanceof Werewolf werewolf) {
-                    if (werewolf.getRage() < 3) {
-                        werewolf.setRage(werewolf.getRage() + 1);
-                    }
-                }
-                if (character instanceof Hunter hunter) {
-                    if (hunter.getWill() > 1) {
-                        hunter.setWill(hunter.getWill() - 1);
-                    }else {
-                        hunter.setWill(0);
-                    }
-
-                }
-            }
-    }
-
     /**
      * Checks String str can be converted to integer
      * @param str String str

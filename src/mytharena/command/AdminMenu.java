@@ -430,9 +430,8 @@ public class AdminMenu extends Command {
                         try {
                             // accepted combat notification for challenged
                             pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
-                                 pendingCombat.getChallenger().getNickname() +" has challenged you to a battle",
-                                "Challenger: " + pendingCombat.getChallenger().getNickname() + " has bet" +
-                                pendingCombat.getBet() + " gold on this battle" ,
+                                 pendingCombat.getChallenger().getNickname() +" wants to challenge you to a battle",
+                                    "Gold at stake for this battle: " + pendingCombat.getBet(),
                                 pendingCombat.getChallenger(), pendingCombat.getBet()
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
