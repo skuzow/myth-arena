@@ -447,9 +447,7 @@ public class AdminMenu extends Command {
                                 switch (attributeArrayList.get(0)) {
                                     case "Hunter" -> this.editHunter(selectedPlayer);
                                     case "Vampire" -> this.editVampire(selectedPlayer);
-                                    case "Werewolf" -> {
-
-                                    }
+                                    case "Werewolf" -> this.editWerewolf(selectedPlayer);
                                 }
                             }
                             // gold
@@ -615,13 +613,54 @@ public class AdminMenu extends Command {
     }
 
     /**
+     * Werewolf editor for character editor tool
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editWerewolf(Player selectedPlayer) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Werewolf editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
+        super.getMythArenaGui().setField(0, "Bounds 0-3 || Amount of Rage || Current value: " + ((Werewolf) selectedPlayer.getCharacter()).getRage());
+        super.getMythArenaGui().setField(1, null);
+        super.getMythArenaGui().setField(2, null);
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value = super.getMythArenaGui().getFieldText(0);
+                    if (super.getArena().isInteger(value)) {
+                        if (((Werewolf) selectedPlayer.getCharacter()).setRage(Integer.parseInt(value))) {
+                            try {
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Rage value changed successfully!");
+                                super.getMythArenaGui().clearFieldText(0);
+                                exit = true;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            super.getMythArenaGui().setDescription("Value outside bounds!");
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please type a valid value");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+            }
+        }
+    }
+
+    /**
      * Gold editor for character editor tool
      * @param selectedPlayer Player selectedPlayer
      */
     private void editGold(Player selectedPlayer) {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Gold editor for " + selectedPlayer.getNickname());
-        super.getMythArenaGui().setDescription("Type the amount of gold you want to change");
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
         super.getMythArenaGui().setField(0, "Bounds 0-inf || Amount of Gold || Current value: " + selectedPlayer.getCharacter().getGold());
         super.getMythArenaGui().setField(1, null);
         super.getMythArenaGui().setField(2, null);

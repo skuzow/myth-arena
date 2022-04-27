@@ -36,9 +36,14 @@ public class Werewolf extends Character implements Serializable {
     /**
      * Sets int rage
      * @param rage int rage
+     * @return boolean inside bounds
      */
-    public void setRage(int rage) {
-        this.rage = rage;
+    public boolean setRage(int rage) {
+        if (rage <= 3 && rage >= 0) {
+            this.rage = rage;
+            return true;
+        }
+        return false;
     }
 
     /**
