@@ -21,15 +21,20 @@ public class Discipline extends Ability implements Serializable {
     public Discipline(int attackModifier, int defenseModifier) {
         super(attackModifier, defenseModifier);
         Random rand = new Random();
-        cost = rand.nextInt(3)+1;
+        cost = rand.nextInt(3) + 1;
     }
 
     /**
      * Sets int cost
      * @param cost int cost
+     * @return boolean inside bounds
      */
-    public void setCost(int cost) {
-        this.cost = cost;
+    public boolean setCost(int cost) {
+        if (cost <= 3 && cost >= 1) {
+            this.cost = cost;
+            return true;
+        }
+        return false;
     }
 
     /**

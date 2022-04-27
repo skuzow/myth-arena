@@ -32,7 +32,7 @@ public abstract class Ability implements Serializable {
      * @return boolean inside bounds
      */
     public boolean setAttackModifier(int attackModifier) {
-        if (attackModifier <= 3 && attackModifier >= 0) {
+        if (attackModifier <= 3 && attackModifier >= 1) {
             this.attackModifier = attackModifier;
             return true;
         }
@@ -45,7 +45,7 @@ public abstract class Ability implements Serializable {
      * @return boolean inside bounds
      */
     public boolean setDefenseModifier(int defenseModifier) {
-        if (defenseModifier <= 3 && defenseModifier >= 0) {
+        if (defenseModifier <= 3 && defenseModifier >= 1) {
             this.defenseModifier = defenseModifier;
             return true;
         }

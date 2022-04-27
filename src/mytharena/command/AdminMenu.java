@@ -2,6 +2,7 @@ package mytharena.command;
 
 import mytharena.Arena;
 import mytharena.data.Data;
+import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.factory.character.hunter.Hunter;
 import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.character.werewolf.Werewolf;
@@ -456,9 +457,7 @@ public class AdminMenu extends Command {
                             case 1 -> {
                                 switch (attributeArrayList.get(1)) {
                                     case "Talent" -> this.editTalent(selectedPlayer);
-                                    case "Discipline" -> {
-
-                                    }
+                                    case "Discipline" -> this.editDiscipline(selectedPlayer);
                                     case "Gift" -> {
 
                                     }
@@ -649,8 +648,8 @@ public class AdminMenu extends Command {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Talent editor for " + selectedPlayer.getNickname());
         super.getMythArenaGui().setDescription("Type the amount you want to change");
-        super.getMythArenaGui().setField(0, "Bounds 0-3 || Amount of AttackModifier || Current value: " + (selectedPlayer.getCharacter()).getAbility().getAttackModifier());
-        super.getMythArenaGui().setField(1, "Bounds 0-3 || Amount of DefenseModifier || Current value: " + (selectedPlayer.getCharacter()).getAbility().getDefenseModifier());
+        super.getMythArenaGui().setField(0, "Bounds 1-3 || Amount of AttackModifier || Current value: " + selectedPlayer.getCharacter().getAbility().getAttackModifier());
+        super.getMythArenaGui().setField(1, "Bounds 1-3 || Amount of DefenseModifier || Current value: " + selectedPlayer.getCharacter().getAbility().getDefenseModifier());
         super.getMythArenaGui().setField(2, null);
         super.getMythArenaGui().setOption(0, "Exit without saving");
         super.getMythArenaGui().setOption(1, "Continue saving it");
@@ -681,13 +680,82 @@ public class AdminMenu extends Command {
                     if (!Objects.equals(value2, "")) {
                         String value2Info = "DefenseModifier ";
                         if (super.getArena().isInteger(value2)) {
-                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value1))) {
+                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value2))) {
                                 modified.append(value2Info);
                             } else {
                                 outBounds.append(value2Info);
                             }
                         } else {
                             notValid.append(value2Info);
+                        }
+                    }
+                    exit = this.serializeMultiple(notValid, outBounds, modified);
+                }
+            }
+        }
+    }
+
+    /**
+     * Discipline editor for character editor tool
+     * @param selectedPlayer Player selectedPlayer
+     */
+    private void editDiscipline(Player selectedPlayer) {
+        super.getMythArenaGui().setFormMode();
+        super.getMythArenaGui().setTitle("Discipline editor for " + selectedPlayer.getNickname());
+        super.getMythArenaGui().setDescription("Type the amount you want to change");
+        super.getMythArenaGui().setField(0, "Bounds 1-3 || Amount of AttackModifier || Current value: " + selectedPlayer.getCharacter().getAbility().getAttackModifier());
+        super.getMythArenaGui().setField(1, "Bounds 1-3 || Amount of DefenseModifier || Current value: " + selectedPlayer.getCharacter().getAbility().getDefenseModifier());
+        super.getMythArenaGui().setField(2, "Bounds 1-3 || Amount of Cost || Current value: " + ((Discipline) selectedPlayer.getCharacter().getAbility()).getCost());
+        super.getMythArenaGui().setOption(0, "Exit without saving");
+        super.getMythArenaGui().setOption(1, "Continue saving it");
+        boolean exit = false;
+        while (!exit) {
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    String value1 = super.getMythArenaGui().getFieldText(0);
+                    String value2 = super.getMythArenaGui().getFieldText(1);
+                    String value3 = super.getMythArenaGui().getFieldText(2);
+                    StringBuilder notValid = new StringBuilder();
+                    StringBuilder outBounds = new StringBuilder();
+                    StringBuilder modified = new StringBuilder();
+                    // attackModifier
+                    if (!Objects.equals(value1, "")) {
+                        String value1Info = "AttackModifier ";
+                        if (super.getArena().isInteger(value1)) {
+                            if (selectedPlayer.getCharacter().getAbility().setAttackModifier(Integer.parseInt(value1))) {
+                                modified.append(value1Info);
+                            } else {
+                                outBounds.append(value1Info);
+                            }
+                        } else {
+                            notValid.append(value1Info);
+                        }
+                    }
+                    // defenseModifier
+                    if (!Objects.equals(value2, "")) {
+                        String value2Info = "DefenseModifier ";
+                        if (super.getArena().isInteger(value2)) {
+                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value2))) {
+                                modified.append(value2Info);
+                            } else {
+                                outBounds.append(value2Info);
+                            }
+                        } else {
+                            notValid.append(value2Info);
+                        }
+                    }
+                    // cost
+                    if (!Objects.equals(value3, "")) {
+                        String value3Info = "Cost ";
+                        if (super.getArena().isInteger(value3)) {
+                            if (((Discipline) selectedPlayer.getCharacter().getAbility()).setCost(Integer.parseInt(value3))) {
+                                modified.append(value3Info);
+                            } else {
+                                outBounds.append(value3Info);
+                            }
+                        } else {
+                            notValid.append(value3Info);
                         }
                     }
                     exit = this.serializeMultiple(notValid, outBounds, modified);
