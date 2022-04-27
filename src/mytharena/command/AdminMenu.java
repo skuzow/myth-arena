@@ -529,6 +529,7 @@ public class AdminMenu extends Command {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Will value changed successfully!");
                                 super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().waitEvent(1);
                                 exit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -539,7 +540,6 @@ public class AdminMenu extends Command {
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
                     }
-                    super.getMythArenaGui().waitEvent(1);
                 }
             }
         }
@@ -594,25 +594,7 @@ public class AdminMenu extends Command {
                             notValid.append(value2Info);
                         }
                     }
-                    // general stuff
-                    if (notValid.isEmpty()) {
-                        if (outBounds.isEmpty()) {
-                            try {
-                                super.getArena().serializeData();
-                                super.getMythArenaGui().setDescription(modified + "value changed successfully!");
-                                super.getMythArenaGui().clearFieldText(0);
-                                super.getMythArenaGui().clearFieldText(1);
-                                exit = true;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            super.getMythArenaGui().setDescription(outBounds + "have values out of bounds!");
-                        }
-                    } else {
-                        super.getMythArenaGui().setDescription(notValid + "have not valid values");
-                    }
-                    super.getMythArenaGui().waitEvent(1);
+                    exit = this.serializeMultiple(notValid, outBounds, modified);
                 }
             }
         }
@@ -643,6 +625,7 @@ public class AdminMenu extends Command {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Rage value changed successfully!");
                                 super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().waitEvent(1);
                                 exit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -653,7 +636,6 @@ public class AdminMenu extends Command {
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
                     }
-                    super.getMythArenaGui().waitEvent(1);
                 }
             }
         }
@@ -708,25 +690,7 @@ public class AdminMenu extends Command {
                             notValid.append(value2Info);
                         }
                     }
-                    // general stuff
-                    if (notValid.isEmpty()) {
-                        if (outBounds.isEmpty()) {
-                            try {
-                                super.getArena().serializeData();
-                                super.getMythArenaGui().setDescription(modified + "value changed successfully!");
-                                super.getMythArenaGui().clearFieldText(0);
-                                super.getMythArenaGui().clearFieldText(1);
-                                exit = true;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            super.getMythArenaGui().setDescription(outBounds + "have values out of bounds!");
-                        }
-                    } else {
-                        super.getMythArenaGui().setDescription(notValid + "have not valid values");
-                    }
-                    super.getMythArenaGui().waitEvent(1);
+                    exit = this.serializeMultiple(notValid, outBounds, modified);
                 }
             }
         }
@@ -759,6 +723,7 @@ public class AdminMenu extends Command {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Gold value changed successfully!");
                                 super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().waitEvent(1);
                                 exit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -769,7 +734,6 @@ public class AdminMenu extends Command {
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
                     }
-                    super.getMythArenaGui().waitEvent(1);
                 }
             }
         }
@@ -800,6 +764,7 @@ public class AdminMenu extends Command {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Health value changed successfully!");
                                 super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().waitEvent(1);
                                 exit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -810,7 +775,6 @@ public class AdminMenu extends Command {
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
                     }
-                    super.getMythArenaGui().waitEvent(1);
                 }
             }
         }
@@ -841,6 +805,7 @@ public class AdminMenu extends Command {
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Power value changed successfully!");
                                 super.getMythArenaGui().clearFieldText(0);
+                                super.getMythArenaGui().waitEvent(1);
                                 exit = true;
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -851,10 +816,35 @@ public class AdminMenu extends Command {
                     } else {
                         super.getMythArenaGui().setDescription("Please type a valid value");
                     }
-                    super.getMythArenaGui().waitEvent(1);
                 }
             }
         }
+    }
+
+    /**
+     * Serialize multiple elements
+     */
+    private boolean serializeMultiple(StringBuilder notValid, StringBuilder outBounds, StringBuilder modified) {
+        if (notValid.isEmpty()) {
+            if (outBounds.isEmpty()) {
+                try {
+                    super.getArena().serializeData();
+                    super.getMythArenaGui().setDescription(modified + "value changed successfully!");
+                    super.getMythArenaGui().clearFieldText(0);
+                    super.getMythArenaGui().clearFieldText(1);
+                    super.getMythArenaGui().clearFieldText(2);
+                    super.getMythArenaGui().waitEvent(1);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                super.getMythArenaGui().setDescription(outBounds + "have values out of bounds!");
+            }
+        } else {
+            super.getMythArenaGui().setDescription(notValid + "have not valid values");
+        }
+        return false;
     }
 
 }
