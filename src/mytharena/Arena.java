@@ -16,7 +16,7 @@ import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.character.modifier.Modifier;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.Round;
-import mytharena.data.notification.GeneralNotification;
+import mytharena.data.notification.CombatResultsNotification;
 import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
@@ -157,7 +157,7 @@ public class Arena {
        mythArenaGui.setHealthBar(1,5,5);
         mythArenaGui.setCombatInfo(0,"VS");
         mythArenaGui.setCombatInfo(1, player1.getNickname());
-        mythArenaGui.setCombatInfo(2,player1.getNickname());
+        mythArenaGui.setCombatInfo(2,player2.getNickname());
         mythArenaGui.waitEvent(2);
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
@@ -181,7 +181,7 @@ public class Arena {
        int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
 
         while (character1.getHealth() > 0 && character2.getHealth() > 0) {
-            mythArenaGui.setCombatInfo(0,"Round: "+ Integer.toString(roundCount));
+            mythArenaGui.setCombatInfo(0,"Round: "+ roundCount);
             mythArenaGui.setHealthBar(0,character1.getHealth(),5);
             mythArenaGui.setHealthBar(1,character2.getHealth(),5);
             // Calculate character 1 ability, weaknesses and strengths
@@ -273,40 +273,60 @@ public class Arena {
             }
             mythArenaGui.waitEvent(1);
             roundCount++;
-            Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,character1AttackResult,character2AttackResult);
+            // If the attack did no damage then we save it as 0 in Combat class
+            Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,(Math.max(character1AttackResult, 0)),(Math.max(character2AttackResult, 0)));
             roundsArrayList.add(round);
         }
         Player winner;
         Player loser;
         Player playerWithMinionsLeft = null;
+
+        // Check for battle result
         if (character1.getHealth() > 0) {
             winner = player1;
             loser = player2;
             if (minionTotalHealth1 > 0) {
                 playerWithMinionsLeft = player1;
             }
-        }else {
+        }else if (character1.getHealth() <= 0 && character2.getHealth() <= 0) {
+            winner = null;
+            loser = null;
+        }else{
             winner = player2;
             loser = player1;
             if (minionTotalHealth2 > 0) {
                 playerWithMinionsLeft = player2;
             }
         }
-        Combat combat = new Combat(player2,player1,winner,date,roundsArrayList,bet,playerWithMinionsLeft);
+        Combat combat = new Combat(winner,loser,date,roundsArrayList,bet,playerWithMinionsLeft);
         data.getCombatArrayList().add(combat);
-        winner.getCharacter().setGold(winner.getCharacter().getGold() + bet);
-        loser.getCharacter().setGold(loser.getCharacter().getGold() - bet);
+        if (winner != null) {
+            winner.getCharacter().setGold(winner.getCharacter().getGold() + bet);
+            winner.setGoldWonInBattle(winner.getGoldWonInBattle() + bet);
+            loser.getCharacter().setGold(loser.getCharacter().getGold() - bet);
+            loser.setGoldLostInBattle(loser.getGoldLostInBattle() + bet);
+            mythArenaGui.setCombatInfo(0,winner.getNickname() + " wins!");
+        }else {
+            mythArenaGui.setCombatInfo(0,"DRAW!");
+        }
+        if (player1.isSubscriber()) {
+            player1.getNotificationArrayList().add(new CombatResultsNotification("Battle vs " + player2.getNickname() + " results","Click on any of the following rounds below to see details",combat));
+        }
+        if (player2.isSubscriber()) {
+            player2.getNotificationArrayList().add(new CombatResultsNotification("Battle vs " + player2.getNickname() + " results","Click on any of the following rounds below to see details",combat));
+        }
         mythArenaGui.setHealthBar(0,character1.getHealth(),5);
         mythArenaGui.setHealthBar(1,character2.getHealth(),5);
-        mythArenaGui.setCombatInfo(0,winner.getNickname() + " wins!");
         mythArenaGui.setCombatInfo(1,null);
         mythArenaGui.setCombatInfo(2,null);
-        mythArenaGui.waitEvent(50);
-       try {
+        mythArenaGui.setOption(1,"Exit");
+        mythArenaGui.waitEvent(10);
+
+        try {
            serializeData();
-       } catch (IOException e) {
+        } catch (IOException e) {
            e.printStackTrace();
-       }
+        }
 
    }
     /**
@@ -458,4 +478,5 @@ public class Arena {
     public User getActiveUser() {
         return this.activeUser;
     }
+
 }
