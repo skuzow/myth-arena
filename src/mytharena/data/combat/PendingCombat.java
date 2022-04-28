@@ -17,7 +17,6 @@ public class PendingCombat implements Serializable {
      * Player challenged
      */
     private final Player challenged;
-
     /**
      * int bet
      */
@@ -50,7 +49,12 @@ public class PendingCombat implements Serializable {
         return this.challenged;
     }
 
+    /**
+     * Gets int bet
+     * @return int bet
+     */
     public int getBet() {
-        return bet;
+        return this.bet;
     }
+
 }

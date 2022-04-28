@@ -119,6 +119,19 @@ public abstract class Character implements Serializable, Cloneable {
     }
 
     /**
+     * Clone method
+     * @return cloned stuff
+     */
+    @Override
+    public Character clone() {
+        try {
+            return (Character) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    /**
      * Sets int gold
      * @param gold int gold
      */
@@ -288,15 +301,5 @@ public abstract class Character implements Serializable, Cloneable {
         return this.equippedWeaponArrayList;
     }
 
-    @Override
-    public Character clone() {
-        try {
-            Character clone = (Character) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
 }
 

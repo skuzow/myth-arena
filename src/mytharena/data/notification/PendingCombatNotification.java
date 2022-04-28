@@ -13,8 +13,10 @@ public class PendingCombatNotification extends Notification implements Serializa
      * Player challenger
      */
     private final Player challenger;
-
-    private int bet;
+    /**
+     * int bet
+     */
+    private final int bet;
 
     /**
      * PendingCombatNotification class constructor extends Notification
@@ -36,8 +38,13 @@ public class PendingCombatNotification extends Notification implements Serializa
         return this.challenger;
     }
 
+    /**
+     * Gets int bet
+     * @return int bet
+     */
     public int getBet() {
-        return bet;
+        return this.bet;
     }
+
 }
 

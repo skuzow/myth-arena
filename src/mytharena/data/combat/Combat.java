@@ -1,6 +1,5 @@
 package mytharena.data.combat;
 
-import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.user.Player;
 
 import java.io.Serializable;
@@ -31,15 +30,13 @@ public class Combat implements Serializable {
     /**
      * int rounds
      */
-
     private final ArrayList<Round> rounds;
-
     /**
      * int obtainedGold
      */
     private final int obtainedGold;
     /**
-     * ArrayList Minion minionSurvivorArrayList
+     * Player playerWithMinionsLeft
      */
     private final Player playerWithMinionsLeft;
 
@@ -112,6 +109,7 @@ public class Combat implements Serializable {
     }
 
     public Player getPlayerWithMinionsLeft() {
-        return playerWithMinionsLeft;
+        return this.playerWithMinionsLeft;
     }
+
 }

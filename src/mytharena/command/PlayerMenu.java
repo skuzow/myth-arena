@@ -75,6 +75,9 @@ public class PlayerMenu extends Command {
         }
     }
 
+    /**
+     * Get gold
+     */
     public void getGold() {
         if (player.getCharacter() == null) {
             super.getMythArenaGui().setDescription("No character found");
@@ -100,6 +103,9 @@ public class PlayerMenu extends Command {
         }
     }
 
+    /**
+     * View Notifications
+     */
     public void viewNotifications() {
         // Checks if you have notification. We need to alert the player, otherwise, said player might think it's bugged.
         if (player.getNotificationArrayList().size() == 0) {
@@ -114,14 +120,12 @@ public class PlayerMenu extends Command {
             getMythArenaGui().setOption(1, null);
             getMythArenaGui().setOption(2, "Back");
             getMythArenaGui().setOption(3, "Open");
-
             // List of notifications
             ArrayList<String> notificationList = new ArrayList<>();
             for (Notification notification : player.getNotificationArrayList()) {
                 notificationList.add(notification.getTitle());
             }
             getMythArenaGui().setList(notificationList);
-
             // Opens notification at the current list index
             if (getMythArenaGui().waitEvent(30) == 'D') {
                 int index = getMythArenaGui().getLastSelectedListIndex();
@@ -136,9 +140,7 @@ public class PlayerMenu extends Command {
 
                     char choice = getMythArenaGui().waitEvent(30);
                         // If notification is of type PendingCombat then Player must Accept or Decline.
-                        if (notification instanceof PendingCombatNotification) {
-                            PendingCombatNotification pendingCombatNotification = (PendingCombatNotification) notification;
-                            Player challenger = (Player) pendingCombatNotification.getChallenger();
+                        if (notification instanceof PendingCombatNotification pendingCombatNotification) {
                             getMythArenaGui().setOption(0, "Decline");
                             getMythArenaGui().setOption(1, "Accept");
                             if (choice == 'A') {
@@ -235,6 +237,9 @@ public class PlayerMenu extends Command {
         }
     }
 
+    /**
+     * Delete character
+     */
     public void deleteCharacter() {
         // Must have character to be deleted
         if (player.getCharacter() != null) {
@@ -247,7 +252,6 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().setOption(0, "No, I love my character :)");
                 getMythArenaGui().setOption(1, "Yes, I'm sure :(");
                 char choice = getMythArenaGui().waitEvent(30);
-
                 // Deletes character
                 if (choice == 'B') {
                     player.setCharacter(null);
@@ -263,12 +267,15 @@ public class PlayerMenu extends Command {
                     exit = true;
                 }
             }
-        }else {
+        } else {
             getMythArenaGui().setDescription("No character found");
             getMythArenaGui().waitEvent(3);
         }
     }
 
+    /**
+     * Create character
+     */
     public void createCharacter() {
         getMythArenaGui().setListMode();
         getMythArenaGui().setOption(0,null);
@@ -310,6 +317,9 @@ public class PlayerMenu extends Command {
         }
     }
 
+    /**
+     * Challenge user
+     */
     public void challengeUser() {
         // Update bans & check if player is still combat banned
         getArena().updateBans();
@@ -325,7 +335,6 @@ public class PlayerMenu extends Command {
                     getMythArenaGui().setOption(1, null);
                     getMythArenaGui().setOption(2, "Cancel");
                     getMythArenaGui().setOption(3, "Challenge");
-
                     // List of players
                     ArrayList<Player> playerArrayList = new ArrayList<>();
                     ArrayList<String> playerNicknameArrayList = new ArrayList<>();
@@ -338,7 +347,6 @@ public class PlayerMenu extends Command {
                     }
                     getMythArenaGui().setList(playerNicknameArrayList);
                     char choice = getMythArenaGui().waitEvent(30);
-
                     // Challenge player at current list index
                     if (choice == 'D') {
                         int index = getMythArenaGui().getLastSelectedListIndex();
@@ -400,6 +408,9 @@ public class PlayerMenu extends Command {
         }
     }
 
+    /**
+     * Select equipment
+     */
     public void selectEquipment() {
         // Must have character to select equipments
         if (player.getCharacter() != null) {
@@ -412,7 +423,6 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().setOption(1, "Equip");
                 getMythArenaGui().setOption(2, "Cancel");
                 getMythArenaGui().setOption(3, "Next");
-
                 // List of weapons, indicating types, offense and defense.
                 ArrayList<String> listWeapons = new ArrayList<>();
                 getMythArenaGui().setDescription("Select your weapons. TIP: You may equip two single-handed weapons simultaneously");
@@ -422,36 +432,31 @@ public class PlayerMenu extends Command {
                 }
                 listWeapons.add("----------------------------------------------------------------------------------");
                 listWeapons.add("Current weapons:");
-
                 // List of weapon slots and their respective status (Free/Occupied)
                 int equippedWeaponCount = 0;
                 for (Equipment equippedWeapon: player.getCharacter().getEquippedWeaponArrayList()) {
                     listWeapons.add("Slot "+ (equippedWeaponCount+1) +": "+ equippedWeapon.getName());
                     equippedWeaponCount++;
                 }
-
                 int freeSlotCount = player.getCharacter().getEquippedWeaponArrayList().size();
                 while (freeSlotCount < 2) {
                     listWeapons.add("Slot "+ (freeSlotCount+1) +": Free");
                     freeSlotCount++;
                 }
-
                 getMythArenaGui().setList(listWeapons);
                 char choice = getMythArenaGui().waitEvent(30);
-
                 // Once you click next, you'll have to select your character's armor
                 if (choice == 'D') {
                     // You can't continue without equipping a weapon
-                    if(!player.getCharacter().getEquippedWeaponArrayList().isEmpty()) {
+                    if (!player.getCharacter().getEquippedWeaponArrayList().isEmpty()) {
                         getMythArenaGui().setDescription("Select your armor");
                         getMythArenaGui().setOption(0,null);
                         getMythArenaGui().setOption(1, "Equip");
                         getMythArenaGui().setOption(2, "Back");
                         getMythArenaGui().setOption(3, "Finish");
-
                         boolean isFinished = false;
                         // Make a loop. In case he selects the same armor, he can stay on this operation
-                        while(!isFinished) {
+                        while (!isFinished) {
                             // List of armors
                             ArrayList<String> listArmor = new ArrayList<>();
                             for (Equipment armor : player.getCharacter().getInventory().getArmorArrayList()) {
@@ -459,12 +464,10 @@ public class PlayerMenu extends Command {
                             }
                             listArmor.add("----------------------------------------------------------------------------------");
                             listArmor.add("Current armor:");
-
                             // Armor currently equipped
                             listArmor.add(player.getCharacter().getArmor().getName());
                             getMythArenaGui().setList(listArmor);
                             char option = getMythArenaGui().waitEvent(30);
-
                             // Once finished, we serialize the data and exit both loops
                             if (option == 'D') {
                                 try {
@@ -485,16 +488,15 @@ public class PlayerMenu extends Command {
                                 isFinished = true;
                             }
                         }
-                    }else {
+                    } else {
                         getMythArenaGui().setDescription("You must equip at least one weapon to continue");
                         getMythArenaGui().waitEvent(2);
                     }
                 } else if (choice == 'C') {
                     // Cancels operation. Goes back to menu
-                    exit = true;
-
-                    //Equip the weapon at current list index
-                }else if (choice == 'B') {
+                     exit = true;
+                //Equip the weapon at current list index
+                } else if (choice == 'B') {
                     if (!player.getCharacter().getEquippedWeaponArrayList().isEmpty()) {
                         Weapon currentWeapon = (Weapon) player.getCharacter().getEquippedWeaponArrayList().get(0);
                         // if character has weapon, we must check if he's holding a two-handed weapon. If it is the case, he can't equip any more weapons unless he unequips said weapon.
@@ -513,7 +515,7 @@ public class PlayerMenu extends Command {
                                             player.getCharacter().getEquippedWeaponArrayList().set(1, player.getCharacter().getEquippedWeaponArrayList().get(0));
                                             player.getCharacter().getEquippedWeaponArrayList().set(0, player.getCharacter().getInventory().getWeaponArrayList().get(listIndex));
                                         }
-                                    }else {
+                                    } else {
                                         getMythArenaGui().setDescription("You must unequip your weapon to use a two-handed weapon!");
                                         getMythArenaGui().waitEvent(2);
                                     }
@@ -523,7 +525,7 @@ public class PlayerMenu extends Command {
                             getMythArenaGui().setDescription("You currently have a two-handed weapon equipped. You can only use two single-handers for dual-wielding");
                             getMythArenaGui().waitEvent(5);
                         }
-                    }else {
+                    } else {
                         // If no equipped weapons, we add weapon at index 0
                         int listIndex = getMythArenaGui().getLastSelectedListIndex();
                         // Has to select a valid Weapon. Anything below index 2 are not on the real list. Must select weapon from list to equip.
@@ -533,12 +535,12 @@ public class PlayerMenu extends Command {
                             player.getCharacter().getEquippedWeaponArrayList().add(weapon);
                         }
                     }
-                }else if(choice == 'A') {
+                } else if(choice == 'A') {
                     // Unequip all weapons. Why? I dont know how to do it one by one. It complicates it a lot.
                     player.getCharacter().getEquippedWeaponArrayList().clear();
                 }
             }
-        }else {
+        } else {
             getMythArenaGui().setDescription("No character found");
             getMythArenaGui().waitEvent(3);
         }
