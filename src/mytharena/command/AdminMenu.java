@@ -662,32 +662,8 @@ public class AdminMenu extends Command {
                     StringBuilder notValid = new StringBuilder();
                     StringBuilder outBounds = new StringBuilder();
                     StringBuilder modified = new StringBuilder();
-                    // attackModifier
-                    if (!Objects.equals(value1, "")) {
-                        String value1Info = "AttackModifier ";
-                        if (super.getArena().isInteger(value1)) {
-                            if (selectedPlayer.getCharacter().getAbility().setAttackModifier(Integer.parseInt(value1))) {
-                                modified.append(value1Info);
-                            } else {
-                                outBounds.append(value1Info);
-                            }
-                        } else {
-                            notValid.append(value1Info);
-                        }
-                    }
-                    // defenseModifier
-                    if (!Objects.equals(value2, "")) {
-                        String value2Info = "DefenseModifier ";
-                        if (super.getArena().isInteger(value2)) {
-                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value2))) {
-                                modified.append(value2Info);
-                            } else {
-                                outBounds.append(value2Info);
-                            }
-                        } else {
-                            notValid.append(value2Info);
-                        }
-                    }
+                    // attackModifier & defenseModifier
+                    this.generalAbility(selectedPlayer, value1, value2, notValid, outBounds, modified);
                     exit = this.serializeMultiple(notValid, outBounds, modified);
                 }
             }
@@ -718,32 +694,8 @@ public class AdminMenu extends Command {
                     StringBuilder notValid = new StringBuilder();
                     StringBuilder outBounds = new StringBuilder();
                     StringBuilder modified = new StringBuilder();
-                    // attackModifier
-                    if (!Objects.equals(value1, "")) {
-                        String value1Info = "AttackModifier ";
-                        if (super.getArena().isInteger(value1)) {
-                            if (selectedPlayer.getCharacter().getAbility().setAttackModifier(Integer.parseInt(value1))) {
-                                modified.append(value1Info);
-                            } else {
-                                outBounds.append(value1Info);
-                            }
-                        } else {
-                            notValid.append(value1Info);
-                        }
-                    }
-                    // defenseModifier
-                    if (!Objects.equals(value2, "")) {
-                        String value2Info = "DefenseModifier ";
-                        if (super.getArena().isInteger(value2)) {
-                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value2))) {
-                                modified.append(value2Info);
-                            } else {
-                                outBounds.append(value2Info);
-                            }
-                        } else {
-                            notValid.append(value2Info);
-                        }
-                    }
+                    // attackModifier & defenseModifier
+                    this.generalAbility(selectedPlayer, value1, value2, notValid, outBounds, modified);
                     // cost
                     if (!Objects.equals(value3, "")) {
                         String value3Info = "Cost ";
@@ -787,32 +739,8 @@ public class AdminMenu extends Command {
                     StringBuilder notValid = new StringBuilder();
                     StringBuilder outBounds = new StringBuilder();
                     StringBuilder modified = new StringBuilder();
-                    // attackModifier
-                    if (!Objects.equals(value1, "")) {
-                        String value1Info = "AttackModifier ";
-                        if (super.getArena().isInteger(value1)) {
-                            if (selectedPlayer.getCharacter().getAbility().setAttackModifier(Integer.parseInt(value1))) {
-                                modified.append(value1Info);
-                            } else {
-                                outBounds.append(value1Info);
-                            }
-                        } else {
-                            notValid.append(value1Info);
-                        }
-                    }
-                    // defenseModifier
-                    if (!Objects.equals(value2, "")) {
-                        String value2Info = "DefenseModifier ";
-                        if (super.getArena().isInteger(value2)) {
-                            if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value2))) {
-                                modified.append(value2Info);
-                            } else {
-                                outBounds.append(value2Info);
-                            }
-                        } else {
-                            notValid.append(value2Info);
-                        }
-                    }
+                    // attackModifier & defenseModifier
+                    this.generalAbility(selectedPlayer, value1, value2, notValid, outBounds, modified);
                     // rageMin
                     if (!Objects.equals(value3, "")) {
                         String value3Info = "RageMin ";
@@ -828,6 +756,44 @@ public class AdminMenu extends Command {
                     }
                     exit = this.serializeMultiple(notValid, outBounds, modified);
                 }
+            }
+        }
+    }
+
+    /**
+     * General ability tool for ability editors
+     * @param selectedPlayer Player selectedPlayer
+     * @param value1 String value1
+     * @param value2 String value2
+     * @param notValid StringBuilder notValid
+     * @param outBounds StringBuilder outBounds
+     * @param modified StringBuilder modified
+     */
+    private void generalAbility(Player selectedPlayer, String value1, String value2, StringBuilder notValid, StringBuilder outBounds, StringBuilder modified) {
+        // attackModifier
+        if (!Objects.equals(value1, "")) {
+            String value1Info = "AttackModifier ";
+            if (super.getArena().isInteger(value1)) {
+                if (selectedPlayer.getCharacter().getAbility().setAttackModifier(Integer.parseInt(value1))) {
+                    modified.append(value1Info);
+                } else {
+                    outBounds.append(value1Info);
+                }
+            } else {
+                notValid.append(value1Info);
+            }
+        }
+        // defenseModifier
+        if (!Objects.equals(value2, "")) {
+            String value2Info = "DefenseModifier ";
+            if (super.getArena().isInteger(value2)) {
+                if (selectedPlayer.getCharacter().getAbility().setDefenseModifier(Integer.parseInt(value2))) {
+                    modified.append(value2Info);
+                } else {
+                    outBounds.append(value2Info);
+                }
+            } else {
+                notValid.append(value2Info);
             }
         }
     }
@@ -959,6 +925,10 @@ public class AdminMenu extends Command {
 
     /**
      * Serialize multiple elements
+     * @param notValid StringBuilder notValid
+     * @param outBounds StringBuilder outBounds
+     * @param modified StringBuilder modified
+     * @return boolean exit
      */
     private boolean serializeMultiple(StringBuilder notValid, StringBuilder outBounds, StringBuilder modified) {
         if (notValid.isEmpty()) {
