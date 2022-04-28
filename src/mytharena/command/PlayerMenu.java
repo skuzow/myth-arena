@@ -2,6 +2,10 @@ package mytharena.command;
 
 import mytharena.Arena;
 import mytharena.data.Data;
+import mytharena.data.character.factory.character.CharacterFactory;
+import mytharena.data.character.factory.character.hunter.HunterFactory;
+import mytharena.data.character.factory.character.vampire.VampireFactory;
+import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
@@ -266,7 +270,44 @@ public class PlayerMenu extends Command {
     }
 
     public void createCharacter() {
-        super.getArena().getCommand("CharacterCreationMenu").execute();
+        getMythArenaGui().setListMode();
+        getMythArenaGui().setOption(0,null);
+        getMythArenaGui().setOption(1,null);
+        getMythArenaGui().setOption(2,"Cancel");
+        getMythArenaGui().setOption(3,"Create");
+        getMythArenaGui().setTitle("Select the type of your new Character");
+        boolean exit = false;
+        while (!exit) {
+            ArrayList<String> characterTypes = new ArrayList<>();
+            characterTypes.add("Hunter");
+            characterTypes.add("Vampire");
+            characterTypes.add("Werewolf");
+            getMythArenaGui().setList(characterTypes);
+            CharacterFactory characterFactory = new CharacterFactory();
+            char choice = getMythArenaGui().waitEvent(30);
+            if ( choice == 'D') {
+                int index = getMythArenaGui().getLastSelectedListIndex();
+                if (index != -1) {
+                    switch (index) {
+                        case 0 -> player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
+                        case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
+                        case 2 -> player.setCharacter(characterFactory.createCharacter(new WerewolfFactory(getData())));
+                    }
+                    try {
+                        getArena().serializeData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    super.getMythArenaGui().setDescription("Character has been created!");
+                    super.getMythArenaGui().waitEvent(1);
+                    exit = true;
+                } else {
+                    getMythArenaGui().setDescription("You must select a type before continuing");
+                }
+            } else if (choice == 'C') {
+                exit = true;
+            }
+        }
     }
 
     public void challengeUser() {

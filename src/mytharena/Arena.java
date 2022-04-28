@@ -16,7 +16,6 @@ import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.character.modifier.Modifier;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.Round;
-import mytharena.data.notification.GeneralNotification;
 import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
@@ -86,7 +85,6 @@ public class Arena {
             this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
-            this.commandMap.put("CharacterCreationMenu", new CharacterCreationMenu(this, this.data, this.mythArenaGui));
             // update player bans
             this.updateBans();
             // main loop
