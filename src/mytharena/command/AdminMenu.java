@@ -296,11 +296,9 @@ public class AdminMenu extends Command {
                         try {
                             // accepted combat notification for challenged
                             pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
-                                    "Another player has challenged you to a combat",
-                                    "Challenger user: " + pendingCombat.getChallenger().getNickname() + " : " +
-                                            pendingCombat.getChallenger().getCharacter().getGold() + " gold\n" +
-                                            "Click what you want to do with it",
-                                    pendingCombat.getChallenger(), 20
+                                    pendingCombat.getChallenger().getNickname() +" wants to challenge you to a battle",
+                                    "Gold at stake for this battle: " + pendingCombat.getBet(),
+                                    pendingCombat.getChallenger(), pendingCombat.getBet()
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();
