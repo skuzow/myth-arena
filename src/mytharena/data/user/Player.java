@@ -16,6 +16,22 @@ public class Player extends User implements Serializable {
      * String nickname
      */
     private final String nickname;
+
+    /**
+     * boolean combatNotificationOn
+     */
+    private boolean subscriber;
+
+    /**
+     * int goldWonInBattle
+     */
+    private int goldWonInBattle;
+
+    /**
+     * int goldLostInBattle
+     */
+    private int goldLostInBattle;
+
     /**
      * Character character
      */
@@ -34,6 +50,8 @@ public class Player extends User implements Serializable {
     public Player(String username, String password, Data data, String nickname) {
         super(username, password, data);
         this.nickname = nickname;
+        goldLostInBattle = 0;
+        goldWonInBattle = 0;
     }
 
     /**
@@ -44,6 +62,37 @@ public class Player extends User implements Serializable {
         this.character = character;
     }
 
+    /**
+     * Sets boolean subscriber
+     * @param subscriber boolean subscriber
+     */
+    public void setSubscriber(boolean subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    /**
+     *  Sets  int goldWonInBattle
+     * @param goldWonInBattle int goldWonInBattle
+     */
+    public void setGoldWonInBattle(int goldWonInBattle) {
+        this.goldWonInBattle = goldWonInBattle;
+    }
+
+    /**
+     * Sets  int goldLostInBattle
+     * @param goldLostInBattle int goldLostInBattle
+     */
+    public void setGoldLostInBattle(int goldLostInBattle) {
+        this.goldLostInBattle = goldLostInBattle;
+    }
+
+    /**
+     * Gets boolean subscriber
+     * @return boolean subscriber
+     */
+    public boolean isSubscriber() {
+        return subscriber;
+    }
     /**
      * Gets String nickname
      * @return String nickname
@@ -58,6 +107,14 @@ public class Player extends User implements Serializable {
      */
     public Character getCharacter() {
         return this.character;
+    }
+
+    public int getGoldWonInBattle() {
+        return goldWonInBattle;
+    }
+
+    public int getGoldLostInBattle() {
+        return goldLostInBattle;
     }
 
     /**

@@ -1,6 +1,5 @@
 package mytharena.data.combat;
 
-import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.user.Player;
 
 import java.io.Serializable;
@@ -13,13 +12,10 @@ import java.util.Date;
 public class Combat implements Serializable {
 
     /**
-     * Player challenger
+     * Player loser
      */
-    private final Player challenger;
-    /**
-     * Player challenged
-     */
-    private final Player challenged;
+    private final Player loser;
+
     /**
      * Player winner
      */
@@ -37,7 +33,7 @@ public class Combat implements Serializable {
     /**
      * int obtainedGold
      */
-    private final int obtainedGold;
+    private final int bet;
     /**
      * ArrayList Minion minionSurvivorArrayList
      */
@@ -45,38 +41,28 @@ public class Combat implements Serializable {
 
     /**
      * Combat class constructor
-     * @param challenger Player challenger
-     * @param challenged Player challenged
+     * @param loser Player loser
      * @param winner Player winner
      * @param date Date date
      * @param rounds int rounds
-     * @param obtainedGold int obtainedGold
+     * @param bet int obtainedGold
      * @param playerWithMinionsLeft Player playerWithMinionsLeft
      */
-    public Combat(Player challenger, Player challenged, Player winner, Date date, ArrayList<Round> rounds, int obtainedGold, Player playerWithMinionsLeft) {
-        this.challenger = challenger;
-        this.challenged = challenged;
+    public Combat(Player winner, Player loser, Date date, ArrayList<Round> rounds, int bet, Player playerWithMinionsLeft) {
+        this.loser = loser;
         this.winner = winner;
         this.date = date;
         this.rounds = rounds;
-        this.obtainedGold = obtainedGold;
+        this.bet = bet;
         this.playerWithMinionsLeft = playerWithMinionsLeft;
     }
 
     /**
-     * Gets Player challenger
-     * @return Player challenger
+     * Gets Player loser
+     * @return Player loser
      */
-    public Player getChallenger() {
-        return this.challenger;
-    }
-
-    /**
-     * Gets Player challenged
-     * @return Player challenged
-     */
-    public Player getChallenged() {
-        return this.challenged;
+    public Player getLoser() {
+        return loser;
     }
 
     /**
@@ -107,8 +93,8 @@ public class Combat implements Serializable {
      * Gets int obtainedGold
      * @return int obtainedGold
      */
-    public int getObtainedGold() {
-        return this.obtainedGold;
+    public int getBet() {
+        return this.bet;
     }
 
     public Player getPlayerWithMinionsLeft() {
