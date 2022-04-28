@@ -30,9 +30,14 @@ public class Hunter extends Character implements Serializable {
     /**
      * Sets int will
      * @param will int will
+     * @return boolean inside bounds
      */
-    public void setWill(int will) {
-        this.will = will;
+    public boolean setWill(int will) {
+        if (will <= 3 && will >= 0) {
+            this.will = will;
+            return true;
+        }
+        return false;
     }
 
     /**

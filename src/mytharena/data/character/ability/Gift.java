@@ -27,9 +27,14 @@ public class Gift extends Ability implements Serializable {
     /**
      * Sets int rageMin
      * @param rageMin int rageMin
+     * @return boolean inside bounds
      */
-    public void setRageMin(int rageMin) {
-        this.rageMin = rageMin;
+    public boolean setRageMin(int rageMin) {
+        if (rageMin <= 3 && rageMin >= 0) {
+            this.rageMin = rageMin;
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -86,7 +86,6 @@ public class Arena {
             this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
             this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
-            this.commandMap.put("CharacterCreationMenu", new CharacterCreationMenu(this, this.data, this.mythArenaGui));
             // update player bans
             this.updateBans();
             // main loop

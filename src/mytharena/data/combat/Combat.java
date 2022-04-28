@@ -27,15 +27,13 @@ public class Combat implements Serializable {
     /**
      * int rounds
      */
-
     private final ArrayList<Round> rounds;
-
     /**
      * int obtainedGold
      */
     private final int bet;
     /**
-     * ArrayList Minion minionSurvivorArrayList
+     * Player playerWithMinionsLeft
      */
     private final Player playerWithMinionsLeft;
 
@@ -98,6 +96,7 @@ public class Combat implements Serializable {
     }
 
     public Player getPlayerWithMinionsLeft() {
-        return playerWithMinionsLeft;
+        return this.playerWithMinionsLeft;
     }
+
 }
