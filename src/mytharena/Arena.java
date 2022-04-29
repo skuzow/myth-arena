@@ -68,7 +68,7 @@ public class Arena {
             } else {
                 this.data = new Data();
                 // default admin account
-                this.data.getUserArrayList().add(new Admin("admin", "admin", this.data));
+                this.data.getUserArrayList().add(new Admin("admin", "admin123", this.data));
                 // armor pool
                 this.data.getArmorPool().add(new Armor("Platemail", 0, 2));
                 this.data.getArmorPool().add(new Armor("Chainmail", 0, 1));

@@ -8,6 +8,7 @@ import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Start class extends Command
@@ -97,8 +98,9 @@ public class StartMenu extends Command {
                     String user = super.getMythArenaGui().getFieldText(0);
                     String pass = super.getMythArenaGui().getFieldText(1);
                     String nick = super.getMythArenaGui().getFieldText(2);
-                    if (user == null || user.length() < 4 && pass == null || pass.length() < 4 && nick == null || nick.length() < 4) {
-                        super.getMythArenaGui().setDescription("All fields must be filled in to register. Fields must have at least 4 characters");
+                    int longa = pass.length();
+                    if ((Objects.equals(user, "") || user.length() < 4) || (Objects.equals(pass, "") || (pass.length() > 12 || pass.length() < 8)) || (Objects.equals(nick, "") || nick.length() < 4)) {
+                        super.getMythArenaGui().setDescription("All fields must be filled in to register. Name and Nick must be at least 4 characters and Pass 8-12");
                     } else {
                         // Check if username or nickname is taken
                         boolean isUnique = true;

@@ -139,8 +139,8 @@ public class AdminMenu extends Command {
                     String user = super.getMythArenaGui().getFieldText(0);
                     String pass = super.getMythArenaGui().getFieldText(1);
                     // checks if all fields have at least 4 characters
-                    if (user == null || user.length() < 4 && pass == null || pass.length() < 4) {
-                        super.getMythArenaGui().setDescription("All fields must be filled in to register. Fields must have at least 4 characters");
+                    if ((Objects.equals(user, "") || user.length() < 4) || (Objects.equals(pass, "") || (pass.length() > 12 || pass.length() < 8))) {
+                        super.getMythArenaGui().setDescription("All fields must be filled in to register. Name must be at least 4 characters and Pass 8-12");
                     } else {
                         // checks if username is taken
                         boolean isUnique = true;
