@@ -347,11 +347,11 @@ public class PlayerMenu extends Command {
             characterTypes.add("Vampire");
             characterTypes.add("Werewolf");
             getMythArenaGui().setList(characterTypes);
-            CharacterFactory characterFactory = new CharacterFactory();
             char choice = getMythArenaGui().waitEvent(30);
             if ( choice == 'D') {
                 int index = getMythArenaGui().getLastSelectedListIndex();
                 if (index != -1) {
+                    CharacterFactory characterFactory = new CharacterFactory();
                     switch (index) {
                         case 0 -> player.setCharacter(characterFactory.createCharacter(new HunterFactory(getData())));
                         case 1 -> player.setCharacter(characterFactory.createCharacter(new VampireFactory(getData())));
