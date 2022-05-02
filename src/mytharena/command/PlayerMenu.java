@@ -338,7 +338,8 @@ public class PlayerMenu extends Command {
         getMythArenaGui().setOption(1,null);
         getMythArenaGui().setOption(2,"Cancel");
         getMythArenaGui().setOption(3,"Create");
-        getMythArenaGui().setTitle("Select the type of your new Character");
+        getMythArenaGui().setTitle("Character Creator Tool");
+        getMythArenaGui().setDescription("Select the type of your new Character");
         boolean exit = false;
         while (!exit) {
             ArrayList<String> characterTypes = new ArrayList<>();
