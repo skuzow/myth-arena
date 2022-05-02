@@ -84,7 +84,7 @@ public class PlayerMenu extends Command {
         if (player.getCharacter() == null) {
             super.getMythArenaGui().setDescription("No character found");
             getMythArenaGui().waitEvent(3);
-        }else {
+        } else {
             boolean exit = false;
             while (!exit) {
                 getMythArenaGui().setListMode();
@@ -179,76 +179,74 @@ public class PlayerMenu extends Command {
                             }
                             exit = true;
                         }
-                        } else {
-                            getMythArenaGui().setOption(0, null);
-                            getMythArenaGui().setOption(1, null);
-                            getMythArenaGui().setOption(2, "Delete");
-                            getMythArenaGui().setOption(3, "Close");
-                            if (notification instanceof CombatResultsNotification combatResultsNotification) {
-                                ArrayList<String> combatResults = new ArrayList<>();
-                                combatResults.add(combatResultsNotification.getTitle());
-                                combatResults.add("Bet: " + combatResultsNotification.getCombat().getBet());
-                                combatResults.add("Winner: " + combatResultsNotification.getCombat().getWinner().getNickname());
-                                combatResults.add("Loser: " + combatResultsNotification.getCombat().getLoser().getNickname());
-                                combatResults.add("Date: " + combatResultsNotification.getCombat().getDate());
-                                combatResults.add("Player with minions left: " + combatResultsNotification.getCombat().getPlayerWithMinionsLeft().getNickname());
-                                combatResults.add(combatResultsNotification.getBody());
-                                for(int i = 1; i <= ((CombatResultsNotification) notification).getCombat().getRounds().size(); i++) {
-                                    combatResults.add("Round: "+ i);
-                                }
-                                getMythArenaGui().setList(combatResults);
-                                getMythArenaGui().setOption(1,"Open");
+                    } else {
+                        getMythArenaGui().setOption(0, null);
+                        getMythArenaGui().setOption(1, null);
+                        getMythArenaGui().setOption(2, "Delete");
+                        getMythArenaGui().setOption(3, "Close");
+                        if (notification instanceof CombatResultsNotification combatResultsNotification) {
+                            ArrayList<String> combatResults = new ArrayList<>();
+                            combatResults.add(combatResultsNotification.getTitle());
+                            combatResults.add("Bet: " + combatResultsNotification.getCombat().getBet());
+                            combatResults.add("Winner: " + combatResultsNotification.getCombat().getWinner().getNickname());
+                            combatResults.add("Loser: " + combatResultsNotification.getCombat().getLoser().getNickname());
+                            combatResults.add("Date: " + combatResultsNotification.getCombat().getDate());
+                            combatResults.add("Player with minions left: " + combatResultsNotification.getCombat().getPlayerWithMinionsLeft().getNickname());
+                            combatResults.add(combatResultsNotification.getBody());
+                            for(int i = 1; i <= ((CombatResultsNotification) notification).getCombat().getRounds().size(); i++) {
+                                combatResults.add("Round: "+ i);
                             }
-                            // In case the notification is of general type. Player can delete or close this notification.
-
-                            char choice = getMythArenaGui().waitEvent(30);
-                            if (choice == 'C') {
-                                player.getNotificationArrayList().remove(notification);
-                                try {
-                                    getArena().serializeData();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }else if (choice == 'B') {
-                                boolean close = false;
-                                while (!close) {
-                                    CombatResultsNotification combatResultsNotification = (CombatResultsNotification) notification;
-                                    int roundIndex = getMythArenaGui().getLastSelectedListIndex();
-                                    if (roundIndex != -1) {
-                                        if (roundIndex > 2) {
-                                            Round round = combatResultsNotification.getCombat().getRounds().get(roundIndex - 7);
-                                            int roundNumber = roundIndex - 6;
-                                            ArrayList<String> roundResults = new ArrayList<>();
-                                            roundResults.add("Round: " + roundNumber);
-                                            roundResults.add("Player 1 health: " + round.getCharacter1Health());
-                                            roundResults.add("Player 2 health: " + round.getCharacter2Health());
-                                            roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
-                                            roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
-                                            roundResults.add("Player 1 attack result: " + round.getCharacter1AttackResult() + " damage");
-                                            roundResults.add("Player 2 attack result: " + round.getCharacter2AttackResult() + " damage");
-                                            getMythArenaGui().setList(roundResults);
-                                        }
-                                        getMythArenaGui().setOption(3,"Close");
-                                        if (getMythArenaGui().waitEvent(30) == 'D') {
-                                            close = true;
-                                        }
-
-                                    } else {
-                                        getMythArenaGui().setDescription("Must select a round on the list to open!");
+                            getMythArenaGui().setList(combatResults);
+                            getMythArenaGui().setOption(1,"Open");
+                        }
+                        // In case the notification is of general type. Player can delete or close this notification.
+                        char choice = getMythArenaGui().waitEvent(30);
+                        if (choice == 'C') {
+                            player.getNotificationArrayList().remove(notification);
+                            try {
+                                getArena().serializeData();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (choice == 'B') {
+                            boolean close = false;
+                            while (!close) {
+                                CombatResultsNotification combatResultsNotification = (CombatResultsNotification) notification;
+                                int roundIndex = getMythArenaGui().getLastSelectedListIndex();
+                                if (roundIndex != -1) {
+                                    if (roundIndex > 2) {
+                                        Round round = combatResultsNotification.getCombat().getRounds().get(roundIndex - 7);
+                                        int roundNumber = roundIndex - 6;
+                                        ArrayList<String> roundResults = new ArrayList<>();
+                                        roundResults.add("Round: " + roundNumber);
+                                        roundResults.add("Player 1 health: " + round.getCharacter1Health());
+                                        roundResults.add("Player 2 health: " + round.getCharacter2Health());
+                                        roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
+                                        roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
+                                        roundResults.add("Player 1 attack result: " + round.getCharacter1AttackResult() + " damage");
+                                        roundResults.add("Player 2 attack result: " + round.getCharacter2AttackResult() + " damage");
+                                        getMythArenaGui().setList(roundResults);
                                     }
+                                    getMythArenaGui().setOption(3,"Close");
+                                    if (getMythArenaGui().waitEvent(30) == 'D') {
+                                        close = true;
+                                    }
+                                } else {
+                                    getMythArenaGui().setDescription("Must select a round on the list to open!");
                                 }
                             }
                         }
-                    } else {
-                        getMythArenaGui().setDescription("Must select an item on the list to open!");
                     }
-                } else if (option == 'C'){
-                    // Cancels operation
-                    exit = true;
-                } else if (option == 'B') {
-                    player.setSubscriber(!player.isSubscriber());
+                } else {
+                    getMythArenaGui().setDescription("Must select an item on the list to open!");
                 }
+            } else if (option == 'C'){
+                // Cancels operation
+                exit = true;
+            } else if (option == 'B') {
+                player.setSubscriber(!player.isSubscriber());
             }
+        }
     }
 
     /**
