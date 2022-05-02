@@ -245,7 +245,7 @@ public class PlayerMenu extends Command {
                 } else if (option == 'C'){
                     // Cancels operation
                     exit = true;
-                }else if (option == 'B') {
+                } else if (option == 'B') {
                     player.setSubscriber(!player.isSubscriber());
                 }
             }
@@ -486,7 +486,7 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().setDescription("Select your weapons. TIP: You may equip two single-handed weapons simultaneously");
                 for (Equipment item : player.getCharacter().getInventory().getWeaponArrayList()) {
                         Weapon weapon = (Weapon) item;
-                        listWeapons.add(weapon.getName() + "     Type: " + (weapon.isTwoHands() ? "Two-hander" : "One-hander") + "     " + "Offense: " + Integer.toString(weapon.getAttackModification()) + "     " + "Defense: " + Integer.toString(weapon.getDefenseModification()));
+                        listWeapons.add(weapon.getName() + "     Type: " + (weapon.isTwoHands() ? "Two-hander" : "One-hander") + "     " + "Offense: " + weapon.getAttackModification() + "     " + "Defense: " + weapon.getDefenseModification());
                 }
                 listWeapons.add("----------------------------------------------------------------------------------");
                 listWeapons.add("Current weapons:");
