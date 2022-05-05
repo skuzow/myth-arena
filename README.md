@@ -1,6 +1,6 @@
 # myth-arena
 
-[![license](https://img.shields.io/github/license/legendnightt/myth-arena.svg)](https://github.com/legendnightt/myth-arena/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/skuzow/myth-arena.svg)](https://github.com/skuzow/myth-arena/blob/master/LICENSE)
 
 ⚔ Fight arena game where players have their own myth creatures, mp final project.
 
@@ -10,7 +10,7 @@
 
 |            **Name**           | **Github Username** |
 |:-----------------------------:|:-------------------:|
-| Alejandro Porras Torrecilla   | legendnightt        |
+| Alejandro Porras Torrecilla   | skuzow              |
 | Gledrian Gutierrez Regala     | gutche              |
 | Ignacio Caniculo Dominguez    | nachocaniculo       |
 | Pablo Antolín Martínez        | Pbantolin12         |

@@ -279,11 +279,11 @@ public class AdminMenu extends Command {
             ArrayList<String> pendingCombatInfoArrayList = new ArrayList<>();
             for (PendingCombat pendingCombat : super.getData().getPendingCombatArrayList()) {
                 pendingCombatInfoArrayList.add(
-                        pendingCombat.getChallenger().getNickname() + " : " +
-                                pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
-                                pendingCombat.getChallenged().getNickname() + " : " +
-                                pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
-                                pendingCombat.getBet() + " gold bet"
+                    pendingCombat.getChallenger().getNickname() + " : " +
+                    pendingCombat.getChallenger().getCharacter().getGold() + " gold -> " +
+                    pendingCombat.getChallenged().getNickname() + " : " +
+                    pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                    pendingCombat.getBet() + " gold bet"
                 );
             }
             super.getMythArenaGui().setList(pendingCombatInfoArrayList);
@@ -296,9 +296,9 @@ public class AdminMenu extends Command {
                         try {
                             // accepted combat notification for challenged
                             pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
-                                    pendingCombat.getChallenger().getNickname() +" wants to challenge you to a battle",
-                                    "Gold at stake for this battle: " + pendingCombat.getBet(),
-                                    pendingCombat.getChallenger(), pendingCombat.getBet()
+                                pendingCombat.getChallenger().getNickname() +" wants to challenge you to a battle",
+                                "Gold at stake for this battle: " + pendingCombat.getBet(),
+                                pendingCombat.getChallenger(), pendingCombat.getBet()
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();
@@ -325,10 +325,10 @@ public class AdminMenu extends Command {
                             super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), unBanDate);
                             // 24h ban notification for challenger
                             pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
-                                    "Your pending combat has been denied",
-                                    "Challenged user: " + pendingCombat.getChallenged().getNickname() + " : " +
-                                            pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
-                                            "As a result you have been banned for 24h, until " + unBanDate
+                                "Your pending combat has been denied",
+                                "Challenged user: " + pendingCombat.getChallenged().getNickname() + " : " +
+                                pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
+                                "As a result you have been banned for 24h, until " + unBanDate
                             ));
                             super.getData().getPendingCombatArrayList().remove(pendingCombat);
                             super.getArena().serializeData();
