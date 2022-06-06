@@ -148,16 +148,25 @@ public class Arena {
         }
     }
 
-   public void combat(Player player1, Player player2, int bet) {
-        mythArenaGui.setCombatMode();
-        mythArenaGui.setOption(0,null);
-        mythArenaGui.setOption(1,null);
-        mythArenaGui.setHealthBar(0,5,5);
-       mythArenaGui.setHealthBar(1,5,5);
-        mythArenaGui.setCombatInfo(0,"VS");
-        mythArenaGui.setCombatInfo(1, player1.getNickname());
-        mythArenaGui.setCombatInfo(2,player2.getNickname());
-        mythArenaGui.waitEvent(2);
+    /**
+     * Combat Arena Tool
+     * @param player1 Player player1
+     * @param player2 Player player2
+     * @param bet int bet
+     * @param gui boolean gui
+     */
+    public void combat(Player player1, Player player2, int bet, boolean gui) {
+        if (gui) {
+            mythArenaGui.setCombatMode();
+            mythArenaGui.setOption(0,null);
+            mythArenaGui.setOption(1,null);
+            mythArenaGui.setHealthBar(0,5,5);
+            mythArenaGui.setHealthBar(1,5,5);
+            mythArenaGui.setCombatInfo(0,"VS");
+            mythArenaGui.setCombatInfo(1, player1.getNickname());
+            mythArenaGui.setCombatInfo(2,player2.getNickname());
+            mythArenaGui.waitEvent(2);
+        }
         Character character1 = player1.getCharacter().clone();
         Character character2 = player2.getCharacter().clone();
         Date date = new Date();
@@ -175,14 +184,16 @@ public class Arena {
         int weaponOffense2 = weaponModifierValues2[0];
         int weaponDefense2 = weaponModifierValues2[1];
 
-       // Calculate minions total health
-       int minionTotalHealth1 = calculateMinionsTotalHealth(character1.getMinionArrayList());
-       int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
+        // Calculate minions total health
+        int minionTotalHealth1 = calculateMinionsTotalHealth(character1.getMinionArrayList());
+        int minionTotalHealth2 = calculateMinionsTotalHealth(character2.getMinionArrayList());
 
         while (character1.getHealth() > 0 && character2.getHealth() > 0) {
-            mythArenaGui.setCombatInfo(0,"Round: "+ roundCount);
-            mythArenaGui.setHealthBar(0,character1.getHealth(),5);
-            mythArenaGui.setHealthBar(1,character2.getHealth(),5);
+            if (gui) {
+                mythArenaGui.setCombatInfo(0,"Round: "+ roundCount);
+                mythArenaGui.setHealthBar(0,character1.getHealth(),5);
+                mythArenaGui.setHealthBar(1,character2.getHealth(),5);
+            }
             // Calculate character 1 ability, weaknesses and strengths
             int[] values1 = calculateCharacterModifiers(character1);
             int abilityOffense1 = values1[0];
@@ -270,7 +281,9 @@ public class Arena {
                     }
                 }
             }
-            mythArenaGui.waitEvent(1);
+            if (gui) {
+                mythArenaGui.waitEvent(1);
+            }
             roundCount++;
             // If the attack did no damage then we save it as 0 in Combat class
             Round round = new Round(character1.getHealth(),character2.getHealth(),minionTotalHealth1,minionTotalHealth2,(Math.max(character1AttackResult, 0)),(Math.max(character2AttackResult, 0)));
@@ -304,8 +317,10 @@ public class Arena {
             winner.setGoldWonInBattle(winner.getGoldWonInBattle() + bet);
             loser.getCharacter().setGold(loser.getCharacter().getGold() - bet);
             loser.setGoldLostInBattle(loser.getGoldLostInBattle() + bet);
-            mythArenaGui.setCombatInfo(0,winner.getNickname() + " wins!");
-        }else {
+            if (gui) {
+                mythArenaGui.setCombatInfo(0,winner.getNickname() + " wins!");
+            }
+        } else if (gui) {
             mythArenaGui.setCombatInfo(0,"DRAW!");
         }
         if (player1.isSubscriber()) {
@@ -314,20 +329,21 @@ public class Arena {
         if (player2.isSubscriber()) {
             player2.getNotificationArrayList().add(new CombatResultsNotification("Battle vs " + player2.getNickname() + " results","Click on any of the following rounds below to see details",combat));
         }
-        mythArenaGui.setHealthBar(0,character1.getHealth(),5);
-        mythArenaGui.setHealthBar(1,character2.getHealth(),5);
-        mythArenaGui.setCombatInfo(1,null);
-        mythArenaGui.setCombatInfo(2,null);
-        mythArenaGui.setOption(1,"Exit");
-        mythArenaGui.waitEvent(10);
-
+        if (gui) {
+            mythArenaGui.setHealthBar(0,character1.getHealth(),5);
+            mythArenaGui.setHealthBar(1,character2.getHealth(),5);
+            mythArenaGui.setCombatInfo(1,null);
+            mythArenaGui.setCombatInfo(2,null);
+            mythArenaGui.setOption(1,"Exit");
+            mythArenaGui.waitEvent(10);
+        }
         try {
            serializeData();
         } catch (IOException e) {
            e.printStackTrace();
         }
+    }
 
-   }
     /**
      * Checks String str can be converted to integer
      * @param str String str
