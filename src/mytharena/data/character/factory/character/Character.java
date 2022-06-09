@@ -74,16 +74,21 @@ public abstract class Character implements Serializable, Cloneable {
         // Randomly gets 3 armor and 3 weapons
         ArrayList<Equipment> armorArrayList = new ArrayList<>();
         ArrayList<Equipment> weaponArrayList = new ArrayList<>();
-        for (int cont = 0; cont < 3; cont++) {
-            armorArrayList.add(data.getArmorPool().get(rand.nextInt(data.getArmorPool().size())));
-            weaponArrayList.add(data.getWeaponPool().get(rand.nextInt(data.getWeaponPool().size())));
+        if (data.getWeaponPool().size() > 0 && data.getArmorPool().size() > 0) {
+            for (int cont = 0; cont < 3; cont++) {
+                armorArrayList.add(data.getArmorPool().get(rand.nextInt(data.getArmorPool().size())));
+                weaponArrayList.add(data.getWeaponPool().get(rand.nextInt(data.getWeaponPool().size())));
+            }
         }
         this.setInventory(new Inventory(weaponArrayList, armorArrayList));
-        // By default, the first weapon/armor in inventory will be equipped
-        this.setArmor(getInventory().getArmorArrayList().get(0));
         ArrayList<Equipment> equippedWeaponArrayList = new ArrayList<>();
-        equippedWeaponArrayList.add(getInventory().getWeaponArrayList().get(0));
-        this.setEquippedWeaponArrayList(equippedWeaponArrayList);
+        // By default, the first weapon/armor in inventory will be equipped
+        if (getInventory().getArmorArrayList().size() > 0 && getInventory().getWeaponArrayList().size() > 0) {
+            this.setArmor(getInventory().getArmorArrayList().get(0));
+            equippedWeaponArrayList.add(getInventory().getWeaponArrayList().get(0));
+            this.setEquippedWeaponArrayList(equippedWeaponArrayList);
+        }
+
         // Get minion count
         double roll = Math.random();
         int minionsCount;

@@ -31,12 +31,12 @@ public class Vampire extends Character implements Serializable {
     public Vampire(Data data) {
         super(data);
         Random rand = new Random();
-        this.age = rand.nextInt(1000)+1;
-        this.bloodPoints = 0;
-        super.setAbility(new Discipline(rand.nextInt(3) + 1, rand.nextInt(3) + 1));
+        age = rand.nextInt(1000)+1;
+        bloodPoints = 0;
+        setAbility(new Discipline(rand.nextInt(3) + 1, rand.nextInt(3) + 1));
         ArrayList<Modifier> weaknessArrayList = new ArrayList<>();
         weaknessArrayList.add(new Modifier("Luz solar", rand.nextInt(5) + 1));
-        super.setFortitudeArrayList(weaknessArrayList);
+        setWeaknessArrayList(weaknessArrayList);
     }
 
     /**

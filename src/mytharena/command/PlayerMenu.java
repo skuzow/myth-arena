@@ -190,7 +190,7 @@ public class PlayerMenu extends Command {
                             combatResults.add("Winner: " + combatResultsNotification.getCombat().getWinner().getNickname());
                             combatResults.add("Loser: " + combatResultsNotification.getCombat().getLoser().getNickname());
                             combatResults.add("Date: " + combatResultsNotification.getCombat().getDate());
-                            combatResults.add("Player with minions left: " + combatResultsNotification.getCombat().getPlayerWithMinionsLeft().getNickname());
+                            combatResults.add("Player with minions left: " + (combatResultsNotification.getCombat().getPlayerWithMinionsLeft() == null ? "NONE" : combatResultsNotification.getCombat().getPlayerWithMinionsLeft().getNickname()));
                             combatResults.add(combatResultsNotification.getBody());
                             for(int i = 1; i <= ((CombatResultsNotification) notification).getCombat().getRounds().size(); i++) {
                                 combatResults.add("Round: "+ i);
