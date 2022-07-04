@@ -1,5 +1,6 @@
 package mytharena.data;
 
+import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
@@ -21,22 +22,27 @@ public class Data implements Serializable {
      * ArrayList User userArrayList
      */
     private final ArrayList<User> userArrayList = new ArrayList<>();
+
     /**
      * HashMap Player Date bannedPlayerMap
      */
     private final HashMap<Player, Date> bannedPlayerMap = new HashMap<>();
+
     /**
      * ArrayList Combat combatArrayList
      */
     private final ArrayList<Combat> combatArrayList = new ArrayList<>();
+
     /**
      * ArrayList PendingCombat pendingCombatArrayList
      */
     private final ArrayList<PendingCombat> pendingCombatArrayList = new ArrayList<>();
+
     /**
      * ArrayList Weapon weaponPool
      */
     private final ArrayList<Weapon> weaponPool = new ArrayList<>();
+
     /**
      * ArrayList Armor armorPool
      */
@@ -75,7 +81,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Get ArrayList Weapon weaponPool
+     * Gets ArrayList Weapon weaponPool
      * @return ArrayList Weapon weaponPool
      */
     public ArrayList<Weapon> getWeaponPool() {
@@ -83,7 +89,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * ArrayList Armor armorPool
+     * Gets ArrayList Armor armorPool
      * @return ArrayList Armor armorPool
      */
     public ArrayList<Armor> getArmorPool() {
