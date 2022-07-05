@@ -1,11 +1,10 @@
 package mytharena.data;
 
-import mytharena.data.character.Marketable;
-import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.PendingCombat;
+import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 
@@ -23,36 +22,30 @@ public class Data implements Serializable {
      * ArrayList User userArrayList
      */
     private final ArrayList<User> userArrayList = new ArrayList<>();
-
     /**
      * HashMap Player Date bannedPlayerMap
      */
     private final HashMap<Player, Date> bannedPlayerMap = new HashMap<>();
-
     /**
      * ArrayList Combat combatArrayList
      */
     private final ArrayList<Combat> combatArrayList = new ArrayList<>();
-
     /**
      * ArrayList PendingCombat pendingCombatArrayList
      */
     private final ArrayList<PendingCombat> pendingCombatArrayList = new ArrayList<>();
-
     /**
      * ArrayList Weapon weaponPool
      */
     private final ArrayList<Weapon> weaponPool = new ArrayList<>();
-
     /**
      * ArrayList Armor armorPool
      */
     private final ArrayList<Armor> armorPool = new ArrayList<>();
-
     /**
-     * ArrayList Marketable marketPool
+     * ArrayList Offer marketOffers
      */
-    private final ArrayList<ArrayList<Marketable>> marketPool = new ArrayList<>();
+    private final ArrayList<Offer> marketOffers = new ArrayList<>();
 
     /**
      * Gets ArrayList User userArrayList
@@ -102,8 +95,12 @@ public class Data implements Serializable {
         return this.armorPool;
     }
 
-    public ArrayList<ArrayList<Marketable>> getMarketPool() {
-        return marketPool;
+    /**
+     * Gets ArrayList Offer marketOffers
+     * @return ArrayListOffer marketOffers
+     */
+    public ArrayList<Offer> getMarketOffers() {
+        return this.marketOffers;
     }
 
 }
