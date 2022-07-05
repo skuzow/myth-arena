@@ -2,10 +2,13 @@ package mytharena.command;
 
 import mytharena.Arena;
 import mytharena.data.Data;
+import mytharena.data.character.Marketable;
 import mytharena.data.character.factory.character.CharacterFactory;
 import mytharena.data.character.factory.character.hunter.HunterFactory;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
 import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
+import mytharena.data.character.factory.minion.Minion;
+import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
@@ -86,8 +89,8 @@ public class PlayerMenu extends Command {
             getMythArenaGui().setDescription("Select the operation you wish to make.");
             getMythArenaGui().setOption(0, "Sell");
             getMythArenaGui().setOption(1, "Buy");
-            getMythArenaGui().setOption(2, "Back");
-            getMythArenaGui().setOption(3, null);
+            getMythArenaGui().setOption(2, "Notification settings");
+            getMythArenaGui().setOption(3, "Back");
             char option = getMythArenaGui().waitEvent(30);
 
             if (option == 'A') {
@@ -122,9 +125,21 @@ public class PlayerMenu extends Command {
                             }else if (option3 == 'B') {
                                 int index = getMythArenaGui().getLastSelectedListIndex();
                                 if (index != -1) {
-                                    if (index < player.getCharacter().getInventory().getWeaponArrayList().size()) {
+                                    int weapon_max_index = player.getCharacter().getInventory().getWeaponArrayList().size();
+                                    int armor_max_index = player.getCharacter().getInventory().getArmorArrayList().size();
+                                    if (index < weapon_max_index) {
                                         Equipment weapon = player.getCharacter().getInventory().getWeaponArrayList().get(index);
-
+                                        ArrayList<Marketable> weaponPack = new ArrayList<>();
+                                        weaponPack.add(weapon);
+                                        getData().getMarketPool().add(weaponPack);
+                                    } else if (index < armor_max_index) {
+                                        Equipment armor = player.getCharacter().getInventory().getArmorArrayList().get(index);
+                                        ArrayList<Marketable> weaponPack = new ArrayList<>();
+                                        getData().getMarketPool().add(armor);
+                                    }else {
+                                        ArrayList<Minion> minionPack = player.getCharacter().getMinionArrayList();
+                                        ArrayList<Marketable> minionPack1 = new ArrayList<>(minionPack);
+                                        getData().getMarketPool().add(minionPack1);
                                     }
                                 }else {
                                     getMythArenaGui().setDescription("You must select an item to sell");
@@ -138,8 +153,18 @@ public class PlayerMenu extends Command {
                 getMythArenaGui().setOption(0,"Notification settings");
                 getMythArenaGui().setOption(1,"Open");
                 getMythArenaGui().setOption(2,"Back");
-            }else if (option == 'C') {
+            }else if (option == 'D') {
                 exit = true;
+            }else if (option == 'C') {
+                ArrayList<String> list = new ArrayList<>();
+                list.add("Type");
+                list.add("Rarity");
+                list.add("Value");
+                list.add("Loyalty");
+                list.add("Character type");
+                list.add("Price range");
+                getMythArenaGui().setList(list);
+
             }
         }
     }
@@ -310,6 +335,11 @@ public class PlayerMenu extends Command {
                 exit = true;
             } else if (option == 'B') {
                 player.setSubscriber(!player.isSubscriber());
+                try {
+                    getArena().serializeData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

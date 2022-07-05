@@ -1,5 +1,6 @@
 package mytharena.data;
 
+import mytharena.data.character.Marketable;
 import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
@@ -49,6 +50,11 @@ public class Data implements Serializable {
     private final ArrayList<Armor> armorPool = new ArrayList<>();
 
     /**
+     * ArrayList Marketable marketPool
+     */
+    private final ArrayList<ArrayList<Marketable>> marketPool = new ArrayList<>();
+
+    /**
      * Gets ArrayList User userArrayList
      * @return ArrayList User userArrayList
      */
@@ -94,6 +100,10 @@ public class Data implements Serializable {
      */
     public ArrayList<Armor> getArmorPool() {
         return this.armorPool;
+    }
+
+    public ArrayList<ArrayList<Marketable>> getMarketPool() {
+        return marketPool;
     }
 
 }
