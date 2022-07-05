@@ -108,151 +108,144 @@ public class PlayerMenu extends Command {
                         super.getMythArenaGui().setDescription("You can't sell in the market without a character!");
                         super.getMythArenaGui().waitEvent(3);
                     } else {
-                        // copy lists for modifying inside here
-                        ArrayList<Equipment> armorList = new ArrayList<>(this.player.getCharacter().getInventory().getArmorArrayList());
-                        ArrayList<Equipment> weaponList = new ArrayList<>(this.player.getCharacter().getInventory().getWeaponArrayList());
-                        ArrayList<Minion> minionList = new ArrayList<>(this.player.getCharacter().getMinionArrayList());
-                        // pack to save in offer after
-                        ArrayList<Marketable> armorPack = new ArrayList<>();
-                        ArrayList<Marketable> weaponPack = new ArrayList<>();
-                        ArrayList<Marketable> minionPack = new ArrayList<>();
-                        int totalPrice = 0;
-                        boolean exitSell = false;
-                        while (!exitSell) {
-                            ArrayList<String> displayList = new ArrayList<>();
-                            // armors
-                            if (!armorList.isEmpty()) {
-                                for (Equipment armor: armorList) {
-                                    displayList.add(
-                                        "Armor: " + armor.getName() +
-                                        " || AttackModification: " + armor.getAttackModification() +
-                                        " || DefenseModification: " + armor.getDefenseModification()
-                                    );
-                                }
-                            }
-                            // weapons
-                            if (!weaponList.isEmpty()) {
-                                for (Equipment weapon: weaponList) {
-                                    displayList.add(
-                                        "Weapon: " + weapon.getName() +
-                                        " || AttackModification: " + weapon.getAttackModification() +
-                                        " || DefenseModification: " + weapon.getDefenseModification() +
-                                        " || TwoHands: " + ((Weapon) weapon).isTwoHands()
-                                    );
-                                }
-                            }
-                            // minions
-                            if (!minionList.isEmpty()) {
-                                displayList.add("Minions: " + minionList.size());
-                            }
-                            // list itself
-                            super.getMythArenaGui().setListMode();
-                            super.getMythArenaGui().setTitle("Choose the item you want to sell");
-                            super.getMythArenaGui().setOption(0, "Back");
-                            super.getMythArenaGui().setOption(1, "Select");
-                            super.getMythArenaGui().setList(displayList);
-                            switch(getMythArenaGui().waitEvent(30)) {
-                                case 'A' -> exitSell = true;
-                                case 'B' -> {
-                                    int index = super.getMythArenaGui().getLastSelectedListIndex();
-                                    // if item selected
-                                    if (index != -1) {
-                                        int price = marketSellPriceSelector();
-                                        if (price != -1) {
-                                            totalPrice += price;
-                                            int armorMaxIndex = armorList.size();
-                                            int weaponMaxIndex = weaponList.size();
-                                            // armor selected
-                                            if (index < armorMaxIndex) {
-                                                Equipment armor = armorList.get(index);
-                                                armorPack.add(armor);
-                                                armorList.remove(armor);
-                                                // weapon selected
-                                            } else if (index < weaponMaxIndex) {
-                                                Equipment weapon = weaponList.get(index);
-                                                weaponPack.add(weapon);
-                                                weaponList.remove(weapon);
-                                                // minion selected
-                                            } else {
-                                                minionPack = new ArrayList<>(minionList);
-                                                minionList = new ArrayList<>();
-                                            }
-                                            boolean exitConfirmation = false;
-                                            while (!exitConfirmation) {
-                                                super.getMythArenaGui().setMessageMode();
-                                                super.getMythArenaGui().setTitle("Confirmation Panel");
-                                                super.getMythArenaGui().setDescription("Do you want to continue choosing items for the offer?");
-                                                super.getMythArenaGui().setOption(0, "Exit saving offer");
-                                                super.getMythArenaGui().setOption(1, "Continue choosing");
-                                                // save offer
-                                                switch(super.getMythArenaGui().waitEvent(30)) {
-                                                    case 'A' -> {
-                                                        try {
-                                                            // create offer
-                                                            ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
-                                                            // use stuff lists because all of them are updated without items inside offer
-                                                            if (!armorPack.isEmpty()) {
-                                                                itemList.add(armorPack);
-                                                                player.getCharacter().getInventory().setArmorArrayList(armorList);
-                                                            }
-                                                            if (!weaponPack.isEmpty()) {
-                                                                itemList.add(weaponPack);
-                                                                player.getCharacter().getInventory().setWeaponArrayList(weaponList);
-                                                            }
-                                                            if (!minionPack.isEmpty()) {
-                                                                itemList.add(minionPack);
-                                                                player.getCharacter().setMinionArrayList(minionList);
-                                                            }
-                                                            super.getData().getMarketOffers().add(new Offer(player, totalPrice, itemList));
-                                                            super.getArena().serializeData();
-                                                            super.getMythArenaGui().setDescription("Offer successfully created!");
-                                                            super.getMythArenaGui().waitEvent(3);
-                                                            exitConfirmation = true;
-                                                            exitSell = true;
-                                                        } catch (IOException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                    case 'B' -> exitConfirmation = true;
-                                                }
-                                            }
-                                        }
-                                        // goes back to item list sell
-                                    } else {
-                                        getMythArenaGui().setDescription("You must select an item to sell!");
-                                    }
-                                }
-                            }
-                        }
+                        this.sellMarket();
                     }
                 }
                 // buy
                 case 'H' -> {
-                    // TODO: buy
                     // exit if no character
                     if (this.player.getCharacter() == null) {
                         super.getMythArenaGui().setDescription("You can't buy in the market without a character!");
                         super.getMythArenaGui().waitEvent(3);
                     } else {
-                        getMythArenaGui().setTitle("Choose the item you want to buy");
-                        getMythArenaGui().setOption(0,"Notification settings");
-                        getMythArenaGui().setOption(1,"Open");
-                        getMythArenaGui().setOption(2,"Back");
+                        this.buyMarket();
                     }
                 }
                 // exit
                 case 'I' -> exitMarket = true;
                 // notification settings
-                case 'J' -> {
-                    // TODO: notification settings
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add("Type");
-                    list.add("Rarity");
-                    list.add("Value");
-                    list.add("Loyalty");
-                    list.add("Character type");
-                    list.add("Price range");
-                    getMythArenaGui().setList(list);
+                case 'J' -> this.notificationMarket();
+            }
+        }
+    }
+
+    /**
+     * Sell Market
+     */
+    private void sellMarket() {
+        // copy lists for modifying inside here
+        ArrayList<Equipment> armorList = new ArrayList<>(this.player.getCharacter().getInventory().getArmorArrayList());
+        ArrayList<Equipment> weaponList = new ArrayList<>(this.player.getCharacter().getInventory().getWeaponArrayList());
+        ArrayList<Minion> minionList = new ArrayList<>(this.player.getCharacter().getMinionArrayList());
+        // pack to save in offer after
+        ArrayList<Marketable> armorPack = new ArrayList<>();
+        ArrayList<Marketable> weaponPack = new ArrayList<>();
+        ArrayList<Marketable> minionPack = new ArrayList<>();
+        int totalPrice = 0;
+        boolean exitSell = false;
+        while (!exitSell) {
+            ArrayList<String> displayList = new ArrayList<>();
+            // armors
+            if (!armorList.isEmpty()) {
+                for (Equipment armor : armorList) {
+                    displayList.add(
+                        "Armor: " + armor.getName() +
+                        " || AttackModification: " + armor.getAttackModification() +
+                        " || DefenseModification: " + armor.getDefenseModification()
+                    );
+                }
+            }
+            // weapons
+            if (!weaponList.isEmpty()) {
+                for (Equipment weapon : weaponList) {
+                    displayList.add(
+                        "Weapon: " + weapon.getName() +
+                        " || AttackModification: " + weapon.getAttackModification() +
+                        " || DefenseModification: " + weapon.getDefenseModification() +
+                        " || TwoHands: " + ((Weapon) weapon).isTwoHands()
+                    );
+                }
+            }
+            // minions
+            if (!minionList.isEmpty()) {
+                displayList.add("Minions: " + minionList.size());
+            }
+            // list itself
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Choose the item you want to sell");
+            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(1, "Select");
+            super.getMythArenaGui().setList(displayList);
+            switch (getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exitSell = true;
+                case 'B' -> {
+                    int index = super.getMythArenaGui().getLastSelectedListIndex();
+                    // if item selected
+                    if (index != -1) {
+                        int price = sellMarketPriceSelector();
+                        if (price != -1) {
+                            totalPrice += price;
+                            int armorMaxIndex = armorList.size();
+                            int weaponMaxIndex = weaponList.size();
+                            // armor selected
+                            if (index < armorMaxIndex) {
+                                Equipment armor = armorList.get(index);
+                                armorPack.add(armor);
+                                armorList.remove(armor);
+                                // weapon selected
+                            } else if (index < weaponMaxIndex) {
+                                Equipment weapon = weaponList.get(index);
+                                weaponPack.add(weapon);
+                                weaponList.remove(weapon);
+                                // minion selected
+                            } else {
+                                minionPack = new ArrayList<>(minionList);
+                                minionList = new ArrayList<>();
+                            }
+                            boolean exitConfirmation = false;
+                            while (!exitConfirmation) {
+                                super.getMythArenaGui().setMessageMode();
+                                super.getMythArenaGui().setTitle("Confirmation Panel");
+                                super.getMythArenaGui().setDescription("Do you want to continue choosing items for the offer?");
+                                super.getMythArenaGui().setOption(0, "Exit saving offer");
+                                super.getMythArenaGui().setOption(1, "Continue choosing");
+                                // save offer
+                                switch (super.getMythArenaGui().waitEvent(30)) {
+                                    case 'A' -> {
+                                        try {
+                                            // create offer
+                                            ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
+                                            // use stuff lists because all of them are updated without items inside offer
+                                            if (!armorPack.isEmpty()) {
+                                                itemList.add(armorPack);
+                                                player.getCharacter().getInventory().setArmorArrayList(armorList);
+                                            }
+                                            if (!weaponPack.isEmpty()) {
+                                                itemList.add(weaponPack);
+                                                player.getCharacter().getInventory().setWeaponArrayList(weaponList);
+                                            }
+                                            if (!minionPack.isEmpty()) {
+                                                itemList.add(minionPack);
+                                                player.getCharacter().setMinionArrayList(minionList);
+                                            }
+                                            super.getData().getMarketOffers().add(new Offer(player, totalPrice, itemList));
+                                            super.getArena().serializeData();
+                                            super.getMythArenaGui().setDescription("Offer successfully created!");
+                                            super.getMythArenaGui().waitEvent(3);
+                                            exitConfirmation = true;
+                                            exitSell = true;
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    case 'B' -> exitConfirmation = true;
+                                }
+                            }
+                        }
+                        // goes back to item list sell
+                    } else {
+                        getMythArenaGui().setDescription("You must select an item to sell!");
+                    }
                 }
             }
         }
@@ -262,7 +255,7 @@ public class PlayerMenu extends Command {
      * Market Sell Price Selector
      * @return int price
      */
-    private int marketSellPriceSelector() {
+    private int sellMarketPriceSelector() {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle("Sell price selector");
         super.getMythArenaGui().setDescription(null);
@@ -295,6 +288,30 @@ public class PlayerMenu extends Command {
             }
         }
         return -1;
+    }
+
+    /**
+     * Buy Market
+     */
+    private void buyMarket() {
+        getMythArenaGui().setTitle("Choose the item you want to buy");
+        getMythArenaGui().setOption(0,"Notification settings");
+        getMythArenaGui().setOption(1,"Open");
+        getMythArenaGui().setOption(2,"Back");
+    }
+
+    /**
+     * Notification Market
+     */
+    private void notificationMarket() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Type");
+        list.add("Rarity");
+        list.add("Value");
+        list.add("Loyalty");
+        list.add("Character type");
+        list.add("Price range");
+        getMythArenaGui().setList(list);
     }
 
     /**
