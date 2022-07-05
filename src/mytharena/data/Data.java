@@ -4,6 +4,7 @@ import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.PendingCombat;
+import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 
@@ -41,6 +42,10 @@ public class Data implements Serializable {
      * ArrayList Armor armorPool
      */
     private final ArrayList<Armor> armorPool = new ArrayList<>();
+    /**
+     * ArrayList Offer marketOffers
+     */
+    private final ArrayList<Offer> marketOffers = new ArrayList<>();
 
     /**
      * Gets ArrayList User userArrayList
@@ -75,7 +80,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Get ArrayList Weapon weaponPool
+     * Gets ArrayList Weapon weaponPool
      * @return ArrayList Weapon weaponPool
      */
     public ArrayList<Weapon> getWeaponPool() {
@@ -83,11 +88,19 @@ public class Data implements Serializable {
     }
 
     /**
-     * ArrayList Armor armorPool
+     * Gets ArrayList Armor armorPool
      * @return ArrayList Armor armorPool
      */
     public ArrayList<Armor> getArmorPool() {
         return this.armorPool;
+    }
+
+    /**
+     * Gets ArrayList Offer marketOffers
+     * @return ArrayListOffer marketOffers
+     */
+    public ArrayList<Offer> getMarketOffers() {
+        return this.marketOffers;
     }
 
 }

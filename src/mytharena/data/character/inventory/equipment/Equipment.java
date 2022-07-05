@@ -1,11 +1,13 @@
 package mytharena.data.character.inventory.equipment;
 
+import mytharena.data.character.Marketable;
+
 import java.io.Serializable;
 
 /**
  * Equipment abstract class implements Serializable
  */
-public abstract class Equipment implements Serializable {
+public abstract class Equipment extends Marketable implements Serializable {
 
     /**
      * String name
