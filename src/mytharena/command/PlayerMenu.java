@@ -8,6 +8,8 @@ import mytharena.data.character.factory.character.hunter.HunterFactory;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
 import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
 import mytharena.data.character.factory.minion.Minion;
+import mytharena.data.character.factory.minion.demon.Demon;
+import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
@@ -64,7 +66,7 @@ public class PlayerMenu extends Command {
             super.getMythArenaGui().setOption(5, "Buy/Sell items");
             super.getMythArenaGui().setOption(6, "View ranking");
             super.getMythArenaGui().setOption(7, "View notifications");
-            getMythArenaGui().setOption(8,"Log-out");
+            getMythArenaGui().setOption(8,"Logout");
             getMythArenaGui().setOption(9, null);
 
             switch (super.getMythArenaGui().waitEvent(30)) {
@@ -182,7 +184,7 @@ public class PlayerMenu extends Command {
                     int index = super.getMythArenaGui().getLastSelectedListIndex();
                     // if item selected
                     if (index != -1) {
-                        int price = itemPriceCollector();
+                        int price = itemPriceGetter();
                         if (price != -1) {
                             totalPrice += price;
                             int armorMaxIndex = armorList.size();
@@ -252,10 +254,10 @@ public class PlayerMenu extends Command {
     }
 
     /**
-     * Market Sell Price Selector
+     * Item Sell Price Getter
      * @return int price
      */
-    private int itemPriceCollector() {
+    private int itemPriceGetter() {
         super.getMythArenaGui().setFormMode();
         super.getMythArenaGui().setTitle(null);
         super.getMythArenaGui().setDescription(null);
@@ -294,10 +296,100 @@ public class PlayerMenu extends Command {
      * Buy Market
      */
     private void buyMarket() {
-        getMythArenaGui().setTitle("Choose the item you want to buy");
-        getMythArenaGui().setOption(0,"Notification settings");
-        getMythArenaGui().setOption(1,"Open");
-        getMythArenaGui().setOption(2,"Back");
+        boolean exit = false;
+        while(!exit) {
+            getMythArenaGui().setListMode();
+            getMythArenaGui().setTitle("Choose the item you want to buy");
+            getMythArenaGui().setDescription(null);
+            getMythArenaGui().setOption(0, "Back");
+            getMythArenaGui().setOption(1, "Open");
+            ArrayList<String> displayList = new ArrayList<>();
+            for (Offer offer : getData().getMarketOffers()) {
+                displayList.add("Offer price: " + offer.getPrice());
+            }
+            getMythArenaGui().setList(displayList);
+
+            switch (getMythArenaGui().waitEvent(30)) {
+                // View offer
+                case 'B' -> {
+                    int index = getMythArenaGui().getLastSelectedListIndex();
+                    if (index != -1) {
+                        boolean exitOffer = false;
+                        while(!exitOffer) {
+                            // Display contents of offer
+                            Offer offer = getData().getMarketOffers().get(index);
+                            ArrayList<String> offerList = new ArrayList<>();
+                            for (ArrayList<Marketable> pack : offer.getItemList()) {
+                                for (Marketable item : pack) {
+                                    if (item instanceof Weapon weapon) {
+                                        offerList.add("Weapon: " + weapon.getName() +
+                                                " || AttackModification: " + weapon.getAttackModification() +
+                                                " || DefenseModification: " + weapon.getDefenseModification() +
+                                                " || TwoHands: " + weapon.isTwoHands());
+                                    } else if (item instanceof Armor armor) {
+                                        offerList.add("Armor: " + armor.getName() +
+                                                " || AttackModification: " + armor.getAttackModification() +
+                                                " || DefenseModification: " + armor.getDefenseModification());
+                                    } else {
+                                        Minion minion = (Minion) item;
+                                        if (minion instanceof Demon demon) {
+                                            ArrayList<Minion> total = new ArrayList<>();
+                                            displayMinionPack(demon.getMinionArrayList(), total);
+                                            for (Minion minion1 : total) {
+                                                offerList.add("Minion type: " + minion1.getClass().toString() +
+                                                        " || Health: " + minion1.getHealth());
+                                            }
+                                        } else {
+                                            offerList.add("Minion type: " + minion.getClass().toString() +
+                                                    " || Health: " + minion.getHealth());
+                                        }
+                                    }
+                                }
+                            }
+                            getMythArenaGui().setList(offerList);
+                            getMythArenaGui().setOption(0,"Back");
+                            getMythArenaGui().setOption(1,"Buy");
+
+                            if (getMythArenaGui().waitEvent(30) == 'A') {
+                                exitOffer = true;
+                            }else {
+                                for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
+                                    if (pack.get(0) instanceof Weapon) {
+
+                                        player.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
+                                    }else if (pack.get(0) instanceof Armor) {
+                                        player.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
+                                    }else {
+                                        player.getCharacter().getMinionArrayList().addAll((ArrayList<? extends Minion>) pack);
+                                    }
+                                }
+                                getData().getMarketOffers().remove(offer);
+                                getMythArenaGui().setDescription("Purchased successfully");
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }else {
+                        getMythArenaGui().setDescription("You must select an offer to open");
+                    }
+                }
+                // exit buy market
+                case 'A' -> exit = true;
+            }
+        }
+    }
+
+    private void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
+        for (Minion minion : minionPack) {
+            if (minion instanceof Demon demon) {
+                displayMinionPack(demon.getMinionArrayList(),total);
+            }else {
+               total.add(minion);
+            }
+        }
     }
 
     /**
