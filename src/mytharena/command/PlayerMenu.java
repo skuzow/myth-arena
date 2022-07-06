@@ -175,7 +175,7 @@ public class PlayerMenu extends Command {
             // list itself
             super.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Choose the item you want to sell");
-            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(0, "Cancel");
             super.getMythArenaGui().setOption(1, "Select");
             super.getMythArenaGui().setList(displayList);
             switch (getMythArenaGui().waitEvent(30)) {
@@ -264,7 +264,7 @@ public class PlayerMenu extends Command {
         super.getMythArenaGui().setField(0, "Name a price for this item:");
         super.getMythArenaGui().setField(1, null);
         super.getMythArenaGui().setField(2, null);
-        super.getMythArenaGui().setOption(0, "Cancel");
+        super.getMythArenaGui().setOption(0, "Back");
         super.getMythArenaGui().setOption(1, "Continue");
         boolean exit = false;
         while (!exit) {
