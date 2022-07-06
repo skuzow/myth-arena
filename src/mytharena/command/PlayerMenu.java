@@ -364,6 +364,8 @@ public class PlayerMenu extends Command {
                                     }
                                 }
                                 getData().getMarketOffers().remove(offer);
+                                offer.setBuyer(player);
+                                getData().getPurchasedOffers().add(offer);
                                 getMythArenaGui().setDescription("Purchased successfully");
                                 try {
                                     getArena().serializeData();

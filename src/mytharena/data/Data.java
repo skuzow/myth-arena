@@ -48,6 +48,11 @@ public class Data implements Serializable {
     private final ArrayList<Offer> marketOffers = new ArrayList<>();
 
     /**
+     * ArrayList Offer purchasedOffers
+     */
+    private final ArrayList<Offer> purchasedOffers = new ArrayList<>();
+
+    /**
      * Gets ArrayList User userArrayList
      * @return ArrayList User userArrayList
      */
@@ -97,10 +102,17 @@ public class Data implements Serializable {
 
     /**
      * Gets ArrayList Offer marketOffers
-     * @return ArrayListOffer marketOffers
+     * @return ArrayList Offer marketOffers
      */
     public ArrayList<Offer> getMarketOffers() {
         return this.marketOffers;
     }
 
+    /**
+     * Gets ArrayList Offer purchasedOffers
+     * @return ArrayList Offer purchasedOffers
+     */
+    public ArrayList<Offer> getPurchasedOffers() {
+        return purchasedOffers;
+    }
 }
