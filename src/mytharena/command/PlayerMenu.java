@@ -188,18 +188,19 @@ public class PlayerMenu extends Command {
                         if (price != -1) {
                             totalPrice += price;
                             int armorMaxIndex = armorList.size();
-                            int weaponMaxIndex = weaponList.size();
+                            int weaponMaxIndex = weaponList.size() + armorMaxIndex;
                             // armor selected
                             if (index < armorMaxIndex) {
                                 Equipment armor = armorList.get(index);
                                 armorPack.add(armor);
                                 armorList.remove(armor);
-                                // weapon selected
+                            // weapon selected
                             } else if (index < weaponMaxIndex) {
+                                index -= armorMaxIndex;
                                 Equipment weapon = weaponList.get(index);
                                 weaponPack.add(weapon);
                                 weaponList.remove(weapon);
-                                // minion selected
+                            // minion selected
                             } else {
                                 minionPack = new ArrayList<>(minionList);
                                 minionList = new ArrayList<>();
@@ -574,6 +575,7 @@ public class PlayerMenu extends Command {
                                             getMythArenaGui().setDescription("You must select a round on the list to open!");
                                             getMythArenaGui().waitEvent(2);
                                         }
+
                                     }
                                     // Delete
                                     case 'C' -> {
