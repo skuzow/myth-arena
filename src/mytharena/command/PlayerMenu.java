@@ -353,24 +353,31 @@ public class PlayerMenu extends Command {
                             if (getMythArenaGui().waitEvent(30) == 'A') {
                                 exitOffer = true;
                             }else {
-                                for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
-                                    if (pack.get(0) instanceof Weapon) {
+                                if (offer.getPrice() <= player.getCharacter().getGold()) {
+                                    for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
+                                        if (pack.get(0) instanceof Weapon) {
 
-                                        player.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
-                                    }else if (pack.get(0) instanceof Armor) {
-                                        player.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
-                                    }else {
-                                        player.getCharacter().getMinionArrayList().addAll((ArrayList<? extends Minion>) pack);
+                                            player.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
+                                        } else if (pack.get(0) instanceof Armor) {
+                                            player.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
+                                        } else {
+                                            player.getCharacter().getMinionArrayList().addAll((ArrayList<? extends Minion>) pack);
+                                        }
                                     }
-                                }
-                                getData().getMarketOffers().remove(offer);
-                                offer.setBuyer(player);
-                                getData().getPurchasedOffers().add(offer);
-                                getMythArenaGui().setDescription("Purchased successfully");
-                                try {
-                                    getArena().serializeData();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                    getData().getMarketOffers().remove(offer);
+                                    offer.setBuyer(player);
+                                    getData().getPurchasedOffers().add(offer);
+                                    player.getCharacter().setGold(player.getCharacter().getGold()-offer.getPrice());
+                                    offer.getSeller().getCharacter().setGold(offer.getSeller().getCharacter().getGold()+offer.getPrice());
+                                    getMythArenaGui().setDescription("Purchased successfully");
+                                    try {
+                                        getArena().serializeData();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }else {
+                                    getMythArenaGui().setDescription("You don't have enough gold!");
+                                    getMythArenaGui().waitEvent(3);
                                 }
                             }
                         }
@@ -460,6 +467,7 @@ public class PlayerMenu extends Command {
                 notificationList.add(notification.getTitle());
             }
             getMythArenaGui().setList(notificationList);
+            int test = getMythArenaGui().getLastSelectedListIndex();
             // Opens notification at the current list index
             switch (getMythArenaGui().waitEvent(30)) {
                 case 'D' -> {
@@ -467,56 +475,57 @@ public class PlayerMenu extends Command {
                     // Must select an item from list for button to work
                     if (index != -1) {
                         // Display the content of notification on the screen
-                        getMythArenaGui().setTitle("Battle request");
-                        getMythArenaGui().setDescription("Note: declining a battle request will result in paying 10% of the proposed bet as penalty!");
                         Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
                         ArrayList<String> notificationContent = new ArrayList<>();
                         notificationContent.add(notification.getTitle());
                         notificationContent.add(notification.getBody());
                         getMythArenaGui().setList(notificationContent);
-                        // If notification is of type PendingCombat then Player must Accept or Decline.
+                        // Accept/Decline options added for PendingCombatNotification.
                         if (notification instanceof PendingCombatNotification pendingCombatNotification) {
+                            getMythArenaGui().setTitle("Battle request");
+                            getMythArenaGui().setDescription("Note: declining a battle request will result in paying 10% of the proposed bet as penalty!");
                             getMythArenaGui().setOption(0, "Decline");
                             getMythArenaGui().setOption(1, "Accept");
-                            getMythArenaGui().setOption(2, null);
+                            getMythArenaGui().setOption(2, "Back");
                             getMythArenaGui().setOption(3, null);
-                            switch (getMythArenaGui().waitEvent(30)) {
-                                case 'A' -> {
-                                    // If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
-                                    pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
-                                            "Your challenge request has been declined.",
-                                            player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
-                                    ));
-                                    int amount = pendingCombatNotification.getBet();
-                                    int pay = (int) (amount * 0.10);
-                                    pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
-                                    player.getCharacter().setGold(player.getCharacter().getGold() - pay);
-                                    player.getNotificationArrayList().remove(pendingCombatNotification);
-                                    try {
-                                        getArena().serializeData();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    exit = true;
+                            char c = getMythArenaGui().waitEvent(30);
+                            if (c == 'A') {// If Player declines. We must inform the challenger of this event. Player must pay 10% of the bet
+                                pendingCombatNotification.getChallenger().getNotificationArrayList().add(new GeneralNotification(
+                                        "Your challenge request has been declined.",
+                                        player.getUsername() + " has declined your challenge, therefore conceding 10% of the bet to you"
+                                ));
+                                int amount = pendingCombatNotification.getBet();
+                                int pay = (int) (amount * 0.10);
+                                pendingCombatNotification.getChallenger().getCharacter().setGold(pendingCombatNotification.getChallenger().getCharacter().getGold() + pay);
+                                player.getCharacter().setGold(player.getCharacter().getGold() - pay);
+                                player.getNotificationArrayList().remove(pendingCombatNotification);
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                                case 'B' -> {
-                                    // If player accepts. We start combat
-                                    getArena().combat(player, pendingCombatNotification.getChallenger(), pendingCombatNotification.getBet(), true);
-                                    player.getNotificationArrayList().remove(pendingCombatNotification);
-                                    try {
-                                        getArena().serializeData();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    exit = true;
+                                getMythArenaGui().setDescription("Combat declined");
+                                getMythArenaGui().waitEvent(2);
+                                exit = true;
+                            } else if (c == 'B') {// If player accepts. We start combat
+                                getArena().combat(player, pendingCombatNotification.getChallenger(), pendingCombatNotification.getBet(), true);
+                                player.getNotificationArrayList().remove(pendingCombatNotification);
+                                try {
+                                    getArena().serializeData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
+                                exit = true;
                             }
-                        } else {
-                            getMythArenaGui().setOption(0, null);
-                            getMythArenaGui().setOption(1, null);
-                            getMythArenaGui().setOption(2, "Delete");
-                            getMythArenaGui().setOption(3, "Close");
-                            if (notification instanceof CombatResultsNotification combatResultsNotification) {
+                        } else if (notification instanceof CombatResultsNotification combatResultsNotification){
+                            boolean exitResult = false;
+                            while (!exitResult) {
+                                getMythArenaGui().setTitle("Battle result");
+                                getMythArenaGui().setDescription(null);
+                                getMythArenaGui().setOption(0, null);
+                                getMythArenaGui().setOption(1, "Open");
+                                getMythArenaGui().setOption(2, "Delete");
+                                getMythArenaGui().setOption(3, "Back");
                                 ArrayList<String> combatResults = new ArrayList<>();
                                 combatResults.add(combatResultsNotification.getTitle());
                                 combatResults.add("Bet: " + combatResultsNotification.getCombat().getBet());
@@ -529,55 +538,68 @@ public class PlayerMenu extends Command {
                                     combatResults.add("Round: " + i);
                                 }
                                 getMythArenaGui().setList(combatResults);
-                                getMythArenaGui().setOption(1, "Open");
-                            }
-                            // In case the notification is of general type. Player can delete or close this notification.
-                            switch (getMythArenaGui().waitEvent(30)) {
-                                case 'C' -> {
-                                    player.getNotificationArrayList().remove(notification);
-                                    try {
-                                        getArena().serializeData();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                case 'B' -> {
-                                    boolean close = false;
-                                    while (!close) {
-                                        CombatResultsNotification combatResultsNotification = (CombatResultsNotification) notification;
-                                        int roundIndex = getMythArenaGui().getLastSelectedListIndex();
+                                switch (getMythArenaGui().waitEvent(30)) {
+                                    case 'B' -> {
+                                        int roundIndex = getMythArenaGui().getLastSelectedListIndex()-combatResults.size()+1;
                                         if (roundIndex != -1) {
-                                            if (roundIndex > 2) {
-                                                Round round = combatResultsNotification.getCombat().getRounds().get(roundIndex - 7);
-                                                int roundNumber = roundIndex - 6;
-                                                ArrayList<String> roundResults = new ArrayList<>();
-                                                roundResults.add("Round: " + roundNumber);
-                                                roundResults.add("Player 1 health: " + round.getCharacter1Health());
-                                                roundResults.add("Player 2 health: " + round.getCharacter2Health());
-                                                roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
-                                                roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
-                                                roundResults.add("Player 1 attack result: " + round.getCharacter1AttackResult() + " damage");
-                                                roundResults.add("Player 2 attack result: " + round.getCharacter2AttackResult() + " damage");
-                                                getMythArenaGui().setList(roundResults);
-                                            }
-                                            getMythArenaGui().setOption(3, "Close");
-                                            if (getMythArenaGui().waitEvent(30) == 'D') {
-                                                close = true;
-                                            }
+                                                if (roundIndex > 6) {
+                                                    boolean closeRound = false;
+                                                    while (!closeRound) {
+                                                        Round round = combatResultsNotification.getCombat().getRounds().get(roundIndex - 7);
+                                                        int roundNumber = roundIndex - 6;
+                                                        ArrayList<String> roundResults = new ArrayList<>();
+                                                        roundResults.add("Round: " + roundNumber);
+                                                        roundResults.add("Player 1 health: " + round.getCharacter1Health());
+                                                        roundResults.add("Player 2 health: " + round.getCharacter2Health());
+                                                        roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
+                                                        roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
+                                                        roundResults.add("Player 1 attack result: " + round.getCharacter1AttackResult() + " damage");
+                                                        roundResults.add("Player 2 attack result: " + round.getCharacter2AttackResult() + " damage");
+                                                        getMythArenaGui().setList(roundResults);
+                                                        getMythArenaGui().setOption(0, null);
+                                                        getMythArenaGui().setOption(1, null);
+                                                        getMythArenaGui().setOption(2, null);
+                                                        getMythArenaGui().setOption(3, "Back");
+
+                                                        // Exit round
+                                                        if (getMythArenaGui().waitEvent(30) == 'D') {
+                                                            closeRound = true;
+                                                        }
+                                                    }
+                                                } else {
+                                                    getMythArenaGui().setDescription("You must select a valid round to open!");
+                                                    getMythArenaGui().waitEvent(1);
+                                                }
                                         } else {
-                                            getMythArenaGui().setDescription("Must select a round on the list to open!");
+                                            getMythArenaGui().setDescription("You must select a round on the list to open!");
+                                            getMythArenaGui().waitEvent(2);
                                         }
                                     }
+                                    // Delete
+                                    case 'C' -> {
+                                        player.getNotificationArrayList().remove(notification);
+                                        try {
+                                            getArena().serializeData();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    // Exit notification
+                                    case 'D' -> exitResult = true;
                                 }
                             }
+                        }else {
+                            getMythArenaGui().setDescription("Hi");
                         }
                     } else {
-                        getMythArenaGui().setDescription("Must select an item on the list to open!");
+                        getMythArenaGui().setDescription("You must select an item on the list to open!");
+                        getMythArenaGui().waitEvent(1);
                     }
                 }
+                // Exit notification list
                 case 'C' ->
-                        // Cancels operation
                         exit = true;
+                // Subscribe/Unsubscribe
                 case 'B' -> {
                     player.setSubscriber(!player.isSubscriber());
                     try {

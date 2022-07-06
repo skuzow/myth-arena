@@ -158,6 +158,8 @@ public class Arena {
     public void combat(Player player1, Player player2, int bet, boolean gui) {
         if (gui) {
             mythArenaGui.setCombatMode();
+            mythArenaGui.setTitle("Combat in progress");
+            mythArenaGui.setDescription(null);
             mythArenaGui.setOption(0,null);
             mythArenaGui.setOption(1,null);
             mythArenaGui.setHealthBar(0,5,5);
@@ -327,7 +329,7 @@ public class Arena {
             player1.getNotificationArrayList().add(new CombatResultsNotification("Battle vs " + player2.getNickname() + " results","Click on any of the following rounds below to see details",combat));
         }
         if (player2.isSubscriber()) {
-            player2.getNotificationArrayList().add(new CombatResultsNotification("Battle vs " + player2.getNickname() + " results","Click on any of the following rounds below to see details",combat));
+            player2.getNotificationArrayList().add(new CombatResultsNotification("Battle vs " + player1.getNickname() + " results","Click on any of the following rounds below to see details",combat));
         }
         if (gui) {
             mythArenaGui.setHealthBar(0,character1.getHealth(),5);
