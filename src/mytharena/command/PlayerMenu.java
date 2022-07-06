@@ -3,6 +3,7 @@ package mytharena.command;
 import mytharena.Arena;
 import mytharena.data.Data;
 import mytharena.data.character.Marketable;
+import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.CharacterFactory;
 import mytharena.data.character.factory.character.hunter.HunterFactory;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
@@ -91,7 +92,7 @@ public class PlayerMenu extends Command {
         while(!exitMarket) {
             super.getMythArenaGui().setButtonMode();
             super.getMythArenaGui().setTitle("Welcome to the Market Place");
-            super.getMythArenaGui().setDescription("Select the operation you wish to make.");
+            super.getMythArenaGui().setDescription("Select the operation you wish to make");
             super.getMythArenaGui().setOption(0, null);
             super.getMythArenaGui().setOption(1, null);
             super.getMythArenaGui().setOption(2, null);
@@ -353,11 +354,10 @@ public class PlayerMenu extends Command {
 
                             if (getMythArenaGui().waitEvent(30) == 'A') {
                                 exitOffer = true;
-                            }else {
+                            } else {
                                 if (offer.getPrice() <= player.getCharacter().getGold()) {
                                     for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
                                         if (pack.get(0) instanceof Weapon) {
-
                                             player.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
                                         } else if (pack.get(0) instanceof Armor) {
                                             player.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
@@ -376,13 +376,13 @@ public class PlayerMenu extends Command {
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                }else {
+                                } else {
                                     getMythArenaGui().setDescription("You don't have enough gold!");
                                     getMythArenaGui().waitEvent(3);
                                 }
                             }
                         }
-                    }else {
+                    } else {
                         getMythArenaGui().setDescription("You must select an offer to open");
                     }
                 }
@@ -395,8 +395,8 @@ public class PlayerMenu extends Command {
     private void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
         for (Minion minion : minionPack) {
             if (minion instanceof Demon demon) {
-                displayMinionPack(demon.getMinionArrayList(),total);
-            }else {
+                displayMinionPack(demon.getMinionArrayList(), total);
+            } else {
                total.add(minion);
             }
         }
@@ -406,14 +406,136 @@ public class PlayerMenu extends Command {
      * Market notification
      */
     private void marketNotification() {
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Type");
-        list.add("Rarity");
-        list.add("Value");
-        list.add("Loyalty");
-        list.add("Character type");
-        list.add("Price range");
-        getMythArenaGui().setList(list);
+        ArrayList<String> genericDisplayList = new ArrayList<>();
+        genericDisplayList.add("Type");
+        genericDisplayList.add("Rarity");
+        genericDisplayList.add("Value");
+        genericDisplayList.add("Loyalty");
+        genericDisplayList.add("Character type");
+        genericDisplayList.add("Price range");
+        boolean exit = false;
+        while (!exit) {
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Choose a category of subscription");
+            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(1, "Select");
+            super.getMythArenaGui().setList(genericDisplayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // exit market notification
+                case 'A' -> exit = true;
+                // enter type
+                case 'B' -> {
+                    int index = super.getMythArenaGui().getLastSelectedListIndex();
+                    switch (index) {
+                        // no selected
+                        case -1 -> {
+                            super.getMythArenaGui().setDescription("You must select a category to open!");
+                            super.getMythArenaGui().waitEvent(3);
+                        }
+                        // type
+                        case 0 -> {
+                            ArrayList<String> specificList = new ArrayList<>();
+                            specificList.add("Armor");
+                            specificList.add("Weapon");
+                            specificList.add("Minion");
+                            modifyMarketNotification(specificList);
+                        }
+                        // rarity
+                        case 1 -> {
+                            ArrayList<String> specificList = new ArrayList<>();
+                            specificList.add("Legendary");
+                            specificList.add("Epic");
+                            specificList.add("Normal");
+                            modifyMarketNotification(specificList);
+                        }
+                        // value
+                        case 2 -> {
+                            // TODO: insert wanted values & make function
+                            ArrayList<String> specificList = new ArrayList<>();
+                            specificList.add("ArmorAttackModification");
+                            specificList.add("ArmorDefenseModification");
+                            specificList.add("DefenseAttackModification");
+                            specificList.add("DefenseDefenseModification");
+                            //modifyMarketNotification(specificList);
+                        }
+                        // loyalty
+                        case 3 -> {
+                            ArrayList<String> specificList = new ArrayList<>();
+                            specificList.add("Demon");
+                            specificList.add("Ghoul");
+                            specificList.add("Human");
+                            modifyMarketNotification(specificList);
+                        }
+                        // character type
+                        case 4 -> {
+                            ArrayList<String> specificList = new ArrayList<>();
+                            specificList.add("Hunter");
+                            specificList.add("Vampire");
+                            specificList.add("Werewolf");
+                            modifyMarketNotification(specificList);
+                        }
+                        // price range
+                        case 5 -> {
+                            // TODO: function for offer prince range
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Modify Market Notification
+     * @param specificList ArrayList String specificList
+     */
+    private void modifyMarketNotification(ArrayList<String> specificList) {
+        boolean exit = false;
+        while (!exit) {
+            HashSet<String> marketSubscriptionSet = player.getMarketSubscriptionSet();
+            ArrayList<String> specificDisplayList = new ArrayList<>();
+            // display subscriptions with enable or disabled
+            for (String subscription : specificList) {
+                specificDisplayList.add(subscription +
+                " || Status: " + (marketSubscriptionSet.contains(subscription) ? "Enabled" : "Disabled"));
+            }
+            super.getMythArenaGui().setTitle("Choose a type of subscription");
+            super.getMythArenaGui().setDescription(null);
+            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(1, "Toggle");
+            super.getMythArenaGui().setList(specificDisplayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                case 'A' -> exit = true;
+                case 'B' -> {
+                    int index = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (index != -1) {
+                        String chooseSubscription = specificList.get(index);
+                        // remove item / disable
+                        if (marketSubscriptionSet.contains(chooseSubscription)) {
+                            try {
+                                marketSubscriptionSet.remove(chooseSubscription);
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Successfully disabled subscription for " + chooseSubscription);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        // add item / enable
+                        } else {
+                            try {
+                                marketSubscriptionSet.add(chooseSubscription);
+                                super.getArena().serializeData();
+                                super.getMythArenaGui().setDescription("Successfully enabled subscription for " + chooseSubscription);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        super.getMythArenaGui().waitEvent(1);
+                    } else {
+                        super.getMythArenaGui().setDescription("You must select a type to open!");
+                        super.getMythArenaGui().waitEvent(3);
+                    }
+                }
+            }
+        }
     }
 
     /**

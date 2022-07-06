@@ -6,6 +6,7 @@ import mytharena.data.notification.Notification;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Player class extends User implements Serializable
@@ -16,22 +17,18 @@ public class Player extends User implements Serializable {
      * String nickname
      */
     private final String nickname;
-
     /**
-     * boolean combatNotificationOn
+     * boolean combatNotification subscriber
      */
     private boolean subscriber;
-
     /**
      * int goldWonInBattle
      */
     private int goldWonInBattle;
-
     /**
      * int goldLostInBattle
      */
     private int goldLostInBattle;
-
     /**
      * Character character
      */
@@ -40,6 +37,10 @@ public class Player extends User implements Serializable {
      * ArrayList Notification notificationArrayList
      */
     private final ArrayList<Notification> notificationArrayList = new ArrayList<>();
+    /**
+     * HashSet String marketSubscriptionSet
+     */
+    private final HashSet<String> marketSubscriptionSet = new HashSet<>();
 
     /**
      * Player class constructor extends User
@@ -50,8 +51,8 @@ public class Player extends User implements Serializable {
     public Player(String username, String password, Data data, String nickname) {
         super(username, password, data);
         this.nickname = nickname;
-        goldLostInBattle = 0;
-        goldWonInBattle = 0;
+        this.goldLostInBattle = 0;
+        this.goldWonInBattle = 0;
     }
 
     /**
@@ -71,7 +72,7 @@ public class Player extends User implements Serializable {
     }
 
     /**
-     *  Sets  int goldWonInBattle
+     * Sets int goldWonInBattle
      * @param goldWonInBattle int goldWonInBattle
      */
     public void setGoldWonInBattle(int goldWonInBattle) {
@@ -79,7 +80,7 @@ public class Player extends User implements Serializable {
     }
 
     /**
-     * Sets  int goldLostInBattle
+     * Sets int goldLostInBattle
      * @param goldLostInBattle int goldLostInBattle
      */
     public void setGoldLostInBattle(int goldLostInBattle) {
@@ -91,8 +92,18 @@ public class Player extends User implements Serializable {
      * @return boolean subscriber
      */
     public boolean isSubscriber() {
-        return subscriber;
+        return this.subscriber;
     }
+
+    /**
+     * Checks if player is subscribed to specific subscription
+     * @param subscription String subscription
+     * @return boolean subscribed
+     */
+    public boolean isMarketSubscriber(String subscription) {
+        return this.marketSubscriptionSet.contains(subscription);
+    }
+
     /**
      * Gets String nickname
      * @return String nickname
@@ -109,12 +120,20 @@ public class Player extends User implements Serializable {
         return this.character;
     }
 
+    /**
+     * Gets int goldWonInBattle
+     * @return int goldWonInBattle
+     */
     public int getGoldWonInBattle() {
-        return goldWonInBattle;
+        return this.goldWonInBattle;
     }
 
+    /**
+     * Gets int goldLostInBattle
+     * @return int goldLostInBattle
+     */
     public int getGoldLostInBattle() {
-        return goldLostInBattle;
+        return this.goldLostInBattle;
     }
 
     /**
@@ -123,6 +142,14 @@ public class Player extends User implements Serializable {
      */
     public ArrayList<Notification> getNotificationArrayList() {
         return this.notificationArrayList;
+    }
+
+    /**
+     * Gets HashSet String marketSubscriptionSet
+     * @return HashSet String marketSubscriptionSet
+     */
+    public HashSet<String> getMarketSubscriptionSet() {
+        return this.marketSubscriptionSet;
     }
 
 }
