@@ -3,6 +3,7 @@ package mytharena.data.user;
 import mytharena.data.Data;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.notification.Notification;
+import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,22 +17,18 @@ public class Player extends User implements Serializable {
      * String nickname
      */
     private final String nickname;
-
     /**
-     * boolean combatNotificationOn
+     * boolean combatNotification subscriber
      */
     private boolean subscriber;
-
     /**
      * int goldWonInBattle
      */
     private int goldWonInBattle;
-
     /**
      * int goldLostInBattle
      */
     private int goldLostInBattle;
-
     /**
      * Character character
      */
@@ -40,6 +37,10 @@ public class Player extends User implements Serializable {
      * ArrayList Notification notificationArrayList
      */
     private final ArrayList<Notification> notificationArrayList = new ArrayList<>();
+    /**
+     * JSONObject marketSubscriptions
+     */
+    private final JSONObject marketSubscriptions;
 
     /**
      * Player class constructor extends User
@@ -50,8 +51,10 @@ public class Player extends User implements Serializable {
     public Player(String username, String password, Data data, String nickname) {
         super(username, password, data);
         this.nickname = nickname;
-        goldLostInBattle = 0;
-        goldWonInBattle = 0;
+        this.goldLostInBattle = 0;
+        this.goldWonInBattle = 0;
+        // marketSubscriptions init with default values
+        this.marketSubscriptions = data.getDefaultMarketSubscriptions();
     }
 
     /**
@@ -71,7 +74,7 @@ public class Player extends User implements Serializable {
     }
 
     /**
-     *  Sets  int goldWonInBattle
+     * Sets int goldWonInBattle
      * @param goldWonInBattle int goldWonInBattle
      */
     public void setGoldWonInBattle(int goldWonInBattle) {
@@ -79,7 +82,7 @@ public class Player extends User implements Serializable {
     }
 
     /**
-     * Sets  int goldLostInBattle
+     * Sets int goldLostInBattle
      * @param goldLostInBattle int goldLostInBattle
      */
     public void setGoldLostInBattle(int goldLostInBattle) {
@@ -91,8 +94,9 @@ public class Player extends User implements Serializable {
      * @return boolean subscriber
      */
     public boolean isSubscriber() {
-        return subscriber;
+        return this.subscriber;
     }
+
     /**
      * Gets String nickname
      * @return String nickname
@@ -109,12 +113,20 @@ public class Player extends User implements Serializable {
         return this.character;
     }
 
+    /**
+     * Gets int goldWonInBattle
+     * @return int goldWonInBattle
+     */
     public int getGoldWonInBattle() {
-        return goldWonInBattle;
+        return this.goldWonInBattle;
     }
 
+    /**
+     * Gets int goldLostInBattle
+     * @return int goldLostInBattle
+     */
     public int getGoldLostInBattle() {
-        return goldLostInBattle;
+        return this.goldLostInBattle;
     }
 
     /**
@@ -123,6 +135,13 @@ public class Player extends User implements Serializable {
      */
     public ArrayList<Notification> getNotificationArrayList() {
         return this.notificationArrayList;
+    }
+
+    /**
+     * Gets JSONObject marketSubscriptions
+     */
+    public JSONObject getMarketSubscriptions() {
+        return this.marketSubscriptions;
     }
 
 }

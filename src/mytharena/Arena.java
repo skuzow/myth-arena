@@ -21,6 +21,7 @@ import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,11 +76,11 @@ public class Arena {
                 this.data.getArmorPool().add(new Armor("Blademail", 3, 2));
                 this.data.getArmorPool().add(new Armor("Cuirass", 0, 3));
                 // weapon pool
-                this.data.getWeaponPool().add(new Weapon("Broadsword", 1, 0, false));
-                this.data.getWeaponPool().add(new Weapon("Claymore", 1, 1, false));
-                this.data.getWeaponPool().add(new Weapon("Katana", 2, 0, false));
-                this.data.getWeaponPool().add(new Weapon("Axe", 2, 2, true));
-                this.data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false));
+                this.data.getWeaponPool().add(new Weapon("Broadsword", 1, 0, false, "Normal"));
+                this.data.getWeaponPool().add(new Weapon("Claymore", 1, 1, false, "Epic"));
+                this.data.getWeaponPool().add(new Weapon("Katana", 2, 0, false, "Legendary"));
+                this.data.getWeaponPool().add(new Weapon("Axe", 2, 2, true, "Normal"));
+                this.data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
                 this.serializeData();
             }
             // create commands and insert them into commandMap with respective key

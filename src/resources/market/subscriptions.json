@@ -1,0 +1,34 @@
+{
+  "Type": {
+    "Armor": false,
+    "Weapon": false,
+    "Minion": false
+  },
+  "Rarity": {
+    "Legendary": false,
+    "Epic": false,
+    "Normal": false
+  },
+  "Minion": {
+    "Demon": false,
+    "Ghoul": false,
+    "Human": false
+  },
+  "Character": {
+    "Hunter": false,
+    "Vampire": false,
+    "Werewolf": false
+  },
+  "Value": {
+    "Armor": {
+      "AttackModification": -1,
+      "DefenseModification": -1
+    },
+    "Weapon": {
+      "AttackModification": -1,
+      "DefenseModification": -1
+    }
+  },
+  "Loyalty": -1,
+  "Price": [0, -1]
+}
