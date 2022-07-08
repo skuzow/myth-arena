@@ -590,7 +590,7 @@ public class AdminMenu extends Command {
                             notValid.append(value2Info);
                         }
                     }
-                    exit = this.serializeMultiple(notValid, outBounds, modified);
+                    exit = super.getArena().serializeMultiple(notValid, outBounds, modified);
                 }
             }
         }
@@ -662,7 +662,7 @@ public class AdminMenu extends Command {
                     StringBuilder modified = new StringBuilder();
                     // attackModifier & defenseModifier
                     this.generalAbility(selectedPlayer, value1, value2, notValid, outBounds, modified);
-                    exit = this.serializeMultiple(notValid, outBounds, modified);
+                    exit = super.getArena().serializeMultiple(notValid, outBounds, modified);
                 }
             }
         }
@@ -707,7 +707,7 @@ public class AdminMenu extends Command {
                             notValid.append(value3Info);
                         }
                     }
-                    exit = this.serializeMultiple(notValid, outBounds, modified);
+                    exit = super.getArena().serializeMultiple(notValid, outBounds, modified);
                 }
             }
         }
@@ -752,7 +752,7 @@ public class AdminMenu extends Command {
                             notValid.append(value3Info);
                         }
                     }
-                    exit = this.serializeMultiple(notValid, outBounds, modified);
+                    exit = super.getArena().serializeMultiple(notValid, outBounds, modified);
                 }
             }
         }
@@ -919,36 +919,6 @@ public class AdminMenu extends Command {
                 }
             }
         }
-    }
-
-    /**
-     * Serialize multiple elements
-     * @param notValid StringBuilder notValid
-     * @param outBounds StringBuilder outBounds
-     * @param modified StringBuilder modified
-     * @return boolean exit
-     */
-    private boolean serializeMultiple(StringBuilder notValid, StringBuilder outBounds, StringBuilder modified) {
-        if (notValid.isEmpty()) {
-            if (outBounds.isEmpty()) {
-                try {
-                    super.getArena().serializeData();
-                    super.getMythArenaGui().setDescription(modified + "value changed successfully!");
-                    super.getMythArenaGui().clearFieldText(0);
-                    super.getMythArenaGui().clearFieldText(1);
-                    super.getMythArenaGui().clearFieldText(2);
-                    super.getMythArenaGui().waitEvent(1);
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                super.getMythArenaGui().setDescription(outBounds + "have values out of bounds!");
-            }
-        } else {
-            super.getMythArenaGui().setDescription(notValid + "have not valid values");
-        }
-        return false;
     }
 
 }

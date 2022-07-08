@@ -150,6 +150,36 @@ public class Arena {
     }
 
     /**
+     * Serialize multiple elements
+     * @param notValid StringBuilder notValid
+     * @param outBounds StringBuilder outBounds
+     * @param modified StringBuilder modified
+     * @return boolean exit
+     */
+    public boolean serializeMultiple(StringBuilder notValid, StringBuilder outBounds, StringBuilder modified) {
+        if (notValid.isEmpty()) {
+            if (outBounds.isEmpty()) {
+                try {
+                    this.serializeData();
+                    this.mythArenaGui.setDescription(modified + "value changed successfully!");
+                    this.mythArenaGui.clearFieldText(0);
+                    this.mythArenaGui.clearFieldText(1);
+                    this.mythArenaGui.clearFieldText(2);
+                    this.mythArenaGui.waitEvent(1);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.mythArenaGui.setDescription(outBounds + "have values out of bounds!");
+            }
+        } else {
+            this.mythArenaGui.setDescription(notValid + "have not valid values");
+        }
+        return false;
+    }
+
+    /**
      * Combat Arena Tool
      * @param player1 Player player1
      * @param player2 Player player2
