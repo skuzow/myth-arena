@@ -3,7 +3,6 @@ package mytharena.command;
 import mytharena.Arena;
 import mytharena.data.Data;
 import mytharena.data.character.Marketable;
-import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.CharacterFactory;
 import mytharena.data.character.factory.character.hunter.HunterFactory;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
@@ -24,6 +23,7 @@ import mytharena.data.notification.PendingCombatNotification;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -326,13 +326,15 @@ public class PlayerMenu extends Command {
                                 for (Marketable item : pack) {
                                     if (item instanceof Weapon weapon) {
                                         offerList.add("Weapon: " + weapon.getName() +
-                                                " || AttackModification: " + weapon.getAttackModification() +
-                                                " || DefenseModification: " + weapon.getDefenseModification() +
-                                                " || TwoHands: " + weapon.isTwoHands());
+                                            " || AttackModification: " + weapon.getAttackModification() +
+                                            " || DefenseModification: " + weapon.getDefenseModification() +
+                                            " || TwoHands: " + weapon.isTwoHands()
+                                        );
                                     } else if (item instanceof Armor armor) {
                                         offerList.add("Armor: " + armor.getName() +
-                                                " || AttackModification: " + armor.getAttackModification() +
-                                                " || DefenseModification: " + armor.getDefenseModification());
+                                            " || AttackModification: " + armor.getAttackModification() +
+                                            " || DefenseModification: " + armor.getDefenseModification()
+                                        );
                                     } else {
                                         Minion minion = (Minion) item;
                                         if (minion instanceof Demon demon) {
@@ -340,11 +342,13 @@ public class PlayerMenu extends Command {
                                             displayMinionPack(demon.getMinionArrayList(), total);
                                             for (Minion minion1 : total) {
                                                 offerList.add("Minion type: " + minion1.getClass().toString() +
-                                                        " || Health: " + minion1.getHealth());
+                                                    " || Health: " + minion1.getHealth()
+                                                );
                                             }
                                         } else {
                                             offerList.add("Minion type: " + minion.getClass().toString() +
-                                                    " || Health: " + minion.getHealth());
+                                                " || Health: " + minion.getHealth()
+                                            );
                                         }
                                     }
                                 }
@@ -393,6 +397,11 @@ public class PlayerMenu extends Command {
         }
     }
 
+    /**
+     * Displays minion pack recursive
+     * @param minionPack ArrayList Minion minionPack
+     * @param total ArrayList Minion total
+     */
     private void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
         for (Minion minion : minionPack) {
             if (minion instanceof Demon demon) {
@@ -472,15 +481,16 @@ public class PlayerMenu extends Command {
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("AttackModification");
                             specificList.add("DefenseModification");
-                            //modifyMarketNotification(specificList);
+                            HashMap<String, ArrayList<String>> complexMap = new HashMap<>();
+                            complexMap.put("Armor", specificList);
+                            complexMap.put("Weapon", specificList);
+                            this.longModifyMarketNotificationMap(genericDisplayList.get(index), complexMap);
                         }
-                        // loyalty
-                        case 5 -> {
-                            // TODO: function for human minion loyalty number
-                        }
-                        // price range
-                        case 6 -> {
-                            // TODO: function for offer prince range
+                        // loyalty, price range
+                        case 5, 6 -> {
+                            // TODO: function for human minion loyalty number <- loyalty
+                            // TODO: function for offer prince range <- price range
+                            //this.intModifyMarketNotification(genericDisplayList.get(index), null);
                         }
                     }
                 }
@@ -496,12 +506,13 @@ public class PlayerMenu extends Command {
     private void boolModifyMarketNotification(String category, ArrayList<String> specificList) {
         boolean exit = false;
         while (!exit) {
-            JSONObject playerCategorySubscriptions = player.getMarketSubscriptions(category);
+            JSONObject playerCategorySubscriptions = (JSONObject) player.getMarketSubscriptions().get(category);
             ArrayList<String> specificDisplayList = new ArrayList<>();
             // display subscriptions with enable or disabled
             for (String subscription : specificList) {
                 specificDisplayList.add(subscription +
-                " || Status: " + ((boolean) playerCategorySubscriptions.get(subscription) ? "Enabled" : "Disabled"));
+                    " || Status: " + ((boolean) playerCategorySubscriptions.get(subscription) ? "Enabled" : "Disabled")
+                );
             }
             super.getMythArenaGui().setTitle("Choose a type of subscription");
             super.getMythArenaGui().setDescription(null);
@@ -542,6 +553,222 @@ public class PlayerMenu extends Command {
             }
         }
     }
+
+    /**
+     * Long Modify Market Notification Map
+     * @param category String category
+     * @param complexMap HashMap String ArrayList String
+     */
+    private void longModifyMarketNotificationMap(String category, HashMap<String, ArrayList<String>> complexMap) {
+        boolean exitList = false;
+        while (!exitList) {
+            JSONObject playerCategorySubscriptions = (JSONObject) player.getMarketSubscriptions().get(category);
+            ArrayList<String> specificDisplayList;
+            // display subscriptions
+            specificDisplayList = this.iterateMap(playerCategorySubscriptions, complexMap);
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Choose a type of subscription");
+            super.getMythArenaGui().setDescription(null);
+            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(1, "Modify");
+            super.getMythArenaGui().setList(specificDisplayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // exit
+                case 'A' -> exitList = true;
+                // enter form mode to modify value
+                case 'B' -> {
+                    int index = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (index != -1) {
+                        boolean exitField = false;
+                        while (!exitField) {
+                            super.getMythArenaGui().setFormMode();
+                            super.getMythArenaGui().setTitle("Modify values you want to change");
+                            super.getMythArenaGui().setDescription("To disable a subscription set it to -1");
+                            super.getMythArenaGui().setField(0, specificDisplayList.get(index));
+                            super.getMythArenaGui().setField(1, null);
+                            super.getMythArenaGui().setField(2, null);
+                            switch (super.getMythArenaGui().waitEvent(30)) {
+                                case 'A' -> exitField = true;
+                                case 'B' -> {
+                                    String fieldValueString = super.getMythArenaGui().getFieldText(0);
+                                    if (super.getArena().isInteger(fieldValueString) && Integer.parseInt(fieldValueString) >= -1) {
+                                        long lastValue = this.getValueIterateMap(playerCategorySubscriptions, complexMap, index);
+                                        long fieldValue = Long.parseLong(fieldValueString);
+                                        try {
+                                            this.setValueIterateMap(playerCategorySubscriptions, complexMap, index, fieldValue);
+                                            super.getMythArenaGui().clearFieldText(0);
+                                            super.getArena().serializeData();
+                                            if (lastValue == -1) {
+                                                super.getMythArenaGui().setDescription("Successfully disabled subscription");
+                                            } else {
+                                                super.getMythArenaGui().setDescription("Successfully enabled subscription with " + fieldValue  + " value");
+                                            }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        // update display
+                                        specificDisplayList = this.iterateMap(playerCategorySubscriptions, complexMap);
+                                        super.getMythArenaGui().waitEvent(1);
+                                    } else {
+                                        super.getMythArenaGui().setDescription("Invalid value");
+                                        super.getMythArenaGui().clearFieldText(0);
+                                        super.getMythArenaGui().waitEvent(3);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("You must select a type to open!");
+                        super.getMythArenaGui().waitEvent(3);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Iterates map given and generate specificDisplayList with map inside values
+     * @param playerCategorySubscriptions JSONObject playerCategorySubscriptions
+     * @param complexMap HashMap String ArrayList String complexMap
+     * @return specificDisplayList ArrayList String specificDisplayList
+     */
+    private ArrayList<String> iterateMap(JSONObject playerCategorySubscriptions, HashMap<String, ArrayList<String>> complexMap) {
+        ArrayList<String> specificDisplayList = new ArrayList<>();
+        for (Map.Entry<String, ArrayList<String>> entry : complexMap.entrySet()) {
+            String key = entry.getKey();
+            JSONObject deepPlayerCategorySubscriptions = (JSONObject) playerCategorySubscriptions.get(key);
+            for (String subscription : entry.getValue()) {
+                long subscriptionValue = (long) deepPlayerCategorySubscriptions.get(subscription);
+                specificDisplayList.add(key + " : " + subscription +
+                    " || Status: " + (subscriptionValue != -1 ? subscriptionValue : "Disabled")
+                );
+            }
+        }
+        return specificDisplayList;
+    }
+
+    /**
+     * Gets value Iterating given map
+     * @param playerCategorySubscriptions JSONObject playerCategorySubscriptions
+     * @param complexMap HashMap String ArrayList String complexMap
+     * @param index int index
+     */
+    private long getValueIterateMap(JSONObject playerCategorySubscriptions, HashMap<String, ArrayList<String>> complexMap, int index) {
+        int cont = 0;
+        for (Map.Entry<String, ArrayList<String>> entry : complexMap.entrySet()) {
+            JSONObject deepPlayerCategorySubscriptions = (JSONObject) playerCategorySubscriptions.get(entry.getKey());
+            for (String subscription : entry.getValue()) {
+                if (cont == index) return (long) deepPlayerCategorySubscriptions.get(subscription);
+                cont++;
+            }
+        }
+        return -2;
+    }
+
+    /**
+     * Sets value Iterating given map
+     * @param playerCategorySubscriptions JSONObject playerCategorySubscriptions
+     * @param complexMap HashMap String ArrayList String complexMap
+     * @param index int index
+     * @param value long value
+     */
+    private void setValueIterateMap(JSONObject playerCategorySubscriptions, HashMap<String, ArrayList<String>> complexMap, int index, long value) {
+        int cont = 0;
+        for (Map.Entry<String, ArrayList<String>> entry : complexMap.entrySet()) {
+            JSONObject deepPlayerCategorySubscriptions = (JSONObject) playerCategorySubscriptions.get(entry.getKey());
+            for (String subscription : entry.getValue()) {
+                if (cont == index) {
+                    deepPlayerCategorySubscriptions.put(subscription, value);
+                    return;
+                }
+                cont++;
+            }
+        }
+    }
+
+    /**
+     * Integer Modify Market Notification
+     * @param category String category
+     * @param complexMap HashMap String ArrayList String
+     */
+    /*
+    private void intModifyMarketNotification(String category, HashMap<String, ArrayList<String>> complexMap) {
+        boolean exit = false;
+        while (!exit) {
+            ArrayList<String> specificDisplayList = new ArrayList<>();
+            // display subscriptions
+            // map
+            if (complexMap != null) {
+                JSONObject playerCategorySubscriptions = (JSONObject) player.getMarketSubscriptions().get(category);
+                for (Map.Entry<String, ArrayList<String>> entry : complexMap.entrySet()) {
+                    String key = entry.getKey();
+                    JSONObject deepPlayerCategorySubscriptions = (JSONObject) playerCategorySubscriptions.get(key);
+                    for (String subscription : entry.getValue()) {
+                        int subscriptionValue = (int) deepPlayerCategorySubscriptions.get(subscription);
+                        specificDisplayList.add(key + " : " + subscription +
+                            " || Status: " + (subscriptionValue != -1 ? subscriptionValue : "Disabled")
+                        );
+                    }
+                }
+            // list
+            } else if (Objects.equals(category, "Price")) {
+                JSONArray playerCategorySubscriptions = (JSONArray) player.getMarketSubscriptions().get(category);
+                Iterator<Integer> iterator = playerCategorySubscriptions.iterator();
+                int contValue = 0;
+                while (iterator.hasNext()) {
+                    int value = iterator.next();
+                    String subscriptionValue = value != -1 ? String.valueOf(value) : "Disabled";
+                    specificDisplayList.add(category + " || Status: " + subscriptionValue + (contValue == 0 ? " min" : " max"));
+                    contValue++;
+                }
+            // int
+            } else {
+                int playerCategorySubscription = (Integer) player.getMarketSubscriptions().get(category);
+                specificDisplayList.add(category +
+                    " || Status: " + (playerCategorySubscription != -1 ? String.valueOf(playerCategorySubscription) : "Disabled")
+                );
+            }
+            // gui
+            if (specificDisplayList.size() < 4) {
+                super.getMythArenaGui().setFormMode();
+                super.getMythArenaGui().setTitle("Modify values you want to change");
+                super.getMythArenaGui().setDescription(null);
+                super.getMythArenaGui().setOption(0, "Back");
+                super.getMythArenaGui().setOption(1, "Change");
+                int contExist = 0;
+                for (String subscription : specificDisplayList) {
+                    super.getMythArenaGui().setField(contExist, subscription);
+                    contExist++;
+                }
+                // null rest
+                for (int contNull = 0; contNull < 4; contNull++) {
+                    super.getMythArenaGui().setField(contNull, null);
+                }
+                switch (super.getMythArenaGui().waitEvent(30)) {
+                    case 'A' -> exit = true;
+                    case 'B' -> {
+                        // get field values
+                        ArrayList<Integer> fieldValues = new ArrayList<>();
+                        for (int contField = 0; contField < contExist; contField++) {
+                            String fieldValue = super.getMythArenaGui().getFieldText(contField);
+                            boolean criteria = 
+                            if (super.getArena().isInteger(fieldValue) && Integer.parseInt(fieldValue) > 0 && criteria) {
+
+                            } else {
+                                super.getMythArenaGui().setDescription("Invalid value for field " + contField);
+                                super.getMythArenaGui().clearFieldText(contField);
+                                super.getMythArenaGui().waitEvent(3);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                super.getMythArenaGui().setListMode();
+            }
+        }
+    }
+     */
 
     /**
      * Get gold

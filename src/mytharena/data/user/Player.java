@@ -139,10 +139,9 @@ public class Player extends User implements Serializable {
 
     /**
      * Gets JSONObject marketSubscriptions
-     * @return JSONObject marketSubscriptions
      */
-    public JSONObject getMarketSubscriptions(String subscription) {
-        return (JSONObject) this.marketSubscriptions.get(subscription);
+    public JSONObject getMarketSubscriptions() {
+        return this.marketSubscriptions;
     }
 
 }
