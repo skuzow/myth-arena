@@ -24,6 +24,7 @@ import mytharena.data.notification.PendingCombatNotification;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
@@ -409,11 +410,11 @@ public class PlayerMenu extends Command {
         ArrayList<String> genericDisplayList = new ArrayList<>();
         genericDisplayList.add("Type");
         genericDisplayList.add("Rarity");
+        genericDisplayList.add("Minion");
+        genericDisplayList.add("Character");
         genericDisplayList.add("Value");
         genericDisplayList.add("Loyalty");
-        genericDisplayList.add("Minion");
-        genericDisplayList.add("Character type");
-        genericDisplayList.add("Price range");
+        genericDisplayList.add("Price");
         boolean exit = false;
         while (!exit) {
             super.getMythArenaGui().setListMode();
@@ -439,7 +440,7 @@ public class PlayerMenu extends Command {
                             specificList.add("Armor");
                             specificList.add("Weapon");
                             specificList.add("Minion");
-                            //modifyMarketNotification(specificList);
+                            this.boolModifyMarketNotification(genericDisplayList.get(index), specificList);
                         }
                         // rarity
                         case 1 -> {
@@ -447,37 +448,35 @@ public class PlayerMenu extends Command {
                             specificList.add("Legendary");
                             specificList.add("Epic");
                             specificList.add("Normal");
-                            //modifyMarketNotification(specificList);
-                        }
-                        // value
-                        case 2 -> {
-                            // TODO: insert wanted values & make function
-                            ArrayList<String> specificList = new ArrayList<>();
-                            specificList.add("ArmorAttackModification");
-                            specificList.add("ArmorDefenseModification");
-                            specificList.add("WeaponAttackModification");
-                            specificList.add("WeaponDefenseModification");
-                            //modifyMarketNotification(specificList);
-                        }
-                        // loyalty
-                        case 3 -> {
-                            // TODO: function for human minion loyalty number
+                            this.boolModifyMarketNotification(genericDisplayList.get(index), specificList);
                         }
                         // minion
-                        case 4 -> {
+                        case 2 -> {
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("Demon");
                             specificList.add("Ghoul");
                             specificList.add("Human");
-                            //modifyMarketNotification(specificList);
+                            this.boolModifyMarketNotification(genericDisplayList.get(index), specificList);
                         }
                         // character type
-                        case 5 -> {
+                        case 3 -> {
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("Hunter");
                             specificList.add("Vampire");
                             specificList.add("Werewolf");
+                            this.boolModifyMarketNotification(genericDisplayList.get(index), specificList);
+                        }
+                        // value
+                        case 4 -> {
+                            // TODO: insert wanted values & make function
+                            ArrayList<String> specificList = new ArrayList<>();
+                            specificList.add("AttackModification");
+                            specificList.add("DefenseModification");
                             //modifyMarketNotification(specificList);
+                        }
+                        // loyalty
+                        case 5 -> {
+                            // TODO: function for human minion loyalty number
                         }
                         // price range
                         case 6 -> {
@@ -490,19 +489,19 @@ public class PlayerMenu extends Command {
     }
 
     /**
-     * Modify Market Notification
+     * Boolean Modify Market Notification
+     * @param category String category
      * @param specificList ArrayList String specificList
      */
-    /*
-    private void modifyMarketNotification(ArrayList<String> specificList) {
+    private void boolModifyMarketNotification(String category, ArrayList<String> specificList) {
         boolean exit = false;
         while (!exit) {
-            HashSet<String> marketSubscriptionSet = player.getMarketSubscriptionSet();
+            JSONObject playerCategorySubscriptions = player.getMarketSubscriptions(category);
             ArrayList<String> specificDisplayList = new ArrayList<>();
             // display subscriptions with enable or disabled
             for (String subscription : specificList) {
                 specificDisplayList.add(subscription +
-                " || Status: " + (marketSubscriptionSet.contains(subscription) ? "Enabled" : "Disabled"));
+                " || Status: " + ((boolean) playerCategorySubscriptions.get(subscription) ? "Enabled" : "Disabled"));
             }
             super.getMythArenaGui().setTitle("Choose a type of subscription");
             super.getMythArenaGui().setDescription(null);
@@ -515,19 +514,19 @@ public class PlayerMenu extends Command {
                     int index = super.getMythArenaGui().getLastSelectedListIndex();
                     if (index != -1) {
                         String chooseSubscription = specificList.get(index);
-                        // remove item / disable
-                        if (marketSubscriptionSet.contains(chooseSubscription)) {
+                        // disable item
+                        if ((boolean) playerCategorySubscriptions.get(chooseSubscription)) {
                             try {
-                                marketSubscriptionSet.remove(chooseSubscription);
+                                playerCategorySubscriptions.put(chooseSubscription, false);
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Successfully disabled subscription for " + chooseSubscription);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        // add item / enable
+                        // enable item
                         } else {
                             try {
-                                marketSubscriptionSet.add(chooseSubscription);
+                                playerCategorySubscriptions.put(chooseSubscription, true);
                                 super.getArena().serializeData();
                                 super.getMythArenaGui().setDescription("Successfully enabled subscription for " + chooseSubscription);
                             } catch (IOException e) {
@@ -543,7 +542,6 @@ public class PlayerMenu extends Command {
             }
         }
     }
-    */
 
     /**
      * Get gold

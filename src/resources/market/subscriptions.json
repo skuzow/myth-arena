@@ -9,6 +9,16 @@
     "Epic": false,
     "Normal": false
   },
+  "Minion": {
+    "Demon": false,
+    "Ghoul": false,
+    "Human": false
+  },
+  "Character": {
+    "Hunter": false,
+    "Vampire": false,
+    "Werewolf": false
+  },
   "Value": {
     "Armor": {
       "AttackModification": -1,
@@ -20,15 +30,5 @@
     }
   },
   "Loyalty": -1,
-  "Minion": {
-    "Demon": false,
-    "Ghoul": false,
-    "Human": false
-  },
-  "Character": {
-    "Hunter": false,
-    "Vampire": false,
-    "Werewolf": false
-  },
   "Price": [0, -1]
 }
