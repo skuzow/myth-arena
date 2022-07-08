@@ -3,10 +3,10 @@ package mytharena.data.user;
 import mytharena.data.Data;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.notification.Notification;
+import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * Player class extends User implements Serializable
@@ -38,9 +38,9 @@ public class Player extends User implements Serializable {
      */
     private final ArrayList<Notification> notificationArrayList = new ArrayList<>();
     /**
-     * HashSet String marketSubscriptionSet
+     * JSONObject marketSubscriptions
      */
-    private final HashSet<String> marketSubscriptionSet = new HashSet<>();
+    private final JSONObject marketSubscriptions;
 
     /**
      * Player class constructor extends User
@@ -53,6 +53,8 @@ public class Player extends User implements Serializable {
         this.nickname = nickname;
         this.goldLostInBattle = 0;
         this.goldWonInBattle = 0;
+        // marketSubscriptions init with default values
+        this.marketSubscriptions = data.getDefaultMarketSubscriptions();
     }
 
     /**
@@ -96,15 +98,6 @@ public class Player extends User implements Serializable {
     }
 
     /**
-     * Checks if player is subscribed to specific subscription
-     * @param subscription String subscription
-     * @return boolean subscribed
-     */
-    public boolean isMarketSubscriber(String subscription) {
-        return this.marketSubscriptionSet.contains(subscription);
-    }
-
-    /**
      * Gets String nickname
      * @return String nickname
      */
@@ -145,11 +138,11 @@ public class Player extends User implements Serializable {
     }
 
     /**
-     * Gets HashSet String marketSubscriptionSet
-     * @return HashSet String marketSubscriptionSet
+     * Gets JSONObject marketSubscriptions
+     * @return JSONObject marketSubscriptions
      */
-    public HashSet<String> getMarketSubscriptionSet() {
-        return this.marketSubscriptionSet;
+    public JSONObject getMarketSubscriptions(String subscription) {
+        return this.marketSubscriptions;
     }
 
 }

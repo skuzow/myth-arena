@@ -411,6 +411,7 @@ public class PlayerMenu extends Command {
         genericDisplayList.add("Rarity");
         genericDisplayList.add("Value");
         genericDisplayList.add("Loyalty");
+        genericDisplayList.add("Minion");
         genericDisplayList.add("Character type");
         genericDisplayList.add("Price range");
         boolean exit = false;
@@ -438,7 +439,7 @@ public class PlayerMenu extends Command {
                             specificList.add("Armor");
                             specificList.add("Weapon");
                             specificList.add("Minion");
-                            modifyMarketNotification(specificList);
+                            //modifyMarketNotification(specificList);
                         }
                         // rarity
                         case 1 -> {
@@ -446,7 +447,7 @@ public class PlayerMenu extends Command {
                             specificList.add("Legendary");
                             specificList.add("Epic");
                             specificList.add("Normal");
-                            modifyMarketNotification(specificList);
+                            //modifyMarketNotification(specificList);
                         }
                         // value
                         case 2 -> {
@@ -454,28 +455,32 @@ public class PlayerMenu extends Command {
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("ArmorAttackModification");
                             specificList.add("ArmorDefenseModification");
-                            specificList.add("DefenseAttackModification");
-                            specificList.add("DefenseDefenseModification");
+                            specificList.add("WeaponAttackModification");
+                            specificList.add("WeaponDefenseModification");
                             //modifyMarketNotification(specificList);
                         }
                         // loyalty
                         case 3 -> {
+                            // TODO: function for human minion loyalty number
+                        }
+                        // minion
+                        case 4 -> {
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("Demon");
                             specificList.add("Ghoul");
                             specificList.add("Human");
-                            modifyMarketNotification(specificList);
+                            //modifyMarketNotification(specificList);
                         }
                         // character type
-                        case 4 -> {
+                        case 5 -> {
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("Hunter");
                             specificList.add("Vampire");
                             specificList.add("Werewolf");
-                            modifyMarketNotification(specificList);
+                            //modifyMarketNotification(specificList);
                         }
                         // price range
-                        case 5 -> {
+                        case 6 -> {
                             // TODO: function for offer prince range
                         }
                     }
@@ -488,6 +493,7 @@ public class PlayerMenu extends Command {
      * Modify Market Notification
      * @param specificList ArrayList String specificList
      */
+    /*
     private void modifyMarketNotification(ArrayList<String> specificList) {
         boolean exit = false;
         while (!exit) {
@@ -537,6 +543,7 @@ public class PlayerMenu extends Command {
             }
         }
     }
+    */
 
     /**
      * Get gold
