@@ -54,23 +54,6 @@ public class Data implements Serializable {
      * ArrayList Offer purchasedOffers
      */
     private final ArrayList<Offer> purchasedOffers = new ArrayList<>();
-    /**
-     * JSONObject defaultMarketSubscriptions
-     */
-    private JSONObject defaultMarketSubscriptions;
-
-    /**
-     * Data class constructor
-     */
-    public Data() {
-        // init JSONObject defaultMarketSubscriptions
-        JSONParser parser = new JSONParser();
-        try (Reader reader = new FileReader("./src/resources/market/subscriptions.json")) {
-            this.defaultMarketSubscriptions = (JSONObject) parser.parse(reader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Gets ArrayList User userArrayList
@@ -141,7 +124,14 @@ public class Data implements Serializable {
      * @return JSONObject defaultMarketSubscriptions
      */
     public JSONObject getDefaultMarketSubscriptions() {
-        return this.defaultMarketSubscriptions;
+        String defaultSubscriptionsPath = "./src/resources/market/subscriptions.json";
+        try (Reader reader = new FileReader(defaultSubscriptionsPath)) {
+            JSONParser parser = new JSONParser();
+            return (JSONObject) parser.parse(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

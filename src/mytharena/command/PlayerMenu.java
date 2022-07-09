@@ -428,6 +428,7 @@ public class PlayerMenu extends Command {
         while (!exit) {
             super.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Choose a category of subscription");
+            super.getMythArenaGui().setDescription(null);
             super.getMythArenaGui().setOption(0, "Back");
             super.getMythArenaGui().setOption(1, "Select");
             super.getMythArenaGui().setList(genericDisplayList);
@@ -477,7 +478,6 @@ public class PlayerMenu extends Command {
                         }
                         // value
                         case 4 -> {
-                            // TODO: insert wanted values & make function
                             ArrayList<String> specificList = new ArrayList<>();
                             specificList.add("AttackModification");
                             specificList.add("DefenseModification");
@@ -486,12 +486,10 @@ public class PlayerMenu extends Command {
                             complexMap.put("Weapon", specificList);
                             this.longModifyMarketNotificationMap(genericDisplayList.get(index), complexMap);
                         }
-                        // loyalty, price range
-                        case 5, 6 -> {
-                            // TODO: function for human minion loyalty number <- loyalty
-                            // TODO: function for offer prince range <- price range
-                            //this.intModifyMarketNotification(genericDisplayList.get(index), null);
-                        }
+                        // loyalty
+                        case 5 -> this.longModifyMarketNotification(genericDisplayList.get(index));
+                        // price range
+                        case 6 -> this.longModifyMarketNotificationList(genericDisplayList.get(index));
                     }
                 }
             }
@@ -687,88 +685,128 @@ public class PlayerMenu extends Command {
     }
 
     /**
-     * Integer Modify Market Notification
+     * Long Modify Market Notification
      * @param category String category
-     * @param complexMap HashMap String ArrayList String
      */
-    /*
-    private void intModifyMarketNotification(String category, HashMap<String, ArrayList<String>> complexMap) {
+    private void longModifyMarketNotification(String category) {
         boolean exit = false;
         while (!exit) {
-            ArrayList<String> specificDisplayList = new ArrayList<>();
-            // display subscriptions
-            // map
-            if (complexMap != null) {
-                JSONObject playerCategorySubscriptions = (JSONObject) player.getMarketSubscriptions().get(category);
-                for (Map.Entry<String, ArrayList<String>> entry : complexMap.entrySet()) {
-                    String key = entry.getKey();
-                    JSONObject deepPlayerCategorySubscriptions = (JSONObject) playerCategorySubscriptions.get(key);
-                    for (String subscription : entry.getValue()) {
-                        int subscriptionValue = (int) deepPlayerCategorySubscriptions.get(subscription);
-                        specificDisplayList.add(key + " : " + subscription +
-                            " || Status: " + (subscriptionValue != -1 ? subscriptionValue : "Disabled")
-                        );
-                    }
-                }
-            // list
-            } else if (Objects.equals(category, "Price")) {
-                JSONArray playerCategorySubscriptions = (JSONArray) player.getMarketSubscriptions().get(category);
-                Iterator<Integer> iterator = playerCategorySubscriptions.iterator();
-                int contValue = 0;
-                while (iterator.hasNext()) {
-                    int value = iterator.next();
-                    String subscriptionValue = value != -1 ? String.valueOf(value) : "Disabled";
-                    specificDisplayList.add(category + " || Status: " + subscriptionValue + (contValue == 0 ? " min" : " max"));
-                    contValue++;
-                }
-            // int
-            } else {
-                int playerCategorySubscription = (Integer) player.getMarketSubscriptions().get(category);
-                specificDisplayList.add(category +
-                    " || Status: " + (playerCategorySubscription != -1 ? String.valueOf(playerCategorySubscription) : "Disabled")
-                );
-            }
-            // gui
-            if (specificDisplayList.size() < 4) {
-                super.getMythArenaGui().setFormMode();
-                super.getMythArenaGui().setTitle("Modify values you want to change");
-                super.getMythArenaGui().setDescription(null);
-                super.getMythArenaGui().setOption(0, "Back");
-                super.getMythArenaGui().setOption(1, "Change");
-                int contExist = 0;
-                for (String subscription : specificDisplayList) {
-                    super.getMythArenaGui().setField(contExist, subscription);
-                    contExist++;
-                }
-                // null rest
-                for (int contNull = 0; contNull < 4; contNull++) {
-                    super.getMythArenaGui().setField(contNull, null);
-                }
-                switch (super.getMythArenaGui().waitEvent(30)) {
-                    case 'A' -> exit = true;
-                    case 'B' -> {
-                        // get field values
-                        ArrayList<Integer> fieldValues = new ArrayList<>();
-                        for (int contField = 0; contField < contExist; contField++) {
-                            String fieldValue = super.getMythArenaGui().getFieldText(contField);
-                            boolean criteria = 
-                            if (super.getArena().isInteger(fieldValue) && Integer.parseInt(fieldValue) > 0 && criteria) {
-
+            JSONObject marketSubscriptions = player.getMarketSubscriptions();
+            long subscriptionValue = (Long) marketSubscriptions.get(category);
+            String subInformation = category + " || Status: " + (subscriptionValue != -1 ? subscriptionValue : "Disabled");
+            super.getMythArenaGui().setFormMode();
+            super.getMythArenaGui().setTitle("Modify values you want to change");
+            super.getMythArenaGui().setDescription("To disable a subscription set it to -1");
+            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(1, "Modify");
+            super.getMythArenaGui().setField(0, subInformation);
+            super.getMythArenaGui().setField(1, null);
+            super.getMythArenaGui().setField(2, null);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // exit
+                case 'A' -> exit = true;
+                // modify value
+                case 'B' -> {
+                    String fieldValueString = super.getMythArenaGui().getFieldText(0);
+                    if (super.getArena().isInteger(fieldValueString) && Integer.parseInt(fieldValueString) >= -1) {
+                        long fieldValue = Long.parseLong(fieldValueString);
+                        try {
+                            marketSubscriptions.put(category, fieldValue);
+                            super.getMythArenaGui().clearFieldText(0);
+                            super.getArena().serializeData();
+                            if (fieldValue == -1) {
+                                super.getMythArenaGui().setDescription("Successfully disabled subscription");
                             } else {
-                                super.getMythArenaGui().setDescription("Invalid value for field " + contField);
-                                super.getMythArenaGui().clearFieldText(contField);
-                                super.getMythArenaGui().waitEvent(3);
-                                break;
+                                super.getMythArenaGui().setDescription("Successfully enabled subscription with " + fieldValue  + " value");
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
+                        super.getMythArenaGui().waitEvent(1);
+                    } else {
+                        super.getMythArenaGui().setDescription("Invalid value");
+                        super.getMythArenaGui().clearFieldText(0);
+                        super.getMythArenaGui().waitEvent(3);
                     }
                 }
-            } else {
-                super.getMythArenaGui().setListMode();
             }
         }
     }
+
+    /**
+     * Long Modify Market Notification List
+     * @param category String category
      */
+    private void longModifyMarketNotificationList(String category) {
+        boolean exit = false;
+        while (!exit) {
+            JSONObject marketSubscriptions = player.getMarketSubscriptions();
+            JSONArray categoryValues = (JSONArray) marketSubscriptions.get(category);
+            ArrayList<Long> values = new ArrayList<>();
+            Iterator<String> iterator = categoryValues.iterator();
+            while (iterator.hasNext()) {
+                Long value = Long.valueOf(String.valueOf(iterator.next()));
+                values.add(value);
+            }
+            // values.get(0) -> minValue
+            // values.get(1) -> maxValue
+            super.getMythArenaGui().setFormMode();
+            super.getMythArenaGui().setTitle("Modify values you want to change");
+            super.getMythArenaGui().setDescription("To disable a subscription, set it min to 0 & max to -1");
+            super.getMythArenaGui().setOption(0, "Back");
+            super.getMythArenaGui().setOption(1, "Modify");
+            super.getMythArenaGui().setField(0, category + " Min || Status: " + (values.get(0) != 0 ? values.get(0) : "Disabled"));
+            super.getMythArenaGui().setField(1, category + " Max || Status: " + (values.get(1) != -1 ? values.get(1) : "Disabled"));
+            super.getMythArenaGui().setField(2, null);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // exit
+                case 'A' -> exit = true;
+                // modify values
+                case 'B' -> {
+                    String fieldMinValueString = super.getMythArenaGui().getFieldText(0);
+                    String fieldMaxValueString = super.getMythArenaGui().getFieldText(1);
+                    StringBuilder notValid = new StringBuilder();
+                    StringBuilder outBounds = new StringBuilder();
+                    StringBuilder modified = new StringBuilder();
+                    JSONArray newValues = categoryValues;
+                    // min value
+                    if (!Objects.equals(fieldMinValueString, "")) {
+                        String minInfo = "PriceMin ";
+                        if (super.getArena().isInteger(fieldMinValueString)) {
+                            if (Integer.parseInt(fieldMinValueString) >= 0) {
+                                newValues.set(0, Long.parseLong(fieldMinValueString));
+                                modified.append(minInfo);
+                            } else {
+                                outBounds.append(minInfo);
+                            }
+                        } else {
+                            notValid.append(minInfo);
+                        }
+                    }
+                    // max value
+                    if (!Objects.equals(fieldMaxValueString, "")) {
+                        String MaxInfo = "PriceMax ";
+                        if (super.getArena().isInteger(fieldMaxValueString)) {
+                            if (Integer.parseInt(fieldMaxValueString) >= -1) {
+                                newValues.set(1, Long.parseLong(fieldMaxValueString));
+                                modified.append(MaxInfo);
+                            } else {
+                                outBounds.append(MaxInfo);
+                            }
+                        } else {
+                            notValid.append(MaxInfo);
+                        }
+                    }
+                    // save new values if changed
+                    marketSubscriptions.put(category, newValues);
+                    super.getMythArenaGui().clearFieldText(0);
+                    super.getMythArenaGui().clearFieldText(1);
+                    super.getArena().serializeMultiple(notValid, outBounds, modified);
+                }
+            }
+            super.getMythArenaGui().waitEvent(2);
+        }
+    }
 
     /**
      * Get gold

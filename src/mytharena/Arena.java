@@ -44,10 +44,6 @@ public class Arena {
      */
     private Data data;
     /**
-     * String serializablePath
-     */
-    private final String serializablePath = "./src/resources/serializable/data.bin";
-    /**
      * HashMap String Command commandMap
      */
     private final HashMap<String, Command> commandMap = new HashMap<>();
@@ -55,6 +51,10 @@ public class Arena {
      * User activeUser
      */
     private User activeUser;
+    /**
+     * String serializablePath
+     */
+    private final String serializablePath = "./src/resources/serializable/data.bin";
 
     /**
      * Starts all, and have main loop of the application
@@ -147,6 +147,61 @@ public class Arena {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Serialize multiple elements
+     * @param notValid StringBuilder notValid
+     * @param outBounds StringBuilder outBounds
+     * @param modified StringBuilder modified
+     * @return boolean exit
+     */
+    public boolean serializeMultiple(StringBuilder notValid, StringBuilder outBounds, StringBuilder modified) {
+        if (notValid.isEmpty()) {
+            if (outBounds.isEmpty()) {
+                try {
+                    this.serializeData();
+                    this.mythArenaGui.setDescription(modified + "value changed successfully!");
+                    this.mythArenaGui.clearFieldText(0);
+                    this.mythArenaGui.clearFieldText(1);
+                    this.mythArenaGui.clearFieldText(2);
+                    this.mythArenaGui.waitEvent(1);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.mythArenaGui.setDescription(outBounds + "have values out of bounds!");
+            }
+        } else {
+            this.mythArenaGui.setDescription(notValid + "have not valid values");
+        }
+        return false;
+    }
+
+    /**
+     * Sets User activeUser
+     * @param activeUser User activeUser
+     */
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
+    }
+
+    /**
+     * Gets specific Command command in commandMap with String key
+     * @param key String key
+     * @return Command command
+     */
+    public Command getCommand(String key) {
+        return this.commandMap.get(key);
+    }
+
+    /**
+     * Gets User activeUser
+     * @return User activeUser
+     */
+    public User getActiveUser() {
+        return this.activeUser;
     }
 
     /**
@@ -470,31 +525,6 @@ public class Arena {
             values[1] += character.getEquippedWeaponArrayList().get(i).getDefenseModification();
         }
         return values;
-    }
-  
-    /**
-     * Sets User activeUser
-     * @param activeUser User activeUser
-     */
-    public void setActiveUser(User activeUser) {
-        this.activeUser = activeUser;
-    }
-
-    /**
-     * Gets specific Command command in commandMap with String key
-     * @param key String key
-     * @return Command command
-     */
-    public Command getCommand(String key) {
-        return this.commandMap.get(key);
-    }
-
-    /**
-     * Gets User activeUser
-     * @return User activeUser
-     */
-    public User getActiveUser() {
-        return this.activeUser;
     }
 
 }

@@ -4,7 +4,10 @@ import mytharena.data.Data;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.notification.Notification;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -40,7 +43,7 @@ public class Player extends User implements Serializable {
     /**
      * JSONObject marketSubscriptions
      */
-    private final JSONObject marketSubscriptions;
+    private JSONObject marketSubscriptions = new JSONObject();
 
     /**
      * Player class constructor extends User
@@ -53,7 +56,7 @@ public class Player extends User implements Serializable {
         this.nickname = nickname;
         this.goldLostInBattle = 0;
         this.goldWonInBattle = 0;
-        // marketSubscriptions init with default values
+        // init JSONObject marketSubscriptions with default values json file
         this.marketSubscriptions = data.getDefaultMarketSubscriptions();
     }
 
