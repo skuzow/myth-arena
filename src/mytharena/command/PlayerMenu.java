@@ -416,16 +416,19 @@ public class PlayerMenu extends Command {
                 for (Marketable item : itemList.get(i)) {
                     Weapon weapon = (Weapon) item;
                     Long attackLong = (Long) weaponSub.get("AttackModification");
-                    int attackModification = attackLong.intValue();
+                    if (attackLong != null) {
+                        int attackModification = attackLong.intValue();
+                        compatible = weapon.getAttackModification() == attackModification;
+                        if (compatible) break;
+                    }
+
                     Long defenseLong = (Long) weaponSub.get("DefenseModification");
-                    int defenseModification = defenseLong.intValue();
-                    compatible = weapon.getAttackModification() == attackModification;
-                    if (compatible) break;
-                    compatible = weapon.getDefenseModification() == defenseModification;
-                    if (compatible) break;
+                    if (defenseLong != null) {
+                        int defenseModification = defenseLong.intValue();
+                        compatible = weapon.getDefenseModification() == defenseModification;
+                        if (compatible) break;
+                    }
                 }
-
-
             } else if (itemList.get(i).get(0) instanceof Armor) {
                 Map value = (Map) player.getMarketSubscriptions().get("Value");
                 Map armorSub = (Map) value.get("Armor");
