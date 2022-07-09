@@ -7,11 +7,7 @@ import mytharena.data.combat.PendingCombat;
 import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-import java.io.FileReader;
-import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,23 +50,6 @@ public class Data implements Serializable {
      * ArrayList Offer purchasedOffers
      */
     private final ArrayList<Offer> purchasedOffers = new ArrayList<>();
-    /**
-     * JSONObject defaultMarketSubscriptions
-     */
-    private JSONObject defaultMarketSubscriptions;
-
-    /**
-     * Data class constructor
-     */
-    public Data() {
-        // init JSONObject defaultMarketSubscriptions
-        JSONParser parser = new JSONParser();
-        try (Reader reader = new FileReader("./src/resources/market/subscriptions.json")) {
-            this.defaultMarketSubscriptions = (JSONObject) parser.parse(reader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Gets ArrayList User userArrayList
@@ -134,14 +113,6 @@ public class Data implements Serializable {
      */
     public ArrayList<Offer> getPurchasedOffers() {
         return this.purchasedOffers;
-    }
-
-    /**
-     * Gets JSONObject defaultMarketSubscriptions
-     * @return JSONObject defaultMarketSubscriptions
-     */
-    public JSONObject getDefaultMarketSubscriptions() {
-        return this.defaultMarketSubscriptions;
     }
 
 }

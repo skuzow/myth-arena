@@ -428,6 +428,7 @@ public class PlayerMenu extends Command {
         while (!exit) {
             super.getMythArenaGui().setListMode();
             super.getMythArenaGui().setTitle("Choose a category of subscription");
+            super.getMythArenaGui().setDescription(null);
             super.getMythArenaGui().setOption(0, "Back");
             super.getMythArenaGui().setOption(1, "Select");
             super.getMythArenaGui().setList(genericDisplayList);
