@@ -428,6 +428,10 @@ public class PlayerMenu extends Command {
                         compatible = weapon.getDefenseModification() == defenseModification;
                         if (compatible) break;
                     }
+                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
+                    compatible = (boolean) raritySub.get(weapon.getRarity());
+                    if (compatible) break;
+
                 }
             } else if (itemList.get(i).get(0) instanceof Armor) {
                 Map value = (Map) player.getMarketSubscriptions().get("Value");
@@ -447,7 +451,9 @@ public class PlayerMenu extends Command {
                         compatible = armor.getDefenseModification() == defenseModification;
                         if (compatible) break;
                     }
-
+                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
+                    compatible = (boolean) raritySub.get(armor.getRarity());
+                    if (compatible) break;
                 }
             }else {
                 Map minionType = (Map) player.getMarketSubscriptions().get("Minion");
@@ -937,7 +943,6 @@ public class PlayerMenu extends Command {
                         Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
                         ArrayList<String> notificationContent = new ArrayList<>();
                         notificationContent.add(notification.getTitle());
-                        notificationContent.add(notification.getBody());
                         getMythArenaGui().setList(notificationContent);
                         // Accept/Decline options added for PendingCombatNotification.
                         if (notification instanceof PendingCombatNotification pendingCombatNotification) {
@@ -1054,8 +1059,21 @@ public class PlayerMenu extends Command {
                         } else {
                             // what's up (～￣▽￣)～
                             // getMythArenaGui().setDescription("Hi");
-                            getMythArenaGui().setDescription("General Notification Info");
-                            getMythArenaGui().waitEvent(2);
+                            boolean exitGeneralNotification = false;
+                            while (!exitGeneralNotification) {
+                                ArrayList<String> display = new ArrayList<>();
+                                display.add(notification.getBody());
+                                getMythArenaGui().setList(display);
+                                getMythArenaGui().setDescription("Notification Info");
+                                getMythArenaGui().setOption(0, null);
+                                getMythArenaGui().setOption(1, null);
+                                getMythArenaGui().setOption(2, null);
+                                getMythArenaGui().setOption(3, "Back");
+
+                                if (getMythArenaGui().waitEvent(30) == 'D') {
+                                    exitGeneralNotification = true;
+                                }
+                            }
                         }
                     } else {
                         getMythArenaGui().setDescription("You must select an item on the list to open!");

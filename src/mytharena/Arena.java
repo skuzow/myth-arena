@@ -71,10 +71,10 @@ public class Arena {
                 // default admin account
                 this.data.getUserArrayList().add(new Admin("admin", "admin123", this.data));
                 // armor pool
-                this.data.getArmorPool().add(new Armor("Platemail", 0, 2));
-                this.data.getArmorPool().add(new Armor("Chainmail", 0, 1));
-                this.data.getArmorPool().add(new Armor("Blademail", 3, 2));
-                this.data.getArmorPool().add(new Armor("Cuirass", 0, 3));
+                this.data.getArmorPool().add(new Armor("Platemail", 0, 2,"Normal"));
+                this.data.getArmorPool().add(new Armor("Chainmail", 0, 1,"Normal"));
+                this.data.getArmorPool().add(new Armor("Blademail", 3, 2,"Epic"));
+                this.data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
                 // weapon pool
                 this.data.getWeaponPool().add(new Weapon("Broadsword", 1, 0, false, "Normal"));
                 this.data.getWeaponPool().add(new Weapon("Claymore", 1, 1, false, "Epic"));
