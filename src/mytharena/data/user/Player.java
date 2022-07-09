@@ -57,12 +57,7 @@ public class Player extends User implements Serializable {
         this.goldLostInBattle = 0;
         this.goldWonInBattle = 0;
         // init JSONObject marketSubscriptions with default values json file
-        JSONParser parser = new JSONParser();
-        try (Reader reader = new FileReader("./src/resources/market/subscriptions.json")) {
-            this.marketSubscriptions = (JSONObject) parser.parse(reader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.marketSubscriptions = data.getDefaultMarketSubscriptions();
     }
 
     /**

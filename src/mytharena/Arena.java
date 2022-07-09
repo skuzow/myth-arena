@@ -44,10 +44,6 @@ public class Arena {
      */
     private Data data;
     /**
-     * String serializablePath
-     */
-    private final String serializablePath = "./src/resources/serializable/data.bin";
-    /**
      * HashMap String Command commandMap
      */
     private final HashMap<String, Command> commandMap = new HashMap<>();
@@ -55,6 +51,10 @@ public class Arena {
      * User activeUser
      */
     private User activeUser;
+    /**
+     * String serializablePath
+     */
+    private final String serializablePath = "./src/resources/serializable/data.bin";
 
     /**
      * Starts all, and have main loop of the application
@@ -177,6 +177,31 @@ public class Arena {
             this.mythArenaGui.setDescription(notValid + "have not valid values");
         }
         return false;
+    }
+
+    /**
+     * Sets User activeUser
+     * @param activeUser User activeUser
+     */
+    public void setActiveUser(User activeUser) {
+        this.activeUser = activeUser;
+    }
+
+    /**
+     * Gets specific Command command in commandMap with String key
+     * @param key String key
+     * @return Command command
+     */
+    public Command getCommand(String key) {
+        return this.commandMap.get(key);
+    }
+
+    /**
+     * Gets User activeUser
+     * @return User activeUser
+     */
+    public User getActiveUser() {
+        return this.activeUser;
     }
 
     /**
@@ -500,31 +525,6 @@ public class Arena {
             values[1] += character.getEquippedWeaponArrayList().get(i).getDefenseModification();
         }
         return values;
-    }
-  
-    /**
-     * Sets User activeUser
-     * @param activeUser User activeUser
-     */
-    public void setActiveUser(User activeUser) {
-        this.activeUser = activeUser;
-    }
-
-    /**
-     * Gets specific Command command in commandMap with String key
-     * @param key String key
-     * @return Command command
-     */
-    public Command getCommand(String key) {
-        return this.commandMap.get(key);
-    }
-
-    /**
-     * Gets User activeUser
-     * @return User activeUser
-     */
-    public User getActiveUser() {
-        return this.activeUser;
     }
 
 }
