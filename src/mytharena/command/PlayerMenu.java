@@ -23,7 +23,6 @@ import mytharena.data.notification.PendingCombatNotification;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -769,6 +768,47 @@ public class PlayerMenu extends Command {
         }
     }
      */
+
+    private boolean checkCompatibility(ArrayList<ArrayList<Marketable>> itemList, Player player) {
+        boolean compatible = false;
+        int i = 0;
+        while (!compatible && i < itemList.size()){
+            if (itemList.get(i).get(0) instanceof Weapon) {
+                Map value = (Map) player.getMarketSubscriptions().get("Value");
+                Map weaponSub = (Map) value.get("Weapon");
+                for (Marketable item : itemList.get(i)) {
+                    Weapon weapon = (Weapon) item;
+                    compatible = weapon.getAttackModification() == (int) weaponSub.get("AttackModification");
+                    if (compatible) break;
+                    compatible = weapon.getDefenseModification() == (int) weaponSub.get("DefenseModification");
+                    if (compatible) break;
+                }
+
+
+            } else if (itemList.get(i).get(0) instanceof Armor) {
+                Map value = (Map) player.getMarketSubscriptions().get("Value");
+                Map armorSub = (Map) value.get("Armor");
+                for (Marketable item : itemList.get(i)) {
+                    Armor armor = (Armor) item;
+                    compatible = armor.getAttackModification() == (int) armorSub.get("AttackModification");
+                    if (compatible) break;
+                    compatible = armor.getDefenseModification() == (int) armorSub.get("DefenseModification");
+                    if (compatible) break;
+                }
+            }else {
+                Map minionType = (Map) player.getMarketSubscriptions().get("Minion");
+                ArrayList<Minion> total = new ArrayList<>();
+                ArrayList<? extends Marketable> minionArrayList = itemList.get(i);
+                displayMinionPack((ArrayList<Minion>) minionArrayList,total);
+                for (Minion minion : total) {
+                    compatible = (boolean) minionType.get(minion.getClass());
+                    if (compatible) break;
+                }
+            }
+            i++;
+        }
+        return compatible;
+    }
 
     /**
      * Get gold
