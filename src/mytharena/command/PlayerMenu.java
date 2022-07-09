@@ -352,6 +352,7 @@ public class PlayerMenu extends Command {
                                         if (minion instanceof Demon demon) {
                                             ArrayList<Minion> total = new ArrayList<>();
                                             displayMinionPack(demon.getMinionArrayList(), total);
+                                            total.add(demon);
                                             for (Minion minion1 : total) {
                                                 offerList.add("Minion type: " + minion1.getClass().getSimpleName() +
                                                     " || Health: " + minion1.getHealth()
@@ -512,6 +513,7 @@ public class PlayerMenu extends Command {
         for (Minion minion : minionPack) {
             if (minion instanceof Demon demon) {
                 displayMinionPack(demon.getMinionArrayList(), total);
+                total.add(demon);
             } else {
                total.add(minion);
             }
@@ -1083,6 +1085,7 @@ public class PlayerMenu extends Command {
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
+                                        exitResult = true;
                                     }
                                     // Exit notification
                                     case 'D' -> exitResult = true;
@@ -1100,10 +1103,18 @@ public class PlayerMenu extends Command {
                                 getMythArenaGui().setDescription("Notification Info");
                                 getMythArenaGui().setOption(0, null);
                                 getMythArenaGui().setOption(1, null);
-                                getMythArenaGui().setOption(2, null);
-                                getMythArenaGui().setOption(3, "Back");
-
-                                if (getMythArenaGui().waitEvent(30) == 'D') {
+                                getMythArenaGui().setOption(2, "Back");
+                                getMythArenaGui().setOption(3, "Delete");
+                                char c = getMythArenaGui().waitEvent(30);
+                                if (c == 'C') {
+                                    exitGeneralNotification = true;
+                                }else if(c == 'D') {
+                                    player.getNotificationArrayList().remove(notification);
+                                    try {
+                                        getArena().serializeData();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     exitGeneralNotification = true;
                                 }
                             }
