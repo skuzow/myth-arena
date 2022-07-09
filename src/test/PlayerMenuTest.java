@@ -5,6 +5,9 @@ import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
+import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
+import mytharena.data.character.factory.minion.demon.Demon;
+import mytharena.data.character.factory.minion.demon.DemonFactory;
 import mytharena.data.user.Player;
 import org.junit.Test;
 
@@ -20,17 +23,44 @@ public class PlayerMenuTest {
         assertTrue(vampire.getAbility() instanceof Discipline);
         assertEquals(vampire.getWeaknessArrayList().get(0).getName(), "Luz solar");
         assertEquals(((Vampire) vampire).getBloodPoints(), 0);
+        assertEquals(3, vampire.getInventory().getWeaponArrayList().size());
+        assertEquals(3, vampire.getInventory().getArmorArrayList().size());
+        assertNotNull(vampire.getEquippedWeaponArrayList());
+        assertNotNull(vampire.getArmor());
     }
 
     @Test
-    public void testDeleteCharacter() {
-        Player player = new Player("gled","gled",new Data(),"gled");
-        VampireFactory vampireFactory = new VampireFactory(new Data());
-        Character vampire = vampireFactory.createCharacter();
-        player.setCharacter(vampire);
-        assertNotNull(player.getCharacter());
-        player.setCharacter(null);
-        assertNull(player.getCharacter());
+    public void testGetGold() {
+        WerewolfFactory werewolfFactory = new WerewolfFactory(new Data());
+        Character werewolf = werewolfFactory.createCharacter();
+        assertEquals(100, werewolf.getGold());
     }
 
+    @Test
+    public void testCreateMinion() {
+        DemonFactory demonFactory = new DemonFactory();
+        Demon demon = (Demon) demonFactory.createMinion();
+        assertTrue(demon.getHealth() < 4);
+        assertTrue(demon.getMinionArrayList().size() < 4);
+    }
+
+    @Test
+    public void testNotifyPlayer() {
+
+    }
+
+    @Test
+    public void testTransferItems() {
+
+    }
+
+    @Test
+    public void testDisplayMinionPack() {
+
+    }
+
+    @Test
+    public void testCheckCompatability() {
+
+    }
 }
