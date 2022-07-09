@@ -811,9 +811,9 @@ public class PlayerMenu extends Command {
             // Main settings
             getMythArenaGui().setListMode();
             getMythArenaGui().setTitle("Notifications");
-            getMythArenaGui().setDescription("You have combat notification " + (player.isSubscriber()? "on" : "off"));
+            getMythArenaGui().setDescription("You have combat notification " + (player.isSubscriber() ? "on" : "off"));
             getMythArenaGui().setOption(0, null);
-            getMythArenaGui().setOption(1, "Turn Combat Notification " + (player.isSubscriber()? "off":"on"));
+            getMythArenaGui().setOption(1, "Turn Combat Notification " + (player.isSubscriber() ? "off":"on"));
             getMythArenaGui().setOption(2, "Back");
             getMythArenaGui().setOption(3, "Open");
             // List of notifications
@@ -822,7 +822,6 @@ public class PlayerMenu extends Command {
                 notificationList.add(notification.getTitle());
             }
             getMythArenaGui().setList(notificationList);
-            int test = getMythArenaGui().getLastSelectedListIndex();
             // Opens notification at the current list index
             switch (getMythArenaGui().waitEvent(30)) {
                 case 'D' -> {
@@ -872,7 +871,8 @@ public class PlayerMenu extends Command {
                                 }
                                 exit = true;
                             }
-                        } else if (notification instanceof CombatResultsNotification combatResultsNotification){
+                        // CombatResultsNotification
+                        } else if (notification instanceof CombatResultsNotification combatResultsNotification) {
                             boolean exitResult = false;
                             while (!exitResult) {
                                 getMythArenaGui().setTitle("Battle result");
@@ -887,7 +887,10 @@ public class PlayerMenu extends Command {
                                 combatResults.add("Winner: " + combatResultsNotification.getCombat().getWinner().getNickname());
                                 combatResults.add("Loser: " + combatResultsNotification.getCombat().getLoser().getNickname());
                                 combatResults.add("Date: " + combatResultsNotification.getCombat().getDate());
-                                combatResults.add("Player with minions left: " + (combatResultsNotification.getCombat().getPlayerWithMinionsLeft() == null ? "NONE" : combatResultsNotification.getCombat().getPlayerWithMinionsLeft().getNickname()));
+                                combatResults.add("Player with minions left: " + (
+                                    combatResultsNotification.getCombat().getPlayerWithMinionsLeft() == null
+                                    ? "NONE" : combatResultsNotification.getCombat().getPlayerWithMinionsLeft().getNickname())
+                                );
                                 combatResults.add(combatResultsNotification.getBody());
                                 for (int i = 1; i <= ((CombatResultsNotification) notification).getCombat().getRounds().size(); i++) {
                                     combatResults.add("Round: " + i);
@@ -895,41 +898,39 @@ public class PlayerMenu extends Command {
                                 getMythArenaGui().setList(combatResults);
                                 switch (getMythArenaGui().waitEvent(30)) {
                                     case 'B' -> {
-                                        int roundIndex = getMythArenaGui().getLastSelectedListIndex()-combatResults.size()+1;
+                                        int roundIndex = getMythArenaGui().getLastSelectedListIndex();
                                         if (roundIndex != -1) {
-                                                if (roundIndex > 6) {
-                                                    boolean closeRound = false;
-                                                    while (!closeRound) {
-                                                        Round round = combatResultsNotification.getCombat().getRounds().get(roundIndex - 7);
-                                                        int roundNumber = roundIndex - 6;
-                                                        ArrayList<String> roundResults = new ArrayList<>();
-                                                        roundResults.add("Round: " + roundNumber);
-                                                        roundResults.add("Player 1 health: " + round.getCharacter1Health());
-                                                        roundResults.add("Player 2 health: " + round.getCharacter2Health());
-                                                        roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
-                                                        roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
-                                                        roundResults.add("Player 1 attack result: " + round.getCharacter1AttackResult() + " damage");
-                                                        roundResults.add("Player 2 attack result: " + round.getCharacter2AttackResult() + " damage");
-                                                        getMythArenaGui().setList(roundResults);
-                                                        getMythArenaGui().setOption(0, null);
-                                                        getMythArenaGui().setOption(1, null);
-                                                        getMythArenaGui().setOption(2, null);
-                                                        getMythArenaGui().setOption(3, "Back");
-
-                                                        // Exit round
-                                                        if (getMythArenaGui().waitEvent(30) == 'D') {
-                                                            closeRound = true;
-                                                        }
+                                            if (roundIndex > 6) {
+                                                boolean closeRound = false;
+                                                while (!closeRound) {
+                                                    Round round = combatResultsNotification.getCombat().getRounds().get(roundIndex - 7);
+                                                    int roundNumber = roundIndex - 6;
+                                                    ArrayList<String> roundResults = new ArrayList<>();
+                                                    roundResults.add("Round: " + roundNumber);
+                                                    roundResults.add("Player 1 health: " + round.getCharacter1Health());
+                                                    roundResults.add("Player 2 health: " + round.getCharacter2Health());
+                                                    roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
+                                                    roundResults.add("Player 1 minions total health: " + round.getCharacter1MinionTotalHealth());
+                                                    roundResults.add("Player 1 attack result: " + round.getCharacter1AttackResult() + " damage");
+                                                    roundResults.add("Player 2 attack result: " + round.getCharacter2AttackResult() + " damage");
+                                                    getMythArenaGui().setList(roundResults);
+                                                    getMythArenaGui().setOption(0, null);
+                                                    getMythArenaGui().setOption(1, null);
+                                                    getMythArenaGui().setOption(2, null);
+                                                    getMythArenaGui().setOption(3, "Back");
+                                                    // Exit round
+                                                    if (getMythArenaGui().waitEvent(30) == 'D') {
+                                                        closeRound = true;
                                                     }
-                                                } else {
-                                                    getMythArenaGui().setDescription("You must select a valid round to open!");
-                                                    getMythArenaGui().waitEvent(1);
                                                 }
+                                            } else {
+                                                getMythArenaGui().setDescription("You must select a valid round to open!");
+                                                getMythArenaGui().waitEvent(1);
+                                            }
                                         } else {
                                             getMythArenaGui().setDescription("You must select a round on the list to open!");
                                             getMythArenaGui().waitEvent(2);
                                         }
-
                                     }
                                     // Delete
                                     case 'C' -> {
@@ -944,8 +945,12 @@ public class PlayerMenu extends Command {
                                     case 'D' -> exitResult = true;
                                 }
                             }
-                        }else {
-                            getMythArenaGui().setDescription("Hi");
+                        // GeneralNotification
+                        } else {
+                            // what's up (～￣▽￣)～
+                            // getMythArenaGui().setDescription("Hi");
+                            getMythArenaGui().setDescription("General Notification Info");
+                            getMythArenaGui().waitEvent(2);
                         }
                     } else {
                         getMythArenaGui().setDescription("You must select an item on the list to open!");
