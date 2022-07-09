@@ -399,7 +399,7 @@ public class PlayerMenu extends Command {
         }
     }
 
-    private void transferItems(Offer offer, Player buyer) {
+    public void transferItems(Offer offer, Player buyer) {
         for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
             if (pack.get(0) instanceof Weapon) {
                 buyer.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
