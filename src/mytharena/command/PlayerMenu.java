@@ -376,6 +376,7 @@ public class PlayerMenu extends Command {
                                 if (offer.getPrice() <= player.getCharacter().getGold()) {
                                     transferItems(offer,player);
                                     getMythArenaGui().setDescription("Purchased successfully");
+                                    getMythArenaGui().waitEvent(2);
                                     try {
                                         getArena().serializeData();
                                     } catch (IOException e) {
