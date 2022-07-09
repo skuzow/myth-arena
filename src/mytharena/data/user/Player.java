@@ -2,6 +2,7 @@ package mytharena.data.user;
 
 import mytharena.data.Data;
 import mytharena.data.character.factory.character.Character;
+import mytharena.data.notification.GeneralNotification;
 import mytharena.data.notification.Notification;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -145,6 +146,11 @@ public class Player extends User implements Serializable {
      */
     public JSONObject getMarketSubscriptions() {
         return this.marketSubscriptions;
+    }
+
+    public void notifyPlayer() {
+        GeneralNotification notification = new GeneralNotification("An item in your wishlist is available on the market","A new offer has what you are looking for. Go check it out on the market!");
+        getNotificationArrayList().add(notification);
     }
 
 }
