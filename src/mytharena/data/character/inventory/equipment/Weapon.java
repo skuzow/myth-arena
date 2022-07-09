@@ -11,10 +11,6 @@ public class Weapon extends Equipment implements Serializable {
      * boolean twoHands
      */
     private final boolean twoHands;
-    /**
-     * String rarity
-     */
-    private final String rarity;
 
     /**
      * Weapon class constructor extends Equipment
@@ -25,9 +21,8 @@ public class Weapon extends Equipment implements Serializable {
      * @param rarity String rarity
      */
     public Weapon(String name, int attackModification, int defenseModification, boolean twoHands, String rarity) {
-        super(name, attackModification, defenseModification);
+        super(name, attackModification, defenseModification,rarity);
         this.twoHands = twoHands;
-        this.rarity = rarity;
     }
 
     /**
@@ -38,12 +33,5 @@ public class Weapon extends Equipment implements Serializable {
         return this.twoHands;
     }
 
-    /**
-     * Gets String rarity
-     * @return String rarity
-     */
-    public String getRarity() {
-        return this.rarity;
-    }
 
 }

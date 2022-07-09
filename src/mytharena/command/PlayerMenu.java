@@ -234,6 +234,13 @@ public class PlayerMenu extends Command {
                                                 player.getCharacter().setMinionArrayList(minionList);
                                             }
                                             super.getData().getMarketOffers().add(new Offer(player, totalPrice, itemList));
+                                            for (User user : getData().getUserArrayList()) {
+                                                if (user instanceof Player player) {
+                                                    if (checkCompatibility(itemList, player)) {
+                                                        player.notifyPlayer();
+                                                    }
+                                                }
+                                            }
                                             super.getArena().serializeData();
                                             super.getMythArenaGui().setDescription("Offer successfully created!");
                                             super.getMythArenaGui().waitEvent(3);
@@ -294,6 +301,8 @@ public class PlayerMenu extends Command {
         }
         return -1;
     }
+
+
 
     /**
      * Buy Market
@@ -395,6 +404,70 @@ public class PlayerMenu extends Command {
                 case 'A' -> exit = true;
             }
         }
+    }
+
+    private boolean checkCompatibility(ArrayList<ArrayList<Marketable>> itemList, Player player) {
+        boolean compatible = false;
+        int i = 0;
+        while (!compatible && i < itemList.size()){
+            if (itemList.get(i).get(0) instanceof Weapon) {
+                Map value = (Map) player.getMarketSubscriptions().get("Value");
+                Map weaponSub = (Map) value.get("Weapon");
+                for (Marketable item : itemList.get(i)) {
+                    Weapon weapon = (Weapon) item;
+                    Long attackLong = (Long) weaponSub.get("AttackModification");
+                    if (attackLong != null) {
+                        int attackModification = attackLong.intValue();
+                        compatible = weapon.getAttackModification() == attackModification;
+                        if (compatible) break;
+                    }
+
+                    Long defenseLong = (Long) weaponSub.get("DefenseModification");
+                    if (defenseLong != null) {
+                        int defenseModification = defenseLong.intValue();
+                        compatible = weapon.getDefenseModification() == defenseModification;
+                        if (compatible) break;
+                    }
+                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
+                    compatible = (boolean) raritySub.get(weapon.getRarity());
+                    if (compatible) break;
+
+                }
+            } else if (itemList.get(i).get(0) instanceof Armor) {
+                Map value = (Map) player.getMarketSubscriptions().get("Value");
+                Map armorSub = (Map) value.get("Armor");
+                for (Marketable item : itemList.get(i)) {
+                    Armor armor = (Armor) item;
+                    Long attackLong = (Long) armorSub.get("AttackModification");
+                    if (attackLong != null) {
+                        int attackModification = attackLong.intValue();
+                        compatible = armor.getAttackModification() == attackModification;
+                        if (compatible) break;
+                    }
+
+                    Long defenseLong = (Long) armorSub.get("DefenseModification");
+                    if (defenseLong != null) {
+                        int defenseModification = defenseLong.intValue();
+                        compatible = armor.getDefenseModification() == defenseModification;
+                        if (compatible) break;
+                    }
+                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
+                    compatible = (boolean) raritySub.get(armor.getRarity());
+                    if (compatible) break;
+                }
+            }else {
+                Map minionType = (Map) player.getMarketSubscriptions().get("Minion");
+                ArrayList<Minion> total = new ArrayList<>();
+                ArrayList<? extends Marketable> minionArrayList = itemList.get(i);
+                displayMinionPack((ArrayList<Minion>) minionArrayList,total);
+                for (Minion minion : total) {
+                    compatible = (boolean) minionType.get(minion.getClass());
+                    if (compatible) break;
+                }
+            }
+            i++;
+        }
+        return compatible;
     }
 
     /**
@@ -870,7 +943,6 @@ public class PlayerMenu extends Command {
                         Notification notification = player.getNotificationArrayList().get(getMythArenaGui().getLastSelectedListIndex());
                         ArrayList<String> notificationContent = new ArrayList<>();
                         notificationContent.add(notification.getTitle());
-                        notificationContent.add(notification.getBody());
                         getMythArenaGui().setList(notificationContent);
                         // Accept/Decline options added for PendingCombatNotification.
                         if (notification instanceof PendingCombatNotification pendingCombatNotification) {
@@ -987,8 +1059,21 @@ public class PlayerMenu extends Command {
                         } else {
                             // what's up (～￣▽￣)～
                             // getMythArenaGui().setDescription("Hi");
-                            getMythArenaGui().setDescription("General Notification Info");
-                            getMythArenaGui().waitEvent(2);
+                            boolean exitGeneralNotification = false;
+                            while (!exitGeneralNotification) {
+                                ArrayList<String> display = new ArrayList<>();
+                                display.add(notification.getBody());
+                                getMythArenaGui().setList(display);
+                                getMythArenaGui().setDescription("Notification Info");
+                                getMythArenaGui().setOption(0, null);
+                                getMythArenaGui().setOption(1, null);
+                                getMythArenaGui().setOption(2, null);
+                                getMythArenaGui().setOption(3, "Back");
+
+                                if (getMythArenaGui().waitEvent(30) == 'D') {
+                                    exitGeneralNotification = true;
+                                }
+                            }
                         }
                     } else {
                         getMythArenaGui().setDescription("You must select an item on the list to open!");

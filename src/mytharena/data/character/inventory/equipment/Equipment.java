@@ -22,16 +22,19 @@ public abstract class Equipment extends Marketable implements Serializable {
      */
     private final int defenseModification;
 
+    private final String rarity;
+
     /**
      * Equipment abstract class constructor
      * @param name String name
      * @param attackModification int attackModification
      * @param defenseModification int defenseModification
      */
-    public Equipment(String name, int attackModification, int defenseModification) {
+    public Equipment(String name, int attackModification, int defenseModification, String rarity) {
         this.name = name;
         this.attackModification = attackModification;
         this.defenseModification = defenseModification;
+        this.rarity = rarity;
     }
 
     /**
@@ -56,6 +59,10 @@ public abstract class Equipment extends Marketable implements Serializable {
      */
     public int getDefenseModification() {
         return this.defenseModification;
+    }
+
+    public String getRarity() {
+        return rarity;
     }
 
 }
