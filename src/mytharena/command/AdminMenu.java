@@ -384,17 +384,19 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         Offer pendingMarketOffer = super.getData().getPendingMarketOffers().get(selected);
                         try {
+                            Player seller = pendingMarketOffer.getSeller();
                             super.getData().getMarketOffers().add(pendingMarketOffer);
                             super.getData().getPendingMarketOffers().remove(pendingMarketOffer);
                             super.getArena().serializeData();
+                            // notification for seller
                             pendingMarketOffer.getSeller().getNotificationArrayList().add(new GeneralNotification(
                                 "Your market offer has been approved",
-                                pendingMarketOffer.getSeller().getNickname() + " : " +
+                                seller.getNickname() + " : " +
                                 pendingMarketOffer.getPrice() + " gold offer"
                             ));
                             super.getMythArenaGui().setDescription(
                                 "Approved selected market offer: " +
-                                pendingMarketOffer.getSeller().getNickname() + " : " +
+                                seller.getNickname() + " : " +
                                 pendingMarketOffer.getPrice() + " gold"
                             );
                         } catch (IOException e) {
@@ -405,28 +407,23 @@ public class AdminMenu extends Command {
                     }
                     super.getMythArenaGui().waitEvent(1);
                 }
-                // deny selected combat
+                // deny selected offer
                 case 'B' -> {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
                     if (selected != -1) {
                         Offer pendingMarketOffer = super.getData().getPendingMarketOffers().get(selected);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(new Date());
-                        // adds 24h since current date, for unban date
-                        calendar.add(Calendar.DAY_OF_MONTH, 1);
-                        Date unBanDate = calendar.getTime();
                         Player seller = pendingMarketOffer.getSeller();
-                        super.getData().getBannedPlayerMap().put(seller, unBanDate);
                         // serialize data stuff inside
                         super.getArena().transferMarketOfferItems(pendingMarketOffer, seller);
-                        // 24h ban notification for seller
+                        // notification for seller
                         pendingMarketOffer.getSeller().getNotificationArrayList().add(new GeneralNotification(
                             "Your market offer has been denied",
-                            "As a result you have been banned for 24h, until " + unBanDate
+                            seller.getNickname() + " : " +
+                            pendingMarketOffer.getPrice() + " gold offer"
                         ));
                         super.getMythArenaGui().setDescription(
                             "Denied selected market offer: " +
-                            pendingMarketOffer.getSeller().getNickname() + " : " +
+                            seller.getNickname() + " : " +
                             pendingMarketOffer.getPrice() + " gold"
                         );
                     } else {
