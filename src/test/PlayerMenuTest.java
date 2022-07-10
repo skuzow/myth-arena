@@ -63,87 +63,12 @@ public class PlayerMenuTest {
 
     @Test
     public void testNotifyPlayer() {
-        Player player = new Player("gledrian","gledrian",new Data(),"gledrian");
-        assertEquals(0,player.getNotificationArrayList().size());
+        Player player = new Player("gledrian", "gledrian", new Data(), "gledrian");
+        assertEquals(0, player.getNotificationArrayList().size());
         player.notifyPlayer();
         player.notifyPlayer();
         player.notifyPlayer();
         assertEquals(3, player.getNotificationArrayList().size());
-    }
-
-    @Test
-    public void testTransferItems() {
-        Arena arena = new Arena();
-        arena.start(false);
-        Data data = arena.getData();
-
-        Player player1 = new Player("gledrian", "gledrian", data, "gledrian");
-        VampireFactory vampireFactory = new VampireFactory(data);
-        Character vampire = vampireFactory.createCharacter();
-        player1.setCharacter(vampire);
-
-        Player player2 = new Player("alejandro", "alejandro", data, "alejandro");
-        WerewolfFactory werewolfFactory = new WerewolfFactory(data);
-        Character werewolf = werewolfFactory.createCharacter();
-        player2.setCharacter(werewolf);
-
-        ArrayList<Equipment> weapons = new ArrayList<>(player1.getCharacter().getInventory().getWeaponArrayList());
-        ArrayList<Marketable> marketables = new ArrayList<>(weapons);
-        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
-        itemList.add(marketables);
-
-        assertEquals(3, player2.getCharacter().getInventory().getWeaponArrayList().size());
-        Offer offer = new Offer(player1,20,itemList);
-        assertNull(offer.getBuyer());
-
-        arena.transferMarketOfferItems(offer, player2);
-
-        assertEquals(player2.getCharacter().getInventory().getWeaponArrayList().size(), 6);
-        assertNotNull(offer.getBuyer());
-    }
-
-    @Test
-    public void testDisplayMinionPack() {
-        Arena arena = new Arena();
-
-        ArrayList<Minion> minionArrayList = new ArrayList<>();
-        ArrayList<Minion> total = new ArrayList<>();
-        minionArrayList.add(new Human());
-        minionArrayList.add(new Ghoul());
-        minionArrayList.add(new Ghoul());
-        arena.displayMinionPack(minionArrayList,total);
-        assertEquals(3, total.size());
-    }
-
-    @Test
-    public void testCheckCompatability() {
-        Arena arena = new Arena();
-        arena.start(false);
-        Data data = arena.getData();
-
-        data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
-        data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
-
-        Player player1 = new Player("gledrian","gledrian", data, "gledrian");
-        VampireFactory vampireFactory = new VampireFactory(data);
-        Character vampire = vampireFactory.createCharacter();
-        player1.setCharacter(vampire);
-
-        Player player2 = new Player("alejandro", "alejandro", data, "alejandro");
-        WerewolfFactory werewolfFactory = new WerewolfFactory(data);
-        Character werewolf = werewolfFactory.createCharacter();
-        player2.setCharacter(werewolf);
-
-        ArrayList<Equipment> weapons = new ArrayList<>(player1.getCharacter().getInventory().getWeaponArrayList());
-        ArrayList<Marketable> marketables = new ArrayList<>(weapons);
-        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
-        itemList.add(marketables);
-
-        Offer offer = new Offer(player1,20,itemList);
-        assertFalse(arena.checkCompatibility(offer,player2));
-        Map typeSub = (Map) player2.getMarketSubscriptions().get("Type");
-        typeSub.put("Weapon", true);
-        assertTrue(arena.checkCompatibility(offer,player2));
     }
 
 }
