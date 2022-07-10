@@ -13,8 +13,8 @@ public class Armor extends Equipment implements Serializable {
      * @param attackModification int attackModification
      * @param defenseModification int defenseModification
      */
-    public Armor(String name, int attackModification, int defenseModification) {
-        super(name, attackModification, defenseModification);
+    public Armor(String name, int attackModification, int defenseModification, String rarity) {
+        super(name, attackModification, defenseModification,rarity);
     }
 
 }

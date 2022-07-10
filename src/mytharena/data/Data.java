@@ -4,9 +4,14 @@ import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.PendingCombat;
+import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +46,18 @@ public class Data implements Serializable {
      * ArrayList Armor armorPool
      */
     private final ArrayList<Armor> armorPool = new ArrayList<>();
+    /**
+     * ArrayList Offer marketOffers
+     */
+    private final ArrayList<Offer> marketOffers = new ArrayList<>();
+    /**
+     * ArrayList Offer purchasedOffers
+     */
+    private final ArrayList<Offer> purchasedOffers = new ArrayList<>();
+    /**
+     * ArrayList Offer pendingMarketOffers
+     */
+    private final ArrayList<Offer> pendingMarketOffers = new ArrayList<>();
 
     /**
      * Gets ArrayList User userArrayList
@@ -75,7 +92,7 @@ public class Data implements Serializable {
     }
 
     /**
-     * Get ArrayList Weapon weaponPool
+     * Gets ArrayList Weapon weaponPool
      * @return ArrayList Weapon weaponPool
      */
     public ArrayList<Weapon> getWeaponPool() {
@@ -83,11 +100,50 @@ public class Data implements Serializable {
     }
 
     /**
-     * ArrayList Armor armorPool
+     * Gets ArrayList Armor armorPool
      * @return ArrayList Armor armorPool
      */
     public ArrayList<Armor> getArmorPool() {
         return this.armorPool;
+    }
+
+    /**
+     * Gets ArrayList Offer marketOffers
+     * @return ArrayList Offer marketOffers
+     */
+    public ArrayList<Offer> getMarketOffers() {
+        return this.marketOffers;
+    }
+
+    /**
+     * Gets ArrayList Offer purchasedOffers
+     * @return ArrayList Offer purchasedOffers
+     */
+    public ArrayList<Offer> getPurchasedOffers() {
+        return this.purchasedOffers;
+    }
+
+    /**
+     * Gets ArrayList Offer pendingMarketOffers
+     * @return ArrayList Offer pendingMarketOffers
+     */
+    public ArrayList<Offer> getPendingMarketOffers() {
+        return this.pendingMarketOffers;
+    }
+
+    /**
+     * Gets JSONObject defaultMarketSubscriptions
+     * @return JSONObject defaultMarketSubscriptions
+     */
+    public JSONObject getDefaultMarketSubscriptions() {
+        String defaultSubscriptionsPath = "./src/resources/market/subscriptions.json";
+        try (Reader reader = new FileReader(defaultSubscriptionsPath)) {
+            JSONParser parser = new JSONParser();
+            return (JSONObject) parser.parse(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

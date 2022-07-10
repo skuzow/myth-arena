@@ -1,12 +1,14 @@
 package mytharena.data.character.factory.minion;
 
+import mytharena.data.character.Marketable;
+
 import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Minion abstract class implements Serializable
  */
-public abstract class Minion implements Serializable {
+public abstract class Minion extends Marketable implements Serializable {
 
     /**
      * int health
