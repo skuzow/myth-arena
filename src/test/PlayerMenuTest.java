@@ -19,7 +19,6 @@ import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
-import mytharena.gui.MythArenaGui;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -31,7 +30,11 @@ public class PlayerMenuTest {
 
     @Test
     public void testCreateCharacter() {
-        VampireFactory vampireFactory = new VampireFactory(new Data());
+        Arena arena = new Arena();
+        arena.start(false);
+        Data data = arena.getData();
+
+        VampireFactory vampireFactory = new VampireFactory(data);
         Character vampire = vampireFactory.createCharacter();
         assertTrue(vampire instanceof Vampire);
         assertTrue(vampire.getAbility() instanceof Discipline);
@@ -71,19 +74,15 @@ public class PlayerMenuTest {
     @Test
     public void testTransferItems() {
         Arena arena = new Arena();
-        Data data = new Data();
-        MythArenaGui mythArenaGui = new MythArenaGui();
+        arena.start(false);
+        Data data = arena.getData();
 
-        data.getArmorPool().add(new Armor("Platemail", 0, 2,"Normal"));
-        data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
-
-        PlayerMenu playerMenu = new PlayerMenu(arena, data, mythArenaGui);
-        Player player1 = new Player("gledrian","gledrian",data, "gledrian");
+        Player player1 = new Player("gledrian", "gledrian", data, "gledrian");
         VampireFactory vampireFactory = new VampireFactory(data);
         Character vampire = vampireFactory.createCharacter();
         player1.setCharacter(vampire);
 
-        Player player2 = new Player("alejandro", "alejandro",data, "alejandro");
+        Player player2 = new Player("alejandro", "alejandro", data, "alejandro");
         WerewolfFactory werewolfFactory = new WerewolfFactory(data);
         Character werewolf = werewolfFactory.createCharacter();
         player2.setCharacter(werewolf);
@@ -99,42 +98,38 @@ public class PlayerMenuTest {
 
         arena.transferMarketOfferItems(offer, player2);
 
-        assertEquals(player2.getCharacter().getInventory().getWeaponArrayList().size(),6);
+        assertEquals(player2.getCharacter().getInventory().getWeaponArrayList().size(), 6);
         assertNotNull(offer.getBuyer());
     }
 
     @Test
     public void testDisplayMinionPack() {
         Arena arena = new Arena();
-        Data data = new Data();
-        MythArenaGui mythArenaGui = new MythArenaGui();
-        PlayerMenu playerMenu = new PlayerMenu(arena,data,mythArenaGui);
 
         ArrayList<Minion> minionArrayList = new ArrayList<>();
         ArrayList<Minion> total = new ArrayList<>();
         minionArrayList.add(new Human());
         minionArrayList.add(new Ghoul());
         minionArrayList.add(new Ghoul());
-        playerMenu.displayMinionPack(minionArrayList,total);
+        arena.displayMinionPack(minionArrayList,total);
         assertEquals(3, total.size());
     }
 
     @Test
     public void testCheckCompatability() {
         Arena arena = new Arena();
-        Data data = new Data();
-        MythArenaGui mythArenaGui = new MythArenaGui();
-        PlayerMenu playerMenu = new PlayerMenu(arena, data, mythArenaGui);
+        arena.start(false);
+        Data data = arena.getData();
 
         data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
         data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
 
-        Player player1 = new Player("gledrian","gledrian",data, "gledrian");
+        Player player1 = new Player("gledrian","gledrian", data, "gledrian");
         VampireFactory vampireFactory = new VampireFactory(data);
         Character vampire = vampireFactory.createCharacter();
         player1.setCharacter(vampire);
 
-        Player player2 = new Player("alejandro", "alejandro",data, "alejandro");
+        Player player2 = new Player("alejandro", "alejandro", data, "alejandro");
         WerewolfFactory werewolfFactory = new WerewolfFactory(data);
         Character werewolf = werewolfFactory.createCharacter();
         player2.setCharacter(werewolf);
@@ -145,10 +140,10 @@ public class PlayerMenuTest {
         itemList.add(marketables);
 
         Offer offer = new Offer(player1,20,itemList);
-        assertFalse(playerMenu.checkCompatibility(offer,player2));
+        assertFalse(arena.checkCompatibility(offer,player2));
         Map typeSub = (Map) player2.getMarketSubscriptions().get("Type");
         typeSub.put("Weapon", true);
-        assertTrue(playerMenu.checkCompatibility(offer,player2));
+        assertTrue(arena.checkCompatibility(offer,player2));
     }
 
 }

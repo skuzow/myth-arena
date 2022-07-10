@@ -412,20 +412,25 @@ public class AdminMenu extends Command {
                     int selected = super.getMythArenaGui().getLastSelectedListIndex();
                     if (selected != -1) {
                         Offer pendingMarketOffer = super.getData().getPendingMarketOffers().get(selected);
-                        Player seller = pendingMarketOffer.getSeller();
-                        // serialize data stuff inside
-                        super.getArena().transferMarketOfferItems(pendingMarketOffer, seller);
-                        // notification for seller
-                        pendingMarketOffer.getSeller().getNotificationArrayList().add(new GeneralNotification(
-                            "Your market offer has been denied",
-                            seller.getNickname() + " : " +
-                            pendingMarketOffer.getPrice() + " gold offer"
-                        ));
-                        super.getMythArenaGui().setDescription(
-                            "Denied selected market offer: " +
-                            seller.getNickname() + " : " +
-                            pendingMarketOffer.getPrice() + " gold"
-                        );
+                        try {
+                            Player seller = pendingMarketOffer.getSeller();
+                            // serialize data stuff inside
+                            super.getArena().transferMarketOfferItems(pendingMarketOffer, seller);
+                            super.getArena().serializeData();
+                            // notification for seller
+                            pendingMarketOffer.getSeller().getNotificationArrayList().add(new GeneralNotification(
+                                    "Your market offer has been denied",
+                                    seller.getNickname() + " : " +
+                                            pendingMarketOffer.getPrice() + " gold offer"
+                            ));
+                            super.getMythArenaGui().setDescription(
+                                    "Denied selected market offer: " +
+                                            seller.getNickname() + " : " +
+                                            pendingMarketOffer.getPrice() + " gold"
+                            );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         super.getMythArenaGui().setDescription("Please select one element of the list before continue");
                     }
