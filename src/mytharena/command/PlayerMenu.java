@@ -220,22 +220,7 @@ public class PlayerMenu extends Command {
                                 switch (super.getMythArenaGui().waitEvent(30)) {
                                     case 'A' -> {
                                         try {
-                                            // create offer
-                                            ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
-                                            // use stuff lists because all of them are updated without items inside offer
-                                            if (!armorPack.isEmpty()) {
-                                                itemList.add(armorPack);
-                                                player.getCharacter().getInventory().setArmorArrayList(armorList);
-                                            }
-                                            if (!weaponPack.isEmpty()) {
-                                                itemList.add(weaponPack);
-                                                player.getCharacter().getInventory().setWeaponArrayList(weaponList);
-                                            }
-                                            if (!minionPack.isEmpty()) {
-                                                itemList.add(minionPack);
-                                                player.getCharacter().setMinionArrayList(minionList);
-                                            }
-                                            Offer offer = new Offer(player, totalPrice, itemList);
+                                            Offer offer = super.getArena().createMarketOffer(player, totalPrice, armorPack, weaponPack, minionPack, armorList, weaponList, minionList);
                                             super.getData().getPendingMarketOffers().add(offer);
                                             // notify subscribers
                                             for (User user : getData().getUserArrayList()) {

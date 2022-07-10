@@ -160,6 +160,37 @@ public class Arena {
     }
 
     /**
+     * Create market offer
+     * @param player Player player
+     * @param totalPrice int totalPrice
+     * @param armorPack ArrayList Marketable armorPack
+     * @param weaponPack ArrayList Marketable weaponPack
+     * @param minionPack ArrayList Marketable minionPack
+     * @param armorList ArrayList Equipment armorList
+     * @param weaponList ArrayList Equipment weaponList
+     * @param minionList ArrayList Minion minionList
+     * @return Offer offer
+     */
+    public Offer createMarketOffer(Player player, int totalPrice, ArrayList<Marketable> armorPack, ArrayList<Marketable> weaponPack, ArrayList<Marketable> minionPack, ArrayList<Equipment> armorList, ArrayList<Equipment> weaponList, ArrayList<Minion> minionList) {
+        // create offer
+        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
+        // use stuff lists because all of them are updated without items inside offer
+        if (!armorPack.isEmpty()) {
+            itemList.add(armorPack);
+            player.getCharacter().getInventory().setArmorArrayList(armorList);
+        }
+        if (!weaponPack.isEmpty()) {
+            itemList.add(weaponPack);
+            player.getCharacter().getInventory().setWeaponArrayList(weaponList);
+        }
+        if (!minionPack.isEmpty()) {
+            itemList.add(minionPack);
+            player.getCharacter().setMinionArrayList(minionList);
+        }
+        return new Offer(player, totalPrice, itemList);
+    }
+
+    /**
      * Transfer market offer items to buyer when buy or back to seller if offer was denied
      * @param offer Offer offer
      * @param player Player player => buyer or seller
