@@ -1,32 +1,20 @@
 package test;
 
 import mytharena.Arena;
-import mytharena.command.PlayerMenu;
 import mytharena.data.Data;
-import mytharena.data.character.Marketable;
 import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
 import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
-import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.factory.minion.demon.Demon;
 import mytharena.data.character.factory.minion.demon.DemonFactory;
-import mytharena.data.character.factory.minion.ghoul.Ghoul;
-import mytharena.data.character.factory.minion.human.Human;
-import mytharena.data.character.inventory.equipment.Armor;
-import mytharena.data.character.inventory.equipment.Equipment;
-import mytharena.data.character.inventory.equipment.Weapon;
-import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import static junit.framework.TestCase.*;
 
-public class PlayerMenuTest {
+public class PlayerTest {
 
     @Test
     public void testCreateCharacter() {
