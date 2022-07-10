@@ -416,7 +416,7 @@ public class PlayerMenu extends Command {
         offer.getSeller().getCharacter().setGold(offer.getSeller().getCharacter().getGold()+offer.getPrice());
     }
 
-    private boolean checkCompatibility(Offer offer, Player player) {
+    public boolean checkCompatibility(Offer offer, Player player) {
         boolean compatible = false;
         for (ArrayList<Marketable> itemList : offer.getItemList()){
             // Check character type
@@ -510,7 +510,7 @@ public class PlayerMenu extends Command {
      * @param minionPack ArrayList Minion minionPack
      * @param total ArrayList Minion total
      */
-    private void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
+    public void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
         for (Minion minion : minionPack) {
             if (minion instanceof Demon demon) {
                 displayMinionPack(demon.getMinionArrayList(), total);

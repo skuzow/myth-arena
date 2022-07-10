@@ -9,8 +9,11 @@ import mytharena.data.character.factory.character.Character;
 import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.character.vampire.VampireFactory;
 import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
+import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.factory.minion.demon.Demon;
 import mytharena.data.character.factory.minion.demon.DemonFactory;
+import mytharena.data.character.factory.minion.ghoul.Ghoul;
+import mytharena.data.character.factory.minion.human.Human;
 import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
@@ -68,6 +71,8 @@ public class PlayerMenuTest {
     public void testTransferItems() {
         Arena arena = new Arena();
         Data data = new Data();
+        MythArenaGui mythArenaGui = new MythArenaGui();
+
         data.getArmorPool().add(new Armor("Platemail", 0, 2,"Normal"));
         data.getArmorPool().add(new Armor("Chainmail", 0, 1,"Normal"));
         data.getArmorPool().add(new Armor("Blademail", 3, 2,"Epic"));
@@ -78,7 +83,7 @@ public class PlayerMenuTest {
         data.getWeaponPool().add(new Weapon("Katana", 2, 0, false, "Legendary"));
         data.getWeaponPool().add(new Weapon("Axe", 2, 2, true, "Normal"));
         data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
-        MythArenaGui mythArenaGui = new MythArenaGui();
+
         PlayerMenu playerMenu = new PlayerMenu(arena, data, mythArenaGui);
         Player player1 = new Player("gledrian","gledrian",data, "gledrian");
         VampireFactory vampireFactory = new VampireFactory(data);
@@ -107,7 +112,18 @@ public class PlayerMenuTest {
 
     @Test
     public void testDisplayMinionPack() {
+        Arena arena = new Arena();
+        Data data = new Data();
+        MythArenaGui mythArenaGui = new MythArenaGui();
+        PlayerMenu playerMenu = new PlayerMenu(arena,data,mythArenaGui);
 
+        ArrayList<Minion> minionArrayList = new ArrayList<>();
+        ArrayList<Minion> total = new ArrayList<>();
+        minionArrayList.add(new Human());
+        minionArrayList.add(new Ghoul());
+        minionArrayList.add(new Ghoul());
+        playerMenu.displayMinionPack(minionArrayList,total);
+        assertEquals(3, total.size());
     }
 
     @Test
