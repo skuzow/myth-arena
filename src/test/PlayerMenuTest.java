@@ -11,7 +11,9 @@ import mytharena.data.character.factory.character.vampire.VampireFactory;
 import mytharena.data.character.factory.character.werewolf.WerewolfFactory;
 import mytharena.data.character.factory.minion.demon.Demon;
 import mytharena.data.character.factory.minion.demon.DemonFactory;
+import mytharena.data.character.inventory.equipment.Armor;
 import mytharena.data.character.inventory.equipment.Equipment;
+import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.market.Offer;
 import mytharena.data.user.Player;
 import mytharena.gui.MythArenaGui;
@@ -66,21 +68,41 @@ public class PlayerMenuTest {
     public void testTransferItems() {
         Arena arena = new Arena();
         Data data = new Data();
+        data.getArmorPool().add(new Armor("Platemail", 0, 2,"Normal"));
+        data.getArmorPool().add(new Armor("Chainmail", 0, 1,"Normal"));
+        data.getArmorPool().add(new Armor("Blademail", 3, 2,"Epic"));
+        data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
+        // weapon pool
+        data.getWeaponPool().add(new Weapon("Broadsword", 1, 0, false, "Normal"));
+        data.getWeaponPool().add(new Weapon("Claymore", 1, 1, false, "Epic"));
+        data.getWeaponPool().add(new Weapon("Katana", 2, 0, false, "Legendary"));
+        data.getWeaponPool().add(new Weapon("Axe", 2, 2, true, "Normal"));
+        data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
         MythArenaGui mythArenaGui = new MythArenaGui();
         PlayerMenu playerMenu = new PlayerMenu(arena, data, mythArenaGui);
         Player player1 = new Player("gledrian","gledrian",data, "gledrian");
-        VampireFactory vampireFactory = new VampireFactory(new Data());
+        VampireFactory vampireFactory = new VampireFactory(data);
         Character vampire = vampireFactory.createCharacter();
         player1.setCharacter(vampire);
 
         Player player2 = new Player("alejandro", "alejandro",data, "alejandro");
-        WerewolfFactory werewolfFactory = new WerewolfFactory(new Data());
+        WerewolfFactory werewolfFactory = new WerewolfFactory(data);
         Character werewolf = werewolfFactory.createCharacter();
         player2.setCharacter(werewolf);
 
-        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>((ArrayList<? extends Marketable>) player1.getCharacter().getInventory().getWeaponArrayList());
+        ArrayList<Equipment> weapons = new ArrayList<>(player1.getCharacter().getInventory().getWeaponArrayList());
+        ArrayList<Marketable> marketables = new ArrayList<>(weapons);
+        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
+        itemList.add(marketables);
+
+        assertEquals(3, player2.getCharacter().getInventory().getWeaponArrayList().size());
         Offer offer = new Offer(player1,20,itemList);
+        assertNull(offer.getBuyer());
+
         playerMenu.transferItems(offer, player2);
+
+        assertEquals(player2.getCharacter().getInventory().getWeaponArrayList().size(),6);
+        assertNotNull(offer.getBuyer());
     }
 
     @Test
