@@ -5,10 +5,7 @@ import mytharena.data.character.factory.character.Character;
 import mytharena.data.notification.GeneralNotification;
 import mytharena.data.notification.Notification;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-import java.io.FileReader;
-import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
