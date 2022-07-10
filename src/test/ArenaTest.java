@@ -60,9 +60,6 @@ public class ArenaTest {
         arena.start(false);
         Data data = arena.getData();
 
-        data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
-        data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
-
         Player player1 = new Player("gledrian","gledrian", data, "gledrian");
         VampireFactory vampireFactory = new VampireFactory(data);
         Character vampire = vampireFactory.createCharacter();
