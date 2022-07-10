@@ -97,7 +97,7 @@ public class PlayerMenuTest {
         Offer offer = new Offer(player1,20,itemList);
         assertNull(offer.getBuyer());
 
-        playerMenu.transferItems(offer, player2);
+        arena.transferMarketOfferItems(offer, player2);
 
         assertEquals(player2.getCharacter().getInventory().getWeaponArrayList().size(),6);
         assertNotNull(offer.getBuyer());
@@ -150,4 +150,5 @@ public class PlayerMenuTest {
         typeSub.put("Weapon", true);
         assertTrue(playerMenu.checkCompatibility(offer,player2));
     }
+
 }

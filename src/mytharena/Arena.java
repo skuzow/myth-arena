@@ -2,6 +2,7 @@ package mytharena;
 
 import mytharena.command.*;
 import mytharena.data.Data;
+import mytharena.data.character.Marketable;
 import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.ability.Gift;
 import mytharena.data.character.ability.Talent;
@@ -12,10 +13,12 @@ import mytharena.data.character.factory.character.werewolf.Werewolf;
 import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.factory.minion.demon.Demon;
 import mytharena.data.character.inventory.equipment.Armor;
+import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.character.modifier.Modifier;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.Round;
+import mytharena.data.market.Offer;
 import mytharena.data.notification.CombatResultsNotification;
 import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
@@ -146,6 +149,39 @@ public class Arena {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /**
+     * Transfer market offer items to buyer or back to seller if offer was denied
+     * @param offer Offer offer
+     * @param player Player player => buyer or seller
+     */
+    public void transferMarketOfferItems(Offer offer, Player player) {
+        try {
+            for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
+                if (pack.get(0) instanceof Weapon) {
+                    player.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
+                } else if (pack.get(0) instanceof Armor) {
+                    player.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
+                } else {
+                    player.getCharacter().getMinionArrayList().addAll((ArrayList<? extends Minion>) pack);
+                }
+            }
+            // player = buyer
+            if (player != offer.getSeller()) {
+                offer.setBuyer(player);
+                this.data.getPurchasedOffers().add(offer);
+                player.getCharacter().setGold(player.getCharacter().getGold() - offer.getPrice());
+                offer.getSeller().getCharacter().setGold(offer.getSeller().getCharacter().getGold() + offer.getPrice());
+                this.data.getMarketOffers().remove(offer);
+            // player = seller
+            } else {
+                this.data.getPendingMarketOffers().remove(offer);
+            }
+            this.serializeData();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

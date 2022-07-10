@@ -8,6 +8,7 @@ import mytharena.data.character.factory.character.hunter.Hunter;
 import mytharena.data.character.factory.character.vampire.Vampire;
 import mytharena.data.character.factory.character.werewolf.Werewolf;
 import mytharena.data.combat.PendingCombat;
+import mytharena.data.market.Offer;
 import mytharena.data.notification.GeneralNotification;
 import mytharena.data.notification.PendingCombatNotification;
 import mytharena.data.user.Admin;
@@ -45,8 +46,8 @@ public class AdminMenu extends Command {
             super.getMythArenaGui().setOption(0, "Manage admins");
             super.getMythArenaGui().setOption(1, "Manage players");
             super.getMythArenaGui().setOption(2, "Validate combats");
-            super.getMythArenaGui().setOption(3, "Manage characters");
-            super.getMythArenaGui().setOption(4, null);
+            super.getMythArenaGui().setOption(3, "Validate market offers");
+            super.getMythArenaGui().setOption(4, "Manage characters");
             super.getMythArenaGui().setOption(5, null);
             super.getMythArenaGui().setOption(6, null);
             super.getMythArenaGui().setOption(7, null);
@@ -59,8 +60,10 @@ public class AdminMenu extends Command {
                 case 'B' -> this.managePlayers();
                 // validate combats
                 case 'C' -> this.validateCombats();
+                // validate market offers
+                case 'D' -> this.validateMarketOffers();
                 // manage characters
-                case 'D' -> this.manageCharacters();
+                case 'E' -> this.manageCharacters();
                 // log out
                 case 'I' -> super.getArena().setActiveUser(null);
                 // delete account
@@ -294,15 +297,18 @@ public class AdminMenu extends Command {
                     if (selected != -1) {
                         PendingCombat pendingCombat = super.getData().getPendingCombatArrayList().get(selected);
                         try {
+                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                            super.getArena().serializeData();
                             // accepted combat notification for challenged
                             pendingCombat.getChallenged().getNotificationArrayList().add(new PendingCombatNotification(
-                                pendingCombat.getChallenger().getNickname() +" wants to challenge you to a battle",
+                                pendingCombat.getChallenger().getNickname() + " wants to challenge you to a battle",
                                 "Gold at stake for this battle: " + pendingCombat.getBet(),
                                 pendingCombat.getChallenger(), pendingCombat.getBet()
                             ));
-                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
-                            super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Approved selected combat: " + pendingCombat.getChallenger().getNickname() + " -> " + pendingCombat.getChallenged().getNickname());
+                            super.getMythArenaGui().setDescription(
+                                "Approved selected combat: " + pendingCombat.getChallenger().getNickname() +
+                                " -> " + pendingCombat.getChallenged().getNickname()
+                            );
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -323,6 +329,8 @@ public class AdminMenu extends Command {
                             calendar.add(Calendar.DAY_OF_MONTH, 1);
                             Date unBanDate = calendar.getTime();
                             super.getData().getBannedPlayerMap().put(pendingCombat.getChallenger(), unBanDate);
+                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
+                            super.getArena().serializeData();
                             // 24h ban notification for challenger
                             pendingCombat.getChallenger().getNotificationArrayList().add(new GeneralNotification(
                                 "Your pending combat has been denied",
@@ -330,9 +338,10 @@ public class AdminMenu extends Command {
                                 pendingCombat.getChallenged().getCharacter().getGold() + " gold || " +
                                 "As a result you have been banned for 24h, until " + unBanDate
                             ));
-                            super.getData().getPendingCombatArrayList().remove(pendingCombat);
-                            super.getArena().serializeData();
-                            super.getMythArenaGui().setDescription("Denied selected combat: " + pendingCombat.getChallenger().getNickname() + " -> " + pendingCombat.getChallenged().getNickname());
+                            super.getMythArenaGui().setDescription(
+                                "Denied selected combat: " + pendingCombat.getChallenger().getNickname() +
+                                " -> " + pendingCombat.getChallenged().getNickname()
+                            );
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -342,6 +351,90 @@ public class AdminMenu extends Command {
                     super.getMythArenaGui().waitEvent(1);
                 }
                 // exit validate combats
+                case 'C' -> exit = true;
+            }
+        }
+    }
+
+    /**
+     * Validate Market Offers
+     */
+    private void validateMarketOffers() {
+        boolean exit = false;
+        while (!exit) {
+            super.getMythArenaGui().setListMode();
+            super.getMythArenaGui().setTitle("Market Offer Validator Tool");
+            super.getMythArenaGui().setDescription("Select what you want to change");
+            super.getMythArenaGui().setOption(0, "Approve selected offer");
+            super.getMythArenaGui().setOption(1, "Deny selected offer");
+            super.getMythArenaGui().setOption(2, "Back to Admin Menu");
+            super.getMythArenaGui().setOption(3, null);
+            ArrayList<String> pendingMarketOfferInfoArrayList = new ArrayList<>();
+            for (Offer pendingMarketOffer : super.getData().getPendingMarketOffers()) {
+                pendingMarketOfferInfoArrayList.add(
+                    pendingMarketOffer.getSeller().getNickname() + " : " +
+                    pendingMarketOffer.getPrice() + " gold"
+                );
+            }
+            super.getMythArenaGui().setList(pendingMarketOfferInfoArrayList);
+            switch (super.getMythArenaGui().waitEvent(30)) {
+                // approve selected offer
+                case 'A' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        Offer pendingMarketOffer = super.getData().getPendingMarketOffers().get(selected);
+                        try {
+                            super.getData().getMarketOffers().add(pendingMarketOffer);
+                            super.getData().getPendingMarketOffers().remove(pendingMarketOffer);
+                            super.getArena().serializeData();
+                            pendingMarketOffer.getSeller().getNotificationArrayList().add(new GeneralNotification(
+                                "Your market offer has been approved",
+                                pendingMarketOffer.getSeller().getNickname() + " : " +
+                                pendingMarketOffer.getPrice() + " gold offer"
+                            ));
+                            super.getMythArenaGui().setDescription(
+                                "Approved selected market offer: " +
+                                pendingMarketOffer.getSeller().getNickname() + " : " +
+                                pendingMarketOffer.getPrice() + " gold"
+                            );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                // deny selected combat
+                case 'B' -> {
+                    int selected = super.getMythArenaGui().getLastSelectedListIndex();
+                    if (selected != -1) {
+                        Offer pendingMarketOffer = super.getData().getPendingMarketOffers().get(selected);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(new Date());
+                        // adds 24h since current date, for unban date
+                        calendar.add(Calendar.DAY_OF_MONTH, 1);
+                        Date unBanDate = calendar.getTime();
+                        Player seller = pendingMarketOffer.getSeller();
+                        super.getData().getBannedPlayerMap().put(seller, unBanDate);
+                        // serialize data stuff inside
+                        super.getArena().transferMarketOfferItems(pendingMarketOffer, seller);
+                        // 24h ban notification for seller
+                        pendingMarketOffer.getSeller().getNotificationArrayList().add(new GeneralNotification(
+                            "Your market offer has been denied",
+                            "As a result you have been banned for 24h, until " + unBanDate
+                        ));
+                        super.getMythArenaGui().setDescription(
+                            "Denied selected market offer: " +
+                            pendingMarketOffer.getSeller().getNickname() + " : " +
+                            pendingMarketOffer.getPrice() + " gold"
+                        );
+                    } else {
+                        super.getMythArenaGui().setDescription("Please select one element of the list before continue");
+                    }
+                    super.getMythArenaGui().waitEvent(1);
+                }
+                // exit validate market offers
                 case 'C' -> exit = true;
             }
         }
