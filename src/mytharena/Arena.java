@@ -90,7 +90,7 @@ public class Arena {
             }
             // update player bans
             this.updateBans();
-            // gui = true => normal use / gui = true => test use
+            // gui = true => normal use / gui = false => test use
             if (gui) {
                 // init gui
                 this.mythArenaGui = new MythArenaGui();
