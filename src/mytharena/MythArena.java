@@ -11,7 +11,7 @@ public class MythArena {
      */
     public static void main(String[] args) {
         Arena arena = new Arena();
-        arena.start();
+        arena.start(true);
     }
 
 }

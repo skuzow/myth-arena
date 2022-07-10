@@ -2,6 +2,7 @@ package mytharena;
 
 import mytharena.command.*;
 import mytharena.data.Data;
+import mytharena.data.character.Marketable;
 import mytharena.data.character.ability.Discipline;
 import mytharena.data.character.ability.Gift;
 import mytharena.data.character.ability.Talent;
@@ -12,15 +13,18 @@ import mytharena.data.character.factory.character.werewolf.Werewolf;
 import mytharena.data.character.factory.minion.Minion;
 import mytharena.data.character.factory.minion.demon.Demon;
 import mytharena.data.character.inventory.equipment.Armor;
+import mytharena.data.character.inventory.equipment.Equipment;
 import mytharena.data.character.inventory.equipment.Weapon;
 import mytharena.data.character.modifier.Modifier;
 import mytharena.data.combat.Combat;
 import mytharena.data.combat.Round;
+import mytharena.data.market.Offer;
 import mytharena.data.notification.CombatResultsNotification;
 import mytharena.data.user.Admin;
 import mytharena.data.user.Player;
 import mytharena.data.user.User;
 import mytharena.gui.MythArenaGui;
+import org.json.simple.JSONArray;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -38,7 +42,7 @@ public class Arena {
     /**
      * MythArenaGui mythArenaGui
      */
-    private final MythArenaGui mythArenaGui = new MythArenaGui();
+    private MythArenaGui mythArenaGui;
     /**
      * Data data
      */
@@ -58,8 +62,9 @@ public class Arena {
 
     /**
      * Starts all, and have main loop of the application
+     * @param gui boolean gui
      */
-    public void start() {
+    public void start(boolean gui) {
         try {
             // retrieves data if serializable file exists
             File file = new File(this.serializablePath);
@@ -83,15 +88,20 @@ public class Arena {
                 this.data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
                 this.serializeData();
             }
-            // create commands and insert them into commandMap with respective key
-            this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
-            this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
-            this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
             // update player bans
             this.updateBans();
-            // main loop
-            while (true) {
-                this.commandMap.get("StartMenu").execute();
+            // gui = true => normal use / gui = false => test use
+            if (gui) {
+                // init gui
+                this.mythArenaGui = new MythArenaGui();
+                // create commands and insert them into commandMap with respective key
+                this.commandMap.put("AdminMenu", new AdminMenu(this, this.data, this.mythArenaGui));
+                this.commandMap.put("StartMenu", new StartMenu(this, this.data, this.mythArenaGui));
+                this.commandMap.put("PlayerMenu", new PlayerMenu(this, this.data, this.mythArenaGui));
+                // main loop
+                while (true) {
+                    this.commandMap.get("StartMenu").execute();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,6 +160,175 @@ public class Arena {
     }
 
     /**
+     * Create market offer
+     * @param player Player player
+     * @param totalPrice int totalPrice
+     * @param armorPack ArrayList Marketable armorPack
+     * @param weaponPack ArrayList Marketable weaponPack
+     * @param minionPack ArrayList Marketable minionPack
+     * @param armorList ArrayList Equipment armorList
+     * @param weaponList ArrayList Equipment weaponList
+     * @param minionList ArrayList Minion minionList
+     * @return Offer offer
+     */
+    public Offer createMarketOffer(Player player, int totalPrice, ArrayList<Marketable> armorPack, ArrayList<Marketable> weaponPack, ArrayList<Marketable> minionPack, ArrayList<Equipment> armorList, ArrayList<Equipment> weaponList, ArrayList<Minion> minionList) {
+        // create offer
+        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
+        // use stuff lists because all of them are updated without items inside offer
+        if (!armorPack.isEmpty()) {
+            itemList.add(armorPack);
+            player.getCharacter().getInventory().setArmorArrayList(armorList);
+        }
+        if (!weaponPack.isEmpty()) {
+            itemList.add(weaponPack);
+            player.getCharacter().getInventory().setWeaponArrayList(weaponList);
+        }
+        if (!minionPack.isEmpty()) {
+            itemList.add(minionPack);
+            player.getCharacter().setMinionArrayList(minionList);
+        }
+        return new Offer(player, totalPrice, itemList);
+    }
+
+    /**
+     * Transfer market offer items to buyer when buy or back to seller if offer was denied
+     * @param offer Offer offer
+     * @param player Player player => buyer or seller
+     */
+    public void transferMarketOfferItems(Offer offer, Player player) {
+        for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
+            if (pack.get(0) instanceof Weapon) {
+                player.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
+            } else if (pack.get(0) instanceof Armor) {
+                player.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
+            } else {
+                player.getCharacter().getMinionArrayList().addAll((ArrayList<? extends Minion>) pack);
+            }
+        }
+        // player = buyer
+        if (player != offer.getSeller()) {
+            offer.setBuyer(player);
+            this.data.getPurchasedOffers().add(offer);
+            player.getCharacter().setGold(player.getCharacter().getGold() - offer.getPrice());
+            offer.getSeller().getCharacter().setGold(offer.getSeller().getCharacter().getGold() + offer.getPrice());
+            this.data.getMarketOffers().remove(offer);
+        // player = seller
+        } else {
+            this.data.getPendingMarketOffers().remove(offer);
+        }
+    }
+
+    /**
+     * Checks compatibility between offer and player subscriptions
+     * @param offer Offer offer
+     * @param player Player player
+     * @return boolean compatible
+     */
+    public boolean checkCompatibility(Offer offer, Player player) {
+        boolean compatible = false;
+        for (ArrayList<Marketable> itemList : offer.getItemList()){
+            // Check character type
+            Map characterSub = (Map) player.getMarketSubscriptions().get("Character");
+            compatible = (boolean) characterSub.get(offer.getSeller().getCharacter().getClass().getSimpleName());
+            if (compatible) break;
+
+            // Check item type
+            Map typeSub = (Map) player.getMarketSubscriptions().get("Type");
+            if (typeSub.get(itemList.get(0).getClass().getSimpleName()) != null) {
+                compatible = (boolean) typeSub.get(itemList.get(0).getClass().getSimpleName());
+                if (compatible) break;
+            }else {
+                compatible = (boolean) typeSub.get("Minion");
+                if (compatible) break;
+            }
+
+            // Check if within price range
+            JSONArray priceRangeSub = (JSONArray) player.getMarketSubscriptions().get("Price");
+            Long minLong = (Long) priceRangeSub.get(0);
+            Long maxLong = (Long) priceRangeSub.get(1);
+            compatible = offer.getPrice() >= minLong.intValue() && offer.getPrice() <= maxLong.intValue();
+            if (compatible) break;
+
+            //Checks depending on item type
+            if (itemList.get(0) instanceof Weapon) {
+                //Check weapon values
+                Map value = (Map) player.getMarketSubscriptions().get("Value");
+                Map weaponSub = (Map) value.get("Weapon");
+                for (Marketable item : itemList) {
+                    Weapon weapon = (Weapon) item;
+                    Long attackLong = (Long) weaponSub.get("AttackModification");
+                    if (attackLong != null) {
+                        int attackModification = attackLong.intValue();
+                        compatible = weapon.getAttackModification() == attackModification;
+                        if (compatible) break;
+                    }
+
+                    Long defenseLong = (Long) weaponSub.get("DefenseModification");
+                    if (defenseLong != null) {
+                        int defenseModification = defenseLong.intValue();
+                        compatible = weapon.getDefenseModification() == defenseModification;
+                        if (compatible) break;
+                    }
+
+                    //Check weapon rarity
+                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
+                    compatible = (boolean) raritySub.get(weapon.getRarity());
+                    if (compatible) break;
+                }
+            } else if (itemList.get(0) instanceof Armor) {
+                // Check armor values
+                Map value = (Map) player.getMarketSubscriptions().get("Value");
+                Map armorSub = (Map) value.get("Armor");
+                for (Marketable item : itemList) {
+                    Armor armor = (Armor) item;
+                    Long attackLong = (Long) armorSub.get("AttackModification");
+                    if (attackLong != null) {
+                        int attackModification = attackLong.intValue();
+                        compatible = armor.getAttackModification() == attackModification;
+                        if (compatible) break;
+                    }
+                    Long defenseLong = (Long) armorSub.get("DefenseModification");
+                    if (defenseLong != null) {
+                        int defenseModification = defenseLong.intValue();
+                        compatible = armor.getDefenseModification() == defenseModification;
+                        if (compatible) break;
+                    }
+                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
+                    compatible = (boolean) raritySub.get(armor.getRarity());
+                    if (compatible) break;
+                }
+            } else {
+                //Check minion types
+                Map minionType = (Map) player.getMarketSubscriptions().get("Minion");
+                ArrayList<Minion> total = new ArrayList<>();
+                ArrayList<? extends Marketable> minionArrayList = itemList;
+                displayMinionPack((ArrayList<Minion>) minionArrayList,total);
+                for (Minion minion : total) {
+                    compatible = (boolean) minionType.get(minion.getClass().getSimpleName());
+                    if (compatible) break;
+                }
+            }
+        }
+        return compatible;
+    }
+
+    /**
+     * Displays minion pack recursive
+     * @param minionPack ArrayList Minion minionPack
+     * @param total ArrayList Minion total
+     */
+    public void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
+        for (Minion minion : minionPack) {
+            if (minion instanceof Demon demon) {
+                displayMinionPack(demon.getMinionArrayList(), total);
+                total.add(demon);
+            } else {
+                total.add(minion);
+            }
+        }
+    }
+
+    /**
      * Serialize multiple elements
      * @param notValid StringBuilder notValid
      * @param outBounds StringBuilder outBounds
@@ -185,6 +364,14 @@ public class Arena {
      */
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
+    }
+
+    /**
+     * Gets Data data
+     * @return Data data
+     */
+    public Data getData() {
+        return this.data;
     }
 
     /**

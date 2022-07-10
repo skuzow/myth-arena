@@ -173,7 +173,7 @@ public class PlayerMenu extends Command {
             // minions
             if (!minionList.isEmpty()) {
                 ArrayList<Minion> total = new ArrayList<>();
-                displayMinionPack(minionList,total);
+                getArena().displayMinionPack(minionList,total);
                 displayList.add("Minions: " + total.size());
             }
             // list itself
@@ -220,26 +220,12 @@ public class PlayerMenu extends Command {
                                 switch (super.getMythArenaGui().waitEvent(30)) {
                                     case 'A' -> {
                                         try {
-                                            // create offer
-                                            ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
-                                            // use stuff lists because all of them are updated without items inside offer
-                                            if (!armorPack.isEmpty()) {
-                                                itemList.add(armorPack);
-                                                player.getCharacter().getInventory().setArmorArrayList(armorList);
-                                            }
-                                            if (!weaponPack.isEmpty()) {
-                                                itemList.add(weaponPack);
-                                                player.getCharacter().getInventory().setWeaponArrayList(weaponList);
-                                            }
-                                            if (!minionPack.isEmpty()) {
-                                                itemList.add(minionPack);
-                                                player.getCharacter().setMinionArrayList(minionList);
-                                            }
-                                            Offer offer = new Offer(player, totalPrice, itemList);
-                                            super.getData().getMarketOffers().add(offer);
+                                            Offer offer = super.getArena().createMarketOffer(player, totalPrice, armorPack, weaponPack, minionPack, armorList, weaponList, minionList);
+                                            super.getData().getPendingMarketOffers().add(offer);
+                                            // notify subscribers
                                             for (User user : getData().getUserArrayList()) {
                                                 if (user instanceof Player buyer) {
-                                                    if (checkCompatibility(offer, buyer)) {
+                                                    if (getArena().checkCompatibility(offer, buyer)) {
                                                         buyer.notifyPlayer();
                                                     }
                                                 }
@@ -351,7 +337,7 @@ public class PlayerMenu extends Command {
                                         Minion minion = (Minion) item;
                                         if (minion instanceof Demon demon) {
                                             ArrayList<Minion> total = new ArrayList<>();
-                                            displayMinionPack(demon.getMinionArrayList(), total);
+                                            getArena().displayMinionPack(demon.getMinionArrayList(), total);
                                             total.add(demon);
                                             for (Minion minion1 : total) {
                                                 offerList.add("Minion type: " + minion1.getClass().getSimpleName() +
@@ -374,15 +360,15 @@ public class PlayerMenu extends Command {
                                 exitOffer = true;
                             } else {
                                 if (offer.getPrice() <= player.getCharacter().getGold()) {
-                                    transferItems(offer,player);
-                                    getMythArenaGui().setDescription("Purchased successfully");
-                                    getMythArenaGui().waitEvent(2);
                                     try {
+                                        getArena().transferMarketOfferItems(offer, player);
                                         getArena().serializeData();
+                                        getMythArenaGui().setDescription("Purchased successfully");
+                                        getMythArenaGui().waitEvent(2);
+                                        exitOffer = true;
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    exitOffer = true;
                                 } else {
                                     getMythArenaGui().setDescription("You don't have enough gold!");
                                     getMythArenaGui().waitEvent(3);
@@ -395,128 +381,6 @@ public class PlayerMenu extends Command {
                 }
                 // exit buy market
                 case 'A' -> exit = true;
-            }
-        }
-    }
-
-    public void transferItems(Offer offer, Player buyer) {
-        for (ArrayList<? extends Marketable> pack : offer.getItemList()) {
-            if (pack.get(0) instanceof Weapon) {
-                buyer.getCharacter().getInventory().getWeaponArrayList().addAll((ArrayList<? extends Equipment>) pack);
-            } else if (pack.get(0) instanceof Armor) {
-                buyer.getCharacter().getInventory().getArmorArrayList().addAll((ArrayList<? extends Equipment>) pack);
-            } else {
-                buyer.getCharacter().getMinionArrayList().addAll((ArrayList<? extends Minion>) pack);
-            }
-        }
-        getData().getMarketOffers().remove(offer);
-        offer.setBuyer(buyer);
-        getData().getPurchasedOffers().add(offer);
-        buyer.getCharacter().setGold(buyer.getCharacter().getGold()-offer.getPrice());
-        offer.getSeller().getCharacter().setGold(offer.getSeller().getCharacter().getGold()+offer.getPrice());
-    }
-
-    public boolean checkCompatibility(Offer offer, Player player) {
-        boolean compatible = false;
-        for (ArrayList<Marketable> itemList : offer.getItemList()){
-            // Check character type
-            Map characterSub = (Map) player.getMarketSubscriptions().get("Character");
-            compatible = (boolean) characterSub.get(offer.getSeller().getCharacter().getClass().getSimpleName());
-            if (compatible) break;
-
-            // Check item type
-            Map typeSub = (Map) player.getMarketSubscriptions().get("Type");
-            if (typeSub.get(itemList.get(0).getClass().getSimpleName()) != null) {
-                compatible = (boolean) typeSub.get(itemList.get(0).getClass().getSimpleName());
-                if (compatible) break;
-            }else {
-                compatible = (boolean) typeSub.get("Minion");
-                if (compatible) break;
-            }
-
-
-            // Check if within price range
-            JSONArray priceRangeSub = (JSONArray) player.getMarketSubscriptions().get("Price");
-            Long minLong = (Long) priceRangeSub.get(0);
-            Long maxLong = (Long) priceRangeSub.get(1);
-            compatible = offer.getPrice() >= minLong.intValue() && offer.getPrice() <= maxLong.intValue();
-            if (compatible) break;
-
-            //Checks depending on item type
-            if (itemList.get(0) instanceof Weapon) {
-                //Check weapon values
-                Map value = (Map) player.getMarketSubscriptions().get("Value");
-                Map weaponSub = (Map) value.get("Weapon");
-                for (Marketable item : itemList) {
-                    Weapon weapon = (Weapon) item;
-                    Long attackLong = (Long) weaponSub.get("AttackModification");
-                    if (attackLong != null) {
-                        int attackModification = attackLong.intValue();
-                        compatible = weapon.getAttackModification() == attackModification;
-                        if (compatible) break;
-                    }
-
-                    Long defenseLong = (Long) weaponSub.get("DefenseModification");
-                    if (defenseLong != null) {
-                        int defenseModification = defenseLong.intValue();
-                        compatible = weapon.getDefenseModification() == defenseModification;
-                        if (compatible) break;
-                    }
-
-                    //Check weapon rarity
-                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
-                    compatible = (boolean) raritySub.get(weapon.getRarity());
-                    if (compatible) break;
-                }
-            } else if (itemList.get(0) instanceof Armor) {
-                // Check armor values
-                Map value = (Map) player.getMarketSubscriptions().get("Value");
-                Map armorSub = (Map) value.get("Armor");
-                for (Marketable item : itemList) {
-                    Armor armor = (Armor) item;
-                    Long attackLong = (Long) armorSub.get("AttackModification");
-                    if (attackLong != null) {
-                        int attackModification = attackLong.intValue();
-                        compatible = armor.getAttackModification() == attackModification;
-                        if (compatible) break;
-                    }
-                    Long defenseLong = (Long) armorSub.get("DefenseModification");
-                    if (defenseLong != null) {
-                        int defenseModification = defenseLong.intValue();
-                        compatible = armor.getDefenseModification() == defenseModification;
-                        if (compatible) break;
-                    }
-                    Map raritySub = (Map) player.getMarketSubscriptions().get("Rarity");
-                    compatible = (boolean) raritySub.get(armor.getRarity());
-                    if (compatible) break;
-                }
-            }else {
-                //Check minion types
-                Map minionType = (Map) player.getMarketSubscriptions().get("Minion");
-                ArrayList<Minion> total = new ArrayList<>();
-                ArrayList<? extends Marketable> minionArrayList = itemList;
-                displayMinionPack((ArrayList<Minion>) minionArrayList,total);
-                for (Minion minion : total) {
-                    compatible = (boolean) minionType.get(minion.getClass().getSimpleName());
-                    if (compatible) break;
-                }
-            }
-        }
-        return compatible;
-    }
-
-    /**
-     * Displays minion pack recursive
-     * @param minionPack ArrayList Minion minionPack
-     * @param total ArrayList Minion total
-     */
-    public void displayMinionPack(ArrayList<Minion> minionPack, ArrayList<Minion> total) {
-        for (Minion minion : minionPack) {
-            if (minion instanceof Demon demon) {
-                displayMinionPack(demon.getMinionArrayList(), total);
-                total.add(demon);
-            } else {
-               total.add(minion);
             }
         }
     }
