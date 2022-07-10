@@ -23,6 +23,7 @@ import mytharena.gui.MythArenaGui;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static junit.framework.TestCase.*;
 
@@ -74,14 +75,6 @@ public class PlayerMenuTest {
         MythArenaGui mythArenaGui = new MythArenaGui();
 
         data.getArmorPool().add(new Armor("Platemail", 0, 2,"Normal"));
-        data.getArmorPool().add(new Armor("Chainmail", 0, 1,"Normal"));
-        data.getArmorPool().add(new Armor("Blademail", 3, 2,"Epic"));
-        data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
-        // weapon pool
-        data.getWeaponPool().add(new Weapon("Broadsword", 1, 0, false, "Normal"));
-        data.getWeaponPool().add(new Weapon("Claymore", 1, 1, false, "Epic"));
-        data.getWeaponPool().add(new Weapon("Katana", 2, 0, false, "Legendary"));
-        data.getWeaponPool().add(new Weapon("Axe", 2, 2, true, "Normal"));
         data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
 
         PlayerMenu playerMenu = new PlayerMenu(arena, data, mythArenaGui);
@@ -128,6 +121,33 @@ public class PlayerMenuTest {
 
     @Test
     public void testCheckCompatability() {
+        Arena arena = new Arena();
+        Data data = new Data();
+        MythArenaGui mythArenaGui = new MythArenaGui();
+        PlayerMenu playerMenu = new PlayerMenu(arena, data, mythArenaGui);
 
+        data.getArmorPool().add(new Armor("Cuirass", 0, 3,"Legendary"));
+        data.getWeaponPool().add(new Weapon("Rapier", 3, 0, false, "Normal"));
+
+        Player player1 = new Player("gledrian","gledrian",data, "gledrian");
+        VampireFactory vampireFactory = new VampireFactory(data);
+        Character vampire = vampireFactory.createCharacter();
+        player1.setCharacter(vampire);
+
+        Player player2 = new Player("alejandro", "alejandro",data, "alejandro");
+        WerewolfFactory werewolfFactory = new WerewolfFactory(data);
+        Character werewolf = werewolfFactory.createCharacter();
+        player2.setCharacter(werewolf);
+
+        ArrayList<Equipment> weapons = new ArrayList<>(player1.getCharacter().getInventory().getWeaponArrayList());
+        ArrayList<Marketable> marketables = new ArrayList<>(weapons);
+        ArrayList<ArrayList<Marketable>> itemList = new ArrayList<>();
+        itemList.add(marketables);
+
+        Offer offer = new Offer(player1,20,itemList);
+        assertFalse(playerMenu.checkCompatibility(offer,player2));
+        Map typeSub = (Map) player2.getMarketSubscriptions().get("Type");
+        typeSub.put("Weapon", true);
+        assertTrue(playerMenu.checkCompatibility(offer,player2));
     }
 }
